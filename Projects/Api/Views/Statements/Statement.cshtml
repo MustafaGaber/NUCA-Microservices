@@ -1,0 +1,169 @@
+﻿@using NUCA.Projects.Application.Statements.Models;
+
+@model PrintStatementModel
+@{
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <style>
+            .text-center {
+                text-align: center;
+            }
+            table, th, td {
+                border: 0.5px solid #555;
+            }
+            table {
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div dir="rtl">
+            @foreach (var table in Model.Statement.WorksTables)
+            {
+                <table cellspacing="0">
+                    <tr>
+                        <td colspan="12" class="px-2">
+                            @table.Name
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="fw-bold px-3 text-center">
+                            <div class="text-center">
+                                م
+                            </div>
+                        </th>
+                        <th class="fw-bold px-1">
+                            <div class="text-center">
+                                بيان الأعمال
+                            </div>
+                        </th>
+                        <th class="fw-bold px-1">
+                            <div class="text-center">
+                                الوحدة
+                            </div>
+                        </th>
+                        <th class="fw-bold px-0">
+                            <div class="text-center">
+                                الكمية بالمقايسة
+                            </div>
+                        </th>
+                        <th class="fw-bold px-1">
+                            <div class="text-center">
+                                سعر الوحدة
+                            </div>
+                        </th>
+                        <th class="fw-bold px-1">
+                            <div class="text-center">
+                                قيمة الأعمال
+                            </div>
+                        </th>
+                        <th class="fw-bold px-1">
+                            <div class="text-center">
+                                كمية الأعمال <br />
+                                السابقة
+                            </div>
+                        </th>
+                        <th class="fw-bold px-1">
+                            <div class="text-center">
+                                كمية الأعمال <br />
+                                خلال المدة
+                            </div>
+                        </th>
+                        <th class="fw-bold px-1">
+                            <div class="text-center">
+                                إجمالي كمية الأعمال
+                            </div>
+                        </th>
+                        <th class="fw-bold px-1">
+                            <div class="text-center">
+                                قيمة جملة الأعمال
+                            </div>
+                        </th>
+                        <th class="fw-bold px-3">
+                            <div class="text-center">
+                                نسبة الصرف
+                            </div>
+                        </th>
+                        <th class="fw-bold px-1">
+                            <div class="text-center">
+                                صافي المستحق صرفه
+                            </div>
+                        </th>
+                    </tr>
+                    @foreach (var statementSection in table.Sections)
+                    {
+                        <tr>
+                            <td colspan="12" class="px-2">
+                                @statementSection.Name
+                            </td>
+                        </tr>
+                        @foreach (var item in statementSection.Items)
+                        {
+                            <tr>
+                                <td class="px-1 text-center">
+                                    <div class="text-center">@item.Index</div>
+                                </td>
+                                <td>@item.Content</td>
+                                <td class="px-0">
+                                    <div class="text-center">@item.Unit</div>
+                                </td>
+                                <td class="px-1">
+                                    <div class="text-center">
+                                        @item.Quantity
+                                    </div>
+                                </td>
+                                <td class="px-1">
+                                    <div class="text-center">
+                                        @item.UnitPrice
+                                    </div>
+                                </td>
+                                <td class="px-1">
+                                    <div class="text-center">
+                                        @item.TotalPrice
+                                    </div>
+                                </td>
+                                <td class="px-1">
+                                    <div class="text-center">
+                                        @item.PreviousQuantity
+                                    </div>
+                                </td>
+                                <td class="fst-italic px-1 py-0">
+                                    <div class="text-center">
+                                        @item.CurrentQuantity
+                                    </div>
+                                </td>
+                                <td class="fst-italic px-1 py-0">
+                                    <div class="text-center">
+                                        @item.TotalQuantity
+                                    </div>
+                                </td>
+                                <td class="px-1">
+                                    <div class="text-center">
+                                        @item.GrossPrice
+                                    </div>
+                                </td>
+                                <td  class="fst-italic px-1 py-0">
+                                    <div class="text-center">
+                                        @item.Percentage %
+                                    </div>
+                                </td>
+                                <td class="px-1">
+                                    <div class="text-center">
+                                        @item.NetPrice
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+                @if (table != Model.Statement.WorksTables.Last())
+                {
+                    <div style='page-break-before:always;' />
+                }
+            }
+        </div>
+    </body>
+    </html>
+
+}

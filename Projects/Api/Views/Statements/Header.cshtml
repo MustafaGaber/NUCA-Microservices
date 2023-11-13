@@ -1,0 +1,38 @@
+﻿@using NUCA.Projects.Application.Statements.Models;
+
+@model PrintStatementModel
+@{
+    <div style="display: flex; font-size:10px; width: 100%; padding: 10px 20px" dir="rtl">
+        <div style="flex:1; text-align: center">
+          <div>وزارة الإسكان والمرافق والمجتمعات العمرانية</div>
+          <div>هيئة المجتمعات العمرانية الجديدة</div>
+        </div>
+
+        <div style="text-align:center; flex:1; padding: 0px 10px">
+            <div>
+                @Model.Project.Name
+            </div>
+            <div>
+             <span>مستخلص</span>    
+                @if(Model.Statement.Final)
+                {
+                    <span>ختامي</span>
+                } else
+                {
+                    <span>جاري رقم @Model.Statement.Index</span>
+                }
+            </div>
+        </div>
+
+        <div style="flex:1; text-align: center">
+            <div>
+                ﻿صفحة رقم <span class="pageNumber"></span>&nbsp;من&nbsp;<span class="totalPages"></span>
+            </div>
+            @if (!Model.Statement.Final)
+            {
+                <div>أعمال حتى @Model.Statement.WorksDate.ToString("d/M/yyyy")</div>
+            }
+        </div>
+    </div>
+
+}

@@ -1,0 +1,11 @@
+﻿using NUCA.Projects.Application.Adjustments.Models;
+using NUCA.Projects.Domain.Entities.Adjustments;
+
+namespace NUCA.Projects.Application.Interfaces.Persistence
+{
+    public interface IAdjustmentRepository : IRepository<Adjustment, long>
+    {
+        public Task<bool> AdjustmentCreated(long id);
+        public Task<AdjustmentModel?> GetAdjustmentModel(long id);
+    }
+}
