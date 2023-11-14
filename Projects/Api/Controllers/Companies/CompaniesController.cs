@@ -6,6 +6,7 @@ using NUCA.Projects.Application.Companies.Queries.GetCompanies;
 using NUCA.Projects.Application.Companies.Queries.GetCompany;
 using NUCA.Projects.Api.Controllers.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NUCA.Projects.Api.Controllers.Companies
 {

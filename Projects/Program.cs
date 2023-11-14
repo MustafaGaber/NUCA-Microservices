@@ -1,7 +1,10 @@
 using jsreport.AspNetCore;
 using jsreport.Binary;
 using jsreport.Local;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using NUCA.Projects.Data;
@@ -11,7 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddControllersWithViews();
+var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser().Build();
+builder.Services.AddControllersWithViews(configure =>
+{
+    configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+});
 builder.Services.Configure<RazorViewEngineOptions>(o =>
 {
     o.ViewLocationFormats.Clear();
@@ -31,7 +39,11 @@ builder.Services.Scan(scan => {
     .WithTransientLifetime();
 });
 builder.Services.AddDbContext<ProjectsDatabaseContext>(options => options.UseSqlite("Data Source=projects.db"));
-
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.Authority = "https://localhost:5010";
+    options.Audience = "projects";
+});
 var app = builder.Build();
 
 var defaultCulture = new CultureInfo("ar-EG");
@@ -55,6 +67,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

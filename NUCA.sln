@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUCA.Projects", "Projects\N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUCA.Projects.Tests", "Projects.Tests\NUCA.Projects.Tests.csproj", "{22BC3352-741D-4C3D-85E5-08F7C77661E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUCA.Identity", "NUCA.Identity\NUCA.Identity.csproj", "{49093056-3F2E-4C84-879C-98D73A91CB4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{22BC3352-741D-4C3D-85E5-08F7C77661E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22BC3352-741D-4C3D-85E5-08F7C77661E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22BC3352-741D-4C3D-85E5-08F7C77661E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49093056-3F2E-4C84-879C-98D73A91CB4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49093056-3F2E-4C84-879C-98D73A91CB4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49093056-3F2E-4C84-879C-98D73A91CB4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49093056-3F2E-4C84-879C-98D73A91CB4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
