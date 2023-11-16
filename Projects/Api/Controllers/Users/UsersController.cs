@@ -1,5 +1,4 @@
-﻿using NUCA.Projects.Application.Users;
-using NUCA.Projects.Application.Users.Commands;
+﻿using NUCA.Projects.Application.Users.Commands;
 using NUCA.Projects.Application.Users.Commands.CreateUser;
 using NUCA.Projects.Application.Users.Commands.DeleteUser;
 using NUCA.Projects.Application.Users.Commands.UpdateUser;

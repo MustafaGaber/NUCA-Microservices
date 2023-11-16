@@ -18,7 +18,7 @@ var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser().Build();
 builder.Services.AddControllersWithViews(configure =>
 {
-    configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+   // configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
 });
 builder.Services.Configure<RazorViewEngineOptions>(o =>
 {

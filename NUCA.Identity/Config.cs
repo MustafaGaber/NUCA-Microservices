@@ -13,8 +13,8 @@ namespace NUCA.Identity
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
-                new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
+                        new IdentityResources.OpenId(),
+                        new IdentityResources.Profile(),
                    };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -27,7 +27,7 @@ namespace NUCA.Identity
             new Client[]
             {
                   // m2m client credentials flow client
-                new Client
+              /* new Client
                 {
                     ClientId = "m2m.projects",
                     ClientName = "Projects Client",
@@ -36,7 +36,7 @@ namespace NUCA.Identity
                     ClientSecrets = { new Secret("51153AEF-F270-4058-80CA-1C89C192F69A".Sha256()) },
 
                     AllowedScopes = { "projects.fullaccess" }
-                },
+                },*/
 
                 // interactive client using code flow + pkce
                new Client
@@ -44,7 +44,7 @@ namespace NUCA.Identity
                     ClientName = "Angular Client",
                     ClientId = "angular-client",
                     AllowedGrantTypes = GrantTypes.Code,
-                    RedirectUris = new List<string>{ "http://localhost:4200/signin-callback", "http://localhost:4200/assets/silent-callback.html" },
+                    RedirectUris = new List<string>{ "http://localhost:4200/auth/signin-callback", "http://localhost:4200/auth/signout-callback"},
                     RequirePkce = true,
                     AllowAccessTokensViaBrowser = true,
                     AllowedScopes =
@@ -55,7 +55,7 @@ namespace NUCA.Identity
                     },
                     AllowedCorsOrigins = { "http://localhost:4200" },
                     RequireClientSecret = false,
-                    PostLogoutRedirectUris = new List<string> { "http://localhost:4200/signout-callback" },
+                    PostLogoutRedirectUris = new List<string> { "http://localhost:4200/auth/signout-callback" },
                     RequireConsent = false,
                     AccessTokenLifetime = 6000
                 },

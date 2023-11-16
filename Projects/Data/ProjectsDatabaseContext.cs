@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Writers;
 using NUCA.Projects.Data.Adjustments;
 using NUCA.Projects.Data.Boqs;
 using NUCA.Projects.Data.Companies;
@@ -51,8 +50,6 @@ namespace NUCA.Projects.Data
             modelBuilder.ApplyConfiguration(new TableConfiguration());
             modelBuilder.ApplyConfiguration(new SectionConfiguration());
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
-            /* modelBuilder.ApplyConfiguration(new GroupConfiguration());
-             modelBuilder.ApplyConfiguration(new DepartmentGroupConfiguration());*/
             modelBuilder.ApplyConfiguration(new StatementConfiguration());
             modelBuilder.ApplyConfiguration(new StatementTableConfiguration());
             modelBuilder.ApplyConfiguration(new StatementSectionConfiguration());
@@ -77,11 +74,11 @@ namespace NUCA.Projects.Data
             return base.SaveChanges();
         }
 
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        /*public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             OnSaveChanges();
             return base.SaveChanges(acceptAllChangesOnSuccess);
-        }
+        }*/
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -89,11 +86,11 @@ namespace NUCA.Projects.Data
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        /*public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             OnSaveChanges();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
+        }*/
 
         private void OnSaveChanges()
         {
@@ -102,8 +99,6 @@ namespace NUCA.Projects.Data
             foreach (var entry in ChangeTracker.Entries().Where(e =>
             (e.State == EntityState.Added || e.State == EntityState.Modified) &&
             !e.Metadata.IsOwned()))
-            //e.Entity.GetType() != typeof(Date) &&
-            //  e.Entity.GetType() != typeof(Duration)))
             {
                 entry.Property("LastModified").CurrentValue = now;
                 if (entry.State == EntityState.Added)
@@ -139,20 +134,6 @@ namespace NUCA.Projects.Data
                 }
                 aggregateRoot.ClearEvents();
             }
-
-            /*List<AggregateRoot<>> aggregateRoots = ChangeTracker
-              .Entries()
-                    .Where(x => x.Entity.GetType().BaseType.GetGenericTypeDefinition().IsAssignableFrom(typeof(AggregateRoot<>)))
-                    .Select(x => (AggregateRoot<>) x.Entity)
-                    .ToList();
-              foreach (var aggregateRoot in aggregateRoots)
-              {
-                  foreach (IDomainEvent domainEvent in aggregateRoot.DomainEvents)
-                  {
-                      DomainEvents.Dispatch(domainEvent);
-                  }
-                  aggregateRoot.ClearEvents();
-              }*/
         }
 
 

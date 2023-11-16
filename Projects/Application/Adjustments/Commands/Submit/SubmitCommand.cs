@@ -20,6 +20,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.Submit
                 throw new InvalidOperationException();
             }
             adjustment.Submit();
+            // TODO: fix submitted always false
             await _adjustmentRepository.Update(adjustment);
             AdjustmentModel? adjustmentModel = await _adjustmentRepository.GetAdjustmentModel(adjustmentId);
             return adjustmentModel;

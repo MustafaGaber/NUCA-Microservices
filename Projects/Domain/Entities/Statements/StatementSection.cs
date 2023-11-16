@@ -36,7 +36,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             Name = boqSection.Name;
             _items = boqSection.Items.Select(boqItem =>
             {
-                var previousItem = previousStatementSection._items.First(i => i.BoqItemId == boqItem.Id);
+                StatementItem? previousItem = previousStatementSection._items.FirstOrDefault(i => i.BoqItemId == boqItem.Id);
                 return new StatementItem(
                     boqItem.Id,
                     boqItem.Index,
@@ -44,12 +44,12 @@ namespace NUCA.Projects.Domain.Entities.Statements
                     boqItem.Unit,
                     boqItem.Quantity * count,
                     boqItem.UnitPrice,
-                    previousItem.TotalQuantity,
-                    previousItem.TotalQuantity,
-                    previousItem.Percentage,
+                    previousItem?.TotalQuantity ?? 0,
+                    previousItem?.TotalQuantity ?? 0,
+                    previousItem?.Percentage ?? 0,
                     // previousItem.Percentages.ToList(),
-                    previousItem.Notes,
-                    previousItem.UserId);
+                    previousItem?.Notes,
+                    previousItem?.UserId);
             }).ToList();
             /* foreach (var item in previousStatementSection.Items)
              {
