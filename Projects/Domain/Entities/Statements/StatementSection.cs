@@ -71,13 +71,13 @@ namespace NUCA.Projects.Domain.Entities.Statements
                  }
              }*/
         }
-        public void UpdateItem(long itemId, StatementItemUpdates updates)
+        public void UpdateItem(UpdateStatementItemModel model, long userId)
         {
-            StatementItem item = _items.First(i => i.Id == itemId);
-            item.Update(updates);
+            StatementItem item = _items.First(i => i.Id == model.ItemId);
+            item.Update(model, userId);
         }
 
-        public double Total => _items.Sum(i => i.TotalQuantity * i.UnitPrice * i.Percentage);
+        public double Total => _items.Sum(i => i.TotalQuantity * i.UnitPrice * i.Percentage / 100.0);
         /*public void UpdateCurrentQuantity(long itemId, double quantity, string userId)
         {
             StatementItem boqItem = _items.First(i => i.Id == itemId);

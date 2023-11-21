@@ -64,10 +64,10 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
 
         public void AddWithholding(AdjustmentWithholding withholding)
         {
-            if (Submitted)
+           /* if (Submitted)
             {
                 throw new InvalidOperationException();
-            }
+            }*/
             _withholdings.Add(withholding);
             UpdateTotal();
         }
@@ -158,8 +158,8 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             double originalCurrentWorks = valueAddedTaxIncluded ? currentWorks :
                                           currentWorks * 100 / (100 + valueAddedTaxPercent);
             double originalCurrentWorksAndSupplies = originalCurrentWorks + currentSupplies;
-            double remainingAdvancedPaymentValue = (orderPrice - previousTotalWorks) * advancedPaymentPercent / 100;
-            double advancedPaymentValue = Math.Min(currentWorks * advancedPaymentPercent / 100,
+            double remainingAdvancedPaymentValue = Math.Max(0,(orderPrice - previousTotalWorks) * advancedPaymentPercent / 100);
+            double advancedPaymentValue =Math.Min(currentWorks * advancedPaymentPercent / 100,
                                                    remainingAdvancedPaymentValue);
             double completionGuaranteeValue = currentWorks * 5 / 100;
             double engineersSyndicateValue = currentWorks * 0.0045;

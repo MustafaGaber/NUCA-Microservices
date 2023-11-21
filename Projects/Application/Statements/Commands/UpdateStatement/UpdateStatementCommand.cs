@@ -17,20 +17,7 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
             {
                 throw new InvalidOperationException();
             }
-            // Todo: move logic to Statment Entity
-            model.Items.ForEach(update => statement.UpdateItem(
-                update.TableId,
-                update.SectionId,
-                update.ItemId,
-                new StatementItemUpdates(
-                    update.TotalQuantity,
-                    update.Percentage,
-                    // update.Percentages.Select(u => new StatementItemPercentage(u.Quantity, u.Percentage, u.Notes)).ToList(),
-                    update.Notes,
-                    userId
-                    )
-                ));
-            statement.UpdateWithholdings(model.Withholdings);
+            statement.Update(model, 1L);
             if (submit)
             {
                 statement.Submit();

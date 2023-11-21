@@ -1,8 +1,10 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Application.Statements;
+using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Boqs;
 using System.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
@@ -59,10 +61,14 @@ namespace NUCA.Projects.Domain.Entities.Statements
             _tables.AddRange(boq.Tables.Select(table => new StatementTable(table, previousStatement.SuppliesTables.First(t => t.BoqTableId == table.Id), StatementTableType.Supplies, table.Type)));
             UpdateTotals();
         }
-        public void UpdateItem(long tableId, long sectionId, long itemId, StatementItemUpdates updates)
+        public void Update(UpdateStatementModel model, long userId)
         {
-            StatementTable table = _tables.First(table => table.Id == tableId);
-            table.UpdateItem(sectionId, itemId, updates);
+            model.Items.ForEach(item =>
+            {
+                StatementTable table = _tables.First(table => table.Id == item.TableId);
+                table.UpdateItem(item, userId);
+            });
+            UpdateWithholdings(model.Withholdings);
             UpdateTotals();
         }
 
@@ -72,7 +78,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             TotalSupplies = SuppliesTables.Sum(t => t.Total);
         }
 
-        public void UpdateWithholdings(List<WithholdingModel> withholdings)
+        private void UpdateWithholdings(List<WithholdingModel> withholdings)
         {
             if (State > StatementState.TechnicalOfficeState)
             {

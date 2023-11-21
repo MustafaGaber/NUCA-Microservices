@@ -1,6 +1,4 @@
-﻿using NUCA.Projects.Domain.Entities.Statements;
-
-namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
+﻿namespace NUCA.Projects.Domain.Entities.Statements
 {
     public class UpdateStatementModel
     {

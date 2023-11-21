@@ -41,13 +41,13 @@ namespace NUCA.Projects.Domain.Entities.Statements
             UserId = userId;
             ValidatePercentages();
         }
-        public void Update(StatementItemUpdates updates)
+        public void Update(UpdateStatementItemModel updates, long userId)
         {
             TotalQuantity = updates.TotalQuantity;
             Percentage = Guard.Against.OutOfRange(updates.Percentage, nameof(updates.Percentage), 0, 100);
             //_percentages = updates.Percentages;
             Notes = updates.Notes;
-            UserId = updates.UserId;
+            UserId = userId;
             ValidatePercentages();
         }
 

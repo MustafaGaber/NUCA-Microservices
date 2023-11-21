@@ -8,6 +8,7 @@ using NUCA.Projects.Application.Statements.Queries.GetPrintStatement;
 using NUCA.Projects.Application.Statements.Queries.GetProjectStatements;
 using NUCA.Projects.Application.Statements.Queries.GetStatement;
 using NUCA.Projects.Application.Statements.Queries.GetUserStatements;
+using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Api.Controllers.Statements
 {

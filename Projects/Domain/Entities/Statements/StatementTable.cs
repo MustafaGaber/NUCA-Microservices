@@ -35,10 +35,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
             Type = Guard.Against.Null(type);
             BoqTableType = Guard.Against.Null(boqTableType);
         }
-        public void UpdateItem(long sectionId, long itemId, StatementItemUpdates updates)
+        public void UpdateItem(UpdateStatementItemModel model, long userId)
         {
-            StatementSection section = _sections.First(s => s.Id == sectionId);
-            section.UpdateItem(itemId, updates);
+            StatementSection section = _sections.First(s => s.Id == model.SectionId);
+            section.UpdateItem(model, userId);
         }
 
         public double Total
