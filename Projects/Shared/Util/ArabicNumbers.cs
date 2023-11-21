@@ -2,7 +2,12 @@
 {
     public static class ArabicNumbers
     {
-        public static string ToArabicDigits(this double number)
+        public static string UseArabicDigits(this double number)
+        {
+            return ReplaceDigits(number.ToString());
+        }
+
+        public static string UseArabicDigits(this int number)
         {
             return ReplaceDigits(number.ToString());
         }
