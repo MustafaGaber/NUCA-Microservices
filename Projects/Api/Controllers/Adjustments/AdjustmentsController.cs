@@ -70,8 +70,8 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
         [HttpPost("{projectId}/{statementId}")]
         public async Task<IActionResult> Create(long projectId, long statementId)
         {
-            long? result = await _createAdjustmentCommand.Execute(projectId, statementId);
-            return Ok(result);
+            await _createAdjustmentCommand.Execute(projectId, statementId);
+            return Ok();
         }
     }
 }

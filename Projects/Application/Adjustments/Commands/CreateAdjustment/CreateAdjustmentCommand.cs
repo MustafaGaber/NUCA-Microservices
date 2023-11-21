@@ -12,17 +12,17 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
     {
         private readonly ProjectsDatabaseContext _dbContext;
 
-        public CreateAdjustmentCommand(ProjectsDatabaseContext dbContext, IAdjustmentRepository adjustmentRepository, IStatementRepository statementRepository, IProjectRepository projectRepository)
+        public CreateAdjustmentCommand(ProjectsDatabaseContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<long> Execute(long projectId, long statementId)
+        public async Task Execute(long projectId, long statementId)
         {
             bool created = await  _dbContext.Adjustments.Where(a => a.Id == statementId).AnyAsync();
             if (created)
             {
-                throw new InvalidOperationException();
+                return;
             }
             Statement? statement = await _dbContext.Statements.Include(s => s.Withholdings).FirstOrDefaultAsync(s => s.Id == statementId);
             if (statement == null)
@@ -67,9 +67,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                 withholdings: statement.Withholdings.Select(w => new AdjustmentWithholding(w.Name, w.Value, w.Type, true)).ToList()
                 ) ;
             _dbContext.Adjustments.Add(adjustment);
-            statement.SetAdjustmentCreated();
             await _dbContext.SaveChangesAsync();
-            return adjustment.Id;
         }
 
     }

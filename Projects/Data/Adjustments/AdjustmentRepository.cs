@@ -22,7 +22,7 @@ namespace NUCA.Projects.Data.Adjustments
         {
             return database.Adjustments
                 .Include(a => a.Withholdings)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public Task<AdjustmentModel?> GetAdjustmentModel(long id)

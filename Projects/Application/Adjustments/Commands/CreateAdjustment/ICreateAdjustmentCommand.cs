@@ -2,6 +2,6 @@
 {
     public interface ICreateAdjustmentCommand
     {
-        public Task<long> Execute(long projectId, long statementId);
+        public Task Execute(long projectId, long statementId);
     }
 }
