@@ -26,6 +26,7 @@ namespace NUCA.Projects.Application.Adjustments.Models
         public double ValueAddedTaxPercent { get; set; }
         public double ValueAddedTax { get; set; }
         public double WasteRemovalInsurance { get; set; }
+        public double TahyaMisrFundValue { get; set; }
         public double ConractStampDuty { get; set; }
         public double ContractorsFederationValue { get; set; }
         public List<WithholdingModel> Withholdings { get; set; }
@@ -55,6 +56,7 @@ namespace NUCA.Projects.Application.Adjustments.Models
                 ValueAddedTaxPercent = adjustment.ValueAddedTaxPercent,
                 ValueAddedTax = adjustment.ValueAddedTax,
                 WasteRemovalInsurance = adjustment.WasteRemovalInsurance,
+                TahyaMisrFundValue = adjustment.TahyaMisrFundValue,
                 ConractStampDuty = adjustment.ConractStampDuty,
                 ContractorsFederationValue = adjustment.ContractorsFederationValue,
                 Withholdings = adjustment.Withholdings.Select(w => new WithholdingModel()

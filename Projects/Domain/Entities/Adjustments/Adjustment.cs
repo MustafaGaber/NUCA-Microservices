@@ -24,6 +24,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         public double ValueAddedTaxPercent { get; private set; }
         public double ValueAddedTax { get; private set; }
         public double WasteRemovalInsurance { get; private set; }
+        public double TahyaMisrFundValue { get; private set; }
         public double ConractStampDuty { get; private set; }
         public double ContractorsFederationValue { get; private set; }
 
@@ -33,7 +34,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         public bool Submitted { get; private set; }
         protected Adjustment() { }
 
-        public Adjustment(long statementId, long projectId, int statementIndex, DateOnly worksDate, double totalWorks, double totalSupplies, double previousTotalWorks, double previousTotalSupplies, double serviceTax, double advancedPaymentPercent, double advancedPaymentValue, double completionGuaranteeValue, double engineersSyndicateValue, double applicatorsSyndicateValue, double regularStampDuty, double additionalStampDuty, double commercialIndustrialTax, double valueAddedTaxPercent, double valueAddedTax, double wasteRemovalInsurance, double conractStampDuty, double contractorsFederationValue, List<AdjustmentWithholding> withholdings)
+        public Adjustment(long statementId, long projectId, int statementIndex, DateOnly worksDate, double totalWorks, double totalSupplies, double previousTotalWorks, double previousTotalSupplies, double serviceTax, double advancedPaymentPercent, double advancedPaymentValue, double completionGuaranteeValue, double engineersSyndicateValue, double applicatorsSyndicateValue, double regularStampDuty, double additionalStampDuty, double commercialIndustrialTax, double valueAddedTaxPercent, double valueAddedTax, double wasteRemovalInsurance, double tahyaMisrFundValue, double conractStampDuty, double contractorsFederationValue, List<AdjustmentWithholding> withholdings)
         {
             Id = Guard.Against.NegativeOrZero(statementId);
             ProjectId = Guard.Against.NegativeOrZero(projectId);
@@ -55,6 +56,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             ValueAddedTaxPercent = Guard.Against.OutOfRange(valueAddedTaxPercent, nameof(valueAddedTaxPercent), 0, 100); ;
             ValueAddedTax = Guard.Against.Negative(valueAddedTax);
             WasteRemovalInsurance = Guard.Against.Negative(wasteRemovalInsurance);
+            TahyaMisrFundValue = Guard.Against.Negative(tahyaMisrFundValue);
             ConractStampDuty = Guard.Against.Negative(conractStampDuty);
             ContractorsFederationValue = Guard.Against.Negative(contractorsFederationValue);
             Submitted = false;
@@ -121,6 +123,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
                - CommercialIndustrialTax
                - ValueAddedTax
                - WasteRemovalInsurance
+               - TahyaMisrFundValue
                - ConractStampDuty
                - ContractorsFederationValue
                - _withholdings.Sum(w => w.Value);
@@ -170,6 +173,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
                 originalCurrentWorksAndSupplies * .01;
             double valueAddedTax = originalCurrentWorks * valueAddedTaxPercent / 100;
             double wasteRemovalInsurance = currentWorksAndSupplies * .0025;
+            double tahyaMisrFundValue = currentWorksAndSupplies * 0.01;
             double conractStampDuty = statementIndex == 1 ? totalContractPapers * contractPaperPrice : 0;
             double contractorsFederationValue = statementIndex == 1 ?
                                         Math.Min(5000, orderPrice * .0005) : 0;
@@ -195,6 +199,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
                 valueAddedTaxPercent: valueAddedTaxPercent,
                 valueAddedTax: valueAddedTax,
                 wasteRemovalInsurance: wasteRemovalInsurance,
+                tahyaMisrFundValue: tahyaMisrFundValue,
                 conractStampDuty: conractStampDuty,
                 contractorsFederationValue: contractorsFederationValue,
                 withholdings: withholdings
