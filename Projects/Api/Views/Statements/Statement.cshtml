@@ -1,4 +1,6 @@
 ﻿@using NUCA.Projects.Application.Statements.Models;
+@using System.Globalization;
+@using NUCA.Projects.Shared.Util;
 
 @model PrintStatementModel
 @{
@@ -9,9 +11,11 @@
             .text-center {
                 text-align: center;
             }
+
             table, th, td {
                 border: 0.5px solid #555;
             }
+
             table {
                 width: 100%;
             }
@@ -24,7 +28,7 @@
                 <table cellspacing="0">
                     <tr>
                         <td colspan="12" class="px-2">
-                            @table.Name
+                            @table.Name.UseArabicDigits()
                         </td>
                     </tr>
                     <tr>
@@ -95,62 +99,62 @@
                     {
                         <tr>
                             <td colspan="12" class="px-2">
-                                @statementSection.Name
+                                @statementSection.Name.UseArabicDigits()
                             </td>
                         </tr>
                         @foreach (var item in statementSection.Items)
                         {
                             <tr>
                                 <td class="px-1 text-center">
-                                    <div class="text-center">@item.Index</div>
+                                    <div class="text-center">@item.Index.UseArabicDigits()</div>
                                 </td>
-                                <td>@item.Content</td>
+                                <td>@item.Content.UseArabicDigits()</td>
                                 <td class="px-0">
                                     <div class="text-center">@item.Unit</div>
                                 </td>
                                 <td class="px-1">
                                     <div class="text-center">
-                                        @item.Quantity
+                                        @item.Quantity.ToArabicDigits()
                                     </div>
                                 </td>
                                 <td class="px-1">
                                     <div class="text-center">
-                                        @item.UnitPrice
+                                        @item.UnitPrice.ToArabicDigits()
                                     </div>
                                 </td>
                                 <td class="px-1">
                                     <div class="text-center">
-                                        @item.TotalPrice
+                                        @item.TotalPrice.ToArabicDigits()
                                     </div>
                                 </td>
                                 <td class="px-1">
                                     <div class="text-center">
-                                        @item.PreviousQuantity
+                                        @item.PreviousQuantity.ToArabicDigits()
                                     </div>
                                 </td>
                                 <td class="fst-italic px-1 py-0">
                                     <div class="text-center">
-                                        @item.CurrentQuantity
+                                        @item.CurrentQuantity.ToArabicDigits()
                                     </div>
                                 </td>
                                 <td class="fst-italic px-1 py-0">
                                     <div class="text-center">
-                                        @item.TotalQuantity
+                                        @item.TotalQuantity.ToArabicDigits()
                                     </div>
                                 </td>
                                 <td class="px-1">
                                     <div class="text-center">
-                                        @item.GrossPrice
+                                        @item.GrossPrice.ToArabicDigits()
                                     </div>
                                 </td>
-                                <td  class="fst-italic px-1 py-0">
+                                <td class="fst-italic px-1 py-0">
                                     <div class="text-center">
-                                        @item.Percentage %
+                                        @item.Percentage.ToArabicDigits() %
                                     </div>
                                 </td>
                                 <td class="px-1">
                                     <div class="text-center">
-                                        @item.NetPrice
+                                        @item.NetPrice.ToArabicDigits()
                                     </div>
                                 </td>
                             </tr>

@@ -1,4 +1,4 @@
-using jsreport.AspNetCore;
+﻿using jsreport.AspNetCore;
 using jsreport.Binary;
 using jsreport.Local;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using NUCA.Projects.Data;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,11 +48,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 var app = builder.Build();
 
 var defaultCulture = new CultureInfo("ar-EG");
+defaultCulture.NumberFormat = new NumberFormatInfo()
+{
+   NativeDigits = new string[] { "٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩" },
+   DigitSubstitution = DigitShapes.NativeNational,
+};
+Thread.CurrentThread.CurrentCulture = defaultCulture;
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture(defaultCulture),
     SupportedCultures = new List<CultureInfo> { defaultCulture },
-    SupportedUICultures = new List<CultureInfo> { defaultCulture }
+    SupportedUICultures = new List<CultureInfo> { defaultCulture },   
 });
 
 // Configure the HTTP request pipeline.
