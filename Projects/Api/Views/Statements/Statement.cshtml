@@ -11,9 +11,13 @@
             .text-center {
                 text-align: center;
             }
-
-            table, th, td {
-                border: 0.5px solid #555;
+            .py {
+                padding-top : 5px;
+                padding-bottom: 5px;
+            }
+            th, td {
+                border: 0.2px solid #555;
+                padding: 0px 5px;
             }
 
             table {
@@ -27,69 +31,69 @@
             {
                 <table cellspacing="0">
                     <tr>
-                        <td colspan="12" class="px-2">
+                        <td colspan="12" class="py">
                             @table.Name.UseArabicDigits()
                         </td>
                     </tr>
                     <tr>
-                        <th class="fw-bold px-3 text-center">
+                        <th class="fw-bold  text-center">
                             <div class="text-center">
                                 م
                             </div>
                         </th>
-                        <th class="fw-bold px-1">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 بيان الأعمال
                             </div>
                         </th>
-                        <th class="fw-bold px-1">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 الوحدة
                             </div>
                         </th>
-                        <th class="fw-bold px-0">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 الكمية بالمقايسة
                             </div>
                         </th>
-                        <th class="fw-bold px-1">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 سعر الوحدة
                             </div>
                         </th>
-                        <th class="fw-bold px-1">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 قيمة الأعمال
                             </div>
                         </th>
-                        <th class="fw-bold px-1">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 كمية الأعمال <br />
                                 السابقة
                             </div>
                         </th>
-                        <th class="fw-bold px-1">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 كمية الأعمال <br />
                                 خلال المدة
                             </div>
                         </th>
-                        <th class="fw-bold px-1">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 إجمالي كمية الأعمال
                             </div>
                         </th>
-                        <th class="fw-bold px-1">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 قيمة جملة الأعمال
                             </div>
                         </th>
-                        <th class="fw-bold px-3">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 نسبة الصرف
                             </div>
                         </th>
-                        <th class="fw-bold px-1">
+                        <th class="fw-bold">
                             <div class="text-center">
                                 صافي المستحق صرفه
                             </div>
@@ -97,62 +101,66 @@
                     </tr>
                     @foreach (var statementSection in table.Sections)
                     {
-                        <tr>
-                            <td colspan="12" class="px-2">
-                                @statementSection.Name.UseArabicDigits()
-                            </td>
-                        </tr>
+                        @if (!statementSection.Name.Equals(table.Name) || table.Sections.First() != statementSection)
+                        {
+                            <tr>
+                                <td colspan="12" class="py">
+                                    @statementSection.Name.UseArabicDigits()
+                                </td>
+                            </tr>
+                        }
+                       
                         @foreach (var item in statementSection.Items)
                         {
                             <tr>
-                                <td class="px-1 text-center">
+                                <td class=" text-center">
                                     <div class="text-center">@item.Index.UseArabicDigits()</div>
                                 </td>
                                 <td>@item.Content.UseArabicDigits()</td>
-                                <td class="px-0">
+                                <td class="">
                                     <div class="text-center">@item.Unit</div>
                                 </td>
-                                <td class="px-1">
+                                <td class="">
                                     <div class="text-center">
                                         @item.Quantity.UseArabicDigits()
                                     </div>
                                 </td>
-                                <td class="px-1">
+                                <td class="">
                                     <div class="text-center">
                                         @item.UnitPrice.UseArabicDigits()
                                     </div>
                                 </td>
-                                <td class="px-1">
+                                <td class="">
                                     <div class="text-center">
                                         @item.TotalPrice.UseArabicDigits()
                                     </div>
                                 </td>
-                                <td class="px-1">
+                                <td class="">
                                     <div class="text-center">
                                         @item.PreviousQuantity.UseArabicDigits()
                                     </div>
                                 </td>
-                                <td class="fst-italic px-1 py-0">
+                                <td class="fst-italic  py-0">
                                     <div class="text-center">
                                         @item.CurrentQuantity.UseArabicDigits()
                                     </div>
                                 </td>
-                                <td class="fst-italic px-1 py-0">
+                                <td class="fst-italic  py-0">
                                     <div class="text-center">
                                         @item.TotalQuantity.UseArabicDigits()
                                     </div>
                                 </td>
-                                <td class="px-1">
+                                <td class="">
                                     <div class="text-center">
                                         @item.GrossPrice.UseArabicDigits()
                                     </div>
                                 </td>
-                                <td class="fst-italic px-1 py-0">
+                                <td class="fst-italic  py-0">
                                     <div class="text-center">
                                         @item.Percentage.UseArabicDigits() %
                                     </div>
                                 </td>
-                                <td class="px-1">
+                                <td class="">
                                     <div class="text-center">
                                         @item.NetPrice.UseArabicDigits()
                                     </div>

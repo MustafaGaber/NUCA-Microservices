@@ -28,7 +28,8 @@ builder.Services.Configure<RazorViewEngineOptions>(o =>
     o.ViewLocationFormats.Add("/Api/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
 });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).KillRunningJsReportProcesses().AsUtility().Create());
+builder.Services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).KillRunningJsReportProcesses()
+.AsUtility().Create());
 builder.Services.AddSwaggerGen();
 builder.Services.Scan(scan => {
     scan
