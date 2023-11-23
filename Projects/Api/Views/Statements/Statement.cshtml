@@ -11,10 +11,12 @@
             .text-center {
                 text-align: center;
             }
+
             .py {
-                padding-top : 5px;
+                padding-top: 5px;
                 padding-bottom: 5px;
             }
+
             th, td {
                 border: 0.2px solid #555;
                 padding: 0px 5px;
@@ -26,156 +28,33 @@
         </style>
     </head>
     <body>
+        <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"الأعمال\"}}}")</div>
         <div dir="rtl">
-            @foreach (var table in Model.Statement.WorksTables)
-            {
-                <table cellspacing="0">
-                    <tr>
-                        <td colspan="12" class="py">
-                            @table.Name.UseArabicDigits()
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="fw-bold  text-center">
-                            <div class="text-center">
-                                م
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                بيان الأعمال
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                الوحدة
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                الكمية بالمقايسة
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                سعر الوحدة
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                قيمة الأعمال
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                كمية الأعمال <br />
-                                السابقة
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                كمية الأعمال <br />
-                                خلال المدة
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                إجمالي كمية الأعمال
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                قيمة جملة الأعمال
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                نسبة الصرف
-                            </div>
-                        </th>
-                        <th class="fw-bold">
-                            <div class="text-center">
-                                صافي المستحق صرفه
-                            </div>
-                        </th>
-                    </tr>
-                    @foreach (var statementSection in table.Sections)
-                    {
-                        @if (!statementSection.Name.Equals(table.Name) || table.Sections.First() != statementSection)
-                        {
-                            <tr>
-                                <td colspan="12" class="py">
-                                    @statementSection.Name.UseArabicDigits()
-                                </td>
-                            </tr>
-                        }
-                       
-                        @foreach (var item in statementSection.Items)
-                        {
-                            <tr>
-                                <td class=" text-center">
-                                    <div class="text-center">@item.Index.UseArabicDigits()</div>
-                                </td>
-                                <td>@item.Content.UseArabicDigits()</td>
-                                <td class="">
-                                    <div class="text-center">@item.Unit</div>
-                                </td>
-                                <td class="">
-                                    <div class="text-center">
-                                        @item.Quantity.UseArabicDigits()
-                                    </div>
-                                </td>
-                                <td class="">
-                                    <div class="text-center">
-                                        @item.UnitPrice.UseArabicDigits()
-                                    </div>
-                                </td>
-                                <td class="">
-                                    <div class="text-center">
-                                        @item.TotalPrice.UseArabicDigits()
-                                    </div>
-                                </td>
-                                <td class="">
-                                    <div class="text-center">
-                                        @item.PreviousQuantity.UseArabicDigits()
-                                    </div>
-                                </td>
-                                <td class="fst-italic  py-0">
-                                    <div class="text-center">
-                                        @item.CurrentQuantity.UseArabicDigits()
-                                    </div>
-                                </td>
-                                <td class="fst-italic  py-0">
-                                    <div class="text-center">
-                                        @item.TotalQuantity.UseArabicDigits()
-                                    </div>
-                                </td>
-                                <td class="">
-                                    <div class="text-center">
-                                        @item.GrossPrice.UseArabicDigits()
-                                    </div>
-                                </td>
-                                <td class="fst-italic  py-0">
-                                    <div class="text-center">
-                                        @item.Percentage.UseArabicDigits() %
-                                    </div>
-                                </td>
-                                <td class="">
-                                    <div class="text-center">
-                                        @item.NetPrice.UseArabicDigits()
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </table>
-                @if (table != Model.Statement.WorksTables.Last())
+            <div>
+                @foreach (var table in Model.Statement.WorksTables)
                 {
+                    <table cellspacing="0">
+                        @await Html.PartialAsync("StatementTable", table)
+                    </table>
                     <div style='page-break-before:always;' />
                 }
-            }
+            </div>
+        </div>
+        <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"التشوينات\"}}}")</div>
+        <div dir="rtl">
+            <div>
+                @foreach (var table in Model.Statement.SuppliesTables)
+                {
+                    <table cellspacing="0">
+                        @await Html.PartialAsync("StatementTable", table)
+                    </table>
+                    @if (table != Model.Statement.SuppliesTables.Last())
+                    {
+                        <div style='page-break-before:always;' />
+                    }
+                }
+            </div>
         </div>
     </body>
     </html>
-
 }

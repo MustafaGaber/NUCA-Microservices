@@ -1,0 +1,65 @@
+﻿@using NUCA.Projects.Application.Statements.Models;
+@using System.Globalization;
+@using NUCA.Projects.Domain.Entities.Statements;
+@using NUCA.Projects.Shared.Util;
+
+@model StatementSection
+@{
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td class=" text-center">
+                <div class="text-center">@item.Index.UseArabicDigits()</div>
+            </td>
+            <td>@item.Content.UseArabicDigits()</td>
+            <td class="">
+                <div class="text-center">@item.Unit</div>
+            </td>
+            <td class="">
+                <div class="text-center">
+                    @item.BoqQuantity.UseArabicDigits()
+                </div>
+            </td>
+            <td class="">
+                <div class="text-center">
+                    @item.UnitPrice.UseArabicDigits()
+                </div>
+            </td>
+            <td class="">
+                <div class="text-center">
+                    @item.TotalBoqPrice.UseArabicDigits()
+                </div>
+            </td>
+            <td class="">
+                <div class="text-center">
+                    @item.PreviousQuantity.UseArabicDigits()
+                </div>
+            </td>
+            <td class="fst-italic  py-0">
+                <div class="text-center">
+                    @item.CurrentQuantity.UseArabicDigits()
+                </div>
+            </td>
+            <td class="fst-italic  py-0">
+                <div class="text-center">
+                    @item.TotalQuantity.UseArabicDigits()
+                </div>
+            </td>
+            <td class="">
+                <div class="text-center">
+                    @item.GrossPrice.UseArabicDigits()
+                </div>
+            </td>
+            <td class="fst-italic  py-0">
+                <div class="text-center">
+                    @item.Percentage.UseArabicDigits() %
+                </div>
+            </td>
+            <td class="">
+                <div class="text-center">
+                    @item.NetPrice.UseArabicDigits()
+                </div>
+            </td>
+        </tr>
+    }
+}

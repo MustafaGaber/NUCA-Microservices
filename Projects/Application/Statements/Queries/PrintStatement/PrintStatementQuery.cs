@@ -2,13 +2,13 @@
 using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Domain.Entities.Statements;
 
-namespace NUCA.Projects.Application.Statements.Queries.GetPrintStatement
+namespace NUCA.Projects.Application.Statements.Queries.PrintStatement
 {
-    public class GetPrintStatementQuery: IGetPrintStatementQuery
+    public class PrintStatementQuery: IPrintStatementQuery
     {
         private readonly IStatementRepository _statementRepository;
         private readonly IProjectRepository _projectRepository;
-        public GetPrintStatementQuery(IStatementRepository statementRepository, IProjectRepository projectRepository)
+        public PrintStatementQuery(IStatementRepository statementRepository, IProjectRepository projectRepository)
         {
             _statementRepository = statementRepository;
             _projectRepository = projectRepository;

@@ -1,9 +1,9 @@
 ﻿
 using NUCA.Projects.Application.Statements.Models;
 
-namespace NUCA.Projects.Application.Statements.Queries.GetPrintStatement
+namespace NUCA.Projects.Application.Statements.Queries.PrintStatement
 {
-    public interface IGetPrintStatementQuery
+    public interface IPrintStatementQuery
     {
         Task<PrintStatementModel> Execute(long Id);
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.Statements.Commands.CreateStatement;
 using NUCA.Projects.Application.Statements.Commands.UpdateStatement;
-using NUCA.Projects.Application.Statements.Queries.GetPrintStatement;
+using NUCA.Projects.Application.Statements.Queries.PrintStatement;
 using NUCA.Projects.Application.Statements.Queries.GetProjectStatements;
 using NUCA.Projects.Application.Statements.Queries.GetStatement;
 using NUCA.Projects.Application.Statements.Queries.GetUserStatements;
@@ -16,10 +16,6 @@ using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Api.Controllers.Statements
 {
-    class Data
-    {
-        public String[] Items;
-    }
     [Route("api/[controller]")]
     [ApiController]
     public class StatementsController : BaseController
@@ -27,11 +23,11 @@ namespace NUCA.Projects.Api.Controllers.Statements
         private readonly IGetStatementQuery _getStatementQuery;
         private readonly IGetCurrentStatementsQuery _getCurrentStatementsQuery;
         private readonly IGetProjectStatementsQuery _getProjectStatementsQuery;
-        private readonly IGetPrintStatementQuery _getPrintStatementQuery;
+        private readonly IPrintStatementQuery _printStatementQuery;
         private readonly ICreateStatementCommand _createCommand;
         private readonly IUpdateStatementCommand _updateStatementCommand;
         private readonly IJsReportMVCService _jsReportMVCService;
-        public StatementsController(IGetStatementQuery getStatementQuery, IGetCurrentStatementsQuery getCurrentStatementsQuery, IGetProjectStatementsQuery getProjectStatementsQuery, ICreateStatementCommand createCommand, IUpdateStatementCommand updateStatementCommand, IJsReportMVCService jsReportMVCService, IGetPrintStatementQuery getPrintStatementQuery)
+        public StatementsController(IGetStatementQuery getStatementQuery, IGetCurrentStatementsQuery getCurrentStatementsQuery, IGetProjectStatementsQuery getProjectStatementsQuery, ICreateStatementCommand createCommand, IUpdateStatementCommand updateStatementCommand, IJsReportMVCService jsReportMVCService, IPrintStatementQuery printStatementQuery)
         {
             _getStatementQuery = getStatementQuery;
             _getCurrentStatementsQuery = getCurrentStatementsQuery;
@@ -39,29 +35,26 @@ namespace NUCA.Projects.Api.Controllers.Statements
             _createCommand = createCommand;
             _updateStatementCommand = updateStatementCommand;
             _jsReportMVCService = jsReportMVCService;
-            _getPrintStatementQuery = getPrintStatementQuery;
+            _printStatementQuery = printStatementQuery;
         }
 
         [HttpGet("Print/{id}")]
         //[MiddlewareFilter(typeof(JsReportPipeline))]
         public async Task<IActionResult> Print(long id)
         {
-            var model = await _getPrintStatementQuery.Execute(id);
+            var model = await _printStatementQuery.Execute(id);
             var header = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Header", model);
             var footer = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Footer", new { });
             var content = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Statement", model);
             var rs = new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create();
             var report = await rs.RenderAsync(new RenderRequest()
             {
+                Data = model,
                 Template = new Template()
                 {
                     Recipe = Recipe.ChromePdf,
                     Engine = Engine.Handlebars,
-                    Content = "{{{pdfCreatePagesGroup \"الأعمال\"}}}"
-                             + content
-                             + "<div style=\"page-break-after: always;\"></div>"
-                             + "{{{pdfCreatePagesGroup \"التشوينات\"}}}"
-                             + content,
+                    Content = content,
                     Chrome = new Chrome()
                     {
                         DisplayHeaderFooter = true,
@@ -84,7 +77,7 @@ namespace NUCA.Projects.Api.Controllers.Statements
                                   Recipe = Recipe.ChromePdf,
                                   Engine = Engine.Handlebars,
                                   Chrome = new Chrome()
-                                    {
+                                  {
                                         Landscape = true,
                                         MarginTop = "2.5cm",
                                         MarginLeft = "1cm",

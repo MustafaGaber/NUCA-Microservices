@@ -60,7 +60,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
                      item.Index,
                      item.Content,
                      item.Unit,
-                     item.Quantity,
+                     item.BoqQuantity,
                      item.UnitPrice,
                      item.TotalQuantity,
                      0,
