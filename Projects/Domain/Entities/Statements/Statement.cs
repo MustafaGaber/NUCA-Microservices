@@ -23,8 +23,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public DateOnly SubmissionDate { get; private set; }
         public bool Final { get; private set; }
         public StatementState State { get; private set; }
+        public double TotalWorksBeforePriceChange => TotalWorks * 100 / (100 + PriceChangePercent);
         public double TotalWorks { get; private set; }
         public double TotalSupplies { get; private set; }
+        public double TotalWorksAndSupplies => TotalWorks + TotalSupplies;
 
         private readonly List<StatementWithholding> _withholdings = new List<StatementWithholding>();
         public virtual IReadOnlyList<StatementWithholding> Withholdings => _withholdings.ToList();
@@ -74,7 +76,9 @@ namespace NUCA.Projects.Domain.Entities.Statements
 
         private void UpdateTotals()
         {
+           //TotalWorksBeforePriceChange = WorksTables.Sum(t => t.Total);
             TotalWorks = WorksTables.Sum(t => t.Total) * (100 + PriceChangePercent) / 100;
+           // TotalSuppliesBeforePriceChange = SuppliesTables.Sum(t => t.Total);
             TotalSupplies = SuppliesTables.Sum(t => t.Total);
         }
 

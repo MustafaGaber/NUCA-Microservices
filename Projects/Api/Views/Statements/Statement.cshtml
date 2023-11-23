@@ -1,8 +1,9 @@
 ﻿@using NUCA.Projects.Application.Statements.Models;
 @using System.Globalization;
+@using NUCA.Projects.Domain.Entities.Statements;
 @using NUCA.Projects.Shared.Util;
 
-@model PrintStatementModel
+@model Statement
 @{
     <html>
     <head>
@@ -16,9 +17,14 @@
                 padding-top: 5px;
                 padding-bottom: 5px;
             }
+            table {
+                border-collapse: collapse;
+            }
+            table, th, td {
+                border: 0.2px solid #555;
+            }
 
             th, td {
-                border: 0.2px solid #555;
                 padding: 0px 5px;
             }
 
@@ -31,10 +37,35 @@
         <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"الأعمال\"}}}")</div>
         <div dir="rtl">
             <div>
-                @foreach (var table in Model.Statement.WorksTables)
+                @foreach (var table in Model.WorksTables)
                 {
                     <table cellspacing="0">
                         @await Html.PartialAsync("StatementTable", table)
+                        @if(table == Model.WorksTables.Last())
+                        {
+                            <tr>
+                                <td colspan="11" class="py">
+                                    إجمالي الأعمال
+                                </td>
+                                <td class="text-center">
+                                    @Model.TotalWorksBeforePriceChange.Round().UseArabicDigits()
+                                </td>
+                            </tr>
+                            @if (Model.PriceChangePercent != 0)
+                            {
+                                <tr>
+                                    <td colspan="11" class="py">
+                                        إجمالي الأعمال بعد
+                                        <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
+                                        <span>@Math.Abs(Model.PriceChangePercent).Round().UseArabicDigits()</span>
+                                        %
+                                    </td>
+                                    <td class="text-center">
+                                        @Model.TotalWorks.Round().UseArabicDigits()
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </table>
                     <div style='page-break-before:always;' />
                 }
@@ -43,12 +74,31 @@
         <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"التشوينات\"}}}")</div>
         <div dir="rtl">
             <div>
-                @foreach (var table in Model.Statement.SuppliesTables)
+                @foreach (var table in Model.SuppliesTables)
                 {
                     <table cellspacing="0">
                         @await Html.PartialAsync("StatementTable", table)
+                        @if (table == Model.SuppliesTables.Last())
+                        {
+                            <tr>
+                                <td colspan="11" class="py">
+                                    إجمالي التشوينات
+                                </td>
+                                <td class="text-center">
+                                    @Model.TotalSupplies.Round().UseArabicDigits()
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="11" class="py">
+                                    إجمالي المستخلص
+                                </td>
+                                <td class="text-center">
+                                    @Model.TotalWorksAndSupplies.Round().UseArabicDigits()
+                                </td>
+                            </tr>
+                        }
                     </table>
-                    @if (table != Model.Statement.SuppliesTables.Last())
+                    @if (table != Model.SuppliesTables.Last())
                     {
                         <div style='page-break-before:always;' />
                     }

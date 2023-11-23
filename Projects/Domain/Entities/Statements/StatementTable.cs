@@ -41,14 +41,21 @@ namespace NUCA.Projects.Domain.Entities.Statements
             section.UpdateItem(model, userId);
         }
 
+        public double TotalBeforePriceChange
+        {
+            get
+            {
+                return _sections.Sum(s => s.Total);
+            }
+        }
         public double Total
         {
             get
             {
                 if (Type == StatementTableType.Supplies)
-                    return _sections.Sum(s => s.Total);
+                    return TotalBeforePriceChange;
                 else
-                    return _sections.Sum(s => s.Total) * (100 + PriceChangePercent) / 100;
+                    return TotalBeforePriceChange * (100 + PriceChangePercent) / 100;
             }
         }
         /*public void UpdateCurrentQuantity(long sectionId, long itemId, double quantity, string userId)

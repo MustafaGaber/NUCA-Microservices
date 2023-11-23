@@ -28,7 +28,21 @@
            إجمالي @Model.Name.UseArabicDigits()
         </td>
         <td class="text-center">
-            @Model.Total.UseArabicDigits()
+            @Model.TotalBeforePriceChange.Round().UseArabicDigits()
         </td>
     </tr>
+    @if(Model.PriceChangePercent != 0 && Model.Type == StatementTableType.Works) // Or Supplies ?
+    {
+        <tr>
+            <td colspan="11" class="py">
+                إجمالي @Model.Name.UseArabicDigits() بعد 
+                <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
+                <span>@Math.Abs(Model.PriceChangePercent).Round().UseArabicDigits()</span>
+                %
+            </td>
+            <td class="text-center">
+                @Model.Total.Round().UseArabicDigits()
+            </td>
+        </tr>
+    }
 }

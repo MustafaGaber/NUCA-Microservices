@@ -17,47 +17,47 @@
             </td>
             <td class="">
                 <div class="text-center">
-                    @item.BoqQuantity.UseArabicDigits()
+                    @item.BoqQuantity.Round().UseArabicDigits()
                 </div>
             </td>
             <td class="">
                 <div class="text-center">
-                    @item.UnitPrice.UseArabicDigits()
+                    @item.UnitPrice.Round().UseArabicDigits()
                 </div>
             </td>
             <td class="">
                 <div class="text-center">
-                    @item.TotalBoqPrice.UseArabicDigits()
+                    @item.TotalBoqPrice.Round().UseArabicDigits()
                 </div>
             </td>
             <td class="">
                 <div class="text-center">
-                    @item.PreviousQuantity.UseArabicDigits()
+                    @item.PreviousQuantity.Round().UseArabicDigits()
                 </div>
             </td>
             <td class="fst-italic  py-0">
                 <div class="text-center">
-                    @item.CurrentQuantity.UseArabicDigits()
+                    @item.CurrentQuantity.Round().UseArabicDigits()
                 </div>
             </td>
             <td class="fst-italic  py-0">
                 <div class="text-center">
-                    @item.TotalQuantity.UseArabicDigits()
+                    @item.TotalQuantity.Round().UseArabicDigits()
                 </div>
             </td>
             <td class="">
                 <div class="text-center">
-                    @item.GrossPrice.UseArabicDigits()
+                    @item.GrossPrice.Round().UseArabicDigits()
                 </div>
             </td>
             <td class="fst-italic  py-0">
                 <div class="text-center">
-                    @item.Percentage.UseArabicDigits() %
+                    @item.Percentage.Round().UseArabicDigits() %
                 </div>
             </td>
             <td class="">
                 <div class="text-center">
-                    @item.NetPrice.UseArabicDigits()
+                    @item.NetPrice.Round().UseArabicDigits()
                 </div>
             </td>
         </tr>

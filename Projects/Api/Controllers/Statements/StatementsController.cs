@@ -45,7 +45,7 @@ namespace NUCA.Projects.Api.Controllers.Statements
             var model = await _printStatementQuery.Execute(id);
             var header = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Header", model);
             var footer = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Footer", new { });
-            var content = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Statement", model);
+            var content = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Statement", model.Statement);
             var rs = new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create();
             var report = await rs.RenderAsync(new RenderRequest()
             {

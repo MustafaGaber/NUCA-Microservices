@@ -1,7 +1,11 @@
 ﻿namespace NUCA.Projects.Shared.Util
 {
-    public static class ArabicNumbers
+    public static class Extensions
     {
+        public static double Round(this double number)
+        {
+            return Math.Round(number, 2);
+        }
         public static string UseArabicDigits(this double number)
         {
             return ReplaceDigits(number.ToString());
