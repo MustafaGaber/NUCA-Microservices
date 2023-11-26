@@ -1,0 +1,26 @@
+﻿@using NUCA.Projects.Application.Statements.Models;
+@using NUCA.Projects.Domain.Entities.Shared;
+@using NUCA.Projects.Domain.Entities.Statements;
+@using NUCA.Projects.Shared.Util;
+
+@model List<StatementWithholding>
+@{
+    <div dir="rtl">
+        @foreach (var withholding in Model)
+        {
+            <div style="font-size:12px">
+                *
+                @if (withholding.Type == WithholdingType.Discount)
+                {
+                    <span>خصم</span>
+                }
+                @if (withholding.Type == WithholdingType.Outstanding)
+                {
+                    <span>تعلية</span>
+                }
+                <span>@withholding.Value.Round().UseArabicDigits() جنيه</span>
+                <span>@withholding.Name</span>
+            </div>
+        }
+    </div>
+}
