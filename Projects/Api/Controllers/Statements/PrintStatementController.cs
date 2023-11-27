@@ -9,6 +9,8 @@ using NUCA.Projects.Application.Statements.Queries.GetProjectStatements;
 using NUCA.Projects.Application.Statements.Queries.GetStatement;
 using NUCA.Projects.Application.Statements.Queries.GetUserStatements;
 using NUCA.Projects.Application.Statements.Queries.PrintStatement;
+using NUCA.Projects.Domain.Entities.Adjustments;
+using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Api.Controllers.Statements
 {
@@ -28,6 +30,10 @@ namespace NUCA.Projects.Api.Controllers.Statements
         public async Task<IActionResult> Print(long id)
         {
             var model = await _printStatementQuery.Execute(id);
+            if (model.Statement.State < StatementState.RevisionState)
+            {
+                throw new InvalidOperationException();
+            }
             var header = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Header", model);
             var footer = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Footer", new { });
             var pdfOperations = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "PdfOperations", model.Statement.Withholdings);

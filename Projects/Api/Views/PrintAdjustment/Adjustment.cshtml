@@ -3,36 +3,25 @@
 
 @model AdjustmentModel
 @{
-    double totalStampDuty = Model.RegularStampDuty + Model.AdditionalStampDuty;
-    double currentWorks = Model.TotalWorks - Model.PreviousTotalWorks;
-    double currentSupplies = Model.TotalSupplies - Model.PreviousTotalSupplies;
-    double currentWorksAndSupplies = currentWorks + currentSupplies;
-    double totalDue = currentWorksAndSupplies + Model.ServiceTax;
-    double totalWithholdings = Model.AdvancedPaymentValue
-       + Model.CompletionGuaranteeValue
-       + Model.EngineersSyndicateValue
-       + Model.ApplicatorsSyndicateValue
-       + totalStampDuty
-       + Model.CommercialIndustrialTax
-       + Model.ValueAddedTax
-       + Model.WasteRemovalInsurance
-       + Model.TahyaMisrFundValue
-       + Model.ConractStampDuty
-       + Model.ContractorsFederationValue
-       + Model.Withholdings.Sum(withholding => withholding.Value);
-    double total = totalDue - totalWithholdings;
-    if (Math.Abs(total - Model.Total) > 0.001)
-    {
-        throw new InvalidOperationException();
-    }
-
     <html>
     <head>
         <meta name="viewport" content="width=device-width" />
         <style>
              .no-border-top {
-
+                 border-top: 0px !important;
              }
+
+            .no-border-left {
+                border-left: 0px !important;
+            }
+
+            .no-border-bottom {
+                border-bottom: 0px !important;
+            }
+
+            .no-border-right {
+                border-right: 0px !important;
+            }
             .flex-column {
                 flex-direction: column;
             }
@@ -133,7 +122,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td class="text-center">@currentWorks.Round().UseArabicDigits()</td>
+                    <td class="text-center">@Model.CurrentWorks.Round().UseArabicDigits()</td>
                     <td></td>
                     <td class="fw-bold px-1">إجمالي الأعمال خلال الفترة</td>
                 </tr>
@@ -157,7 +146,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td class="text-center">@currentSupplies.Round().UseArabicDigits()</td>
+                    <td class="text-center">@Model.CurrentSupplies.Round().UseArabicDigits()</td>
                     <td></td>
                     <td class="fw-bold px-1">إجمالي التشوينات خلال الفترة</td>
                 </tr>
@@ -168,7 +157,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="text-center">@currentWorksAndSupplies.Round().UseArabicDigits()</td>
+                    <td class="text-center">@Model.CurrentWorksAndSupplies.Round().UseArabicDigits()</td>
                     <td></td>
                     <td></td>
                     <td class="fw-bold px-1">إجمالي الأعمال والتشوينات خلال الفترة</td>
@@ -180,7 +169,7 @@
                     <td>ضريبة الخدمة المؤداة (القيمة المضافة)</td>
                 </tr>
                 <tr>
-                    <td class="text-center">@totalDue.Round().UseArabicDigits()</td>
+                    <td class="text-center">@Model.TotalDue.Round().UseArabicDigits()</td>
                     <td></td>
                     <td></td>
                     <td class="fw-bold px-1">الإجمالي الكلي</td>
@@ -217,8 +206,8 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td class="text-center">@totalStampDuty.Round().UseArabicDigits()</td>
-                    <td class="text-center">@totalStampDuty.Round().UseArabicDigits()</td>
+                    <td class="text-center">@Model.TotalStampDuty.Round().UseArabicDigits()</td>
+                    <td class="text-center">@Model.TotalStampDuty.Round().UseArabicDigits()</td>
                     <td style="padding:0px !important">
                         <div class="d-flex">
                             <div style="padding:10px 5px 0px 5px">
@@ -226,20 +215,20 @@
                             </div>
                             
                             <div class="flex-1">
-                                <table class="w-100" style="border-top: 0px">
-                                    <tr style="border-top: 0px">
-                                        <td style="border-top: 0px">
+                                <table class="w-100 no-border-top no-border-bottom no-border-left">
+                                    <tr class="no-border-top no-border-left">
+                                        <td class="no-border-top">
                                             عادية
                                         </td>
-                                        <td style="border-top: 0px">
+                                        <td class="no-border-top no-border-left">
                                             @Model.RegularStampDuty.Round().UseArabicDigits()
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
+                                    <tr class="no-border-left">
+                                        <td class="no-border-bottom">
                                             إضافية
                                         </td>
-                                        <td>
+                                        <td class="no-border-bottom no-border-left">
                                             @Model.AdditionalStampDuty.Round().UseArabicDigits()
                                         </td>
                                     </tr>
@@ -312,7 +301,7 @@
                     <td>الاتحاد المصري لمقاولي التشييد والبناء</td>
                 </tr>
                 <tr>
-                    <td class="text-center">@totalWithholdings.Round().UseArabicDigits()</td>
+                    <td class="text-center">@Model.TotalWithholdings.Round().UseArabicDigits()</td>
                     <td colspan="3">إجمالي المبالغ المستقطعة</td>
                 </tr>
                 <tr>

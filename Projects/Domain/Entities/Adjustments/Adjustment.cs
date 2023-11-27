@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
+using System.ComponentModel;
 
 namespace NUCA.Projects.Domain.Entities.Adjustments
 {
@@ -32,7 +33,30 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         public virtual IReadOnlyList<AdjustmentWithholding> Withholdings => _withholdings.ToList();
         public double Total { get; private set; }
         public bool Submitted { get; private set; }
-        protected Adjustment() { }
+        public double CurrentWorks => TotalWorks - PreviousTotalWorks;
+        public double CurrentSupplies => TotalSupplies - PreviousTotalSupplies;
+        public double CurrentWorksAndSupplies => CurrentWorks + CurrentSupplies;
+        public double TotalDue => CurrentWorksAndSupplies + ServiceTax;
+        public double TotalStampDuty => RegularStampDuty + AdditionalStampDuty;
+        public double TotalWithholdings => AdvancedPaymentValue
+                        + CompletionGuaranteeValue
+                        + EngineersSyndicateValue
+                        + ApplicatorsSyndicateValue
+                        + TotalStampDuty
+                        + CommercialIndustrialTax
+                        + ValueAddedTax
+                        + WasteRemovalInsurance
+                        + TahyaMisrFundValue
+                        + ConractStampDuty
+                        + ContractorsFederationValue
+                        + Withholdings.Sum(withholding => withholding.Value);
+        protected Adjustment() {
+            double total = TotalDue - TotalWithholdings;
+            if (Math.Abs(total - Total) > 0.001)
+            {
+                throw new InvalidOperationException();
+            }
+        }
 
         public Adjustment(long statementId, long projectId, int statementIndex, DateOnly worksDate, double totalWorks, double totalSupplies, double previousTotalWorks, double previousTotalSupplies, double serviceTax, double advancedPaymentPercent, double advancedPaymentValue, double completionGuaranteeValue, double engineersSyndicateValue, double applicatorsSyndicateValue, double regularStampDuty, double additionalStampDuty, double commercialIndustrialTax, double valueAddedTaxPercent, double valueAddedTax, double wasteRemovalInsurance, double tahyaMisrFundValue, double conractStampDuty, double contractorsFederationValue, List<AdjustmentWithholding> withholdings)
         {
@@ -66,10 +90,10 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
 
         public void AddWithholding(AdjustmentWithholding withholding)
         {
-           /* if (Submitted)
+            if (Submitted)
             {
                 throw new InvalidOperationException();
-            }*/
+            }
             _withholdings.Add(withholding);
             UpdateTotal();
         }
@@ -111,22 +135,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         }
         private void UpdateTotal()
         {
-            Total = TotalWorks - PreviousTotalWorks
-               + TotalSupplies - PreviousTotalSupplies
-               + ServiceTax
-               - AdvancedPaymentValue
-               - CompletionGuaranteeValue
-               - EngineersSyndicateValue
-               - ApplicatorsSyndicateValue
-               - RegularStampDuty
-               - AdditionalStampDuty
-               - CommercialIndustrialTax
-               - ValueAddedTax
-               - WasteRemovalInsurance
-               - TahyaMisrFundValue
-               - ConractStampDuty
-               - ContractorsFederationValue
-               - _withholdings.Sum(w => w.Value);
+            Total = TotalDue - TotalWithholdings;
         }
 
         public static Adjustment Create(

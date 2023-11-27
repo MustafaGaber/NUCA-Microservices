@@ -27,7 +27,13 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
         public async Task<IActionResult> Get(long id)
         {
             var adjustment = await _getAdjustmentQuery.Execute(id);
+            if (!adjustment.Submitted)
+            {
+                throw new InvalidOperationException();
+            }
             var content = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Adjustment", adjustment);
+            var footer = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Footer", new { });
+            var header = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "Header", new { });
             var rs = new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create();
             var report = await rs.RenderAsync(new RenderRequest()
             {
@@ -38,13 +44,13 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
                     Content = content,
                     Chrome = new Chrome()
                     {
-                        //DisplayHeaderFooter = true,
-                        //HeaderTemplate = header,
-                        //FooterTemplate = footer,
-                        //MarginTop = "3cm",
-                        //MarginBottom = "2.5cm",
-                        MarginLeft = "1cm",
-                        MarginRight = "1cm",
+                        DisplayHeaderFooter = true,
+                        HeaderTemplate = header,
+                        FooterTemplate = footer,
+                        MarginTop = "2cm",
+                        MarginBottom = "3cm",
+                        MarginLeft = "1.8cm",
+                        MarginRight = "1.5cm",
                     },
                 },
             });

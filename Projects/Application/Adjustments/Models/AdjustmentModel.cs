@@ -1,6 +1,5 @@
 ﻿using NUCA.Projects.Domain.Entities.Adjustments;
 using NUCA.Projects.Domain.Entities.Projects;
-using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Application.Adjustments.Models
 {
@@ -30,8 +29,15 @@ namespace NUCA.Projects.Application.Adjustments.Models
         public double ConractStampDuty { get; set; }
         public double ContractorsFederationValue { get; set; }
         public List<WithholdingModel> Withholdings { get; set; }
-        public double Total { get; set; }
         public bool Submitted { get; set; }
+        public double CurrentWorks { get; set; }
+        public double CurrentSupplies { get; set; }
+        public double CurrentWorksAndSupplies { get; set; }
+        public double TotalStampDuty { get; set; }
+        public double TotalDue { get; set; }
+        public double TotalWithholdings { get; set; }
+        public double Total { get; set; }
+
         public static AdjustmentModel FromAdjustmentAndProject(Adjustment adjustment, Project project)
         {
             return new AdjustmentModel()
@@ -44,6 +50,9 @@ namespace NUCA.Projects.Application.Adjustments.Models
                 TotalSupplies = adjustment.TotalSupplies,
                 PreviousTotalWorks = adjustment.PreviousTotalWorks,
                 PreviousTotalSupplies = adjustment.PreviousTotalSupplies,
+                CurrentWorks = adjustment.CurrentWorks,
+                CurrentSupplies = adjustment.CurrentSupplies,
+                CurrentWorksAndSupplies = adjustment.CurrentWorksAndSupplies,
                 ServiceTax = adjustment.ServiceTax,
                 AdvancedPaymentPercent = adjustment.AdvancedPaymentPercent,
                 AdvancedPaymentValue = adjustment.AdvancedPaymentValue,
@@ -52,6 +61,7 @@ namespace NUCA.Projects.Application.Adjustments.Models
                 ApplicatorsSyndicateValue = adjustment.ApplicatorsSyndicateValue,
                 RegularStampDuty = adjustment.RegularStampDuty,
                 AdditionalStampDuty = adjustment.AdditionalStampDuty,
+                TotalStampDuty = adjustment.TotalStampDuty,
                 CommercialIndustrialTax = adjustment.CommercialIndustrialTax,
                 ValueAddedTaxPercent = adjustment.ValueAddedTaxPercent,
                 ValueAddedTax = adjustment.ValueAddedTax,
@@ -67,18 +77,11 @@ namespace NUCA.Projects.Application.Adjustments.Models
                     Type = w.Type,
                     FromStatement = w.FromStatement
                 }).ToList(),
+                TotalDue = adjustment.TotalDue,
+                TotalWithholdings = adjustment.TotalWithholdings,
                 Total = adjustment.Total,
                 Submitted = adjustment.Submitted,
             };
         }
-    }
-
-    public class WithholdingModel
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public double Value { get; set; }
-        public WithholdingType Type { get; set; }
-        public bool FromStatement { get; set; }
     }
 }
