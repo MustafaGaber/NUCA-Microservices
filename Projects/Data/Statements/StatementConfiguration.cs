@@ -21,7 +21,8 @@ namespace NUCA.Projects.Data.Statements
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Ignore(s => s.WorksTables)
-                   .Ignore(s => s.SuppliesTables);
+                   .Ignore(s => s.SuppliesTables)
+                   .Ignore(s => s.ExternalSuppliesTables);
             /*builder.HasMany(i => i.WorksTables)
                 .WithOne()
                 .HasForeignKey(t => t.StatementId)

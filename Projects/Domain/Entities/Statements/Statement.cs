@@ -1,10 +1,6 @@
 ﻿using Ardalis.GuardClauses;
-using NUCA.Projects.Application.Statements;
-using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Boqs;
-using System.Linq;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
@@ -17,7 +13,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public IReadOnlyList<StatementTable> Tables => _tables.ToList();
         public IReadOnlyList<StatementTable> WorksTables => _tables.Where(t => t.Type == StatementTableType.Works).ToList();
         public IReadOnlyList<StatementTable> SuppliesTables => _tables.Where(t => t.Type == StatementTableType.Supplies).ToList();
-
+        public IReadOnlyList<StatementTable> ExternalSuppliesTables => _tables.Where(t => t.Type == StatementTableType.ExternalSupplies).ToList();
         public double PriceChangePercent { get; private set; }
         public DateOnly WorksDate { get; private set; }
         public DateOnly SubmissionDate { get; private set; }
@@ -31,7 +27,19 @@ namespace NUCA.Projects.Domain.Entities.Statements
         private readonly List<StatementWithholding> _withholdings = new List<StatementWithholding>();
         public virtual IReadOnlyList<StatementWithholding> Withholdings => _withholdings.ToList();
 
-        protected Statement() { }
+        protected Statement()
+        {
+            double totalWorks = WorksTables.Sum(t => t.Total) * (100 + PriceChangePercent) / 100;
+            double totalSupplies = SuppliesTables.Sum(t => t.Total) + ExternalSuppliesTables.Sum(t => t.Total);
+            if (Math.Abs(totalWorks - TotalWorks) > 0.001)
+            {
+                throw new InvalidOperationException();
+            }
+            if (Math.Abs(totalSupplies - TotalSupplies) > 0.001)
+            {
+                throw new InvalidOperationException();
+            }
+        }
         public Statement(long projectId, Boq boq, DateOnly worksDate, bool final)
         {
             ProjectId = Guard.Against.NegativeOrZero(projectId, nameof(projectId));
@@ -76,10 +84,8 @@ namespace NUCA.Projects.Domain.Entities.Statements
 
         private void UpdateTotals()
         {
-           //TotalWorksBeforePriceChange = WorksTables.Sum(t => t.Total);
             TotalWorks = WorksTables.Sum(t => t.Total) * (100 + PriceChangePercent) / 100;
-           // TotalSuppliesBeforePriceChange = SuppliesTables.Sum(t => t.Total);
-            TotalSupplies = SuppliesTables.Sum(t => t.Total);
+            TotalSupplies = SuppliesTables.Sum(t => t.Total) + ExternalSuppliesTables.Sum(t => t.Total);
         }
 
         private void UpdateWithholdings(List<WithholdingModel> withholdings)

@@ -23,7 +23,9 @@ namespace NUCA.Projects.Domain.Entities.Statements
 
         public string? Notes { get; private set; }
         public long? UserId { get; private set; }
-        protected StatementItem() { }
+        protected StatementItem() {
+            ValidatePercentages();
+        }
         public StatementItem(long boqItemId, string index, string content, string unit, double quantity, double unitPrice, double previousQuantity, double totalQuantity,
             /*List<StatementItemPercentage> percentages,*/ double percentage, string? notes, long? userId)
         {

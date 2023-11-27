@@ -1,5 +1,4 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Domain.Entities.Departments;
 
 namespace NUCA.Projects.Application.Departments.Queries.GetDepartment
 {

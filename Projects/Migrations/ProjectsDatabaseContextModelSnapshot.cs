@@ -205,7 +205,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Quantity")
+                    b.Property<double>("BoqQuantity")
                         .HasColumnType("REAL");
 
                     b.Property<string>("Unit")

@@ -1,4 +1,5 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Data;
 using NUCA.Projects.Domain.Entities.Statements;
 
@@ -12,10 +13,10 @@ namespace NUCA.Projects.Application.Statements.Queries.GetStatement
             _statementRepository = statementRepository;
         }
 
-        public async Task<Statement> Execute(long id)
+        public async Task<StatementModel> Execute(long id)
         {
             var statement = await _statementRepository.Get(id);
-            return statement;
+            return new StatementModel(statement);
         }
 
     }

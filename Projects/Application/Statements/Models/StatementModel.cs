@@ -1,5 +1,4 @@
-﻿using NUCA.Projects.Domain.Entities.Projects;
-using NUCA.Projects.Domain.Entities.Shared;
+﻿using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Application.Statements.Models
@@ -7,11 +6,6 @@ namespace NUCA.Projects.Application.Statements.Models
     public class StatementModel
     {
         public int Index { get; set; }
-        public string ProjectName { get; set; }
-        public string CompanyName { get; set; }
-        public DateOnly StartDate { get; set; }
-        public DateOnly EndDate { get; set; }
-        public Duration ProjectDuration { get; set; }
         public List<Table> Tables { get; set; }
         public double PriceChangePercent { get; set; }
         public DateOnly WorksDate { get; set; }
@@ -22,9 +16,52 @@ namespace NUCA.Projects.Application.Statements.Models
         public double TotalSupplies { get; set; }
         public List<WithholdingModel> Withholdings { get; set; }
 
-        public StatementModel(Statement statement, Project project)
+        public StatementModel(Statement statement)
         {
-
+            Index = statement.Index;
+            PriceChangePercent = statement.PriceChangePercent;
+            WorksDate = statement.WorksDate;
+            SubmissionDate = statement.SubmissionDate;
+            Final = statement.Final;
+            State = statement.State;
+            TotalWorks = statement.TotalWorks;
+            TotalSupplies = statement.TotalSupplies;
+            Withholdings = statement.Withholdings.Select(w => new WithholdingModel()
+            {
+                Id = w.Id,
+                Name = w.Name,
+                Value = w.Value,
+                Type = w.Type,
+            }).ToList();
+            Tables = statement.Tables.Select(t => new Table()
+            {
+                Id = t.Id,
+                Name = t.Name,
+                BoqTableId = t.BoqTableId,
+                PriceChangePercent = t.PriceChangePercent,
+                Type = t.Type,
+                BoqTableType = t.BoqTableType,
+                Sections = t.Sections.Select(s => new Section() { 
+                    BoqSectionId = s.Id,
+                    Id = s.Id,
+                    Name = s.Name,                   
+                    Items = s.Items.Select(i => new Item()
+                    {
+                        Id = i.Id,
+                        Index = i.Index,
+                        BoqItemId = i.BoqItemId,
+                        Content = i.Content,
+                        Unit = i.Unit,
+                        UnitPrice = i.UnitPrice,
+                        BoqQuantity = i.BoqQuantity,
+                        PreviousQuantity = i.PreviousQuantity,
+                        TotalQuantity = i.TotalQuantity,
+                        Percentage = i.Percentage,
+                        Notes = i.Notes,
+                        UserId = i.UserId,
+                    }).ToList(),
+                }).ToList(),
+            }).ToList();
         }
 
     }
@@ -56,7 +93,7 @@ namespace NUCA.Projects.Application.Statements.Models
         public string Index { get; set; }
         public string Content { get; set; }
         public string Unit { get; set; }
-        public double Quantity { get; set; }
+        public double BoqQuantity { get; set; }
         public double UnitPrice { get; set; }
         public double PreviousQuantity { get; set; }
         public double TotalQuantity { get; set; }

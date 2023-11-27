@@ -52,7 +52,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         {
             get
             {
-                if (Type == StatementTableType.Supplies)
+                if (Type == StatementTableType.Supplies || Type == StatementTableType.ExternalSupplies)
                     return TotalBeforePriceChange;
                 else
                     return TotalBeforePriceChange * (100 + PriceChangePercent) / 100;

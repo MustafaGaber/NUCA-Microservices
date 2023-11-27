@@ -11,7 +11,7 @@ namespace NUCA.Projects.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "Quantity",
+                name: "BoqQuantity",
                 table: "StatementItem",
                 newName: "BoqQuantity");
         }
@@ -22,7 +22,7 @@ namespace NUCA.Projects.Migrations
             migrationBuilder.RenameColumn(
                 name: "BoqQuantity",
                 table: "StatementItem",
-                newName: "Quantity");
+                newName: "BoqQuantity");
         }
     }
 }
