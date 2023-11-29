@@ -5,8 +5,8 @@ namespace NUCA.Projects.Application.Boqs.Models
 {
     public class BoqModel
     {
-        public double PriceChangePercent { get; set; }
-        public List<TableModel> Tables { get; set; } = new List<TableModel>();
+        public double PriceChangePercent { get; init; }
+        public List<TableModel> Tables { get; init; } = new List<TableModel>();
         public BoqModel(Boq boq)
         {
             PriceChangePercent = boq.PriceChangePercent;
@@ -41,31 +41,31 @@ namespace NUCA.Projects.Application.Boqs.Models
 
     public class TableModel
     {
-        public List<SectionModel> Sections { get; set; } = new List<SectionModel>();
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public int Count { get; set; }
-        public BoqTableType Type { get; set; }
-        public double PriceChangePercent { get; set; }
+        public List<SectionModel> Sections { get; init; } = new List<SectionModel>();
+        public long Id { get; init; }
+        public string Name { get; init; }
+        public int Count { get; init; }
+        public BoqTableType Type { get; init; }
+        public double PriceChangePercent { get; init; }
     }
 
     public class SectionModel
     {
-        public long Id { get; set; }
-        public List<ItemModel> Items { get; set; } = new List<ItemModel>();
-        public string Name { get; set; }
-        public int DepartmentId { get; set; }
+        public long Id { get; init; }
+        public List<ItemModel> Items { get; init; } = new List<ItemModel>();
+        public string Name { get; init; }
+        public int DepartmentId { get; init; }
 
     }
 
     public class ItemModel
     {
-        public long Id { get; set; }
-        public string Index { get; set; }
-        public string Content { get; set; }
-        public string Unit { get; set; }
-        public double Quantity { get; set; }
-        public double UnitPrice { get; set; }
+        public long Id { get; init; }
+        public string Index { get; init; }
+        public string Content { get; init; }
+        public string Unit { get; init; }
+        public double Quantity { get; init; }
+        public double UnitPrice { get; init; }
     }
 
 }

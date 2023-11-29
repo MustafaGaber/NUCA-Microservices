@@ -5,7 +5,7 @@ namespace NUCA.Projects.Application.Statements.Models
 {
     public class PrintStatementModel
     {
-        public Statement Statement { get; set; }
-        public Project Project { get; set; }
+        public required Statement Statement { get; init; }
+        public required Project Project { get; init; }
     }
 }

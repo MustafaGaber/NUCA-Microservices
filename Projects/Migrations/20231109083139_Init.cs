@@ -518,7 +518,7 @@ namespace NUCA.Projects.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BoqSection_BoqTableId",
                 table: "BoqSection",
-                column: "BoqTableId");
+                column: "StatementTableId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqSection_DepartmentId",

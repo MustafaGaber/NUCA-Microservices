@@ -8,6 +8,6 @@ namespace NUCA.Projects.Application.Boqs.Commands.UpdateBoq
 {
     public class UpdateBoqModel
     {
-        public double PriceChangePercent { get; set; }
+        public double PriceChangePercent { get; init; }
     }
 }

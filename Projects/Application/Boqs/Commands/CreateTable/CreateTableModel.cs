@@ -4,9 +4,9 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateTable
 {
     public class CreateTableModel
     {
-        public string TableName { get; set; }
-        public int Count { get; set; }
-        public double PriceChangePercent { get; set; }
-        public BoqTableType Type { get; set; }
+        public string TableName { get; init; }
+        public int Count { get; init; }
+        public double PriceChangePercent { get; init; }
+        public BoqTableType Type { get; init; }
     }
 }

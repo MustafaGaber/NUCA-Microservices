@@ -6,6 +6,6 @@ namespace NUCA.Identity.Controllers
 {
     public class DeviceAuthorizationInputModel : ConsentInputModel
     {
-        public string UserCode { get; set; }
+        public string UserCode { get; init; }
     }
 }

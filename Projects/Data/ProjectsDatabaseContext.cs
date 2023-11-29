@@ -23,16 +23,16 @@ namespace NUCA.Projects.Data
 {
     public class ProjectsDatabaseContext : DbContext
     {
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<Boq> Boqs { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Statement> Statements { get; set; }
-        public DbSet<Adjustment> Adjustments { get; set; }
-        public DbSet<WorkType> WorkTypes { get; set; }
-        public DbSet<AwardType> AwardTypes { get; set; }
-        public DbSet<Ledger> Ledgers { get; set; }
+        public DbSet<Project> Projects { get; init; }
+        public DbSet<Boq> Boqs { get; init; }
+        public DbSet<Department> Departments { get; init; }
+        public DbSet<Company> Companies { get; init; }
+        public DbSet<User> Users { get; init; }
+        public DbSet<Statement> Statements { get; init; }
+        public DbSet<Adjustment> Adjustments { get; init; }
+        public DbSet<WorkType> WorkTypes { get; init; }
+        public DbSet<AwardType> AwardTypes { get; init; }
+        public DbSet<Ledger> Ledgers { get; init; }
 
         public ProjectsDatabaseContext(DbContextOptions<ProjectsDatabaseContext> options) : base(options){}
 
@@ -51,6 +51,7 @@ namespace NUCA.Projects.Data
             modelBuilder.ApplyConfiguration(new SectionConfiguration());
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new StatementConfiguration());
+            modelBuilder.ApplyConfiguration(new ExternalSuppliesTableConfiguration());
             modelBuilder.ApplyConfiguration(new StatementTableConfiguration());
             modelBuilder.ApplyConfiguration(new StatementSectionConfiguration());
             modelBuilder.ApplyConfiguration(new StatementItemConfiguration());

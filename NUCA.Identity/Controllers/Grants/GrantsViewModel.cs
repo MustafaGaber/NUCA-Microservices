@@ -9,19 +9,19 @@ namespace NUCA.Identity.Controllers
 {
     public class GrantsViewModel
     {
-        public IEnumerable<GrantViewModel> Grants { get; set; }
+        public IEnumerable<GrantViewModel> Grants { get; init; }
     }
 
     public class GrantViewModel
     {
-        public string ClientId { get; set; }
-        public string ClientName { get; set; }
-        public string ClientUrl { get; set; }
-        public string ClientLogoUrl { get; set; }
-        public string Description { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime? Expires { get; set; }
-        public IEnumerable<string> IdentityGrantNames { get; set; }
-        public IEnumerable<string> ApiGrantNames { get; set; }
+        public string ClientId { get; init; }
+        public string ClientName { get; init; }
+        public string ClientUrl { get; init; }
+        public string ClientLogoUrl { get; init; }
+        public string Description { get; init; }
+        public DateTime Created { get; init; }
+        public DateTime? Expires { get; init; }
+        public IEnumerable<string> IdentityGrantNames { get; init; }
+        public IEnumerable<string> ApiGrantNames { get; init; }
     }
 }

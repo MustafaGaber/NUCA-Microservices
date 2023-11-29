@@ -5,8 +5,8 @@ namespace NUCA.Projects.Application.Adjustments.Commands
 {
     public class EditWithholdingModel
     {
-        public string Name { get; set; }
-        public double Value { get; set; }
-        public WithholdingType Type { get; set; }
+        public string Name { get; init; }
+        public double Value { get; init; }
+        public WithholdingType Type { get; init; }
     }
 }

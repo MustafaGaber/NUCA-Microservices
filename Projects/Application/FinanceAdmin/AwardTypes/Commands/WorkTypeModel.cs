@@ -2,7 +2,7 @@
 {
     public class AwardTypeModel
     {
-        public string Name { get; set; }
-        public bool EstimatedPrice { get; set; }
+        public string Name { get; init; }
+        public bool EstimatedPrice { get; init; }
     }
 }

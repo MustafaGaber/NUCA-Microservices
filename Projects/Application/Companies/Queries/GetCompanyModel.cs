@@ -8,14 +8,14 @@ namespace NUCA.Projects.Application.Companies.Queries
 {
    public class GetCompanyModel
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
-        public string Fax { get; set; }
-        public string CommercialRegister { get; set; }
-        public string TaxCard { get; set; }
-        public string ElectronicInvoice { get; set; }
-        public bool CommercialIndustrialTaxFree { get; set; }
+        public long Id { get; init; }
+        public string Name { get; init; }
+        public string Address { get; init; }
+        public string Phone { get; init; }
+        public string Fax { get; init; }
+        public string CommercialRegister { get; init; }
+        public string TaxCard { get; init; }
+        public string ElectronicInvoice { get; init; }
+        public bool CommercialIndustrialTaxFree { get; init; }
     }
 }

@@ -4,10 +4,10 @@ namespace NUCA.Projects.Application.Projects.Queries.GetUserProjects
 {
     public class UserProject
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public ProjectStatus Status { get; set; }
-        public string? CompanyName { get; set; }
+        public long Id { get; init; }
+        public string Name { get; init; }
+        public ProjectStatus Status { get; init; }
+        public string? CompanyName { get; init; }
 
     }
 

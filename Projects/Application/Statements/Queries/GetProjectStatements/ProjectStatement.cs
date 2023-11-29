@@ -4,11 +4,11 @@ namespace NUCA.Projects.Application.Statements.Queries.GetProjectStatements
 {
     public class ProjectStatement
     {
-        public long Id { get; set; }
-        public int Index { get; set; }
-        public DateOnly WorksDate { get; set; }
-        public DateOnly SubmissionDate { get; set; }
-        public bool Final { get; set; }
-        public StatementState State { get; set; }
+        public long Id { get; init; }
+        public int Index { get; init; }
+        public DateOnly WorksDate { get; init; }
+        public DateOnly SubmissionDate { get; init; }
+        public bool Final { get; init; }
+        public StatementState State { get; init; }
     }
 }

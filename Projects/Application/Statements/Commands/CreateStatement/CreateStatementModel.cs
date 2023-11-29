@@ -2,8 +2,8 @@
 {
     public class CreateStatementModel
     {
-        public DateOnly WorksDate { get; set; }
-        public bool IsFinal { get; set; }
+        public DateOnly WorksDate { get; init; }
+        public bool IsFinal { get; init; }
 
     }
 }

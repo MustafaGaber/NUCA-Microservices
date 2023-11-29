@@ -5,6 +5,6 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
 {
     public interface IUpdateStatementCommand
     {
-        Task<StatementModel> Execute(long id, UpdateStatementModel model, long userId, bool submit);
+        Task<Statement> Execute(long id, UpdateStatementModel model, long userId);
     }
 }

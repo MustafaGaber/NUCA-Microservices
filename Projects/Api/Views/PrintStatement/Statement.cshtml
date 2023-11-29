@@ -5,10 +5,16 @@
 
 @model Statement
 @{
+    var worksTables = Model.WorksTables.Where(t => t.HasQuantities);
+    var suppliesTables = Model.SuppliesTables.Where(t => t.HasQuantities);
     <html>
     <head>
         <meta name="viewport" content="width=device-width" />
         <style>
+            .bg-grey {
+                background: #f5f5f5;
+            }
+
             .text-center {
                 text-align: center;
             }
@@ -17,9 +23,11 @@
                 padding-top: 5px;
                 padding-bottom: 5px;
             }
+
             table {
                 border-collapse: collapse;
             }
+
             table, th, td {
                 border: 0.2px solid #555;
             }
@@ -37,13 +45,19 @@
         <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"الأعمال\"}}}")</div>
         <div dir="rtl">
             <div>
-                @foreach (var table in Model.WorksTables)
+                @foreach (var table in worksTables)
                 {
                     <table cellspacing="0">
+                        <tr class="bg-grey">
+                            <td colspan="12" class="py">
+                                @table.Name.UseArabicDigits()
+                            </td>
+                        </tr>
+                        @await Html.PartialAsync("TableHeader")
                         @await Html.PartialAsync("StatementTable", table)
-                        @if(table == Model.WorksTables.Last())
+                        @if (table == worksTables.Last())
                         {
-                            <tr>
+                            <tr class="bg-grey">
                                 <td colspan="11" class="py">
                                     إجمالي الأعمال
                                 </td>
@@ -53,7 +67,7 @@
                             </tr>
                             @if (Model.PriceChangePercent != 0)
                             {
-                                <tr>
+                                <tr class="bg-grey">
                                     <td colspan="11" class="py">
                                         إجمالي الأعمال بعد
                                         <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
@@ -74,13 +88,27 @@
         <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"التشوينات\"}}}")</div>
         <div dir="rtl">
             <div>
-                @foreach (var table in Model.SuppliesTables)
+                @foreach (var table in suppliesTables)
                 {
                     <table cellspacing="0">
+                        <tr class="bg-grey">
+                            <td colspan="12" class="py">
+                                @table.Name.UseArabicDigits()
+                            </td>
+                        </tr>
+                        @await Html.PartialAsync("TableHeader")
                         @await Html.PartialAsync("StatementTable", table)
-                        @if (table == Model.SuppliesTables.Last())
+                        @if (table == suppliesTables.Last())
                         {
-                            <tr>
+                            @if (Model.ExternalSuppliesItems.Count == 0)
+                            {
+
+                            }
+                            else
+                            {
+
+                            }
+                            <tr class="bg-grey">
                                 <td colspan="11" class="py">
                                     إجمالي التشوينات
                                 </td>
@@ -88,7 +116,7 @@
                                     @Model.TotalSupplies.Round().UseArabicDigits()
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="bg-grey">
                                 <td colspan="11" class="py">
                                     إجمالي المستخلص
                                 </td>
@@ -98,7 +126,7 @@
                             </tr>
                         }
                     </table>
-                    @if (table != Model.SuppliesTables.Last())
+                    @if (table != suppliesTables.Last())
                     {
                         <div style='page-break-before:always;' />
                     }

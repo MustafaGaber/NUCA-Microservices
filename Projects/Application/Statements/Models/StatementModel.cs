@@ -5,16 +5,16 @@ namespace NUCA.Projects.Application.Statements.Models
 {
     public class StatementModel
     {
-        public int Index { get; set; }
-        public List<Table> Tables { get; set; }
-        public double PriceChangePercent { get; set; }
-        public DateOnly WorksDate { get; set; }
-        public DateOnly SubmissionDate { get; set; }
-        public bool Final { get; set; }
-        public StatementState State { get; set; }
-        public double TotalWorks { get; set; }
-        public double TotalSupplies { get; set; }
-        public List<WithholdingModel> Withholdings { get; set; }
+        public int Index { get; init; }
+        public List<Table> Tables { get; init; }
+        public double PriceChangePercent { get; init; }
+        public DateOnly WorksDate { get; init; }
+        public DateOnly SubmissionDate { get; init; }
+        public bool Final { get; init; }
+        public StatementState State { get; init; }
+        public double TotalWorks { get; init; }
+        public double TotalSupplies { get; init; }
+        public List<WithholdingModel> Withholdings { get; init; }
 
         public StatementModel(Statement statement)
         {
@@ -57,7 +57,6 @@ namespace NUCA.Projects.Application.Statements.Models
                         PreviousQuantity = i.PreviousQuantity,
                         TotalQuantity = i.TotalQuantity,
                         Percentage = i.Percentage,
-                        Notes = i.Notes,
                         UserId = i.UserId,
                     }).ToList(),
                 }).ToList(),
@@ -68,38 +67,37 @@ namespace NUCA.Projects.Application.Statements.Models
 
     public class Table
     {
-        public long Id { get; set; }
-        public List<Section> Sections { get; set; }
-        public long BoqTableId { get; set; }
-        public string Name { get; set; }
-        public double PriceChangePercent { get; set; }
-        public StatementTableType Type { get; set; }
-        public BoqTableType BoqTableType { get; set; }
+        public long Id { get; init; }
+        public required List<Section> Sections { get; init; }
+        public required long BoqTableId { get; init; }
+        public required string Name { get; init; }
+        public required double PriceChangePercent { get; init; }
+        public required StatementTableType Type { get; init; }
+        public required BoqTableType BoqTableType { get; init; }
     }
 
     public class Section
     {
-        public long Id { get; set; }
-        public List<Item> Items { get; set; }
-        public long BoqSectionId { get; set; }
-        public string Name { get; set; }
+        public required long Id { get; init; }
+        public required List<Item> Items { get; init; }
+        public required long BoqSectionId { get; init; }
+        public required string Name { get; init; }
 
     }
 
     public class Item
     {
-        public long Id { get; set; }
-        public long BoqItemId { get; set; }
-        public string Index { get; set; }
-        public string Content { get; set; }
-        public string Unit { get; set; }
-        public double BoqQuantity { get; set; }
-        public double UnitPrice { get; set; }
-        public double PreviousQuantity { get; set; }
-        public double TotalQuantity { get; set; }
-        public double Percentage { get; set; }
-        //public virtual IReadOnlyList<StatementItemPercentage> Percentages => _percentages.ToList();
-        public string? Notes { get; set; }
-        public long? UserId { get; set; }
+        public required long Id { get; init; }
+        public required long BoqItemId { get; init; }
+        public required string Index { get; init; }
+        public required string Content { get; init; }
+        public required string Unit { get; init; }
+        public required double BoqQuantity { get; init; }
+        public required double UnitPrice { get; init; }
+        public required double PreviousQuantity { get; init; }
+        public required double TotalQuantity { get; init; }
+        public required double Percentage { get; init; }
+        //public required virtual IReadOnlyList<StatementItemPercentage> Percentages => _percentages.ToList();
+        public required long? UserId { get; init; }
     }
 }

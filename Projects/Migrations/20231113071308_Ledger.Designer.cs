@@ -228,7 +228,7 @@ namespace NUCA.Projects.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("BoqTableId")
+                    b.Property<long?>("StatementTableId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
@@ -246,7 +246,7 @@ namespace NUCA.Projects.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BoqTableId");
+                    b.HasIndex("StatementTableId");
 
                     b.HasIndex("DepartmentId");
 
@@ -652,7 +652,7 @@ namespace NUCA.Projects.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("BoqTableId")
+                    b.Property<long>("StatementTableId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("BoqTableType")
@@ -787,7 +787,7 @@ namespace NUCA.Projects.Migrations
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.BoqItem", b =>
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Boqs.BoqSection", null)
-                        .WithMany("Items")
+                        .WithMany("ExternalSuppliesTables")
                         .HasForeignKey("BoqSectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -796,7 +796,7 @@ namespace NUCA.Projects.Migrations
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Boqs.BoqTable", null)
                         .WithMany("Sections")
-                        .HasForeignKey("BoqTableId")
+                        .HasForeignKey("StatementTableId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("NUCA.Projects.Domain.Entities.Departments.Department", "Department")
@@ -909,7 +909,7 @@ namespace NUCA.Projects.Migrations
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.StatementItem", b =>
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Statements.StatementSection", null)
-                        .WithMany("Items")
+                        .WithMany("ExternalSuppliesTables")
                         .HasForeignKey("StatementSectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -951,7 +951,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.BoqSection", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("ExternalSuppliesTables");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.BoqTable", b =>
@@ -973,7 +973,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.StatementSection", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("ExternalSuppliesTables");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.StatementTable", b =>

@@ -5,27 +5,27 @@ namespace NUCA.Projects.Application.Projects.Commands
 {
     public class ProjectModel
     {
-        public string Name { get; set; }
-        public int DepartmentId { get; set; }
-        public int TypeId { get; set; }
-        public ProjectStatus Status { get; set; }
-        public int? AwardTypeId { get; set; }
-        public long? CompanyId { get; set; }
-        public int? OrderNumber { get; set; }
-        public DateOnly? OrderDate { get; set; }
-        public double? Price { get; set; }
-        public Duration Duration { get; set; }
-        public double? AdvancedPaymentPercentage { get; set; }
-        public bool? ValueAddedTaxIncluded { get; set; }
-        public DateOnly? HandoverDate { get; set; }
-        public DateOnly? StartDate { get; set; }
-        public DateOnly? EndDate { get; set; }
-        public List<DateOnly> ModifiedEndDates { get; set; }
-        public DateOnly? InitialDeliveryDate { get; set; }
-        public DateOnly? InitialDeliverySigningDate { get; set; }
-        public DateOnly? FinalDeliveryDate { get; set; }
-        public int? TotalContractPapers { get; set; }
-        public string Notes { get; set; }
+        public string Name { get; init; }
+        public int DepartmentId { get; init; }
+        public int TypeId { get; init; }
+        public ProjectStatus Status { get; init; }
+        public int? AwardTypeId { get; init; }
+        public long? CompanyId { get; init; }
+        public int? OrderNumber { get; init; }
+        public DateOnly? OrderDate { get; init; }
+        public double? Price { get; init; }
+        public Duration Duration { get; init; }
+        public double? AdvancedPaymentPercentage { get; init; }
+        public bool? ValueAddedTaxIncluded { get; init; }
+        public DateOnly? HandoverDate { get; init; }
+        public DateOnly? StartDate { get; init; }
+        public DateOnly? EndDate { get; init; }
+        public List<DateOnly> ModifiedEndDates { get; init; }
+        public DateOnly? InitialDeliveryDate { get; init; }
+        public DateOnly? InitialDeliverySigningDate { get; init; }
+        public DateOnly? FinalDeliveryDate { get; init; }
+        public int? TotalContractPapers { get; init; }
+        public string Notes { get; init; }
     }
 
 }

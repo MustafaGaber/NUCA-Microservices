@@ -63,19 +63,19 @@ namespace NUCA.Projects.Api.Controllers.Statements
             return Ok(result);
         }
 
-        [HttpPut("Save/{id}")]
+        [HttpPut("Update/{id}")]
         public async Task<IActionResult> UpdateStatement(long id, [FromBody] UpdateStatementModel updates)
         {
-            var statement = await _updateStatementCommand.Execute(id, updates, 0, false);
+            var statement = await _updateStatementCommand.Execute(id, updates, 0);
             return Ok(statement);
         }
 
-        [HttpPut("Submit/{id}")]
+        /*[HttpPut("Submit/{id}")]
         public async Task<IActionResult> UpdateStatementAndSubmit(long id, [FromBody] UpdateStatementModel updates)
         {
             var statement = await _updateStatementCommand.Execute(id, updates, 0, true);
             return Ok(statement);
-        }
+        }*/
 
     }
 }

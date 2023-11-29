@@ -13,10 +13,10 @@ namespace NUCA.Projects.Application.Statements.Queries.GetStatement
             _statementRepository = statementRepository;
         }
 
-        public async Task<StatementModel> Execute(long id)
+        public async Task<Statement> Execute(long id)
         {
             var statement = await _statementRepository.Get(id);
-            return new StatementModel(statement);
+            return statement;
         }
 
     }

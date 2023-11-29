@@ -11,12 +11,12 @@ namespace NUCA.Projects.Data.Core
 {
     public interface IDatabaseContext
     {
-        DbSet<Project> Projects { get; set; }
-        DbSet<Boq> Boqs { get; set; }
-        DbSet<Department> Departments { get; set; }
-        DbSet<Company> Companies { get; set; }
-        DbSet<User> Users { get; set; }
-        DbSet<Statement> Statements { get; set; }
+        DbSet<Project> Projects { get; init; }
+        DbSet<Boq> Boqs { get; init; }
+        DbSet<Department> Departments { get; init; }
+        DbSet<Company> Companies { get; init; }
+        DbSet<User> Users { get; init; }
+        DbSet<Statement> Statements { get; init; }
         DbSet<T> Set<T, TId>() where T : Entity<TId>;
         void Save();
     }

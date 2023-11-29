@@ -1,10 +1,11 @@
 ﻿
 using NUCA.Projects.Application.Statements.Models;
+using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Application.Statements.Queries.GetStatement
 {
     public interface IGetStatementQuery
     {
-        Task<StatementModel> Execute(long Id);
+        Task<Statement> Execute(long Id);
     }
 }

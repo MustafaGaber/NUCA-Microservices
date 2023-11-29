@@ -5,13 +5,7 @@
 
 @model StatementTable
 @{
-    <tr>
-        <td colspan="12" class="py">
-            @Model.Name.UseArabicDigits()
-        </td>
-    </tr>
-    @await Html.PartialAsync("TableHeader")
-    @foreach (var statementSection in Model.Sections)
+    @foreach (var statementSection in Model.Sections.Where(s => s.HasQuantities))
     {
         @if (!statementSection.Name.Equals(Model.Name) || Model.Sections.First() != statementSection)
         {
@@ -23,19 +17,19 @@
         }
         @await Html.PartialAsync("StatementSection", statementSection)
     }
-    <tr>
+    <tr class="bg-grey">
         <td colspan="11" class="py">
-           إجمالي @Model.Name.UseArabicDigits()
+            إجمالي @Model.Name.UseArabicDigits()
         </td>
         <td class="text-center">
             @Model.TotalBeforePriceChange.Round().UseArabicDigits()
         </td>
     </tr>
-    @if(Model.PriceChangePercent != 0 && Model.Type == StatementTableType.Works) // Or Supplies ?
+    @if (Model.PriceChangePercent != 0 && Model.Type == StatementTableType.Works) // Or Supplies ?
     {
-        <tr>
+        <tr class="bg-grey">
             <td colspan="11" class="py">
-                إجمالي @Model.Name.UseArabicDigits() بعد 
+                إجمالي @Model.Name.UseArabicDigits() بعد
                 <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
                 <span>@Math.Abs(Model.PriceChangePercent).Round().UseArabicDigits()</span>
                 %

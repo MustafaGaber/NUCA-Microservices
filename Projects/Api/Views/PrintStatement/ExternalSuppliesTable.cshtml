@@ -3,9 +3,15 @@
 @using NUCA.Projects.Domain.Entities.Statements;
 @using NUCA.Projects.Shared.Util;
 
-@model StatementSection
+@model ExternalSuppliesTable
 @{
-    @foreach (var item in Model.Items.Where(i => i.HasQuantities))
+    <tr>
+        <td colspan="12" class="py">
+            التشوينات الخارجية
+        </td>
+    </tr>
+    @await Html.PartialAsync("TableHeader")
+    @foreach (var item in Model.Items)
     {
         <tr>
             <td class=" text-center">
@@ -13,23 +19,15 @@
             </td>
             <td>@item.Content.UseArabicDigits()</td>
             <td>
-                <div class="text-center">@item.Unit.UseArabicDigits()</div>
+                <div class="text-center">@item.Unit</div>
             </td>
-            <td>
-                <div class="text-center">
-                    @item.BoqQuantity.Round().UseArabicDigits()
-                </div>
-            </td>
+            <td></td>
             <td>
                 <div class="text-center">
                     @item.UnitPrice.Round().UseArabicDigits()
                 </div>
             </td>
-            <td>
-                <div class="text-center">
-                    @item.TotalBoqPrice.Round().UseArabicDigits()
-                </div>
-            </td>
+            <td></td>
             <td>
                 <div class="text-center">
                     @item.PreviousQuantity.Round().UseArabicDigits()
@@ -62,4 +60,5 @@
             </td>
         </tr>
     }
+
 }

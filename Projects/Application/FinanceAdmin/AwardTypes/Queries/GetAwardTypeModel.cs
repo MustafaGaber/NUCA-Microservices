@@ -2,8 +2,8 @@
 {
     public class GetAwardTypeModel
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public bool EstimatedPrice { get; set; }
+        public long Id { get; init; }
+        public string Name { get; init; }
+        public bool EstimatedPrice { get; init; }
     }
 }

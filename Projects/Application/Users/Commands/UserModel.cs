@@ -4,7 +4,7 @@ namespace NUCA.Projects.Application.Users.Commands
 {
     public class UserModel
     {
-        public string Name { get; set; }
-        public List<int> DepartmentsIds { get; set; }
+        public string Name { get; init; }
+        public List<int> DepartmentsIds { get; init; }
     }
 }

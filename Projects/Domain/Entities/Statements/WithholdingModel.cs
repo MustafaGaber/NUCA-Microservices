@@ -4,10 +4,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
 {
     public class WithholdingModel
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public double Value { get; set; }
-        public WithholdingType Type { get; set; }
+        public required long Id { get; init; }
+        public required string Name { get; init; }
+        public required double Value { get; init; }
+        public required WithholdingType Type { get; init; }
 
     }
 }

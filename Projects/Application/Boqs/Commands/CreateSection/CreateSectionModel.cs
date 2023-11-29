@@ -2,7 +2,7 @@
 {
     public class CreateSectionModel
     {
-        public string SectionName { get; set; }
-        public int DepartmentId { get; set; }
+        public string SectionName { get; init; }
+        public int DepartmentId { get; init; }
     }
 }

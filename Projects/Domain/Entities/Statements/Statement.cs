@@ -6,14 +6,18 @@ namespace NUCA.Projects.Domain.Entities.Statements
 {
     public class Statement : AggregateRoot<long>
     {
-        public long ProjectId { get; private set; }
-        public int Index { get; private set; }
+        private readonly List<ExternalSuppliesItem> _externalSuppliesItems = new List<ExternalSuppliesItem>();
+        public virtual IReadOnlyList<ExternalSuppliesItem> ExternalSuppliesItems => _externalSuppliesItems.ToList();
 
         private readonly List<StatementTable> _tables = new List<StatementTable>();
+
+        //private readonly List<ExternalSuppliesTable> _externalSuppliesTables = new List<ExternalSuppliesTable>();
         public IReadOnlyList<StatementTable> Tables => _tables.ToList();
         public IReadOnlyList<StatementTable> WorksTables => _tables.Where(t => t.Type == StatementTableType.Works).ToList();
         public IReadOnlyList<StatementTable> SuppliesTables => _tables.Where(t => t.Type == StatementTableType.Supplies).ToList();
-        public IReadOnlyList<StatementTable> ExternalSuppliesTables => _tables.Where(t => t.Type == StatementTableType.ExternalSupplies).ToList();
+        //public IReadOnlyList<ExternalSuppliesTable> ExternalSuppliesTables => _externalSuppliesTables.ToList();
+        public long ProjectId { get; private set; }
+        public int Index { get; private set; }
         public double PriceChangePercent { get; private set; }
         public DateOnly WorksDate { get; private set; }
         public DateOnly SubmissionDate { get; private set; }
@@ -30,7 +34,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         protected Statement()
         {
             double totalWorks = WorksTables.Sum(t => t.Total) * (100 + PriceChangePercent) / 100;
-            double totalSupplies = SuppliesTables.Sum(t => t.Total) + ExternalSuppliesTables.Sum(t => t.Total);
+            double totalSupplies = SuppliesTables.Sum(t => t.Total) + ExternalSuppliesItems.Sum(t => t.NetPrice);
             if (Math.Abs(totalWorks - TotalWorks) > 0.001)
             {
                 throw new InvalidOperationException();
@@ -67,8 +71,16 @@ namespace NUCA.Projects.Domain.Entities.Statements
             Final = final;
             PriceChangePercent = boq.PriceChangePercent;
             Index = previousStatement.Index + 1;
-            _tables = boq.Tables.Select(table => new StatementTable(table, previousStatement.WorksTables.First(t => t.BoqTableId == table.Id), StatementTableType.Works, table.Type)).ToList();
-            _tables.AddRange(boq.Tables.Select(table => new StatementTable(table, previousStatement.SuppliesTables.First(t => t.BoqTableId == table.Id), StatementTableType.Supplies, table.Type)));
+            _tables = boq.Tables.Select(table =>
+            {
+                var previousTable = previousStatement.WorksTables.FirstOrDefault(t => t.BoqTableId == table.Id);
+                return previousTable == null ? new StatementTable(table, StatementTableType.Works, table.Type) : new StatementTable(table, previousTable, StatementTableType.Works, table.Type);
+            }).ToList();
+            _tables.AddRange(boq.Tables.Select(table =>
+            {
+                var previousTable = previousStatement.SuppliesTables.FirstOrDefault(t => t.BoqTableId == table.Id);
+                return previousTable == null ? new StatementTable(table, StatementTableType.Supplies, table.Type) : new StatementTable(table, previousTable, StatementTableType.Supplies, table.Type);
+            }));
             UpdateTotals();
         }
         public void Update(UpdateStatementModel model, long userId)
@@ -79,13 +91,14 @@ namespace NUCA.Projects.Domain.Entities.Statements
                 table.UpdateItem(item, userId);
             });
             UpdateWithholdings(model.Withholdings);
+            UpdateExternalSuppliesItems(model.ExternalSuppliesItems, userId);
             UpdateTotals();
         }
 
         private void UpdateTotals()
         {
             TotalWorks = WorksTables.Sum(t => t.Total) * (100 + PriceChangePercent) / 100;
-            TotalSupplies = SuppliesTables.Sum(t => t.Total) + ExternalSuppliesTables.Sum(t => t.Total);
+            TotalSupplies = SuppliesTables.Sum(t => t.Total) + ExternalSuppliesItems.Sum(t => t.NetPrice);
         }
 
         private void UpdateWithholdings(List<WithholdingModel> withholdings)
@@ -106,15 +119,48 @@ namespace NUCA.Projects.Domain.Entities.Statements
             _withholdings.AddRange(withholdings.Where(w => w.Id == 0).Select(w => new StatementWithholding(w.Name, w.Value, w.Type)));
         }
 
-        /*public void AddWithholding(FromStatement withholding)
+        private void UpdateExternalSuppliesItems(List<ExternalItemModel> items, long userId)
         {
             if (State > StatementState.TechnicalOfficeState)
             {
                 throw new InvalidOperationException();
             }
-            _withholdings.Add(withholding);
+            _externalSuppliesItems.RemoveAll(item => !items.Any(i => i.Id == item.Id));
+            items.ForEach(i =>
+            {
+                ExternalSuppliesItem? item = _externalSuppliesItems.Find(_i => _i.Id == i.Id);
+                if (item != null)
+                {
+                    item.Update(i.TotalQuantity, i.Percentage, userId);
+                }
+            });
+            _externalSuppliesItems.AddRange(
+                items.Where(i => i.Id == 0)
+                .Where(i => SuppliesTables.Any(t => t.BoqTableId == i.StatementTableId))
+                .Select(i => new ExternalSuppliesItem(
+                    departmentId: i.DepartmentId,
+                    statementTableId: i.StatementTableId,
+                    index: i.Index,
+                    content: i.Content,
+                    unit: i.Unit,
+                    unitPrice: i.UnitPrice,
+                    previousQuantity: i.PreviousQuantity,
+                    totalQuantity: i.TotalQuantity,
+                    percentage: i.Percentage,
+                    userId: userId
+                 )
+            ));
         }
-        public void UpdateWithholding(long withholdingId, FromStatement withholding)
+
+        /*public void AddWithholding(FromStatement item)
+        {
+            if (State > StatementState.TechnicalOfficeState)
+            {
+                throw new InvalidOperationException();
+            }
+            _withholdings.Add(item);
+        }
+        public void UpdateWithholding(long withholdingId, FromStatement item)
         {
             if (State > StatementState.TechnicalOfficeState)
             {
@@ -123,7 +169,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             FromStatement? oldWithholding = _withholdings.Find(d => d.Id == withholdingId);
             if (oldWithholding != null)
             {
-                oldWithholding.Update(withholding.Name, withholding.Value, withholding.Type);
+                oldWithholding.Update(item.Name, item.Value, item.Type);
             }
         }
 
@@ -133,10 +179,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
             {
                 throw new InvalidOperationException();
             }
-            FromStatement? withholding = _withholdings.Find(d => d.Id == id);
-            if (withholding != null)
+            FromStatement? item = _withholdings.Find(d => d.Id == id);
+            if (item != null)
             {
-                _withholdings.Remove(withholding);
+                _withholdings.Remove(item);
             }
         }*/
 

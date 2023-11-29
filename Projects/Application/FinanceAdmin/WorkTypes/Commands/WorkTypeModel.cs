@@ -2,7 +2,7 @@
 {
     public class WorkTypeModel
     {
-        public string Name { get; set; }
-        public double ValueAddedTaxPercent { get; set; }
+        public string Name { get; init; }
+        public double ValueAddedTaxPercent { get; init; }
     }
 }

@@ -2,15 +2,15 @@
 {
     public class GetUserModel
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public List<DepartmentModel> Departments { get; set; }
+        public long Id { get; init; }
+        public string Name { get; init; }
+        public List<DepartmentModel> Departments { get; init; }
     }
 
     public class DepartmentModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int Id { get; init; }
+        public string Name { get; init; }
 
     }
 }

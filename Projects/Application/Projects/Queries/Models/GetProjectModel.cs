@@ -5,33 +5,33 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
 {
     public class GetProjectModel
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public int DepartmentId { get; set; }
-        public string DepartmentName { get; set; }
-        public int TypeId { get; set; }
-        public string TypeName { get; set; }
-        public ProjectStatus Status { get; set; }
-        public int? AwardTypeId { get; set; }
-        public string? AwardTypeName { get; set; }
-        public int? OrderNumber { get; set; }
-        public DateOnly? OrderDate { get; set; }
-        public Duration? Duration { get; set; }
-        public double? Price { get; set; }
-        public long? CompanyId { get; set; }
-        public string CompanyName { get; set; }
-        public double? AdvancedPaymentPercentage { get; set; }
-        public double? TotalContractPapers { get; set; }
-        public bool? ValueAddedTaxIncluded { get; set; }
-        public DateOnly? HandoverDate { get; set; }
-        public DateOnly? StartDate { get; set; }
-        public DateOnly? EndDate { get; set; }
-        public List<DateOnly> ModifiedEndDates { get; set; }
-        public DateOnly? InitialDeliveryDate { get; set; }
-        public DateOnly? InitialDeliverySigningDate { get; set; }
-        public DateOnly? FinalDeliveryDate { get; set; }
-        public string Notes { get; set; }
-        public bool HasBoq { get; set; }
+        public long Id { get; init; }
+        public string Name { get; init; }
+        public int DepartmentId { get; init; }
+        public string DepartmentName { get; init; }
+        public int TypeId { get; init; }
+        public string TypeName { get; init; }
+        public ProjectStatus Status { get; init; }
+        public int? AwardTypeId { get; init; }
+        public string? AwardTypeName { get; init; }
+        public int? OrderNumber { get; init; }
+        public DateOnly? OrderDate { get; init; }
+        public Duration? Duration { get; init; }
+        public double? Price { get; init; }
+        public long? CompanyId { get; init; }
+        public string CompanyName { get; init; }
+        public double? AdvancedPaymentPercentage { get; init; }
+        public double? TotalContractPapers { get; init; }
+        public bool? ValueAddedTaxIncluded { get; init; }
+        public DateOnly? HandoverDate { get; init; }
+        public DateOnly? StartDate { get; init; }
+        public DateOnly? EndDate { get; init; }
+        public List<DateOnly> ModifiedEndDates { get; init; }
+        public DateOnly? InitialDeliveryDate { get; init; }
+        public DateOnly? InitialDeliverySigningDate { get; init; }
+        public DateOnly? FinalDeliveryDate { get; init; }
+        public string Notes { get; init; }
+        public bool HasBoq { get; init; }
 
 
         public static GetProjectModel FromProject(Project project, bool hasBoq)

@@ -20,14 +20,13 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public double Percentage { get; private set; }
         //public virtual IReadOnlyList<StatementItemPercentage> Percentages => _percentages.ToList();
         public double NetPrice => GrossPrice * Percentage / 100.0;
-
-        public string? Notes { get; private set; }
+        public bool HasQuantities => !(PreviousQuantity == 0 && TotalQuantity == 0);
         public long? UserId { get; private set; }
         protected StatementItem() {
             ValidatePercentages();
         }
         public StatementItem(long boqItemId, string index, string content, string unit, double quantity, double unitPrice, double previousQuantity, double totalQuantity,
-            /*List<StatementItemPercentage> percentages,*/ double percentage, string? notes, long? userId)
+            /*List<StatementItemPercentage> percentages,*/ double percentage, long? userId)
         {
             BoqItemId = Guard.Against.NegativeOrZero(boqItemId);
             Index = Guard.Against.NullOrEmpty(index, nameof(index));
@@ -38,17 +37,14 @@ namespace NUCA.Projects.Domain.Entities.Statements
             PreviousQuantity = Guard.Against.Negative(previousQuantity, nameof(previousQuantity));
             TotalQuantity = totalQuantity;
             Percentage = Guard.Against.OutOfRange(percentage, nameof(percentage), 0, 100);
-            //_percentages = percentages;
-            Notes = notes;
             UserId = userId;
             ValidatePercentages();
         }
         public void Update(UpdateStatementItemModel updates, long userId)
         {
-            TotalQuantity = updates.TotalQuantity;
+            TotalQuantity = Guard.Against.Negative(updates.TotalQuantity);
             Percentage = Guard.Against.OutOfRange(updates.Percentage, nameof(updates.Percentage), 0, 100);
             //_percentages = updates.Percentages;
-            Notes = updates.Notes;
             UserId = userId;
             ValidatePercentages();
         }
@@ -60,19 +56,6 @@ namespace NUCA.Projects.Domain.Entities.Statements
                  throw new ArgumentException("Not valid percentages");
              }*/
         }
-        /* public void UpdateCurrentQuantity(double quantity, string userId) {
-             TotalQuantity = quantity;
-             UserId = userId;
-         }
-         public void UpdatePercentages(List<StatementItemPercentage> percentages, string userId)
-         {
-             _percentages = percentages;
-             UserId = userId;
-         }
-         public void UpdateNotes(string notes, string userId)
-         {
-             Notes = notes;
-             UserId = userId;
-         }*/
+      
     }
 }

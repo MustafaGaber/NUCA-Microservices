@@ -4,11 +4,11 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjectsWithStatements
 {
     public class ProjectWithStatements
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public ProjectStatus Status { get; set; }
-        public string? CompanyName { get; set; }
-        public int StatementsCount { get; set; }
-        public bool HasInProgressStatement { get; set; }
+        public long Id { get; init; }
+        public string Name { get; init; }
+        public ProjectStatus Status { get; init; }
+        public string? CompanyName { get; init; }
+        public int StatementsCount { get; init; }
+        public bool HasInProgressStatement { get; init; }
     }
 }

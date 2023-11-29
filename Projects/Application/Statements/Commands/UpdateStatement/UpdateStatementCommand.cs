@@ -11,7 +11,7 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
         {
             _statementRepository = statementRepository;
         }
-        public async Task<StatementModel> Execute(long id, UpdateStatementModel model, long userId, bool submit)
+        public async Task<Statement> Execute(long id, UpdateStatementModel model, long userId)
         {
             Statement? statement = await _statementRepository.Get(id);
             if (statement == null)
@@ -19,12 +19,12 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
                 throw new InvalidOperationException();
             }
             statement.Update(model, 1L);
-            if (submit)
+            if (model.Submit)
             {
                 statement.Submit();
             }
             await _statementRepository.Update(statement);
-            return new StatementModel(statement);
+            return statement;
         }
     }
 }
