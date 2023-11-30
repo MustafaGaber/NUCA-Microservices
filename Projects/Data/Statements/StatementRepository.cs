@@ -20,6 +20,7 @@ namespace NUCA.Projects.Data.Statements
                 .ThenInclude(s => s.Items)
                 //.ThenInclude(i => i.Percentages)
                 .Include(s => s.Withholdings)
+                .Include(s => s.ExternalSuppliesItems)
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(s => s.Id == id);
         }

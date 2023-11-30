@@ -6,7 +6,7 @@
 @model Statement
 @{
     var worksTables = Model.WorksTables.Where(t => t.HasQuantities);
-    var suppliesTables = Model.SuppliesTables.Where(t => t.HasQuantities);
+    var suppliesTables = Model.SuppliesTables.Where(t => t.HasQuantities || Model.ExternalSuppliesItems.Any(i => i.StatementTableId == t.Id));
     <html>
     <head>
         <meta name="viewport" content="width=device-width" />
@@ -54,7 +54,7 @@
                             </td>
                         </tr>
                         @await Html.PartialAsync("TableHeader")
-                        @await Html.PartialAsync("StatementTable", table)
+                        @await Html.PartialAsync("StatementTable", new PrintTableModel() {Table = table, ExternalSuppliesItems = new List<ExternalSuppliesItem>() {}})
                         @if (table == worksTables.Last())
                         {
                             <tr class="bg-grey">
@@ -97,17 +97,9 @@
                             </td>
                         </tr>
                         @await Html.PartialAsync("TableHeader")
-                        @await Html.PartialAsync("StatementTable", table)
+                        @await Html.PartialAsync("StatementTable", new PrintTableModel() {Table = table, ExternalSuppliesItems = Model.ExternalSuppliesItems.Where(t => t.StatementTableId == table.Id).ToList()})
                         @if (table == suppliesTables.Last())
                         {
-                            @if (Model.ExternalSuppliesItems.Count == 0)
-                            {
-
-                            }
-                            else
-                            {
-
-                            }
                             <tr class="bg-grey">
                                 <td colspan="11" class="py">
                                     إجمالي التشوينات

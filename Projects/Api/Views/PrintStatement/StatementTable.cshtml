@@ -3,11 +3,11 @@
 @using NUCA.Projects.Domain.Entities.Statements;
 @using NUCA.Projects.Shared.Util;
 
-@model StatementTable
+@model PrintTableModel
 @{
-    @foreach (var statementSection in Model.Sections.Where(s => s.HasQuantities))
+    @foreach (var statementSection in Model.Table.Sections.Where(s => s.HasQuantities))
     {
-        @if (!statementSection.Name.Equals(Model.Name) || Model.Sections.First() != statementSection)
+        @if (!statementSection.Name.Equals(Model.Table.Name) || Model.Table.Sections.First() != statementSection)
         {
             <tr>
                 <td colspan="12" class="py">
@@ -19,23 +19,83 @@
     }
     <tr class="bg-grey">
         <td colspan="11" class="py">
-            إجمالي @Model.Name.UseArabicDigits()
+            إجمالي @Model.Table.Name.UseArabicDigits()
         </td>
         <td class="text-center">
-            @Model.TotalBeforePriceChange.Round().UseArabicDigits()
+            @Model.Table.TotalBeforePriceChange.Round().UseArabicDigits()
         </td>
     </tr>
-    @if (Model.PriceChangePercent != 0 && Model.Type == StatementTableType.Works) // Or Supplies ?
+    @if (Model.ExternalSuppliesItems.Count > 0 && Model.Table.Type == StatementTableType.Supplies)
+    {
+        @foreach (var item in Model.ExternalSuppliesItems.Where(i => i.HasQuantities))
+        {
+            <tr>
+                <td class=" text-center">
+                    <div class="text-center">@item.Index.UseArabicDigits()</div>
+                </td>
+                <td>@item.Content.UseArabicDigits()</td>
+                <td>
+                    <div class="text-center">@item.Unit.UseArabicDigits()</div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @item.UnitPrice.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @item.PreviousQuantity.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td class="fst-italic  py-0">
+                    <div class="text-center">
+                        @item.CurrentQuantity.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td class="fst-italic  py-0">
+                    <div class="text-center">
+                        @item.TotalQuantity.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @item.GrossPrice.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td class="fst-italic  py-0">
+                    <div class="text-center">
+                        @item.Percentage.Round().UseArabicDigits() %
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @item.NetPrice.Round().UseArabicDigits()
+                    </div>
+                </td>
+            </tr>
+        }
+    }
+    @if (Model.Table.PriceChangePercent != 0 && Model.Table.Type == StatementTableType.Works) // Or Supplies ?
     {
         <tr class="bg-grey">
             <td colspan="11" class="py">
-                إجمالي @Model.Name.UseArabicDigits() بعد
-                <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
-                <span>@Math.Abs(Model.PriceChangePercent).Round().UseArabicDigits()</span>
+                إجمالي @Model.Table.Name.UseArabicDigits() بعد
+                <span>@(Model.Table.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
+                <span>@Math.Abs(Model.Table.PriceChangePercent).Round().UseArabicDigits()</span>
                 %
             </td>
             <td class="text-center">
-                @Model.Total.Round().UseArabicDigits()
+                @Model.Table.Total.Round().UseArabicDigits()
             </td>
         </tr>
     }

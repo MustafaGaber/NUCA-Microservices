@@ -18,6 +18,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public double Percentage { get; private set; }
         public double NetPrice => GrossPrice * Percentage / 100.0;
         public long? UserId { get; private set; }
+        public bool HasQuantities => !(PreviousQuantity == 0 && TotalQuantity == 0);
         protected ExternalSuppliesItem() { }
         public ExternalSuppliesItem(int departmentId, long statementTableId, string index, string content, string unit, double unitPrice,
             double previousQuantity, double totalQuantity, double percentage, long? userId)

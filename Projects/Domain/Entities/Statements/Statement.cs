@@ -85,6 +85,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
         }
         public void Update(UpdateStatementModel model, long userId)
         {
+            if (State > StatementState.TechnicalOfficeState)
+            {
+                throw new InvalidOperationException();
+            }
             model.Items.ForEach(item =>
             {
                 StatementTable table = _tables.First(table => table.Id == item.TableId);
@@ -103,10 +107,6 @@ namespace NUCA.Projects.Domain.Entities.Statements
 
         private void UpdateWithholdings(List<WithholdingModel> withholdings)
         {
-            if (State > StatementState.TechnicalOfficeState)
-            {
-                throw new InvalidOperationException();
-            }
             _withholdings.RemoveAll(withholding => !withholdings.Any(w => w.Id == withholding.Id));
             withholdings.ForEach(w =>
             {
@@ -121,10 +121,6 @@ namespace NUCA.Projects.Domain.Entities.Statements
 
         private void UpdateExternalSuppliesItems(List<ExternalItemModel> items, long userId)
         {
-            if (State > StatementState.TechnicalOfficeState)
-            {
-                throw new InvalidOperationException();
-            }
             _externalSuppliesItems.RemoveAll(item => !items.Any(i => i.Id == item.Id));
             items.ForEach(i =>
             {
@@ -136,7 +132,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             });
             _externalSuppliesItems.AddRange(
                 items.Where(i => i.Id == 0)
-                .Where(i => SuppliesTables.Any(t => t.BoqTableId == i.StatementTableId))
+                .Where(i => SuppliesTables.Any(t => t.Id == i.StatementTableId))
                 .Select(i => new ExternalSuppliesItem(
                     departmentId: i.DepartmentId,
                     statementTableId: i.StatementTableId,

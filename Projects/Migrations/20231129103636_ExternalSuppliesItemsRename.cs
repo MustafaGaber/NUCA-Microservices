@@ -20,6 +20,7 @@ namespace NUCA.Projects.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
           
+
         }
     }
 }
