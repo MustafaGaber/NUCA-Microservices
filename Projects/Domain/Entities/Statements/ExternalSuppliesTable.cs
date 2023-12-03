@@ -1,4 +1,4 @@
-﻿using Ardalis.GuardClauses;
+﻿/*using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.Statements
@@ -15,6 +15,11 @@ namespace NUCA.Projects.Domain.Entities.Statements
         {
             DepartmentId = Guard.Against.NegativeOrZero(departmentId);
         }
+        public ExternalSuppliesTable(ExternalSuppliesTable previousTable)
+        {
+            DepartmentId = Guard.Against.NegativeOrZero(previousTable.DepartmentId);
+            _items = previousTable._items.Select(i => new ExternalSuppliesItem());
+        }
         public void UpdateItems(List<ExternalSuppliesItem> items, long userId)
         {
             _items.RemoveAll(item => item.PreviousQuantity == 0 && !items.Any(i => i.Id == item.Id));
@@ -28,12 +33,13 @@ namespace NUCA.Projects.Domain.Entities.Statements
             });
             _items.AddRange(items.Where(i => i.Id == 0));
         }
-        /*public void UpdateItem(UpdateStatementItemModel model, long userId)
+        public void UpdateItem(UpdateStatementItemModel model, long userId)
         {
             ExternalSuppliesItem item = _externalItems.First(i => i.Id == model.ItemId);
             item.Update(model, userId);
-        }*/
+        }
 
 
     }
 }
+*/

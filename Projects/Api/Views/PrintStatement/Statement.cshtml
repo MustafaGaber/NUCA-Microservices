@@ -6,7 +6,7 @@
 @model Statement
 @{
     var worksTables = Model.WorksTables.Where(t => t.HasQuantities);
-    var suppliesTables = Model.SuppliesTables.Where(t => t.HasQuantities || Model.ExternalSuppliesItems.Any(i => i.StatementTableId == t.Id));
+    var suppliesTables = Model.SuppliesTables.Where(t => t.HasQuantities);
     <html>
     <head>
         <meta name="viewport" content="width=device-width" />
@@ -54,7 +54,7 @@
                             </td>
                         </tr>
                         @await Html.PartialAsync("TableHeader")
-                        @await Html.PartialAsync("StatementTable", new PrintTableModel() {Table = table, ExternalSuppliesItems = new List<ExternalSuppliesItem>() {}})
+                        @await Html.PartialAsync("WorksTable", table)
                         @if (table == worksTables.Last())
                         {
                             <tr class="bg-grey">
@@ -97,7 +97,7 @@
                             </td>
                         </tr>
                         @await Html.PartialAsync("TableHeader")
-                        @await Html.PartialAsync("StatementTable", new PrintTableModel() {Table = table, ExternalSuppliesItems = Model.ExternalSuppliesItems.Where(t => t.StatementTableId == table.Id).ToList()})
+                        @await Html.PartialAsync("SuppliesTable", table)
                         @if (table == suppliesTables.Last())
                         {
                             <tr class="bg-grey">

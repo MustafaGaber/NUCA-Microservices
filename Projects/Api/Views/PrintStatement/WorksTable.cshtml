@@ -1,0 +1,43 @@
+﻿@using NUCA.Projects.Application.Statements.Models;
+@using System.Globalization;
+@using NUCA.Projects.Domain.Entities.Statements;
+@using NUCA.Projects.Shared.Util;
+
+@model WorksTable
+@{
+    @foreach (var statementSection in Model.Sections.Where(s => s.HasQuantities))
+    {
+        @if (!statementSection.Name.Equals(Model.Name) || Model.Sections.First() != statementSection)
+        {
+            <tr>
+                <td colspan="12" class="py">
+                    @statementSection.Name.UseArabicDigits()
+                </td>
+            </tr>
+        }
+        @await Html.PartialAsync("StatementSection", statementSection)
+    }
+    <tr class="bg-grey">
+        <td colspan="11" class="py">
+            إجمالي @Model.Name.UseArabicDigits()
+        </td>
+        <td class="text-center">
+            @Model.TotalBeforePriceChange.Round().UseArabicDigits()
+        </td>
+    </tr>
+    
+    @if (Model.PriceChangePercent != 0) // Or Supplies ?
+    {
+        <tr class="bg-grey">
+            <td colspan="11" class="py">
+                إجمالي @Model.Name.UseArabicDigits() بعد
+                <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
+                <span>@Math.Abs(Model.PriceChangePercent).Round().UseArabicDigits()</span>
+                %
+            </td>
+            <td class="text-center">
+                @Model.Total.Round().UseArabicDigits()
+            </td>
+        </tr>
+    }
+}

@@ -8,10 +8,10 @@ using NUCA.Projects.Data;
 
 #nullable disable
 
-namespace NUCA.Projects.Migrations
+namespace NUCA.Projects.Data.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    [Migration("20231109083139_Init")]
+    [Migration("20231203112302_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -99,6 +99,9 @@ namespace NUCA.Projects.Migrations
 
                     b.Property<bool>("Submitted")
                         .HasColumnType("INTEGER");
+
+                    b.Property<double>("TahyaMisrFundValue")
+                        .HasColumnType("REAL");
 
                     b.Property<double>("Total")
                         .HasColumnType("REAL");
@@ -205,7 +208,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("BoqQuantity")
+                    b.Property<double>("Quantity")
                         .HasColumnType("REAL");
 
                     b.Property<string>("Unit")
@@ -228,7 +231,7 @@ namespace NUCA.Projects.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("StatementTableId")
+                    b.Property<long?>("BoqTableId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
@@ -246,7 +249,7 @@ namespace NUCA.Projects.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatementTableId");
+                    b.HasIndex("BoqTableId");
 
                     b.HasIndex("DepartmentId");
 
@@ -294,16 +297,40 @@ namespace NUCA.Projects.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("CommercialIndustrialTaxFree")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("CommercialRegister")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ElectronicInvoice")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Fax")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TaxCard")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -379,6 +406,30 @@ namespace NUCA.Projects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WorkTypes");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Ledgers.Ledger", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ledgers");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Project", b =>
@@ -465,6 +516,58 @@ namespace NUCA.Projects.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.ExternalSuppliesItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Index")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Percentage")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("PreviousQuantity")
+                        .HasColumnType("REAL");
+
+                    b.Property<long?>("StatementId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("SuppliesTableId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("TotalQuantity")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatementId");
+
+                    b.ToTable("ExternalSuppliesItem");
+                });
+
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.Statement", b =>
                 {
                     b.Property<long>("Id")
@@ -520,6 +623,9 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("BoqItemId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("BoqQuantity")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -534,16 +640,10 @@ namespace NUCA.Projects.Migrations
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("TEXT");
-
                     b.Property<double>("Percentage")
                         .HasColumnType("REAL");
 
                     b.Property<double>("PreviousQuantity")
-                        .HasColumnType("REAL");
-
-                    b.Property<double>("BoqQuantity")
                         .HasColumnType("REAL");
 
                     b.Property<long?>("StatementSectionId")
@@ -558,9 +658,6 @@ namespace NUCA.Projects.Migrations
 
                     b.Property<double>("UnitPrice")
                         .HasColumnType("REAL");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -580,6 +677,9 @@ namespace NUCA.Projects.Migrations
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
+
+                    b.Property<long>("DepartmentId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("TEXT");
@@ -604,7 +704,7 @@ namespace NUCA.Projects.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("StatementTableId")
+                    b.Property<long>("BoqTableId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("BoqTableType")
@@ -739,7 +839,7 @@ namespace NUCA.Projects.Migrations
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.BoqItem", b =>
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Boqs.BoqSection", null)
-                        .WithMany("ExternalSuppliesTables")
+                        .WithMany("Items")
                         .HasForeignKey("BoqSectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -748,7 +848,7 @@ namespace NUCA.Projects.Migrations
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Boqs.BoqTable", null)
                         .WithMany("Sections")
-                        .HasForeignKey("StatementTableId")
+                        .HasForeignKey("BoqTableId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("NUCA.Projects.Domain.Entities.Departments.Department", "Department")
@@ -849,6 +949,14 @@ namespace NUCA.Projects.Migrations
                     b.Navigation("Type");
                 });
 
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.ExternalSuppliesItem", b =>
+                {
+                    b.HasOne("NUCA.Projects.Domain.Entities.Statements.Statement", null)
+                        .WithMany("ExternalSuppliesItems")
+                        .HasForeignKey("StatementId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.Statement", b =>
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Projects.Project", null)
@@ -861,7 +969,7 @@ namespace NUCA.Projects.Migrations
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.StatementItem", b =>
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Statements.StatementSection", null)
-                        .WithMany("ExternalSuppliesTables")
+                        .WithMany("Items")
                         .HasForeignKey("StatementSectionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -887,7 +995,8 @@ namespace NUCA.Projects.Migrations
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Statements.Statement", null)
                         .WithMany("Withholdings")
-                        .HasForeignKey("StatementId");
+                        .HasForeignKey("StatementId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.Adjustment", b =>
@@ -902,7 +1011,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.BoqSection", b =>
                 {
-                    b.Navigation("ExternalSuppliesTables");
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.BoqTable", b =>
@@ -917,6 +1026,8 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.Statement", b =>
                 {
+                    b.Navigation("ExternalSuppliesItems");
+
                     b.Navigation("Tables");
 
                     b.Navigation("Withholdings");
@@ -924,7 +1035,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.StatementSection", b =>
                 {
-                    b.Navigation("ExternalSuppliesTables");
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.StatementTable", b =>

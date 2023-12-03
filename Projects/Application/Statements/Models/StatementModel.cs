@@ -1,10 +1,10 @@
-﻿using NUCA.Projects.Domain.Common;
-using NUCA.Projects.Domain.Entities.Shared;
+﻿using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
+
 
 namespace NUCA.Projects.Application.Statements.Models
 {
-    public class StatementModel
+   /* public class StatementModel
     {
         public int Index { get; init; }
         public List<Table> Tables { get; init; }
@@ -65,7 +65,7 @@ namespace NUCA.Projects.Application.Statements.Models
             }).ToList();
         }
 
-    }
+    }*/
 
     public class Table
     {

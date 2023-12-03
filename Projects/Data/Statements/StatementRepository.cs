@@ -14,26 +14,12 @@ namespace NUCA.Projects.Data.Statements
 
         public override Task<Statement?> Get(long id)
         {
-            return database.Statements
-                .Include(s => s.Tables)
-                .ThenInclude(t => t.Sections)
-                .ThenInclude(s => s.Items)
-                //.ThenInclude(i => i.Percentages)
-                .Include(s => s.Withholdings)
-                .Include(s => s.ExternalSuppliesItems)
-                .AsSplitQuery()
-                .FirstOrDefaultAsync(s => s.Id == id);
+            return StatementQuery.FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public Task<Statement?> GetLastStatement(long projectId)
         {
-            return database.Statements
-                .Include(s => s.Tables)
-                .ThenInclude(t => t.Sections)
-                .ThenInclude(s => s.Items)
-                 //.ThenInclude(i => i.Percentages)
-                .Include(s => s.Withholdings)
-                .AsSplitQuery()
+            return StatementQuery
                 .OrderBy(s => s.Id)
                 .LastOrDefaultAsync(s => s.ProjectId == projectId);
         }
@@ -79,15 +65,18 @@ namespace NUCA.Projects.Data.Statements
 
         public Task<Statement?> GetStatementWithIndex(long projectId, int index)
         {
-            return database.Statements
-             .Include(s => s.Tables)
-             .ThenInclude(t => t.Sections)
-             .ThenInclude(s => s.Items)
-              //.ThenInclude(i => i.Percentages)
-             .Include(s => s.Withholdings)
-             .AsSplitQuery()
+            return StatementQuery
              .FirstOrDefaultAsync(s => s.ProjectId == projectId && s.Index == index);
 
         }
+
+        private IQueryable<Statement> StatementQuery => database.Statements.Include(s => s.Withholdings)
+                .Include(s => s.Tables)
+                .ThenInclude(t => t.Sections)
+                .ThenInclude(s => s.Items)
+                //.ThenInclude(i => i.Percentages)
+                .Include(s => s.Withholdings)
+                .Include(s => s.ExternalSuppliesItems)
+                .AsSplitQuery();
     }
 }

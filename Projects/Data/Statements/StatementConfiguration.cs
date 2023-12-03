@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Statements;
+using System.Reflection.Metadata;
 
 namespace NUCA.Projects.Data.Statements
 {
@@ -9,41 +10,66 @@ namespace NUCA.Projects.Data.Statements
     {
         public void Configure(EntityTypeBuilder<Statement> builder)
         {
+            builder
+                .Ignore(s => s.WorksTables)
+                .Ignore(s => s.SuppliesTables);
             builder.HasMany(s => s.Tables)
                 .WithOne()
                 .HasForeignKey(t => t.StatementId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(s => s.ExternalSuppliesItems)
-               .WithOne()
-               .OnDelete(DeleteBehavior.Cascade);
+             builder.HasMany(s => s.ExternalSuppliesItems)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(s => s.Withholdings)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Ignore(s => s.WorksTables)
-                   .Ignore(s => s.SuppliesTables);
         }
     }
     public class StatementTableConfiguration : IEntityTypeConfiguration<StatementTable>
     {
         public void Configure(EntityTypeBuilder<StatementTable> builder)
         {
+           /* builder.HasDiscriminator(t => t.Type)
+                .HasValue<WorksTable>(StatementTableType.Works)
+                .HasValue<SuppliesTable>(StatementTableType.Supplies);*/
+
+            builder.HasMany(t => t.Sections)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+            /* builder.HasMany(t => t.ExternalSuppliesItems)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);*/
+        }
+    }
+    /*public class WorksTableConfiguration : IEntityTypeConfiguration<WorksTable>
+    {
+        public void Configure(EntityTypeBuilder<WorksTable> builder)
+        {
+            builder.HasBaseType(typeof(StatementTable));
+
             builder.HasMany(t => t.Sections)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
-    public class ExternalSuppliesTableConfiguration : IEntityTypeConfiguration<ExternalSuppliesTable>
+    public class SuppliesTableConfiguration : IEntityTypeConfiguration<SuppliesTable>
     {
-        public void Configure(EntityTypeBuilder<ExternalSuppliesTable> builder)
+        public void Configure(EntityTypeBuilder<SuppliesTable> builder)
         {
-            builder.HasMany(t => t.Items)
+            builder.HasBaseType(typeof(StatementTable));
+
+            builder.HasMany(t => t.Sections)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(t => t.ExternalSuppliesItems)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
         }
-    }
+    }*/
 
     public class StatementSectionConfiguration : IEntityTypeConfiguration<StatementSection>
     {

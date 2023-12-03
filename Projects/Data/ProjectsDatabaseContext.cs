@@ -44,15 +44,18 @@ namespace NUCA.Projects.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Ignore<WorksTable>();
+            modelBuilder.Ignore<SuppliesTable>();
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
             modelBuilder.ApplyConfiguration(new BoqConfiguration());
             modelBuilder.ApplyConfiguration(new TableConfiguration());
             modelBuilder.ApplyConfiguration(new SectionConfiguration());
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
-            modelBuilder.ApplyConfiguration(new StatementConfiguration());
-            modelBuilder.ApplyConfiguration(new ExternalSuppliesTableConfiguration());
             modelBuilder.ApplyConfiguration(new StatementTableConfiguration());
+            modelBuilder.ApplyConfiguration(new StatementConfiguration());
+           // modelBuilder.ApplyConfiguration(new WorksTableConfiguration());
+            //modelBuilder.ApplyConfiguration(new SuppliesTableConfiguration());
             modelBuilder.ApplyConfiguration(new StatementSectionConfiguration());
             modelBuilder.ApplyConfiguration(new StatementItemConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());

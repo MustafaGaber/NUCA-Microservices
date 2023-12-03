@@ -21,12 +21,11 @@ namespace NUCA.Projects.Domain.Entities.Statements
         //public virtual IReadOnlyList<StatementItemPercentage> Percentages => _percentages.ToList();
         public double NetPrice => GrossPrice * Percentage / 100.0;
         public bool HasQuantities => !(PreviousQuantity == 0 && TotalQuantity == 0);
-        public long? UserId { get; private set; }
         protected StatementItem() {
             ValidatePercentages();
         }
         public StatementItem(long boqItemId, string index, string content, string unit, double quantity, double unitPrice, double previousQuantity, double totalQuantity,
-            /*List<StatementItemPercentage> percentages,*/ double percentage, long? userId)
+            /*List<StatementItemPercentage> percentages,*/ double percentage)
         {
             BoqItemId = Guard.Against.NegativeOrZero(boqItemId);
             Index = Guard.Against.NullOrEmpty(index, nameof(index));
@@ -37,7 +36,6 @@ namespace NUCA.Projects.Domain.Entities.Statements
             PreviousQuantity = Guard.Against.Negative(previousQuantity, nameof(previousQuantity));
             TotalQuantity = totalQuantity;
             Percentage = Guard.Against.OutOfRange(percentage, nameof(percentage), 0, 100);
-            UserId = userId;
             ValidatePercentages();
         }
         public void Update(UpdateStatementItemModel updates, long userId)
@@ -45,7 +43,6 @@ namespace NUCA.Projects.Domain.Entities.Statements
             TotalQuantity = Guard.Against.Negative(updates.TotalQuantity);
             Percentage = Guard.Against.OutOfRange(updates.Percentage, nameof(updates.Percentage), 0, 100);
             //_percentages = updates.Percentages;
-            UserId = userId;
             ValidatePercentages();
         }
 

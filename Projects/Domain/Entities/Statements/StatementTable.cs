@@ -8,7 +8,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
 {
     public class StatementTable : Entity<long>
     {
-        protected readonly List<StatementSection> _sections = new List<StatementSection>();
+        private readonly List<StatementSection> _sections = new List<StatementSection>();
         public virtual IReadOnlyList<StatementSection> Sections => _sections.ToList();
         public long StatementId { get; private set; }
         public long BoqTableId { get; private set; }
@@ -46,12 +46,13 @@ namespace NUCA.Projects.Domain.Entities.Statements
             StatementSection section = _sections.First(s => s.Id == model.SectionId);
             section.UpdateItem(model, userId);
         }
+
         public double TotalBeforePriceChange => _sections.Sum(s => s.Total);
         public double Total
         {
             get
             {
-                if (Type == StatementTableType.Supplies || Type == StatementTableType.ExternalSupplies)
+                if (Type == StatementTableType.Supplies)
                     return TotalBeforePriceChange;
                 else
                     return TotalBeforePriceChange * (100 + PriceChangePercent) / 100;

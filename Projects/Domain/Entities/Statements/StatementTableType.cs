@@ -5,6 +5,5 @@ namespace NUCA.Projects.Domain.Entities.Statements
     {
         Works = 1,
         Supplies = 2,
-        ExternalSupplies = 3,
     }
 }

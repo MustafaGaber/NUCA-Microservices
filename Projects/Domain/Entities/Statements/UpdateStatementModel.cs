@@ -22,7 +22,7 @@
     {
         public required long Id { get; init; }
         public required int DepartmentId { get; init; }
-        public required long StatementTableId { get; init; }
+        public required long SuppliesTableId { get; init; }
         public required string Index { get; init; }
         public required string Content { get; init; }
         public required string Unit { get; init; }

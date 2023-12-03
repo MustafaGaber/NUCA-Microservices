@@ -29,8 +29,8 @@ namespace NUCA.Projects.Domain.Entities.Statements
                 boqItem.UnitPrice,
                 0,
                 0,
-                0,//new List<StatementItemPercentage>(),
-                null)
+                0//new List<StatementItemPercentage>(),
+                )
             ).ToList();
         }
         public StatementSection(BoqSection boqSection, StatementSection previousStatementSection, int count)
@@ -49,29 +49,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
                     boqItem.UnitPrice,
                     previousItem?.TotalQuantity ?? 0,
                     previousItem?.TotalQuantity ?? 0,
-                    previousItem?.Percentage ?? 0,
+                    previousItem?.Percentage ?? 0
                     // previousItem.Percentages.ToList(),
-                    previousItem?.UserId);
-            }).ToList();
-            /* foreach (var item in previousStatementSection.ExternalItems)
-             {
-                 if (!_externalItems.Any(i => i.BoqItemId == item.BoqItemId))
-                 {
-                     _externalItems.Add(new StatementItem(
-                          item.BoqItemId,
-                     item.Index,
-                     item.Content,
-                     item.Unit,
-                     item.BoqQuantity,
-                     item.UnitPrice,
-                     item.TotalQuantity,
-                     0,
-                     item.Percentage,
-                     // previousItem.Percentages.ToList(),
-                     item.Notes,
-                     item.UserId));
-                 }
-             }*/
+                    );
+            }).ToList();          
         }
         public void UpdateItem(UpdateStatementItemModel model, long userId)
         {
@@ -96,4 +77,34 @@ namespace NUCA.Projects.Domain.Entities.Statements
             boqItem.UpdateNotes(notes, userId);
         }*/
     }
+
+   /* public class WroksSection : StatementSection
+    {
+        protected WroksSection()
+        {
+        }
+
+        public WroksSection(BoqSection boqSection, int count) : base(boqSection, count)
+        {
+        }
+
+        public WroksSection(BoqSection boqSection, StatementSection previousStatementSection, int count) : base(boqSection, previousStatementSection, count)
+        {
+        }
+    }
+
+    public class SuppliesSection : StatementSection
+    {
+        protected SuppliesSection()
+        {
+        }
+
+        public SuppliesSection(BoqSection boqSection, int count) : base(boqSection, count)
+        {
+        }
+
+        public SuppliesSection(BoqSection boqSection, StatementSection previousStatementSection, int count) : base(boqSection, previousStatementSection, count)
+        {
+        }
+    }*/
 }

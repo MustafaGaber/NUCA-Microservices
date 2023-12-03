@@ -2,20 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Projects.Data;
 
 #nullable disable
 
-namespace NUCA.Projects.Migrations
+namespace NUCA.Projects.Data.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    [Migration("20231129103636_ExternalSuppliesItemsRename")]
-    partial class ExternalSuppliesItemsRename
+    partial class ProjectsDatabaseContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -532,9 +529,6 @@ namespace NUCA.Projects.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("ExternalSuppliesTableId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Index")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -551,7 +545,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long?>("StatementId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("StatementTableId")
+                    b.Property<long>("SuppliesTableId")
                         .HasColumnType("INTEGER");
 
                     b.Property<double>("TotalQuantity")
@@ -564,39 +558,11 @@ namespace NUCA.Projects.Migrations
                     b.Property<double>("UnitPrice")
                         .HasColumnType("REAL");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ExternalSuppliesTableId");
 
                     b.HasIndex("StatementId");
 
                     b.ToTable("ExternalSuppliesItem");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.ExternalSuppliesTable", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("StatementId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ExternalSuppliesTable");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.Statement", b =>
@@ -689,9 +655,6 @@ namespace NUCA.Projects.Migrations
 
                     b.Property<double>("UnitPrice")
                         .HasColumnType("REAL");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -985,11 +948,6 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.ExternalSuppliesItem", b =>
                 {
-                    b.HasOne("NUCA.Projects.Domain.Entities.Statements.ExternalSuppliesTable", null)
-                        .WithMany("Items")
-                        .HasForeignKey("ExternalSuppliesTableId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("NUCA.Projects.Domain.Entities.Statements.Statement", null)
                         .WithMany("ExternalSuppliesItems")
                         .HasForeignKey("StatementId")
@@ -1061,11 +1019,6 @@ namespace NUCA.Projects.Migrations
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Project", b =>
                 {
                     b.Navigation("Statements");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.ExternalSuppliesTable", b =>
-                {
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.Statement", b =>
