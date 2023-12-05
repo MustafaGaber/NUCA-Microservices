@@ -129,7 +129,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             model.Items.ForEach(item =>
             {
                 StatementTable table = _tables.First(table => table.Id == item.TableId);
-                table.UpdateItem(item, userId);
+                table.UpdateItem(item);
             });
             UpdateWithholdings(model.Withholdings);
             UpdateExternalSuppliesItems(model.ExternalSuppliesItems);

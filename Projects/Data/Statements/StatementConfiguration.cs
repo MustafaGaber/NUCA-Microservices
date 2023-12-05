@@ -83,7 +83,7 @@ namespace NUCA.Projects.Data.Statements
     {
         public void Configure(EntityTypeBuilder<StatementItem> builder)
         {
-            //builder.HasMany(s => s.Percentages).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(i => i.PercentageDetails).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

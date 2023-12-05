@@ -33,7 +33,7 @@
                 إجمالي @Model.Name.UseArabicDigits() بعد
                 <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
                 <span>@Math.Abs(Model.PriceChangePercent).Round().UseArabicDigits()</span>
-                %
+                ٪
             </td>
             <td class="text-center">
                 @Model.Total.Round().UseArabicDigits()

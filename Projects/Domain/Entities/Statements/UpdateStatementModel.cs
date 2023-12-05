@@ -15,7 +15,7 @@
         public required long ItemId { get; init; }
         public required double TotalQuantity { get; init; }
         public required double Percentage { get; init; }
-        // public List<ItemPercentageModel> Percentages = new List<ItemPercentageModel>();
+        public List<PercentageDetailModel>? PercentageDetails { get; init; }
         public string? Notes { get; init; }
     }
     public class ExternalItemModel
@@ -31,7 +31,7 @@
         public required double TotalQuantity { get; init; }
         public required double Percentage { get; init; }
     }
-    public class ItemPercentageModel
+    public class PercentageDetailModel
     {
         public required double Quantity { get; init; }
         public required double Percentage { get; init; }

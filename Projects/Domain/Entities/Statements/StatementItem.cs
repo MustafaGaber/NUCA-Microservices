@@ -5,7 +5,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
 {
     public class StatementItem : Entity<long>
     {
-        // private List<StatementItemPercentage> _percentages = new List<StatementItemPercentage>();
+        private List<PercentageDetail> _percentageDetails = new List<PercentageDetail>();
         public long BoqItemId { get; private set; }
         public string Index { get; private set; }
         public string Content { get; private set; }
@@ -18,14 +18,15 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public double TotalQuantity { get; private set; }
         public double GrossPrice => TotalQuantity * UnitPrice;
         public double Percentage { get; private set; }
-        //public virtual IReadOnlyList<StatementItemPercentage> Percentages => _percentages.ToList();
+        public virtual IReadOnlyList<PercentageDetail> PercentageDetails => _percentageDetails.ToList();
         public double NetPrice => GrossPrice * Percentage / 100.0;
         public bool HasQuantities => !(PreviousQuantity == 0 && TotalQuantity == 0);
-        protected StatementItem() {
-            ValidatePercentages();
+        protected StatementItem()
+        {
+            ValidatePercentage();
         }
         public StatementItem(long boqItemId, string index, string content, string unit, double quantity, double unitPrice, double previousQuantity, double totalQuantity,
-            /*List<StatementItemPercentage> percentages,*/ double percentage)
+             double percentage, List<PercentageDetail> percentageDetails)
         {
             BoqItemId = Guard.Against.NegativeOrZero(boqItemId);
             Index = Guard.Against.NullOrEmpty(index, nameof(index));
@@ -36,23 +37,30 @@ namespace NUCA.Projects.Domain.Entities.Statements
             PreviousQuantity = Guard.Against.Negative(previousQuantity, nameof(previousQuantity));
             TotalQuantity = totalQuantity;
             Percentage = Guard.Against.OutOfRange(percentage, nameof(percentage), 0, 100);
-            ValidatePercentages();
+            _percentageDetails = percentageDetails;
+            ValidatePercentage();
         }
-        public void Update(UpdateStatementItemModel updates, long userId)
+        public void Update(UpdateStatementItemModel updates)
         {
             TotalQuantity = Guard.Against.Negative(updates.TotalQuantity);
             Percentage = Guard.Against.OutOfRange(updates.Percentage, nameof(updates.Percentage), 0, 100);
-            //_percentages = updates.Percentages;
-            ValidatePercentages();
+            _percentageDetails = updates.PercentageDetails?.Select(p => new PercentageDetail(p.Quantity, p.Percentage, p.Notes)).ToList() ?? new List<PercentageDetail> { };
+            ValidatePercentage();
         }
 
-        private void ValidatePercentages()
+        private void ValidatePercentage()
         {
-            /* if (TotalQuantity != Percentages.Sum(p => p.BoqQuantity))
-             {
-                 throw new ArgumentException("Not valid percentages");
-             }*/
+            if (_percentageDetails.Count == 0) return;
+            if (TotalQuantity != _percentageDetails.Sum(p => p.Quantity))
+            {
+                throw new ArgumentException("Invalid percentage");
+            }
+            double averagePercentage = _percentageDetails.Sum(p => p.Quantity * p.Percentage) / TotalQuantity;
+            if (Math.Abs(Percentage - averagePercentage) > .00001)
+            {
+                throw new ArgumentException("Invalid percentage");
+            }
         }
-      
+
     }
 }

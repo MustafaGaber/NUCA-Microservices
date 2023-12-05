@@ -29,7 +29,8 @@ namespace NUCA.Projects.Domain.Entities.Statements
                 boqItem.UnitPrice,
                 0,
                 0,
-                0//new List<StatementItemPercentage>(),
+                0,
+                new List<PercentageDetail>() { }
                 )
             ).ToList();
         }
@@ -49,15 +50,15 @@ namespace NUCA.Projects.Domain.Entities.Statements
                     boqItem.UnitPrice,
                     previousItem?.TotalQuantity ?? 0,
                     previousItem?.TotalQuantity ?? 0,
-                    previousItem?.Percentage ?? 0
-                    // previousItem.Percentages.ToList(),
+                    previousItem?.Percentage ?? 0,
+                    previousItem?.PercentageDetails.ToList() ?? new List<PercentageDetail>() { }
                     );
             }).ToList();          
         }
-        public void UpdateItem(UpdateStatementItemModel model, long userId)
+        public void UpdateItem(UpdateStatementItemModel model)
         {
             StatementItem item = _items.First(i => i.Id == model.ItemId);
-            item.Update(model, userId);
+            item.Update(model);
         }
 
         public double Total => _items.Sum(i => i.TotalQuantity * i.UnitPrice * i.Percentage / 100.0);
@@ -66,7 +67,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             StatementItem boqItem = _externalItems.First(i => i.Id == itemId);
             boqItem.UpdateCurrentQuantity(quantity, userId);
         }
-        public void UpdatePercentages(long itemId, List<StatementItemPercentage> percentages, string userId)
+        public void UpdatePercentages(long itemId, List<PercentageDetail> percentages, string userId)
         {
             StatementItem boqItem = _externalItems.First(i => i.Id == itemId);
             boqItem.UpdatePercentages(percentages, userId);

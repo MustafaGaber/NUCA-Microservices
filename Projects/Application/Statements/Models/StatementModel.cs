@@ -105,7 +105,7 @@ namespace NUCA.Projects.Application.Statements.Models
         public required double PreviousQuantity { get; init; }
         public required double TotalQuantity { get; init; }
         public required double Percentage { get; init; }
-        //public required virtual IReadOnlyList<StatementItemPercentage> Percentages => _percentages.ToList();
+        //public required virtual IReadOnlyList<PercentageDetail> PercentageDetails => _percentageDetails.ToList();
         public required long? UserId { get; init; }
     }
 

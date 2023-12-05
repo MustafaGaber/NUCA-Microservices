@@ -37,7 +37,7 @@
             }
 
             table {
-                width: 100%;
+                width: 100٪;
             }
         </style>
     </head>
@@ -72,7 +72,7 @@
                                         إجمالي الأعمال بعد
                                         <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
                                         <span>@Math.Abs(Model.PriceChangePercent).Round().UseArabicDigits()</span>
-                                        %
+                                        ٪
                                     </td>
                                     <td class="text-center">
                                         @Model.TotalWorks.Round().UseArabicDigits()

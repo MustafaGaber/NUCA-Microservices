@@ -74,7 +74,7 @@ namespace NUCA.Projects.Data.Statements
                 .Include(s => s.Tables)
                 .ThenInclude(t => t.Sections)
                 .ThenInclude(s => s.Items)
-                //.ThenInclude(i => i.Percentages)
+                //.ThenInclude(i => i.PercentageDetails)
                 .Include(s => s.Withholdings)
                 .Include(s => s.ExternalSuppliesItems)
                 .AsSplitQuery();

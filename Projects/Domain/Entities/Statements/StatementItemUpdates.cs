@@ -3,17 +3,17 @@
     public class StatementItemUpdates
     {
         public double TotalQuantity { get; private set; }
-        // public List<StatementItemPercentage> Percentages { get; private set; } = new List<StatementItemPercentage>();
+        // public List<PercentageDetail> PercentageDetails { get; private set; } = new List<PercentageDetail>();
         public double Percentage { get; private set; }
         public string Notes { get; private set; }
         public long UserId { get; private set; }
         public StatementItemUpdates(double totalQuantity,
-            /*List<StatementItemPercentage> percentages, */
+            /*List<PercentageDetail> percentages, */
             double percentage,
             string notes, long userId)
         {
             TotalQuantity = totalQuantity;
-            //Percentages = percentages;
+            //PercentageDetails = percentages;
             Percentage = percentage;
             Notes = notes;
             UserId = userId;
