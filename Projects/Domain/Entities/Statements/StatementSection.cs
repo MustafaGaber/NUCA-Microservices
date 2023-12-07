@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Boqs;
 
@@ -51,9 +52,11 @@ namespace NUCA.Projects.Domain.Entities.Statements
                     previousItem?.TotalQuantity ?? 0,
                     previousItem?.TotalQuantity ?? 0,
                     previousItem?.Percentage ?? 0,
-                    previousItem?.PercentageDetails.ToList() ?? new List<PercentageDetail>() { }
+                    previousItem?.PercentageDetails.Select(i =>
+                       new PercentageDetail(i.Quantity, i.Percentage, i.Notes))
+                       .ToList() ?? new List<PercentageDetail>() { }
                     );
-            }).ToList();          
+            }).ToList();
         }
         public void UpdateItem(UpdateStatementItemModel model)
         {
@@ -79,33 +82,33 @@ namespace NUCA.Projects.Domain.Entities.Statements
         }*/
     }
 
-   /* public class WroksSection : StatementSection
-    {
-        protected WroksSection()
-        {
-        }
+    /* public class WroksSection : StatementSection
+     {
+         protected WroksSection()
+         {
+         }
 
-        public WroksSection(BoqSection boqSection, int count) : base(boqSection, count)
-        {
-        }
+         public WroksSection(BoqSection boqSection, int count) : base(boqSection, count)
+         {
+         }
 
-        public WroksSection(BoqSection boqSection, StatementSection previousStatementSection, int count) : base(boqSection, previousStatementSection, count)
-        {
-        }
-    }
+         public WroksSection(BoqSection boqSection, StatementSection previousStatementSection, int count) : base(boqSection, previousStatementSection, count)
+         {
+         }
+     }
 
-    public class SuppliesSection : StatementSection
-    {
-        protected SuppliesSection()
-        {
-        }
+     public class SuppliesSection : StatementSection
+     {
+         protected SuppliesSection()
+         {
+         }
 
-        public SuppliesSection(BoqSection boqSection, int count) : base(boqSection, count)
-        {
-        }
+         public SuppliesSection(BoqSection boqSection, int count) : base(boqSection, count)
+         {
+         }
 
-        public SuppliesSection(BoqSection boqSection, StatementSection previousStatementSection, int count) : base(boqSection, previousStatementSection, count)
-        {
-        }
-    }*/
+         public SuppliesSection(BoqSection boqSection, StatementSection previousStatementSection, int count) : base(boqSection, previousStatementSection, count)
+         {
+         }
+     }*/
 }

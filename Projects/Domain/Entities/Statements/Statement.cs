@@ -98,12 +98,16 @@ namespace NUCA.Projects.Domain.Entities.Statements
             Index = previousStatement.Index + 1;
             _tables = boq.Tables.Select(table =>
             {
-                var previousTable = previousStatement.Tables.FirstOrDefault(t => t.BoqTableId == table.Id);
+                var previousTable = previousStatement.Tables
+                    .Where(t => t.Type == StatementTableType.Works)
+                    .FirstOrDefault(t => t.BoqTableId == table.Id);
                 return previousTable == null ? new StatementTable(table, StatementTableType.Works, table.Type) : new StatementTable(table, previousTable, StatementTableType.Works, table.Type);
             }).ToList();
             _tables.AddRange(boq.Tables.Select(table =>
             {
-                var previousTable = previousStatement.Tables.FirstOrDefault(t => t.BoqTableId == table.Id);
+                var previousTable = previousStatement.Tables
+                .Where(t => t.Type == StatementTableType.Supplies)
+                .FirstOrDefault(t => t.BoqTableId == table.Id);
                 return previousTable == null ? new StatementTable(table, StatementTableType.Supplies, table.Type) : new StatementTable(table, previousTable, StatementTableType.Supplies, table.Type);
             }));
             _externalSuppliesItems = previousStatement.ExternalSuppliesItems.Select(item =>

@@ -50,7 +50,8 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
                         + ConractStampDuty
                         + ContractorsFederationValue
                         + Withholdings.Sum(withholding => withholding.Value);
-        protected Adjustment() {
+        protected Adjustment()
+        {
             double total = TotalDue - TotalWithholdings;
             if (Math.Abs(total - Total) > 0.001)
             {
@@ -170,19 +171,19 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             double originalCurrentWorks = valueAddedTaxIncluded ? currentWorks :
                                           currentWorks * 100 / (100 + valueAddedTaxPercent);
             double originalCurrentWorksAndSupplies = originalCurrentWorks + currentSupplies;
-            double remainingAdvancedPaymentValue = Math.Max(0,(orderPrice - previousTotalWorks) * advancedPaymentPercent / 100);
-            double advancedPaymentValue =Math.Min(currentWorks * advancedPaymentPercent / 100,
+            double remainingAdvancedPaymentValue = Math.Max(0, (orderPrice - previousTotalWorks) * advancedPaymentPercent / 100);
+            double advancedPaymentValue = Math.Min(Math.Max(0, currentWorks * advancedPaymentPercent / 100),
                                                    remainingAdvancedPaymentValue);
-            double completionGuaranteeValue = currentWorks * 5 / 100;
-            double engineersSyndicateValue = currentWorks * 0.0045;
-            double applicatorsSyndicateValue = currentWorks * 0.0045;
-            double regularStampDuty = CalculateRegularStamp(originalCurrentWorksAndSupplies);
+            double completionGuaranteeValue = Math.Max(0, currentWorks * 5 / 100);
+            double engineersSyndicateValue = Math.Max(0, currentWorks * 0.0045);
+            double applicatorsSyndicateValue = Math.Max(0, currentWorks * 0.0045);
+            double regularStampDuty = CalculateRegularStamp(Math.Max(0, originalCurrentWorksAndSupplies));
             double additionalStampDuty = 3 * regularStampDuty;
             double commercialIndustrialTax = commercialIndustrialTaxFree ? 0 :
-                originalCurrentWorksAndSupplies * .01;
-            double valueAddedTax = originalCurrentWorks * valueAddedTaxPercent / 100;
-            double wasteRemovalInsurance = currentWorksAndSupplies * .0025;
-            double tahyaMisrFundValue = currentWorksAndSupplies * 0.01;
+                Math.Max(0, originalCurrentWorksAndSupplies * .01);
+            double valueAddedTax = Math.Max(0, originalCurrentWorks * valueAddedTaxPercent / 100);
+            double wasteRemovalInsurance = Math.Max(0, currentWorksAndSupplies * .0025);
+            double tahyaMisrFundValue = Math.Max(0, currentWorksAndSupplies * 0.01);
             double conractStampDuty = statementIndex == 1 ? totalContractPapers * contractPaperPrice : 0;
             double contractorsFederationValue = statementIndex == 1 ?
                                         Math.Min(5000, orderPrice * .0005) : 0;
