@@ -14,16 +14,16 @@ namespace NUCA.Projects.Data.Statements
                 .Ignore(s => s.WorksTables)
                 .Ignore(s => s.SuppliesTables);
             builder.HasMany(s => s.Tables)
-                .WithOne()
+                .WithOne().IsRequired()
                 .HasForeignKey(t => t.StatementId)
                 .OnDelete(DeleteBehavior.Cascade);
 
              builder.HasMany(s => s.ExternalSuppliesItems)
-                .WithOne()
+                .WithOne().IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(s => s.Withholdings)
-                .WithOne()
+                .WithOne().IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
         }
@@ -37,7 +37,7 @@ namespace NUCA.Projects.Data.Statements
                 .HasValue<SuppliesTable>(StatementTableType.Supplies);*/
 
             builder.HasMany(t => t.Sections)
-                .WithOne()
+                .WithOne().IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
             /* builder.HasMany(t => t.ExternalSuppliesItems)
                 .WithOne()
@@ -75,7 +75,7 @@ namespace NUCA.Projects.Data.Statements
     {
         public void Configure(EntityTypeBuilder<StatementSection> builder)
         {
-            builder.HasMany(s => s.Items).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(s => s.Items).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
         }
     }
 
@@ -83,7 +83,7 @@ namespace NUCA.Projects.Data.Statements
     {
         public void Configure(EntityTypeBuilder<StatementItem> builder)
         {
-            builder.HasMany(i => i.PercentageDetails).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(i => i.PercentageDetails).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

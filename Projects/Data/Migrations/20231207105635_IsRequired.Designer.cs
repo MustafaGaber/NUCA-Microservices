@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Projects.Data;
 
@@ -10,9 +11,11 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Data.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    partial class ProjectsDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20231207105635_IsRequired")]
+    partial class IsRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -188,7 +191,7 @@ namespace NUCA.Projects.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("BoqSectionId")
+                    b.Property<long?>("BoqSectionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
@@ -228,7 +231,7 @@ namespace NUCA.Projects.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("BoqTableId")
+                    b.Property<long?>("BoqTableId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
@@ -259,7 +262,7 @@ namespace NUCA.Projects.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("BoqId")
+                    b.Property<long?>("BoqId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Count")
@@ -869,8 +872,7 @@ namespace NUCA.Projects.Data.Migrations
                     b.HasOne("NUCA.Projects.Domain.Entities.Boqs.BoqSection", null)
                         .WithMany("Items")
                         .HasForeignKey("BoqSectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.BoqSection", b =>
@@ -878,8 +880,7 @@ namespace NUCA.Projects.Data.Migrations
                     b.HasOne("NUCA.Projects.Domain.Entities.Boqs.BoqTable", null)
                         .WithMany("Sections")
                         .HasForeignKey("BoqTableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("NUCA.Projects.Domain.Entities.Departments.Department", "Department")
                         .WithMany()
@@ -895,8 +896,7 @@ namespace NUCA.Projects.Data.Migrations
                     b.HasOne("NUCA.Projects.Domain.Entities.Boqs.Boq", null)
                         .WithMany("Tables")
                         .HasForeignKey("BoqId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Project", b =>

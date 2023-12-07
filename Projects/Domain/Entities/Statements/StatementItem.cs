@@ -44,7 +44,19 @@ namespace NUCA.Projects.Domain.Entities.Statements
         {
             TotalQuantity = Guard.Against.Negative(updates.TotalQuantity);
             Percentage = Guard.Against.OutOfRange(updates.Percentage, nameof(updates.Percentage), 0, 100);
-            _percentageDetails = updates.PercentageDetails?.Select(p => new PercentageDetail(p.Quantity, p.Percentage, p.Notes)).ToList() ?? new List<PercentageDetail> { };
+            _percentageDetails = updates.PercentageDetails.Select(p => new PercentageDetail(p.Quantity, p.Percentage, p.Notes)).ToList() ;
+           /* _percentageDetails.RemoveAll(detail => !withholdings.Any(w => w.Id == withholding.Id));
+            _percentageDetails.ForEach(w =>
+            {
+                StatementWithholding? withholding = _withholdings.Find(_w => _w.Id == w.Id);
+                if (withholding != null)
+                {
+                    withholding.Update(w.Name, w.Value, w.Type);
+                }
+            });
+            _percentageDetails.AddRange(withholdings.Where(w => w.Id == 0).Select(w => new StatementWithholding(w.Name, w.Value, w.Type)));
+
+            */
             ValidatePercentage();
         }
 
