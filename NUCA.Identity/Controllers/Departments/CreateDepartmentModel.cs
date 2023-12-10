@@ -2,7 +2,7 @@
 
 namespace NUCA.Identity.Controllers.Departments
 {
-    public class DepartmentModel
+    public class CreateDepartmentModel
     {
         public string Name { get; init; }
     }

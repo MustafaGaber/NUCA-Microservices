@@ -5,10 +5,10 @@ using NUCA.Identity.Models;
 
 namespace NUCA.Identity.Data
 {
-    public class IdentityDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Department> Departments { get; private set; }
-        public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }

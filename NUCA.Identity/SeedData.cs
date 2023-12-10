@@ -21,25 +21,25 @@ namespace NUCA.Identity
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddDbContext<IdentityDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlite(connectionString));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             using (var serviceProvider = services.BuildServiceProvider())
             {
                 using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    var context = scope.ServiceProvider.GetService<IdentityDbContext>();
+                    var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
                     context.Database.Migrate();
 
                     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                     var alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null)
                     {
-                        alice = new User
+                        alice = new User("Test", "Test")
                         {
                             UserName = "alice",
                             Email = "AliceSmith@email.com",
@@ -71,7 +71,7 @@ namespace NUCA.Identity
                     var bob = userMgr.FindByNameAsync("bob").Result;
                     if (bob == null)
                     {
-                        bob = new User
+                        bob = new User("Test", "Test")
                         {
                             UserName = "bob",
                             Email = "BobSmith@email.com",

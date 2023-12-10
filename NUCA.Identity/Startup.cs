@@ -13,6 +13,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NUCA.Identity.Data;
 using NUCA.Identity.Models;
+using Microsoft.AspNetCore.Http;
+using System;
+using IdentityServer4.Services;
+using Microsoft.Extensions.Logging;
 
 namespace NUCA.Identity
 {
@@ -31,15 +35,19 @@ namespace NUCA.Identity
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<IdentityDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             var builder = services.AddIdentityServer(options =>
             {
+                options.Cors.CorsPaths = new[]
+                {
+                     PathString.FromUriComponent(new Uri(Config.FrontendUri))
+                };
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
@@ -55,7 +63,17 @@ namespace NUCA.Identity
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins(Config.FrontendUri)
+                            .AllowCredentials()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
             services.AddAuthentication();
         }
 
@@ -65,6 +83,7 @@ namespace NUCA.Identity
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseCors("CorsPolicy");
             }
 
             app.UseStaticFiles();

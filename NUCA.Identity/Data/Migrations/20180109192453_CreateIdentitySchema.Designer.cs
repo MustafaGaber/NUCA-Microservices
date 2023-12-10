@@ -10,7 +10,7 @@ using System;
 
 namespace NUCA.Identity.Data.Migrations
 {
-    [DbContext(typeof(IdentityDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20180109192453_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {

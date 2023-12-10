@@ -10,6 +10,7 @@ namespace NUCA.Identity
 {
     public static class Config
     {
+        public static string FrontendUri => "http://localhost:4200";
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
@@ -44,7 +45,7 @@ namespace NUCA.Identity
                     ClientName = "Angular Client",
                     ClientId = "angular-client",
                     AllowedGrantTypes = GrantTypes.Code,
-                    RedirectUris = new List<string>{ "http://localhost:4200/auth/signin-callback", "http://localhost:4200/auth/signout-callback"},
+                    RedirectUris = new List<string>{ $"{FrontendUri}/auth/signin-callback", "http://localhost:4200/auth/signout-callback"},
                     RequirePkce = true,
                     AllowAccessTokensViaBrowser = true,
                     AllowedScopes =
@@ -53,9 +54,9 @@ namespace NUCA.Identity
                         IdentityServerConstants.StandardScopes.Profile,
                         "projects"
                     },
-                    AllowedCorsOrigins = { "http://localhost:4200" },
+                    AllowedCorsOrigins = { FrontendUri},
                     RequireClientSecret = false,
-                    PostLogoutRedirectUris = new List<string> { "http://localhost:4200/auth/signout-callback" },
+                    PostLogoutRedirectUris = new List<string> { $"{FrontendUri}/auth/signout-callback" },
                     RequireConsent = false,
                     AccessTokenLifetime = 6000
                 },
