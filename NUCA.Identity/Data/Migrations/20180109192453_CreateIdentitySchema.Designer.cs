@@ -78,7 +78,7 @@ namespace NUCA.Identity.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullName")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
@@ -168,11 +168,11 @@ namespace NUCA.Identity.Data.Migrations
 
                     b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("FullName");
 
                     b.Property<string>("Value");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("UserId", "LoginProvider", "FullName");
 
                     b.ToTable("AspNetUserTokens");
                 });

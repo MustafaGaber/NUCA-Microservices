@@ -44,7 +44,7 @@ namespace NUCA.Identity.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullName")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
@@ -152,13 +152,13 @@ namespace NUCA.Identity.Data.Migrations
                     b.Property<string>("LoginProvider")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("UserId", "LoginProvider", "FullName");
 
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
@@ -169,7 +169,7 @@ namespace NUCA.Identity.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RoleId")
