@@ -49,14 +49,14 @@ namespace NUCA.Identity.Controllers.Users
             {
                 throw new InvalidOperationException();
             }
-            //user.Update(model.FullName);
+            user.Update(model.FullName, "12345657");
             _context.Set<User>().Update(user);
             await _context.SaveChangesAsync();
             return Ok();
         }
 
-        /* [HttpDelete("{id}")]
-         public async Task<IActionResult> Delete(int id)
+         [HttpDelete("{id}")]
+         public async Task<IActionResult> Delete(string id)
          {
              var user = await _context.Set<User>().FirstOrDefaultAsync(d => d.Id == id);
              if (user != null)
@@ -68,10 +68,11 @@ namespace NUCA.Identity.Controllers.Users
          }
 
          [HttpGet("canDelete/{id}")]
-         public async Task<IActionResult> CanDelete(int id)
+         public async Task<IActionResult> CanDelete(string id)
          {
-             bool canDelete = await _canDeleteQuery.Execute(id);
-             return Ok(canDelete);
-         }*/
+             //bool canDelete = await _canDeleteQuery.Execute(id);
+             // todo: read can delete from projects service;
+             return Ok(true);
+         }
     }
 }

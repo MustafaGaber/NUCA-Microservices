@@ -12,7 +12,14 @@ namespace NUCA.Identity.Models
         public string FullName { get; private set; }
         public string NationalId { get; private set; }
 
+        protected User() { }
         public User(string fullName, string nationalId) {
+            FullName = Guard.Against.NullOrWhiteSpace(fullName);
+            NationalId = Guard.Against.NullOrWhiteSpace(nationalId);
+        }
+
+        public void Update(string fullName, string nationalId)
+        {
             FullName = Guard.Against.NullOrWhiteSpace(fullName);
             NationalId = Guard.Against.NullOrWhiteSpace(nationalId);
         }
