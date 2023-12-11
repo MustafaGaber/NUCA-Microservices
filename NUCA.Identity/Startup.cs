@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
+using NUCA.Identity.Core;
 
 namespace NUCA.Identity
 {
@@ -74,6 +75,7 @@ namespace NUCA.Identity
                             .AllowAnyHeader();
                     });
             });
+            services.AddScoped<IUserClaimsPrincipalFactory<User>, ApplicationUserClaimsPrincipalFactory>();
             services.AddAuthentication();
         }
 
