@@ -35,7 +35,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public int? TotalContractPapers { get; private set; }
         public string Notes { get; private set; }
         public virtual IReadOnlyList<Statement> Statements { get; private set; }
-
+        
+        private readonly List<Privilege> _privileges = new List<Privilege>();
+        public virtual IReadOnlyList<Privilege> Privileges => _privileges.ToList();
         protected Project() { }
         public Project(
             string name,
@@ -164,15 +166,19 @@ namespace NUCA.Projects.Domain.Entities.Projects
             Notes = notes;
         }
 
-    }
-
-    public enum ProjectStatus
-    {
-        NotAwarded = 10,
-        Awarded = 20,
-        Started = 30,
-        InitiallyDelivered = 40,
-        FinallyDelivered = 50,
+        public void UpdatePrivileges(List<PrivilegeModel> privileges)
+        {
+            _privileges.RemoveAll(privilege => !privileges.Any(p => p.Id == privilege.Id));
+            privileges.ForEach(p =>
+            {
+                Privilege? privilege = _privileges.Find(_p => _p.Id == p.Id);
+                if (privilege != null)
+                {
+                    privilege.Update(p.UserId);
+                }
+            });
+            _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.DepartmentId,p.UserId )));
+        }
     }
 
 }

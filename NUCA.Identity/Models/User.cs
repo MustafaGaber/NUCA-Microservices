@@ -12,10 +12,12 @@ namespace NUCA.Identity.Models
         public string FullName { get; private set; }
         public string NationalId { get; private set; }
 
-        protected User() { }
-        public User(string fullName, string nationalId) {
-            FullName = Guard.Against.NullOrWhiteSpace(fullName);
-            NationalId = Guard.Against.NullOrWhiteSpace(nationalId);
+        public User() { }
+        public User(string userName, string fullName, string nationalId, List<Department> departments) {
+            UserName = Guard.Against.NullOrWhiteSpace(userName.Trim());
+            FullName = Guard.Against.NullOrWhiteSpace(fullName.Trim());
+            NationalId = Guard.Against.NullOrWhiteSpace(nationalId.Trim());
+            _departments = departments;
         }
 
         public void Update(string fullName, string nationalId)

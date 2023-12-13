@@ -215,7 +215,7 @@ namespace NUCA.Identity.Controllers
                 filtered.Add(new Claim(JwtClaimTypes.Email, email));
             }
 
-            var user = new User("Test User", "290545545122041")
+            var user = new User("test", "Test User", "290545545122041", new List<Department>())
             {
                 UserName = Guid.NewGuid().ToString(),
             };

@@ -36,11 +36,12 @@ namespace NUCA.Identity
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<DbContext, ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserStore<ApplicationUserStore>()
                 .AddDefaultTokenProviders();
 
             var builder = services.AddIdentityServer(options =>
@@ -57,10 +58,12 @@ namespace NUCA.Identity
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
             })
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients)
-                .AddAspNetIdentity<User>();
+              .AddInMemoryIdentityResources(Config.IdentityResources)
+              .AddInMemoryApiScopes(Config.ApiScopes)
+              .AddInMemoryClients(Config.Clients)
+              .AddAspNetIdentity<User>()
+              .AddProfileService<ProfileService>();
+
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
@@ -75,7 +78,6 @@ namespace NUCA.Identity
                             .AllowAnyHeader();
                     });
             });
-            services.AddScoped<IUserClaimsPrincipalFactory<User>, ApplicationUserClaimsPrincipalFactory>();
             services.AddAuthentication();
         }
 

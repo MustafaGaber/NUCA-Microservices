@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NUCA.Projects.Data;
 using System.Globalization;
-using System.Text.RegularExpressions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser().Build();
 builder.Services.AddControllersWithViews(configure =>
 {
-   // configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+    configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
 });
 builder.Services.Configure<RazorViewEngineOptions>(o =>
 {
@@ -45,6 +46,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 {
     options.Authority = "https://localhost:5010";
     options.Audience = "projects";
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateAudience = false,
+        //ValidateIssuer = true,
+       //// ValidateLifetime = true,
+       // ValidateIssuerSigningKey = true,
+        //ValidIssuer = "http://localhost:5010/",
+       // ValidAudience = "http://localhost:61768/",
+    };
 });
 var app = builder.Build();
 

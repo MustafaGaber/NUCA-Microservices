@@ -10,6 +10,7 @@ using NUCA.Identity.Data;
 using NUCA.Identity.Models;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 
@@ -39,7 +40,7 @@ namespace NUCA.Identity
                     var alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null)
                     {
-                        alice = new User("Test", "Test")
+                        alice = new User("test", "Test", "Test", new List<Department>())
                         {
                             UserName = "alice",
                             Email = "AliceSmith@email.com",
@@ -71,7 +72,7 @@ namespace NUCA.Identity
                     var bob = userMgr.FindByNameAsync("bob").Result;
                     if (bob == null)
                     {
-                        bob = new User("Test", "Test")
+                        bob = new User("test", "Test", "Test", new List<Department>())
                         {
                             UserName = "bob",
                             Email = "BobSmith@email.com",

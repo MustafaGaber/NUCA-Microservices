@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿/*using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using NUCA.Identity.Models;
 using System.Security.Claims;
@@ -15,10 +15,13 @@ namespace NUCA.Identity.Core
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(User user)
         {
             var identity = await base.GenerateClaimsAsync(user);
-            foreach(var department in user.Departments){
+            identity.AddClaim(new Claim("FullName", user.FullName));
+            foreach (var department in user.Departments){
                 identity.AddClaim(new Claim("Department", department.Id.ToString()));
             }
+            
             return identity;
         }
     }
 }
+*/

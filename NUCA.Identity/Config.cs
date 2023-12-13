@@ -21,7 +21,7 @@ namespace NUCA.Identity
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                 new ApiScope("projects.fullaccess"),
+                 new ApiScope("projects"),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -45,14 +45,14 @@ namespace NUCA.Identity
                     ClientName = "Angular Client",
                     ClientId = "angular-client",
                     AllowedGrantTypes = GrantTypes.Code,
-                    RedirectUris = new List<string>{ $"{FrontendUri}/auth/signin-callback", "http://localhost:4200/auth/signout-callback"},
+                    RedirectUris = new List<string>{ $"{FrontendUri}/auth/signin-callback", $"{FrontendUri}/auth/signout-callback"},
                     RequirePkce = true,
                     AllowAccessTokensViaBrowser = true,
                     AllowedScopes =
                     {
+                        "projects",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        "projects"
+                        IdentityServerConstants.StandardScopes.Profile, 
                     },
                     AllowedCorsOrigins = { FrontendUri},
                     RequireClientSecret = false,
