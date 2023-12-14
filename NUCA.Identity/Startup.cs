@@ -2,8 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4;
-using NUCA.Identity.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -12,11 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NUCA.Identity.Data;
-using NUCA.Identity.Models;
+using NUCA.Identity.Domain;
 using Microsoft.AspNetCore.Http;
 using System;
-using IdentityServer4.Services;
-using Microsoft.Extensions.Logging;
 using NUCA.Identity.Core;
 
 namespace NUCA.Identity
@@ -59,6 +55,7 @@ namespace NUCA.Identity
                 options.EmitStaticAudienceClaim = true;
             })
               .AddInMemoryIdentityResources(Config.IdentityResources)
+              .AddInMemoryApiResources(Config.ApiResources)
               .AddInMemoryApiScopes(Config.ApiScopes)
               .AddInMemoryClients(Config.Clients)
               .AddAspNetIdentity<User>()

@@ -1,7 +1,7 @@
 ﻿/*using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NUCA.Identity.Models;
+using NUCA.Identity.Domain;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;

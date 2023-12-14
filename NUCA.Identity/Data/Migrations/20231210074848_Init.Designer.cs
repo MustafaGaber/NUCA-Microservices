@@ -163,7 +163,7 @@ namespace NUCA.Identity.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("NUCA.Identity.Models.Department", b =>
+            modelBuilder.Entity("NUCA.Identity.Domain.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -183,7 +183,7 @@ namespace NUCA.Identity.Data.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("NUCA.Identity.Models.User", b =>
+            modelBuilder.Entity("NUCA.Identity.Domain.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -255,13 +255,13 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("DepartmentUser", b =>
                 {
-                    b.HasOne("NUCA.Identity.Models.Department", null)
+                    b.HasOne("NUCA.Identity.Domain.Department", null)
                         .WithMany()
                         .HasForeignKey("DepartmentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Identity.Models.User", null)
+                    b.HasOne("NUCA.Identity.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -279,7 +279,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("NUCA.Identity.Models.User", null)
+                    b.HasOne("NUCA.Identity.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -288,7 +288,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("NUCA.Identity.Models.User", null)
+                    b.HasOne("NUCA.Identity.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -303,7 +303,7 @@ namespace NUCA.Identity.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Identity.Models.User", null)
+                    b.HasOne("NUCA.Identity.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -312,14 +312,14 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("NUCA.Identity.Models.User", null)
+                    b.HasOne("NUCA.Identity.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("NUCA.Identity.Models.Department", b =>
+            modelBuilder.Entity("NUCA.Identity.Domain.Department", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
                         .WithMany()

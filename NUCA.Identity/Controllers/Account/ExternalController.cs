@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NUCA.Identity.Models;
+using NUCA.Identity.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

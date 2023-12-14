@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUCA.Identity.Controllers.Core;
 using NUCA.Identity.Data;
-using NUCA.Identity.Models;
+using NUCA.Identity.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

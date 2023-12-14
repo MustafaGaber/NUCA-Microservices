@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NUCA.Identity.Models
+namespace NUCA.Identity.Domain
 {
     public class User : IdentityUser
     {

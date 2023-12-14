@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NUCA.Identity.Data;
-using NUCA.Identity.Models;
+using NUCA.Identity.Domain;
 using Serilog;
 using System;
 using System.Collections.Generic;

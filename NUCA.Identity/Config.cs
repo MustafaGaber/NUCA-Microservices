@@ -18,16 +18,24 @@ namespace NUCA.Identity
                         new IdentityResources.Profile(),
                    };
 
+        public static IEnumerable<ApiResource> ApiResources =>
+           new ApiResource[]
+           {
+                 new ApiResource("projects", "Projects Api")
+                 {
+                     Scopes ={"projects.fullaccess"},
+                 },
+           };
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                 new ApiScope("projects"),
+                 new ApiScope("projects.fullaccess"),
             };
 
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                  // m2m client credentials flow client
+              // m2m client credentials flow client
               /* new Client
                 {
                     ClientId = "m2m.projects",
@@ -50,9 +58,9 @@ namespace NUCA.Identity
                     AllowAccessTokensViaBrowser = true,
                     AllowedScopes =
                     {
-                        "projects",
+                        "projects.fullaccess",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile, 
+                        IdentityServerConstants.StandardScopes.Profile,
                     },
                     AllowedCorsOrigins = { FrontendUri},
                     RequireClientSecret = false,

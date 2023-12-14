@@ -39,6 +39,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
         [HttpGet("UserProjects")]
         public async Task<IActionResult> Index()
         {
+            var user = HttpContext.User;
             List<UserProject> projects = await _listQuery.Execute();
             return Ok(projects);
         }

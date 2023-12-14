@@ -48,12 +48,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     options.Audience = "projects";
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateAudience = false,
-        //ValidateIssuer = true,
-       //// ValidateLifetime = true,
-       // ValidateIssuerSigningKey = true,
-        //ValidIssuer = "http://localhost:5010/",
-       // ValidAudience = "http://localhost:61768/",
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
     };
 });
 var app = builder.Build();

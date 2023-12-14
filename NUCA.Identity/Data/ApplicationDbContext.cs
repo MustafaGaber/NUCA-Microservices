@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using NUCA.Identity.Models;
+using NUCA.Identity.Domain;
 
 namespace NUCA.Identity.Data
 {

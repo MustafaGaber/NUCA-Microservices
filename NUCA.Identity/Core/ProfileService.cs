@@ -2,7 +2,7 @@
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
-using NUCA.Identity.Models;
+using NUCA.Identity.Domain;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
