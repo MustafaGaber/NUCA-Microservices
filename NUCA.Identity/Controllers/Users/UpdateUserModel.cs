@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using NUCA.Identity.Domain;
+using System.Collections.Generic;
 
 namespace NUCA.Identity.Controllers.Users
 {
-    public class CreateUserModel
+    public class UpdateUserModel
     {
-        public string UserName { get; init; }
         public string FullName { get; init; }
-        public string Password { get; init; }
         public List<EnrollmentModel> Enrollments { get; init; }
     }
+
 }

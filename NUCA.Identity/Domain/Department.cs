@@ -7,16 +7,18 @@ namespace NUCA.Identity.Domain
 {
     public class Department 
     {
-        private readonly List<User> _users = new List<User>();
-        public virtual IReadOnlyList<User> Users => _users.ToList();
+        private List<Enrollment> _enrollments = new List<Enrollment>();
+        public virtual IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
+       
+        private List<IdentityRole> _roles = new List<IdentityRole>();
+        public virtual IReadOnlyList<IdentityRole> Roles => _roles.ToList();
         public int Id { get; private set; }
         public string Name { get; private set; }
-        public IdentityRole Role { get; private set; }
         protected Department() { }
-        public Department(string name, IdentityRole role)
+        public Department(string name, List<IdentityRole> roles)
         {
             Name = Guard.Against.NullOrEmpty(name.Trim());
-            Role = Guard.Against.Null(role);
+            _roles = roles;
         }
 
         public void Update(string name)

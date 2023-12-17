@@ -25,10 +25,17 @@ namespace NUCA.Identity.Core
         {
             User user = await _userManager.GetUserAsync(context.Subject);
             context.IssuedClaims.Add(new Claim("fullName", user.FullName));
-            context.IssuedClaims.Add(new Claim("departments", JsonSerializer.Serialize(user.Departments.Select(d => new { id = d.Id, name = d.Name }).ToList(), new JsonSerializerOptions()
+            context.IssuedClaims.Add(new Claim("enrollments", JsonSerializer.Serialize(user.Enrollments.Select(e => new { departmentId = e.DepartmentId, departmentName = e.Department.Name, role = e.Role}), new JsonSerializerOptions()
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            }))); 
+            })));
+            foreach (var enrollment in user.Enrollments)
+            {
+                foreach (var role in enrollment.Department.Roles)
+                {
+                    context.IssuedClaims.Add(new Claim("Role", role.Name));
+                }
+            }
         }
 
         public async Task IsActiveAsync(IsActiveContext context)

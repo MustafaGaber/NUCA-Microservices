@@ -34,7 +34,7 @@ namespace NUCA.Identity.Controllers.Departments
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateDepartmentModel model)
         {
-            Department department = new Department(model.Name, new IdentityRole("department_role"));
+            Department department = new Department(model.Name, new List<IdentityRole> { });
             Department item = _context.Set<Department>().Add(department).Entity;
             await _context.SaveChangesAsync();
             return Ok(item.Id);
@@ -58,7 +58,7 @@ namespace NUCA.Identity.Controllers.Departments
        /* [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var department = await _context.Set<Department>().FirstOrDefaultAsync(d => d.Id == id);
+            var department = await _context.Set<Department>().FirstOrDefaultAsync(d => d.DepartmentId == id);
             if (department != null)
             {
                 _context.Set<Department>().Remove(department);

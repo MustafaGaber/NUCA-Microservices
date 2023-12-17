@@ -15,7 +15,12 @@ namespace NUCA.Identity.Core
 
         public override Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
         {
-            return Context.Set<User>().Include(u => u.Departments).FirstOrDefaultAsync(u => u.Id == userId);
+            return Context.Set<User>()
+                .Include(u => u.Enrollments)
+                .ThenInclude(e => e.Department)
+                .ThenInclude(d => d.Roles)
+                .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
         }
+   
     }
 }
