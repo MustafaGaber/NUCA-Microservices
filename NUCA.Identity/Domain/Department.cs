@@ -21,9 +21,11 @@ namespace NUCA.Identity.Domain
             _roles = roles;
         }
 
-        public void Update(string name)
+        public void Update(string name, List<IdentityRole> roles)
         {
             Name = Guard.Against.NullOrEmpty(name.Trim());
+            _roles.Clear();
+            _roles.AddRange(roles);
         }
     }
 }

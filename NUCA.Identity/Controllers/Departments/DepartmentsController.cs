@@ -34,7 +34,8 @@ namespace NUCA.Identity.Controllers.Departments
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateDepartmentModel model)
         {
-            Department department = new Department(model.Name, new List<IdentityRole> { });
+            var roles = model.Roles.Select(Roles.GetRole).ToList();
+            Department department = new Department(model.Name, roles);
             Department item = _context.Set<Department>().Add(department).Entity;
             await _context.SaveChangesAsync();
             return Ok(item.Id);
@@ -49,7 +50,8 @@ namespace NUCA.Identity.Controllers.Departments
             {
                 throw new InvalidOperationException();
             }
-            department.Update(model.Name);
+            var roles = model.Roles.Select(Roles.GetRole).ToList();
+            department.Update(model.Name, roles);
             _context.Set<Department>().Update(department);
             await _context.SaveChangesAsync();
             return Ok();
