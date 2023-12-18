@@ -18,7 +18,7 @@ namespace NUCA.Identity.Core
             return Context.Set<User>()
                 .Include(u => u.Enrollments)
                 .ThenInclude(e => e.Department)
-                .ThenInclude(d => d.Roles)
+                .ThenInclude(d => d.Permissions)
                 .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
         }
    

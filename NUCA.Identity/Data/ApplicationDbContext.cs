@@ -11,18 +11,25 @@ namespace NUCA.Identity.Data
     {
         public DbSet<Department> Departments { get; private set; }
         public DbSet<Enrollment> Enrollments { get; private set; }
+        public DbSet<Permission> Permissions { get; private set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // Todo: turn off in production
+            optionsBuilder.EnableSensitiveDataLogging();
+            base.OnConfiguring(optionsBuilder);
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.Entity<Department>()
-                   .HasMany(d => d.Roles)
+                   .HasMany(d => d.Permissions)
                    .WithMany();
 
             builder.Entity<Department>()

@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿/*using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NUCA.Identity.Domain
 {
-    public static class Roles
+    public static class Permissions
     {
-        public static readonly List<IdentityRole> AllRoles = new List<IdentityRole>()
+        public static readonly List<IdentityRole> AllPermissions = new List<IdentityRole>()
         {
             new IdentityRole("projects"),
             new IdentityRole("execution"),
@@ -17,9 +17,10 @@ namespace NUCA.Identity.Domain
 
         public static IdentityRole GetRole(string name)
         {
-            return AllRoles.First(r => r.Name == name);
+            return AllPermissions.First(r => r.Name == name);
         }
 
 
     }
 }
+*/

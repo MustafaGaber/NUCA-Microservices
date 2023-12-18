@@ -31,7 +31,7 @@ namespace NUCA.Identity.Core
             })));
             foreach (var enrollment in user.Enrollments)
             {
-                foreach (var role in enrollment.Department.Roles)
+                foreach (var role in enrollment.Department.Permissions)
                 {
                     context.IssuedClaims.Add(new Claim("Role", role.Name));
                 }

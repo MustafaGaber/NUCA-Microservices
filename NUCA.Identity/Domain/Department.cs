@@ -1,5 +1,4 @@
 ﻿using Ardalis.GuardClauses;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,22 +9,26 @@ namespace NUCA.Identity.Domain
         private List<Enrollment> _enrollments = new List<Enrollment>();
         public virtual IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
        
-        private List<IdentityRole> _roles = new List<IdentityRole>();
-        public virtual IReadOnlyList<IdentityRole> Roles => _roles.ToList();
+        private List<Permission> _permissions = new List<Permission>();
+        public virtual IReadOnlyList<Permission> Permissions => _permissions.ToList();
         public int Id { get; private set; }
         public string Name { get; private set; }
         protected Department() { }
-        public Department(string name, List<IdentityRole> roles)
+        public Department(string name, List<Permission> permissioins)
         {
             Name = Guard.Against.NullOrEmpty(name.Trim());
-            _roles = roles;
+            _permissions = permissioins;
         }
 
-        public void Update(string name, List<IdentityRole> roles)
+        public void Update(string name, List<Permission> permissions)
         {
             Name = Guard.Against.NullOrEmpty(name.Trim());
-            _roles.Clear();
-            _roles.AddRange(roles);
+           // _permissions = permissions;
+            _permissions.RemoveAll(permission => !permissions.Any(p => p.Id == permission.Id));
+            _permissions.AddRange(permissions.Where(permission => !_permissions.Any(p => p.Id == permission.Id)));
+
+            /* _permissions.Clear();
+             _permissions.AddRange(permissions);*/
         }
     }
 }

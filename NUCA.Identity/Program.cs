@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. AllRoles rights reserved.
+﻿// Copyright (c) Brock Allen & Dominick Baier. AllPermissions rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -37,7 +37,7 @@ namespace NUCA.Identity
 
             try
             {
-                var seed = args.Contains("/seed");
+                var seed = true;//args.Contains("/seed");
                 if (seed)
                 {
                     args = args.Except(new[] { "/seed" }).ToArray();
@@ -52,7 +52,7 @@ namespace NUCA.Identity
                     var connectionString = config.GetConnectionString("DefaultConnection");
                     SeedData.EnsureSeedData(connectionString);
                     Log.Information("Done seeding database.");
-                    return 0;
+                   // return 0;
                 }
 
                 Log.Information("Starting host...");

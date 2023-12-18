@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. AllRoles rights reserved.
+﻿// Copyright (c) Brock Allen & Dominick Baier. AllPermissions rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -35,8 +35,16 @@ namespace NUCA.Identity
                 {
                     var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
                     context.Database.Migrate();
-
-                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+                    Permission.AllPermissions.ForEach(permission =>
+                    {
+                        var existingPermission = context.Permissions.FirstOrDefault(p => p.Id == permission.Id);
+                        if (existingPermission == null)
+                        {
+                            context.Permissions.Add(permission);
+                        }
+                    });
+                    context.SaveChanges();
+                    /*var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                     var alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null)
                     {
@@ -100,7 +108,7 @@ namespace NUCA.Identity
                     else
                     {
                         Log.Debug("bob already exists");
-                    }
+                    }*/
                 }
             }
         }
