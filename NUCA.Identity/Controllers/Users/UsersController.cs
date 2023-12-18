@@ -78,6 +78,7 @@ namespace NUCA.Identity.Controllers.Users
                 .Select(department => new Enrollment(id, department, model.Enrollments.Find(e => e.DepartmentId == department.Id).Role)).ToList();
             user.Update(model.FullName, "12345657", enrollments);
             _context.Users.Update(user);
+            await _userManager.UpdateSecurityStampAsync(await _userManager.FindByIdAsync(id));
             await _context.SaveChangesAsync();
             return Ok(GetUserModel.FromUser(user));
         }
@@ -85,11 +86,10 @@ namespace NUCA.Identity.Controllers.Users
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(d => d.Id == id);
+            var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
+                await _userManager.DeleteAsync(user);
             }
             return Ok();
         }

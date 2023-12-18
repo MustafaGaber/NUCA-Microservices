@@ -3,12 +3,14 @@ using jsreport.Binary;
 using jsreport.Local;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NUCA.Projects.Data;
+using NUCA.Projects.Shared.Constants;
 using System.Globalization;
 
 
@@ -42,6 +44,7 @@ builder.Services.Scan(scan => {
     .WithTransientLifetime();
 });
 builder.Services.AddDbContext<ProjectsDatabaseContext>(options => options.UseSqlite("Data Source=projects.db"));
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.Authority = "https://localhost:5010";
@@ -53,6 +56,34 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
     };
+});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ProjectsUser", policy =>
+    {
+        policy.RequireClaim("permission", Permissions.Projects);
+    });
+    options.AddPolicy("ExecutionUser", policy =>
+    {
+        policy.RequireClaim("permission",  Permissions.Execution );
+    });
+    options.AddPolicy("TechnicalOfficeUser", policy =>
+    {
+        policy.RequireClaim("permission",  Permissions.TechnicalOffice );
+    });
+    options.AddPolicy("RevisionUser", policy =>
+    {
+        policy.RequireClaim("permission", Permissions.Revision );
+    });
+    options.AddPolicy("AccountingUser", policy =>
+    {
+        policy.RequireClaim("permission",  Permissions.Accounting );
+    });
+});
+builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+{
+    // enables immediate logout, after updating the user's stat.
+    options.ValidationInterval = TimeSpan.Zero;
 });
 var app = builder.Build();
 

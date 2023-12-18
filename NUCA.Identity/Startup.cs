@@ -39,7 +39,11 @@ namespace NUCA.Identity
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddUserStore<ApplicationUserStore>()
                     .AddDefaultTokenProviders();
-
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                // enables immediate logout, after updating the user's stat.
+                options.ValidationInterval = TimeSpan.Zero;
+            });
             var builder = services.AddIdentityServer(options =>
             {
                 options.Cors.CorsPaths = new[]

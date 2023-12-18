@@ -14,18 +14,20 @@ namespace NUCA.Identity.Domain
             Name = name;
         }
 
-        public static readonly List<Permission> AllPermissions = new List<Permission>()
-        {
-            new Permission("projects", "المشروعات"),
-            new Permission("execution", "التنفيذ"),
-            new Permission("technicalOffice", "المكتب الفني"),
-            new Permission("revision", "المراجعة"),
-            new Permission("accounting", "المالية"),
-        };
-
         public static Permission GetById(string id)
         {
             return AllPermissions.First(r => r.Id == id);
         }
+
+        public static readonly Permission Projects = new Permission("projects", "المشروعات");
+        public static readonly Permission Execution = new Permission("execution", "التنفيذ");
+        public static readonly Permission TechnicalOffice = new Permission("technicalOffice", "المكتب الفني");
+        public static readonly Permission Revision = new Permission("revision", "المراجعة");
+        public static readonly Permission Accounting = new Permission("accounting", "المالية");
+       
+        public static readonly List<Permission> AllPermissions = new List<Permission>()
+        {
+           Projects, Execution, TechnicalOffice, Revision, Accounting
+        };
     }
 }

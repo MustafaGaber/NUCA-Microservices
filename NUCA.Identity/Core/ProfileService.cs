@@ -23,17 +23,18 @@ namespace NUCA.Identity.Core
 
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            User user = await _userManager.GetUserAsync(context.Subject);
-            context.IssuedClaims.Add(new Claim("fullName", user.FullName));
-            context.IssuedClaims.Add(new Claim("enrollments", JsonSerializer.Serialize(user.Enrollments.Select(e => new { departmentId = e.DepartmentId, departmentName = e.Department.Name, role = e.Role}), new JsonSerializerOptions()
+            var serielizeOptions =  new JsonSerializerOptions()
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            })));
+            };
+            User user = await _userManager.GetUserAsync(context.Subject);
+            context.IssuedClaims.Add(new Claim("fullName", user.FullName));
+            context.IssuedClaims.Add(new Claim("enrollments", JsonSerializer.Serialize(user.Enrollments.Select(e => new { departmentId = e.DepartmentId, departmentName = e.Department.Name, role = e.Role }), serielizeOptions)));
             foreach (var enrollment in user.Enrollments)
             {
-                foreach (var role in enrollment.Department.Permissions)
+                foreach (var permission in enrollment.Department.Permissions)
                 {
-                    context.IssuedClaims.Add(new Claim("Role", role.Name));
+                    context.IssuedClaims.Add(new Claim("permission", permission.Id));
                 }
             }
         }

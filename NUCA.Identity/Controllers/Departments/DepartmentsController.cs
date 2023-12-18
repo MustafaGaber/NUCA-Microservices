@@ -29,14 +29,19 @@ namespace NUCA.Identity.Controllers.Departments
         {
             List<GetDepartmentModel> departments = await _context.Set<Department>()
                 .Include(d => d.Permissions)
-                .Select(d => new GetDepartmentModel()
-                {
-                    Id = d.Id,
-                    Name = d.Name,
-                    Permissions = d.Permissions
-                .Select(p => new PermissionModel() { Id = p.Id, Name = p.Name })
-                .ToList()
-                }).ToListAsync();
+                .Select(d =>  GetDepartmentModel.FromDepartment(d))
+                .ToListAsync();
+            return Ok(departments);
+        }
+
+        [HttpGet("ExecutionDepartments")]
+        public async Task<IActionResult> GetExecutionDepartments()
+        {
+            List<GetDepartmentModel> departments = await _context.Set<Department>()
+                .Include(d => d.Permissions)
+                .Where(d => d.Permissions.Any( p => p.Id == Permission.Execution.Id))
+                .Select(d => GetDepartmentModel.FromDepartment(d))
+                .ToListAsync();
             return Ok(departments);
         }
 

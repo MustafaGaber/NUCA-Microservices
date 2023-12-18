@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.Projects.Commands;
 using NUCA.Projects.Application.Projects.Commands.CreateProject;
@@ -36,6 +37,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
             _deleteCommand = deleteCommand;
         }
 
+        // [Authorize(Policy = "ExecutionUser")]
         [HttpGet("UserProjects")]
         public async Task<IActionResult> Index()
         {
