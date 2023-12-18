@@ -8,9 +8,9 @@ namespace NUCA.Identity.Domain
         public string UserId { get; private set; }
         public int DepartmentId { get; private set; }
         public Department Department { get; private set; }
-        public EmployeeRole Role { get; private set; }
+        public EnrollmentRole Role { get; private set; }
         protected Enrollment() { }
-        public Enrollment(string userId, Department department, EmployeeRole role)
+        public Enrollment(string userId, Department department, EnrollmentRole role)
         {
             UserId = Guard.Against.NullOrWhiteSpace(userId);
             Department = Guard.Against.Null(department);

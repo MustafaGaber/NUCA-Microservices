@@ -25,6 +25,6 @@ namespace NUCA.Identity.Controllers.Users
     {
         public required int DepartmentId { get; init; }
         public required string DepartmentName { get; init; }
-        public required EmployeeRole Role { get; init; }
+        public required EnrollmentRole Role { get; init; }
     }
 }
