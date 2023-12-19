@@ -3,6 +3,7 @@
     public class UpdateSectionModel
     {
         public string SectionName { get; init; }
-        public int DepartmentId { get; init; }
+        public string DepartmentId { get; init; }
+        public string DepartmentName { get; init; }
     }
 }

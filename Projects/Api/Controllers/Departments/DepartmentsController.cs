@@ -62,14 +62,14 @@ namespace NUCA.Projects.Api.Controllers.Departments
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
             await _deleteCommand.Execute(id);
             return Ok();
         }
 
         [HttpGet("canDelete/{id}")]
-        public async Task<IActionResult> CanDelete(int id)
+        public async Task<IActionResult> CanDelete(string id)
         {
             bool canDelete = await _canDeleteQuery.Execute(id);
             return Ok(canDelete);

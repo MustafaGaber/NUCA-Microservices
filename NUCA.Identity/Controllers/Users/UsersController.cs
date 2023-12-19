@@ -37,21 +37,21 @@ namespace NUCA.Identity.Controllers.Users
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserModel model)
         {
-            var departmentsIds = model.Enrollments.Select(e => e.DepartmentId).ToList();
+            var departmentsIds = model.Enrollments.Select(e => new Guid(e.DepartmentId)).ToList();
             var departments = await _context.Departments.Where(d => departmentsIds.Contains(d.Id)).ToListAsync();
             User user = new User(model.UserName, model.FullName, "1234564", new List<Enrollment>());
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 List<Enrollment> enrollments = departments
-                        .Select(department => new Enrollment(user.Id, department, model.Enrollments.Find(e => e.DepartmentId == department.Id).Role)).ToList();
+                        .Select(department => new Enrollment(user.Id, department, model.Enrollments.Find(e => e.DepartmentId == department.Id.ToString()).Role)).ToList();
                 _context.Enrollments.AddRange(enrollments);
                 await _context.SaveChangesAsync();
                 return Ok(new GetUserModel()
                 {
                     Id = user.Id,
                     FullName = user.FullName,
-                    Enrollments = enrollments.Select(e => new GetEnrollmentModel() { DepartmentId = e.Department.Id, DepartmentName = e.Department.Name, Role = e.Role }).ToList().ToList()
+                    Enrollments = enrollments.Select(e => new GetEnrollmentModel() { DepartmentId = e.DepartmentId.ToString(), DepartmentName = e.Department.Name, Role = e.Role }).ToList().ToList()
                 });
             }
             else
@@ -70,12 +70,12 @@ namespace NUCA.Identity.Controllers.Users
             {
                 throw new InvalidOperationException();
             }
-            var departmentsIds = model.Enrollments.Select(e => e.DepartmentId).ToList();
+            var departmentsIds = model.Enrollments.Select(e => new Guid(e.DepartmentId)).ToList();
             var departments = await _context.Departments.Where(d => departmentsIds.Contains(d.Id)).ToListAsync();
             var oldEnrollments = await _context.Enrollments.Where(e => e.UserId == id).ToListAsync();
             _context.Enrollments.RemoveRange(oldEnrollments);
             List<Enrollment> enrollments = departments
-                .Select(department => new Enrollment(id, department, model.Enrollments.Find(e => e.DepartmentId == department.Id).Role)).ToList();
+                .Select(department => new Enrollment(id, department, model.Enrollments.Find(e => e.DepartmentId == department.Id.ToString()).Role)).ToList();
             user.Update(model.FullName, "12345657", enrollments);
             _context.Users.Update(user);
             await _userManager.UpdateSecurityStampAsync(await _userManager.FindByIdAsync(id));

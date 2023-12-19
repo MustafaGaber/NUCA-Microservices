@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,13 +7,15 @@ namespace NUCA.Identity.Domain
 {
     public class Department 
     {
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+
         private List<Enrollment> _enrollments = new List<Enrollment>();
         public virtual IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
        
         private List<Permission> _permissions = new List<Permission>();
         public virtual IReadOnlyList<Permission> Permissions => _permissions.ToList();
-        public int Id { get; private set; }
-        public string Name { get; private set; }
+
         protected Department() { }
         public Department(string name, List<Permission> permissioins)
         {

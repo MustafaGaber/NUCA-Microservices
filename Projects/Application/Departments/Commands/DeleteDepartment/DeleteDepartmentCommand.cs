@@ -9,9 +9,9 @@ namespace NUCA.Projects.Application.Departments.Commands.DeleteDepartment
         {
             _departmentRepository = departmentRepository;
         }
-        public async Task Execute(int id)
+        public async Task Execute(string id)
         {
-            bool hasProjects = await _departmentRepository.DepartmentHasProjects(id);
+            /*bool hasProjects = await _departmentRepository.DepartmentHasProjects(id);
             bool hasUsers = await _departmentRepository.DepartmentHasUsers(id);
             bool hasBoqSections = await _departmentRepository.DepartmentHasBoqSections(id);
             if (!hasProjects && !hasUsers && !hasBoqSections)
@@ -21,7 +21,7 @@ namespace NUCA.Projects.Application.Departments.Commands.DeleteDepartment
             else
             {
                 throw new InvalidOperationException("Department has projects or users");
-            }
+            }*/
         }
     }
 }

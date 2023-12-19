@@ -34,7 +34,7 @@ namespace NUCA.Identity.Controllers.Departments
             return Ok(departments);
         }
 
-        [HttpGet("ExecutionDepartments")]
+        [HttpGet("Execution")]
         public async Task<IActionResult> GetExecutionDepartments()
         {
             List<GetDepartmentModel> departments = await _context.Set<Department>()
@@ -59,6 +59,10 @@ namespace NUCA.Identity.Controllers.Departments
         public async Task<IActionResult> Create([FromBody] CreateDepartmentModel model)
         {
             var permissions = model.Permissions.Select(Permission.GetById).ToList();
+            foreach (var permission in permissions)
+            {
+                _context.Attach(permission);
+            }
             Department department = new Department(model.Name, permissions);
             Department item = _context.Set<Department>().Add(department).Entity;
             await _context.SaveChangesAsync();
@@ -66,7 +70,7 @@ namespace NUCA.Identity.Controllers.Departments
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] CreateDepartmentModel model)
+        public async Task<IActionResult> Update(Guid id, [FromBody] CreateDepartmentModel model)
         {
             var department = await _context.Set<Department>().Include(d => d.Permissions).FirstOrDefaultAsync(d => d.Id == id);
             if (department == null)

@@ -24,11 +24,11 @@ namespace NUCA.Projects.Application.Projects.Commands.CreateProject
         }
         public async Task<Project> Execute(ProjectModel model)
         {
-            Department? department = await _departmentRepository.Get(model.DepartmentId);
+            /* Department? department = await _departmentRepository.Get(model.DepartmentId);
             if (department == null)
             {
                 throw new InvalidOperationException();
-            }
+            }*/
             WorkType? type = await _workTypeRepository.Get(model.TypeId);
             if (type == null)
             {
@@ -47,7 +47,8 @@ namespace NUCA.Projects.Application.Projects.Commands.CreateProject
             var project = await _projectRepository.Add(new Project
             (
                 name: model.Name,
-                department: department,
+                departmentId: model.DepartmentId,
+                departmentName: model.DepartmentName,
                 type: type,
                 status: model.Status,
                 awardType: awardType,

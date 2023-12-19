@@ -23,7 +23,7 @@ namespace NUCA.Projects.Application.Boqs.Models
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    DepartmentId = s.Department.Id,
+                    DepartmentId = s.DepartmentId,
                     Items = s.Items.Select(i =>
                     new ItemModel
                     {
@@ -53,8 +53,8 @@ namespace NUCA.Projects.Application.Boqs.Models
     {
         public long Id { get; init; }
         public List<ItemModel> Items { get; init; } = new List<ItemModel>();
-        public string Name { get; init; }
-        public int DepartmentId { get; init; }
+        public required string Name { get; init; }
+        public string DepartmentId { get; init; }
 
     }
 

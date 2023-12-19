@@ -9,7 +9,7 @@ namespace NUCA.Projects.Application.Departments.Queries.CanDeleteDepartment
         {
             _repository = repository;
         }
-        public async Task<bool> Execute(int id)
+        public async Task<bool> Execute(string id)
         {
             bool hasProjects = await _repository.DepartmentHasProjects(id);
             bool hasUsers = await _repository.DepartmentHasUsers(id);

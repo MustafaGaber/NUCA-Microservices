@@ -8,18 +8,21 @@ namespace NUCA.Projects.Domain.Entities.Boqs
     {
         private readonly List<BoqItem> _items = new List<BoqItem>();
         public string Name { get; private set; }
-        public virtual Department Department { get; private set; }
+        public string DepartmentId { get; private set; }
+        public string DepartmentName { get; private set; }
         public virtual IReadOnlyList<BoqItem> Items => _items.ToList();
         protected BoqSection() { }
-        public BoqSection(string name, Department department)
+        public BoqSection(string name,  string departmentId, string departmentName)
         {
             Name = name;
-            Department = Guard.Against.Null(department);
+            DepartmentId = Guard.Against.NullOrEmpty(departmentId);
+            DepartmentName = Guard.Against.NullOrEmpty(departmentName);
         }
-        internal void Update(string newName, Department department)
+        internal void Update(string name, string departmentId, string departmentName)
         {
-            Name = newName;
-            Department = Guard.Against.Null(department);
+            Name = name;
+            DepartmentId = Guard.Against.NullOrEmpty(departmentId);
+            DepartmentName = Guard.Against.NullOrEmpty(departmentName);
         }
         internal void AddItem(string index, string content, string unit, double quantity, double unitPrice)
         {

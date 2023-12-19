@@ -56,8 +56,7 @@ namespace NUCA.Identity.Data.Migrations
                 name: "Departments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -188,7 +187,7 @@ namespace NUCA.Identity.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DepartmentId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Role = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -212,7 +211,7 @@ namespace NUCA.Identity.Data.Migrations
                 name: "DepartmentPermission",
                 columns: table => new
                 {
-                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DepartmentId = table.Column<Guid>(type: "TEXT", nullable: false),
                     PermissionsId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

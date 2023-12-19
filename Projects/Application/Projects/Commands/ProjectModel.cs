@@ -6,7 +6,8 @@ namespace NUCA.Projects.Application.Projects.Commands
     public class ProjectModel
     {
         public string Name { get; init; }
-        public int DepartmentId { get; init; }
+        public string DepartmentId { get; init; }
+        public string DepartmentName { get; init; }
         public int TypeId { get; init; }
         public ProjectStatus Status { get; init; }
         public int? AwardTypeId { get; init; }

@@ -7,7 +7,7 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
     {
         public long Id { get; init; }
         public string Name { get; init; }
-        public int DepartmentId { get; init; }
+        public string DepartmentId { get; init; }
         public string DepartmentName { get; init; }
         public int TypeId { get; init; }
         public string TypeName { get; init; }
@@ -40,8 +40,8 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
             {
                 Id = project.Id,
                 Name = project.Name,
-                DepartmentId = project.Department.Id,
-                DepartmentName = project.Department.Name,
+                DepartmentId = project.DepartmentId,
+                DepartmentName = project.DepartmentName,
                 TypeId = project.Type.Id,
                 TypeName = project.Type.Name,
                 Status = project.Status,

@@ -12,7 +12,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
     public class Project : AggregateRoot<long>
     {
         public string Name { get; private set; }
-        public Department Department { get; private set; }
+        public string DepartmentId { get; private set; }
+        public string DepartmentName { get; private set; }
         public WorkType Type { get; private set; }
         public ProjectStatus Status { get; private set; }
         public AwardType? AwardType { get; private set; }
@@ -41,7 +42,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
         protected Project() { }
         public Project(
             string name,
-            Department department,
+            string departmentId,
+            string departmentName,
             WorkType type,
             ProjectStatus status,
             AwardType? awardType,
@@ -64,7 +66,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
         {
             Update(
                 name: name,
-                department: department,
+                departmentId: departmentId,
+                departmentName: departmentName,
                 type: type,
                 status: status,
                 awardType: awardType,
@@ -89,7 +92,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
 
         public void Update(
             string name,
-            Department department,
+            string departmentId,
+            string departmentName,
             WorkType type,
             ProjectStatus status,
             AwardType? awardType,
@@ -110,8 +114,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
             int? totalContractPapers,
             string notes)
         {
-            Name = Guard.Against.NullOrWhiteSpace(name, nameof(name));
-            Department = Guard.Against.Null(department, nameof(department));
+            Name = Guard.Against.NullOrWhiteSpace(name);
+            DepartmentId = Guard.Against.NullOrEmpty(departmentId);
+            DepartmentName = Guard.Against.NullOrEmpty(departmentName);
             Type = Guard.Against.Null(type, nameof(type));
             Status = Guard.Against.Null(status, nameof(status));
             if (status >= ProjectStatus.Awarded)

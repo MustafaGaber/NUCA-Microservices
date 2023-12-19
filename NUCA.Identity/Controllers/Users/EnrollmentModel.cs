@@ -4,7 +4,7 @@ namespace NUCA.Identity.Controllers.Users
 {
     public class EnrollmentModel
     {
-        public int DepartmentId { get; init; }
+        public string DepartmentId { get; init; }
         public EnrollmentRole Role { get; init; }
     }
 }

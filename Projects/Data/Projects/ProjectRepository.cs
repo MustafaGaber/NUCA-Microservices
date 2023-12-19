@@ -15,7 +15,7 @@ namespace NUCA.Projects.Data.Projects
         {
             return database.Projects
                 .Include(p => p.Company)
-                .Include(p => p.Department)
+                //.Include(p => p.Department)
                 .Include(p => p.Type)
                 .Include(p => p.AwardType)
                 .Include(p => p.ModifiedEndDates)
@@ -26,7 +26,7 @@ namespace NUCA.Projects.Data.Projects
         {
             return database.Projects
                 .Include(p => p.Company)
-                .Include(p => p.Department)
+                //.Include(p => p.Department)
                 .Include(p => p.Type)
                 .Include(p => p.AwardType)
                 .Include(p => p.ModifiedEndDates)
@@ -38,7 +38,7 @@ namespace NUCA.Projects.Data.Projects
         {
             return database.Projects
                 .Include(p => p.Company)
-                .Include(p => p.Department)
+                //.Include(p => p.Department)
                 .Include(p => p.Type)
                 .Include(p => p.AwardType)
                 .Include(p => p.ModifiedEndDates)
@@ -49,7 +49,7 @@ namespace NUCA.Projects.Data.Projects
         {
             return database.Projects
                 .Include(p => p.Company)
-                .Include(p => p.Department)
+               // .Include(p => p.Department)
                 .Include(p => p.Type)
                 .Include(p => p.AwardType)
                 .Include(p => p.ModifiedEndDates)

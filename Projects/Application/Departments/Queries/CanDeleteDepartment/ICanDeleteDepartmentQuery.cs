@@ -8,6 +8,6 @@ namespace NUCA.Projects.Application.Departments.Queries.CanDeleteDepartment
 {
     public interface ICanDeleteDepartmentQuery
     {
-        public Task<bool> Execute(int id);
+        public Task<bool> Execute(string id);
     }
 }

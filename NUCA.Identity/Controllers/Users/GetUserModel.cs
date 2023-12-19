@@ -16,14 +16,14 @@ namespace NUCA.Identity.Controllers.Users
             {
                 Id = user.Id,
                 FullName = user.FullName,
-                Enrollments = user.Enrollments.Select(e => new GetEnrollmentModel() { DepartmentId = e.Department.Id, DepartmentName = e.Department.Name, Role = e.Role }).ToList().ToList()
+                Enrollments = user.Enrollments.Select(e => new GetEnrollmentModel() { DepartmentId = e.Department.Id.ToString(), DepartmentName = e.Department.Name, Role = e.Role }).ToList().ToList()
             };
         }
     }
 
     public class GetEnrollmentModel
     {
-        public required int DepartmentId { get; init; }
+        public required string DepartmentId { get; init; }
         public required string DepartmentName { get; init; }
         public required EnrollmentRole Role { get; init; }
     }

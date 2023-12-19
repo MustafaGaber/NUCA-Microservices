@@ -30,7 +30,7 @@ namespace NUCA.Projects.Data.Boqs
         public void Configure(EntityTypeBuilder<BoqSection> builder)
         {
             builder.HasKey(s => s.Id);
-            builder.HasOne(p => p.Department).WithMany();
+            //builder.HasOne(p => p.Department).WithMany();
             builder.HasMany(s => s.Items).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
         }
     }

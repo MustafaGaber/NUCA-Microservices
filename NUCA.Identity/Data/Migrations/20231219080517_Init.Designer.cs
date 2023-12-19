@@ -11,7 +11,7 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231218070027_Init")]
+    [Migration("20231219080517_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -22,8 +22,8 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("DepartmentPermission", b =>
                 {
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PermissionsId")
                         .HasColumnType("TEXT");
@@ -165,9 +165,9 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("NUCA.Identity.Domain.Department", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -179,8 +179,8 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("NUCA.Identity.Domain.Enrollment", b =>
                 {
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");

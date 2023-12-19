@@ -8,7 +8,7 @@ namespace NUCA.Identity.Controllers.Departments
 {
     public class GetDepartmentModel
     {
-        public required int Id { get; init; }
+        public required string Id { get; init; }
         public required string Name { get; init; }
         public required List<PermissionModel> Permissions { get; init; }
 
@@ -16,7 +16,7 @@ namespace NUCA.Identity.Controllers.Departments
         {
             return new GetDepartmentModel()
             {
-                Id = department.Id,
+                Id = department.Id.ToString(),
                 Name = department.Name,
                 Permissions = department.Permissions
                         .Select(p => new PermissionModel() { Id = p.Id, Name = p.Name })

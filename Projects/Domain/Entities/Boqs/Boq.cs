@@ -42,15 +42,15 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 _tables.Remove(table);
             }
         }
-        public void AddSection(long tableId, string sectionName, Department department)
+        public void AddSection(long tableId, string sectionName, string departmentId, string departmentName)
         {
             BoqTable table = _tables.First(t => t.Id == tableId);
-            table.AddSection(sectionName, department);
+            table.AddSection(sectionName, departmentId, departmentName);
         }
-        public void UpdateSection(long tableId, long sectionId, string sectionName, Department department)
+        public void UpdateSection(long tableId, long sectionId, string sectionName, string departmentId, string departmentName)
         {
             BoqTable table = _tables.First(t => t.Id == tableId);
-            table.UpdateSection(sectionId, sectionName, department);
+            table.UpdateSection(sectionId, sectionName, departmentId, departmentName);
         }
         public void DeleteSection(long tableId, long sectionId)
         {

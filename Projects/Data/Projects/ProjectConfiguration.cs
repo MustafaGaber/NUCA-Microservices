@@ -9,7 +9,7 @@ namespace NUCA.Projects.Data.Projects
         public void Configure(EntityTypeBuilder<Project> builder)
         {
             builder.HasOne(p => p.Company).WithMany().OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(p => p.Department).WithMany().OnDelete(DeleteBehavior.Restrict);
+            //builder.HasOne(p => p.Department).WithMany().OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(p => p.Type).WithMany().OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(p => p.Privileges).WithOne()
                    .IsRequired()

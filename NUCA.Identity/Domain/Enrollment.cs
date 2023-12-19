@@ -6,7 +6,7 @@ namespace NUCA.Identity.Domain
     public class Enrollment
     {
         public string UserId { get; private set; }
-        public int DepartmentId { get; private set; }
+        public Guid DepartmentId { get; private set; }
         public Department Department { get; private set; }
         public EnrollmentRole Role { get; private set; }
         protected Enrollment() { }
@@ -14,7 +14,7 @@ namespace NUCA.Identity.Domain
         {
             UserId = Guard.Against.NullOrWhiteSpace(userId);
             Department = Guard.Against.Null(department);
-            DepartmentId = Guard.Against.NegativeOrZero(Department.Id);
+            DepartmentId = Guard.Against.NullOrEmpty(Department.Id);
             Role = role;
         }
     }

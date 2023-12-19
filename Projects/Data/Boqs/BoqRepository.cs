@@ -18,7 +18,7 @@ namespace NUCA.Projects.Data.Boqs
                 .ThenInclude(s => s.Items)
                 .Include(b => b.Tables)
                 .ThenInclude(t => t.Sections)
-                .ThenInclude(s => s.Department)
+                //.ThenInclude(s => s.Department)
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(u => u.Id == id);
         }

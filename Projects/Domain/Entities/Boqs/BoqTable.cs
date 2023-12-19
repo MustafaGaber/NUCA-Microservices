@@ -28,14 +28,14 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             PriceChangePercent = Guard.Against.OutOfRange(priceChangePercent, nameof(priceChangePercent), -100, double.MaxValue);
             Type = Guard.Against.Null(type);
         }
-        internal void AddSection(string sectionName, Department department)
+        internal void AddSection(string sectionName, string departmentId, string departmentName)
         {
-            _sections.Add(new BoqSection(sectionName, department));
+            _sections.Add(new BoqSection(sectionName, departmentId, departmentName));
         }
-        internal void UpdateSection(long id, string sectionName, Department department)
+        internal void UpdateSection(long id, string sectionName, string departmentId, string departmentName)
         {
             BoqSection? section = _sections.Find(s => s.Id == id);
-            section.Update(sectionName, department);
+            section.Update(sectionName, departmentId, departmentName);
         }
         internal void DeleteSection(long id)
         {

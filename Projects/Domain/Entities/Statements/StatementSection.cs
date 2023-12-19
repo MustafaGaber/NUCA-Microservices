@@ -10,7 +10,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
     {
         private readonly List<StatementItem> _items = new List<StatementItem>();
         public long BoqSectionId { get; private set; }
-        public long DepartmentId { get; private set; }
+        public string DepartmentId { get; private set; }
         public string Name { get; private set; }
         public virtual IReadOnlyList<StatementItem> Items => _items.ToList();
         public bool HasQuantities => _items.Any(i => i.HasQuantities);
@@ -19,7 +19,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public StatementSection(BoqSection boqSection, int count)
         {
             BoqSectionId = Guard.Against.NegativeOrZero(boqSection.Id);
-            DepartmentId = Guard.Against.NegativeOrZero(boqSection.Department.Id);
+            DepartmentId = Guard.Against.NullOrEmpty(boqSection.DepartmentId);
             Name = boqSection.Name;
             _items = boqSection.Items.Select(boqItem => new StatementItem(
                 boqItem.Id,
