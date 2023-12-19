@@ -2,6 +2,6 @@
 {
     public interface IGetProjectWithStatementsQuery
     {
-        Task<List<ProjectWithStatements>> Execute();
+        Task<List<ProjectWithStatementsModel>> Execute();
     }
 }

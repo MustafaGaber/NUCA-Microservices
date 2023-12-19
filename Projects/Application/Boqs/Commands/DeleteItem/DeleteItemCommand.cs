@@ -14,7 +14,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.DeleteItem
         }
         public async Task<BoqModel> Execute(long projectId, long tableId, long sectionId, long itemId)
         {
-            Boq? boq = await _boqRepository.Get(projectId);
+            Boq? boq = await _boqRepository.GetByProjectId(projectId);
             if (boq == null)
             {
                 throw new InvalidOperationException();

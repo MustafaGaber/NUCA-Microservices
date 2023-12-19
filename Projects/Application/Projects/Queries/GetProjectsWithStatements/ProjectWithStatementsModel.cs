@@ -2,7 +2,7 @@
 
 namespace NUCA.Projects.Application.Projects.Queries.GetProjectsWithStatements
 {
-    public class ProjectWithStatements
+    public class ProjectWithStatementsModel
     {
         public long Id { get; init; }
         public string Name { get; init; }

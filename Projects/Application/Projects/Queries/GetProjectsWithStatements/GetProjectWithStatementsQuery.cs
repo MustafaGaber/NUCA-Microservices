@@ -16,13 +16,13 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjectsWithStatements
             _dbContext = dbContext;
         }
 
-        public Task<List<ProjectWithStatements>> Execute()
+        public Task<List<ProjectWithStatementsModel>> Execute()
         {
             return _dbContext.Projects
                   .Include(p => p.Company)
                   .Include(p => p.Statements)
                   .Where(p => p.Status >= ProjectStatus.Started)
-                  .Select(project => new ProjectWithStatements
+                  .Select(project => new ProjectWithStatementsModel
                   {
                       Id = project.Id,
                       Name = project.Name,

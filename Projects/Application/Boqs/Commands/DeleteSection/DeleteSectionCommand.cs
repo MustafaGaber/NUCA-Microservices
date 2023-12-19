@@ -14,7 +14,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.DeleteSection
         }
         public async Task<BoqModel> Execute(long projectId, long tableId, long sectionId)
         {
-            Boq? boq = await _boqRepository.Get(projectId);
+            Boq? boq = await _boqRepository.GetByProjectId(projectId);
             if (boq == null)
             {
                 throw new InvalidOperationException();

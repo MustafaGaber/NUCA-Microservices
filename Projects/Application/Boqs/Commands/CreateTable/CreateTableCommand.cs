@@ -13,7 +13,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateTable
         }
         public async Task<BoqModel> Execute(long boqId, CreateTableModel table)
         {
-            Boq? boq = await _boqRepository.Get(boqId);
+            Boq? boq = await _boqRepository.GetByProjectId(boqId);
             if (boq == null)
             {
                 throw new InvalidOperationException();

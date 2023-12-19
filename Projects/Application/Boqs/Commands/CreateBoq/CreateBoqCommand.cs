@@ -13,7 +13,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateBoq
         }
         public async Task<BoqModel> Execute(long id, CreateBoqModel model)
         {
-            Boq? oldBoq = await _boqRepository.Get(id);
+            Boq? oldBoq = await _boqRepository.GetByProjectId(id);
             if (oldBoq == null)
             {
                 Boq boq = new Boq(id, model.PriceChangePercent);

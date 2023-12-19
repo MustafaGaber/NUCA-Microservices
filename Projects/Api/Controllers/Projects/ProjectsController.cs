@@ -49,7 +49,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
         [HttpGet("ProjectsWithStatements")]
         public async Task<IActionResult> GetProjectsWithStatements()
         {
-            List<ProjectWithStatements> projects = await _getProjectWithStatementsQuery.Execute();
+            List<ProjectWithStatementsModel> projects = await _getProjectWithStatementsQuery.Execute();
             return Ok(projects);
         }
 

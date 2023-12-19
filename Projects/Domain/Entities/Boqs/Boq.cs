@@ -7,13 +7,15 @@ namespace NUCA.Projects.Domain.Entities.Boqs
 {
     public class Boq : AggregateRoot<long>
     {
+        public long ProjectId { get; private set; }
+
         private readonly List<BoqTable> _tables = new List<BoqTable>();
         public double PriceChangePercent { get; private set; }
         public virtual IReadOnlyList<BoqTable> Tables => _tables.ToList();
         protected Boq() { }
-        public Boq(long id, double priceChangePercent)
+        public Boq(long projectId, double priceChangePercent)
         {
-            Id = Guard.Against.Null(id, nameof(id));
+            ProjectId = Guard.Against.Null(projectId, nameof(projectId));
             PriceChangePercent = Guard.Against.OutOfRange(priceChangePercent, nameof(priceChangePercent), -100, double.MaxValue);
         }
         public void UpdateBoq(double priceChangePercent)

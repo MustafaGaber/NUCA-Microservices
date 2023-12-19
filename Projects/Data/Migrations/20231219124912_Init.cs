@@ -196,6 +196,7 @@ namespace NUCA.Projects.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false),
+                    ProjectId = table.Column<long>(type: "INTEGER", nullable: false),
                     PriceChangePercent = table.Column<double>(type: "REAL", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
@@ -208,7 +209,7 @@ namespace NUCA.Projects.Data.Migrations
                         column: x => x.Id,
                         principalTable: "Projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

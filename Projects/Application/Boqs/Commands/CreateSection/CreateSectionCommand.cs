@@ -16,7 +16,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateSection
         }
         public async Task<BoqModel> Execute(long id, long tableId, CreateSectionModel model)
         {
-            Boq? boq = await _boqRepository.Get(id);
+            Boq? boq = await _boqRepository.GetByProjectId(id);
            // Department? department = await _departmentRepository.Get(model.DepartmentId);
             if (boq == null)
             {

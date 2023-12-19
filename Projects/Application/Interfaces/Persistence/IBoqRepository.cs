@@ -7,5 +7,6 @@ namespace NUCA.Projects.Application.Interfaces.Persistence
 {
     public interface IBoqRepository : IRepository<Boq, long>
     {
+        public Task<Boq?> GetByProjectId(long projectId);
     }
 }

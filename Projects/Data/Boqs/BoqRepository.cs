@@ -10,7 +10,7 @@ namespace NUCA.Projects.Data.Boqs
         public BoqRepository(ProjectsDatabaseContext database)
            : base(database) { }
 
-        public override Task<Boq?> Get(long id)
+        public Task<Boq?> GetByProjectId(long projectId)
         {
             return database.Boqs
                 .Include(b => b.Tables)
@@ -20,7 +20,7 @@ namespace NUCA.Projects.Data.Boqs
                 .ThenInclude(t => t.Sections)
                 //.ThenInclude(s => s.Department)
                 .AsSplitQuery()
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.ProjectId == projectId);
         }
     }
 }

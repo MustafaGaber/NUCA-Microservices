@@ -1,6 +1,7 @@
 ﻿
 using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
+using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Companies;
 using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
@@ -36,7 +37,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public int? TotalContractPapers { get; private set; }
         public string Notes { get; private set; }
         public virtual IReadOnlyList<Statement> Statements { get; private set; }
-        
+        public Boq? Boq { get; private set; }
+
         private readonly List<Privilege> _privileges = new List<Privilege>();
         public virtual IReadOnlyList<Privilege> Privileges => _privileges.ToList();
         protected Project() { }

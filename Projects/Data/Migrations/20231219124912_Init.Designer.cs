@@ -11,7 +11,7 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Data.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    [Migration("20231219095051_Init")]
+    [Migration("20231219124912_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -179,6 +179,9 @@ namespace NUCA.Projects.Data.Migrations
 
                     b.Property<double>("PriceChangePercent")
                         .HasColumnType("REAL");
+
+                    b.Property<long>("ProjectId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -896,9 +899,9 @@ namespace NUCA.Projects.Data.Migrations
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.Boq", b =>
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Projects.Project", null)
-                        .WithOne()
+                        .WithOne("Boq")
                         .HasForeignKey("NUCA.Projects.Domain.Entities.Boqs.Boq", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -1096,6 +1099,8 @@ namespace NUCA.Projects.Data.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Project", b =>
                 {
+                    b.Navigation("Boq");
+
                     b.Navigation("Privileges");
 
                     b.Navigation("Statements");
