@@ -26,7 +26,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         {
             Guard.Against.NegativeOrZero(count, nameof(count));
             Guard.Against.OutOfRange(priceChangePercent, nameof(priceChangePercent), -1, double.MaxValue);
-            BoqTable table = new BoqTable(name, count, priceChangePercent, type);
+            BoqTable table = new BoqTable(Id, name, count, priceChangePercent, type);
             _tables.Add(table);
         }
         public void UpdateTable(long id, string name, int count, double priceChangePercent, BoqTableType type)

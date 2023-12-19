@@ -7,6 +7,8 @@ namespace NUCA.Projects.Domain.Entities.Boqs
 {
     public class BoqTable : Entity<long>
     {
+        public long BoqId { get; private set; }
+
         private readonly List<BoqSection> _sections = new List<BoqSection>();
         public string Name { get; private set; }
         public int Count { get; private set; }
@@ -14,12 +16,14 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         public BoqTableType Type { get; private set; }
         public virtual IReadOnlyList<BoqSection> Sections => _sections.ToList();
         protected BoqTable() { }
-        public BoqTable(string name, int count, double priceChangePercent, BoqTableType type)
+        public BoqTable(long boqId, string name, int count, double priceChangePercent, BoqTableType type)
         {
+            BoqId = Guard.Against.NegativeOrZero(boqId);
             Name = name;
             Count = Guard.Against.NegativeOrZero(count, nameof(count));
             PriceChangePercent = Guard.Against.OutOfRange(priceChangePercent, nameof(priceChangePercent), -100, double.MaxValue);
             Type = Guard.Against.Null(type);
+            BoqId = boqId;
         }
         internal void UpdateTable(string name, int count, double priceChangePercent, BoqTableType type)
         {
@@ -30,7 +34,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         }
         internal void AddSection(string sectionName, string departmentId, string departmentName)
         {
-            _sections.Add(new BoqSection(sectionName, departmentId, departmentName));
+            _sections.Add(new BoqSection(BoqId, sectionName, departmentId, departmentName));
         }
         internal void UpdateSection(long id, string sectionName, string departmentId, string departmentName)
         {

@@ -6,14 +6,17 @@ namespace NUCA.Projects.Domain.Entities.Boqs
 {
     public class BoqSection : Entity<long>
     {
+        public long BoqId { get; private set; }
+
         private readonly List<BoqItem> _items = new List<BoqItem>();
         public string Name { get; private set; }
         public string DepartmentId { get; private set; }
         public string DepartmentName { get; private set; }
         public virtual IReadOnlyList<BoqItem> Items => _items.ToList();
         protected BoqSection() { }
-        public BoqSection(string name,  string departmentId, string departmentName)
+        public BoqSection(long boqId, string name,  string departmentId, string departmentName)
         {
+            BoqId = Guard.Against.NegativeOrZero(boqId);
             Name = name;
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
