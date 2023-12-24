@@ -12,24 +12,31 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjectWithDepartments
         {
             _dbContext = dbContext;
         }
-        public Task<ProjectWithDepartmentsModel> Execute(long id)
+        public async Task<ProjectWithDepartmentsModel> Execute(long projectId)
         {
-
-            return _dbContext.Projects
+            var project = await _dbContext.Projects
                  .Include(p => p.Company)
                  .Include(p => p.Boq)
-                 .Where(p => p.Id == id)
-                 .Select(project => new ProjectWithDepartmentsModel
+                 .Where(p => p.Id == projectId)
+                 .Select(project => new 
                  {
-                     Id = project.Id,
+                     BoqId = project.Boq.Id,
                      Name = project.Name,
                      CompanyName = project.Company == null ? null : project.Company.Name,
-                     Departments = _dbContext.Set<BoqSection>()
-                                  .Where(s => s.BoqId == project.Boq.Id)
-                                  .Select(s => s.DepartmentId)
-                                  .Distinct()
-                                  .ToList()
+                     Departments = new List<string> { }
                  }).FirstAsync();
+            List<DepartmentModel> departments = _dbContext.Set<BoqSection>()
+                               .Where(s => s.BoqId == project.BoqId)
+                               .GroupBy(s => s.DepartmentId)
+                               //.Select(s => s.First())
+                               .Select(s =>  new DepartmentModel() { Id = s.First().DepartmentId, Name = s.First().DepartmentName })
+                               .ToList();
+            return new ProjectWithDepartmentsModel
+            {
+                Name = project.Name,
+                CompanyName = project.CompanyName,
+                Departments = departments,
+            };
         }
     }
 }

@@ -9,6 +9,7 @@ using NUCA.Projects.Application.Projects.Queries.GetProject;
 using NUCA.Projects.Application.Projects.Queries.GetProjectName;
 using NUCA.Projects.Application.Projects.Queries.GetProjects;
 using NUCA.Projects.Application.Projects.Queries.GetProjectsWithStatements;
+using NUCA.Projects.Application.Projects.Queries.GetProjectWithDepartments;
 using NUCA.Projects.Application.Projects.Queries.GetUserProjects;
 using NUCA.Projects.Application.Projects.Queries.Models;
 using NUCA.Projects.Domain.Entities.Projects;
@@ -23,15 +24,17 @@ namespace NUCA.Projects.Api.Controllers.Projects
         private readonly IGetProjectQuery _detailQuery;
         private readonly IGetProjectWithStatementsQuery _getProjectWithStatementsQuery;
         private readonly IGetProjectNameQuery _getNameQuery;
+        private readonly IGetProjectWithDepartmentsQuery _getProjectWithDepartmentsQuery;
         private readonly ICreateProjectCommand _createCommand;
         private readonly IUpdateProjectCommand _updateCommand;
         private readonly IDeleteProjectCommand _deleteCommand;
-        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery)
+        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery, IGetProjectWithDepartmentsQuery getProjectWithDepartmentsQuery)
         {
             _listQuery = listQuery;
             _detailQuery = detailQuery;
             _getProjectWithStatementsQuery = getProjectWithStatementsQuery;
             _getNameQuery = getNameQuery;
+            _getProjectWithDepartmentsQuery = getProjectWithDepartmentsQuery;
             _createCommand = createCommand;
             _updateCommand = updateCommand;
             _deleteCommand = deleteCommand;
@@ -46,18 +49,25 @@ namespace NUCA.Projects.Api.Controllers.Projects
             return Ok(projects);
         }
 
-        [HttpGet("ProjectsWithStatements")]
+        [HttpGet("WithStatements")]
         public async Task<IActionResult> GetProjectsWithStatements()
         {
             List<ProjectWithStatementsModel> projects = await _getProjectWithStatementsQuery.Execute();
             return Ok(projects);
         }
 
-        [HttpGet("Name/{id}")]
+        [HttpGet("{id}/Name")]
         public async Task<IActionResult> GetName(long id)
         {
             string name = await _getNameQuery.Execute(id);
             return Ok(name);
+        }
+
+        [HttpGet("{id}/WithDepartments")]
+        public async Task<IActionResult> GetProjectWithDepartments(long id)
+        {
+            ProjectWithDepartmentsModel project = await _getProjectWithDepartmentsQuery.Execute(id);
+            return Ok(project);
         }
 
         [HttpGet("{id}")]

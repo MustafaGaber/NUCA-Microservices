@@ -5,20 +5,23 @@ namespace NUCA.Projects.Domain.Entities.Projects
 {
     public class Privilege : Entity<long>
     {
-        public int DepartmentId { get; private set; }
-        public long UserId { get; private set; }
+        public Guid UserId { get; private set; }
+        public PrivilegeType Type { get; private set; }
+        public Guid? DepartmentId { get; private set; }
 
-        public Privilege(int departmentId,long userId)
+        public Privilege(Guid userId, PrivilegeType type, Guid? departmentId)
         {
-            DepartmentId = Guard.Against.NegativeOrZero(departmentId);
-            UserId =  Guard.Against.NegativeOrZero(userId);
+            UserId =  Guard.Against.NullOrEmpty(userId);
+            Type = type;
+            DepartmentId = departmentId;
         }
 
-        public void Update(long userId)
+        public void Update(Guid userId, PrivilegeType type, Guid? departmentId)
         {
-            UserId = Guard.Against.NegativeOrZero(userId);
+            UserId = Guard.Against.NullOrEmpty(userId);
+            Type = type;
+            DepartmentId = departmentId;
         }
     }
-
 
 }

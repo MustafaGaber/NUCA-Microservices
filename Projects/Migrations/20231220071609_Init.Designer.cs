@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Projects.Data;
 
 #nullable disable
 
-namespace NUCA.Projects.Data.Migrations
+namespace NUCA.Projects.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    partial class ProjectsDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20231220071609_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
@@ -166,6 +169,7 @@ namespace NUCA.Projects.Data.Migrations
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.Boq", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
@@ -181,6 +185,9 @@ namespace NUCA.Projects.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId")
+                        .IsUnique();
 
                     b.ToTable("Boqs");
                 });
@@ -229,6 +236,9 @@ namespace NUCA.Projects.Data.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("BoqId")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("BoqTableId")
@@ -895,11 +905,13 @@ namespace NUCA.Projects.Data.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.Boq", b =>
                 {
-                    b.HasOne("NUCA.Projects.Domain.Entities.Projects.Project", null)
+                    b.HasOne("NUCA.Projects.Domain.Entities.Projects.Project", "Project")
                         .WithOne("Boq")
-                        .HasForeignKey("NUCA.Projects.Domain.Entities.Boqs.Boq", "Id")
+                        .HasForeignKey("NUCA.Projects.Domain.Entities.Boqs.Boq", "ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.BoqItem", b =>

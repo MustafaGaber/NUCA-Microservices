@@ -3,7 +3,6 @@ using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Companies;
-using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
@@ -181,10 +180,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 Privilege? privilege = _privileges.Find(_p => _p.Id == p.Id);
                 if (privilege != null)
                 {
-                    privilege.Update(p.UserId);
+                    privilege.Update(p.UserId, p.Type, p.DepartmentId);
                 }
             });
-            _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.DepartmentId,p.UserId )));
+            _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.UserId, p.Type, p.DepartmentId )));
         }
     }
 

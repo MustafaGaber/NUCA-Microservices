@@ -5,10 +5,14 @@ namespace NUCA.Projects.Application.Boqs.Models
 {
     public class BoqModel
     {
+        public long Id { get; init; }
+        public long ProjectId { get; init; }
         public double PriceChangePercent { get; init; }
         public List<TableModel> Tables { get; init; } = new List<TableModel>();
         public BoqModel(Boq boq)
         {
+            Id = boq.Id;
+            ProjectId = boq.ProjectId;
             PriceChangePercent = boq.PriceChangePercent;
             Tables = boq.Tables.Select(t =>
             new TableModel

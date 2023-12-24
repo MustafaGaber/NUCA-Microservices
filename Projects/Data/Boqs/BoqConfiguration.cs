@@ -10,7 +10,7 @@ namespace NUCA.Projects.Data.Boqs
         public void Configure(EntityTypeBuilder<Boq> builder)
         {
             //builder.Property("Id").ValueGeneratedNever();
-            //builder.HasOne<Project>().WithOne().IsRequired().HasForeignKey<Boq>(b => b.Id).OnDelete(DeleteBehavior.Restrict);
+           // builder.HasOne<Project>().WithOne().IsRequired().HasForeignKey<Boq>(b => b.ProjectId).OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(b => b.Tables).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
         }
     }

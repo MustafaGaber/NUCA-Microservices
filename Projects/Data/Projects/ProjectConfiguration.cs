@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NUCA.Projects.Domain.Entities.Boqs;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
 
 namespace NUCA.Projects.Data.Projects
 {
@@ -9,7 +11,7 @@ namespace NUCA.Projects.Data.Projects
     {
         public void Configure(EntityTypeBuilder<Project> builder)
         {
-            builder.HasOne(p => p.Boq).WithOne().IsRequired().HasForeignKey<Boq>(b => b.Id).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(p => p.Boq).WithOne(b => b.Project).HasForeignKey<Boq>(b => b.ProjectId).IsRequired().OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(p => p.Company).WithMany().OnDelete(DeleteBehavior.Restrict);
             //builder.HasOne(p => p.Department).WithMany().OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(p => p.Type).WithMany().OnDelete(DeleteBehavior.Restrict);

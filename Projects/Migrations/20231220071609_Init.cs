@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NUCA.Projects.Data.Migrations
+namespace NUCA.Projects.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -195,7 +195,8 @@ namespace NUCA.Projects.Data.Migrations
                 name: "Boqs",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false),
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     ProjectId = table.Column<long>(type: "INTEGER", nullable: false),
                     PriceChangePercent = table.Column<double>(type: "REAL", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -205,8 +206,8 @@ namespace NUCA.Projects.Data.Migrations
                 {
                     table.PrimaryKey("PK_Boqs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Boqs_Projects_Id",
-                        column: x => x.Id,
+                        name: "FK_Boqs_Projects_ProjectId",
+                        column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -290,11 +291,11 @@ namespace NUCA.Projects.Data.Migrations
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    BoqId = table.Column<long>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Count = table.Column<int>(type: "INTEGER", nullable: false),
                     PriceChangePercent = table.Column<double>(type: "REAL", nullable: false),
                     Type = table.Column<int>(type: "INTEGER", nullable: false),
-                    BoqId = table.Column<long>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -444,6 +445,7 @@ namespace NUCA.Projects.Data.Migrations
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    BoqId = table.Column<long>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     DepartmentId = table.Column<string>(type: "TEXT", nullable: false),
                     DepartmentName = table.Column<string>(type: "TEXT", nullable: false),
@@ -605,6 +607,12 @@ namespace NUCA.Projects.Data.Migrations
                 name: "IX_BoqItem_BoqSectionId",
                 table: "BoqItem",
                 column: "BoqSectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Boqs_ProjectId",
+                table: "Boqs",
+                column: "ProjectId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqSection_BoqTableId",

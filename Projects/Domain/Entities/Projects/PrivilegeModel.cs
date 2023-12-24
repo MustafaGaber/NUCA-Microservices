@@ -3,7 +3,8 @@
     public class PrivilegeModel
     {
         public long Id { get; init; }
-        public long UserId { get; init; }
-        public int DepartmentId { get; init; }
+        public Guid UserId { get; init; }
+        public PrivilegeType Type { get; init; }
+        public Guid? DepartmentId { get; init; }
     }
 }

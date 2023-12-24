@@ -1,13 +1,16 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Departments;
+using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Shared;
+using System.Reflection.Metadata;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
 {
     public class Boq : AggregateRoot<long>
     {
         public long ProjectId { get; private set; }
+        public Project Project { get; private set; } = null!;
 
         private readonly List<BoqTable> _tables = new List<BoqTable>();
         public double PriceChangePercent { get; private set; }

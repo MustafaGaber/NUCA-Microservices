@@ -24,10 +24,12 @@ namespace NUCA.Identity.Domain
         public static readonly Permission TechnicalOffice = new Permission("technicalOffice", "المكتب الفني");
         public static readonly Permission Revision = new Permission("revision", "المراجعة");
         public static readonly Permission Accounting = new Permission("accounting", "المالية");
-       
+        public static readonly Permission SeniorManagement = new Permission("seniorManagement", "الإدارة العليا");
+
+
         public static readonly List<Permission> AllPermissions = new List<Permission>()
         {
-           Projects, Execution, TechnicalOffice, Revision, Accounting
+           Projects, Execution, TechnicalOffice, Revision, Accounting, SeniorManagement
         };
     }
 }
