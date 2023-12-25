@@ -115,6 +115,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
             int? totalContractPapers,
             string notes)
         {
+            if (!Enum.IsDefined(typeof(ProjectStatus), status))
+            {
+                throw new ArgumentException();
+            }
             Name = Guard.Against.NullOrWhiteSpace(name);
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);

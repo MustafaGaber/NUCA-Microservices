@@ -12,8 +12,16 @@ namespace NUCA.Projects.Domain.Entities.Projects
 
         public Privilege(long projectId, Guid userId, PrivilegeType type, Guid? departmentId)
         {
+            if (!Enum.IsDefined(typeof(PrivilegeType), type))
+            {
+                throw new ArgumentException();
+            }
+            if (departmentId != null && type != PrivilegeType.Execution)
+            {
+                throw new ArgumentException();
+            }
             ProjectId = Guard.Against.NegativeOrZero(projectId);
-            UserId =  Guard.Against.NullOrEmpty(userId);
+            UserId = Guard.Against.NullOrEmpty(userId);
             Type = type;
             DepartmentId = departmentId;
         }
