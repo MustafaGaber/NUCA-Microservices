@@ -17,6 +17,7 @@ namespace NUCA.Projects.Data.Projects
             builder.HasOne(p => p.Type).WithMany().OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(p => p.Privileges).WithOne()
                    .IsRequired()
+                   .HasForeignKey(p => p.ProjectId)
                    .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(p => p.Statements).WithOne()
                    .HasForeignKey(s => s.ProjectId)

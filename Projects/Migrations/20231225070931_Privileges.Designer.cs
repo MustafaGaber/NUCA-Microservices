@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Projects.Data;
 
@@ -10,9 +11,11 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    partial class ProjectsDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20231225070931_Privileges")]
+    partial class Privileges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");

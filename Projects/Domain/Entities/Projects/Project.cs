@@ -172,7 +172,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             Notes = notes;
         }
 
-        public void UpdatePrivileges(List<PrivilegeModel> privileges)
+       /* public void UpdatePrivileges(List<PrivilegeModel> privileges)
         {
             _privileges.RemoveAll(privilege => !privileges.Any(p => p.Id == privilege.Id));
             privileges.ForEach(p =>
@@ -184,7 +184,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 }
             });
             _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.UserId, p.Type, p.DepartmentId )));
-        }
+        }*/
     }
 
 }
