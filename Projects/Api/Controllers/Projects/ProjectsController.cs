@@ -14,6 +14,7 @@ using NUCA.Projects.Application.Projects.Queries.GetProjectWithPrivileges;
 using NUCA.Projects.Application.Projects.Queries.GetUserProjects;
 using NUCA.Projects.Application.Projects.Queries.Models;
 using NUCA.Projects.Domain.Entities.Projects;
+using System.Security.Claims;
 
 namespace NUCA.Projects.Api.Controllers.Projects
 {
@@ -44,28 +45,34 @@ namespace NUCA.Projects.Api.Controllers.Projects
         }
 
         // [Authorize(Policy = "ExecutionUser")]
-        [HttpGet("UserProjects")]
+        [HttpGet()]
         public async Task<IActionResult> Index()
         {
-            var user = HttpContext.User;
-            List<UserProject> projects = await _listQuery.Execute();
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+            List<UserProject> projects = await _listQuery.Execute(new Guid(userId));
             return Ok(projects);
         }
 
         [HttpGet("WithStatements")]
         public async Task<IActionResult> GetProjectsWithStatements()
         {
-            List<ProjectWithStatementsModel> projects = await _getProjectWithStatementsQuery.Execute();
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+            List<ProjectWithStatementsModel> projects = await _getProjectWithStatementsQuery.Execute(new Guid(userId));
             return Ok(projects);
         }
 
         [HttpGet("{id}/Name")]
         public async Task<IActionResult> GetName(long id)
         {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
             string name = await _getNameQuery.Execute(id);
             return Ok(name);
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpGet("{id}/WithPrivileges")]
         public async Task<IActionResult> GetProjectWithPrivilegess(long id)
         {

@@ -16,13 +16,28 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjectsWithStatements
             _dbContext = dbContext;
         }
 
-        public Task<List<ProjectWithStatementsModel>> Execute()
+        public Task<List<ProjectWithStatementsModel>> Execute(Guid userId)
         {
+            var allowedPrivileges = new List<PrivilegeType> {
+                PrivilegeType.Execution,
+                PrivilegeType.ExecutionManager,
+                PrivilegeType.TechnicalOffice,
+                PrivilegeType.TechnicalOfficeManager,
+                PrivilegeType.Revision,
+                PrivilegeType.RevisionManager,
+                PrivilegeType.Accounting,
+                PrivilegeType.AccountingManager,
+                PrivilegeType.Assistant,
+            };
             return _dbContext.Projects
                   .Include(p => p.Company)
                   .Include(p => p.Statements)
-                  .Where(p => p.Status >= ProjectStatus.Started)
-                  .Select(project => new ProjectWithStatementsModel
+                  .Include(p => p.Privileges)
+                  .Where(p => 
+                      p.Status >= ProjectStatus.Started 
+                      && p.Privileges
+                        .Any(privilege => privilege.UserId == userId && allowedPrivileges.Contains(privilege.Type))
+                  ).Select(project => new ProjectWithStatementsModel
                   {
                       Id = project.Id,
                       Name = project.Name,

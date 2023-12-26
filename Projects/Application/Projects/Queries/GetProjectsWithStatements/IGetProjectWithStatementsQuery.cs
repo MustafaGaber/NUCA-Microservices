@@ -2,6 +2,6 @@
 {
     public interface IGetProjectWithStatementsQuery
     {
-        Task<List<ProjectWithStatementsModel>> Execute();
+        Task<List<ProjectWithStatementsModel>> Execute(Guid userId);
     }
 }
