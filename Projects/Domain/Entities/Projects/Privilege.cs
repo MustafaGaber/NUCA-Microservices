@@ -6,11 +6,11 @@ namespace NUCA.Projects.Domain.Entities.Projects
     public class Privilege : Entity<long>
     {
         public long ProjectId { get; private set; }
-        public Guid UserId { get; private set; }
+        public string UserId { get; private set; }
         public PrivilegeType Type { get; private set; }
-        public Guid? DepartmentId { get; private set; }
+        public string? DepartmentId { get; private set; }
 
-        public Privilege(long projectId, Guid userId, PrivilegeType type, Guid? departmentId)
+        public Privilege(long projectId, string userId, PrivilegeType type, string? departmentId)
         {
             if (!Enum.IsDefined(typeof(PrivilegeType), type))
             {
@@ -26,7 +26,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DepartmentId = departmentId;
         }
 
-        public void Update(Guid userId)
+        public void Update(string userId)
         {
             UserId = Guard.Against.NullOrEmpty(userId);
         }

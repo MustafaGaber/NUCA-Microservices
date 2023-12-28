@@ -50,7 +50,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null) return Unauthorized();
-            List<UserProject> projects = await _listQuery.Execute(new Guid(userId));
+            List<UserProject> projects = await _listQuery.Execute(userId);
             return Ok(projects);
         }
 
@@ -59,7 +59,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null) return Unauthorized();
-            List<ProjectWithStatementsModel> projects = await _getProjectWithStatementsQuery.Execute(new Guid(userId));
+            List<ProjectWithStatementsModel> projects = await _getProjectWithStatementsQuery.Execute(userId);
             return Ok(projects);
         }
 
@@ -72,7 +72,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
             return Ok(name);
         }
 
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpGet("{id}/WithPrivileges")]
         public async Task<IActionResult> GetProjectWithPrivilegess(long id)
         {

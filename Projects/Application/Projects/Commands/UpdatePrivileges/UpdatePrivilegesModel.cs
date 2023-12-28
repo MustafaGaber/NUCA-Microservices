@@ -9,8 +9,8 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdatePrivileges
 
     public class PrivilegeModel
     {
-        public Guid? UserId { get; init; }
+        public string? UserId { get; init; }
         public PrivilegeType Type { get; init; }
-        public Guid? DepartmentId { get; init; }
+        public string? DepartmentId { get; init; }
     }
 }

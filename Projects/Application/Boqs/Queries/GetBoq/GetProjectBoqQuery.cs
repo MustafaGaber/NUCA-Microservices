@@ -3,16 +3,16 @@ using NUCA.Projects.Application.Interfaces.Persistence;
 
 namespace NUCA.Projects.Application.Boqs.Queries.GetBoq
 {
-    public class GetBoqQuery : IGetBoqQuery
+    public class GetProjectBoqQuery : IGetProjectBoqQuery
     {
         private readonly IBoqRepository _repository;
-        public GetBoqQuery(IBoqRepository repository)
+        public GetProjectBoqQuery(IBoqRepository repository)
         {
             _repository = repository;
         }
-        public async Task<BoqModel?> Execute(long id)
+        public async Task<BoqModel?> Execute(long projectId)
         {
-            var boq = await _repository.Get(id);
+            var boq = await _repository.GetByProjectId(projectId);
             return boq != null ? new BoqModel(boq) : null;
         }
     }

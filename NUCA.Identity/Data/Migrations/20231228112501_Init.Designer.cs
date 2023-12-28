@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Identity.Data;
 
@@ -10,9 +11,11 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231228112501_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -268,28 +271,18 @@ namespace NUCA.Identity.Data.Migrations
                     b.Property<string>("PublicName")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("UserUserRole", b =>
-                {
-                    b.Property<string>("RolesId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("RolesId", "UserId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserUserRole");
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("DepartmentDepartmentPermission", b =>
@@ -375,19 +368,11 @@ namespace NUCA.Identity.Data.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("UserUserRole", b =>
+            modelBuilder.Entity("NUCA.Identity.Domain.Role", b =>
                 {
-                    b.HasOne("NUCA.Identity.Domain.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("NUCA.Identity.Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.Department", b =>
@@ -398,6 +383,8 @@ namespace NUCA.Identity.Data.Migrations
             modelBuilder.Entity("NUCA.Identity.Domain.User", b =>
                 {
                     b.Navigation("Enrollments");
+
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

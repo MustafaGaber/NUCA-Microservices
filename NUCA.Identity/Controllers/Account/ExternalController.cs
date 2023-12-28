@@ -1,4 +1,4 @@
-using IdentityModel;
+/*using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Services;
@@ -101,7 +101,7 @@ namespace NUCA.Identity.Controllers
                 // this might be where you might initiate a custom workflow for user registration
                 // in this sample we don't show how that would be done, as our sample implementation
                 // simply auto-provisions new external user
-                user = await AutoProvisionUserAsync(provider, providerUserId, claims);
+                // user = await AutoProvisionUserAsync(provider, providerUserId, claims);
             }
 
             // this allows us to collect any additional claims or properties
@@ -254,4 +254,4 @@ namespace NUCA.Identity.Controllers
             }
         }
     }
-}
+}*/

@@ -20,7 +20,7 @@ namespace NUCA.Projects.Api.Controllers.Boqs
     [ApiController]
     public class BoqsController : BaseController
     {
-        private readonly IGetBoqQuery _getBoqQuery;
+        private readonly IGetProjectBoqQuery _getProjectBoqQuery;
         private readonly ICreateBoqCommand _createBoqCommand;
         private readonly IUpdateBoqCommand _updateBoqCommand;
         private readonly ICreateTableCommand _createTableCommand;
@@ -33,12 +33,12 @@ namespace NUCA.Projects.Api.Controllers.Boqs
         private readonly IUpdateItemCommand _updateItemCommand;
         private readonly IDeleteItemCommand _deleteItemCommand;
 
-        public BoqsController(IGetBoqQuery getBoqQuery, ICreateBoqCommand createBoqCommand, IUpdateBoqCommand updateBoqCommand,
+        public BoqsController(IGetProjectBoqQuery getBoqQuery, ICreateBoqCommand createBoqCommand, IUpdateBoqCommand updateBoqCommand,
             ICreateTableCommand createTableCommand, IUpdateTableCommand updateTableCommand, IDeleteTableCommand deleteTableCommand,
             ICreateSectionCommand createSectionCommand, IUpdateSectionCommand updateSectionCommand, IDeleteSectionCommand deleteSectionCommand,
             ICreateItemCommand createItemCommand, IUpdateItemCommand updateItemCommand, IDeleteItemCommand deleteItemCommand)
         {
-            _getBoqQuery = getBoqQuery;
+            _getProjectBoqQuery = getBoqQuery;
             _createBoqCommand = createBoqCommand;
             _updateBoqCommand = updateBoqCommand;
             _createTableCommand = createTableCommand;
@@ -52,10 +52,10 @@ namespace NUCA.Projects.Api.Controllers.Boqs
             _deleteItemCommand = deleteItemCommand;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(long id)
+        [HttpGet("{projectId}")]
+        public async Task<IActionResult> Get(long projectId)
         {
-            BoqModel? boq = await _getBoqQuery.Execute(id);
+            BoqModel? boq = await _getProjectBoqQuery.Execute(projectId);
             return Ok(boq);
         }
 

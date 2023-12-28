@@ -39,7 +39,7 @@ namespace NUCA.Identity.Controllers.Departments
         {
             List<GetDepartmentModel> departments = await _context.Set<Department>()
                 .Include(d => d.Permissions)
-                .Where(d => d.Permissions.Any( p => p.Id == Permission.Execution.Id))
+                .Where(d => d.Permissions.Any( p => p.Id == DepartmentPermission.Execution.Id))
                 .Select(d => GetDepartmentModel.FromDepartment(d))
                 .ToListAsync();
             return Ok(departments);
@@ -48,7 +48,7 @@ namespace NUCA.Identity.Controllers.Departments
         [HttpGet("Permissions")]
         public IActionResult GetPermissions()
         {
-            return Ok(Permission.AllPermissions.Select(role => new PermissionModel()
+            return Ok(DepartmentPermission.AllPermissions.Select(role => new PermissionModel()
             {
                 Id = role.Id,
                 Name = role.Name,
@@ -58,7 +58,7 @@ namespace NUCA.Identity.Controllers.Departments
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateDepartmentModel model)
         {
-            var permissions = model.Permissions.Select(Permission.GetById).ToList();
+            var permissions = model.Permissions.Select(DepartmentPermission.GetById).ToList();
             foreach (var permission in permissions)
             {
                 _context.Attach(permission);
@@ -70,14 +70,14 @@ namespace NUCA.Identity.Controllers.Departments
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] CreateDepartmentModel model)
+        public async Task<IActionResult> Update(string id, [FromBody] CreateDepartmentModel model)
         {
             var department = await _context.Set<Department>().Include(d => d.Permissions).FirstOrDefaultAsync(d => d.Id == id);
             if (department == null)
             {
                 throw new InvalidOperationException();
             }
-            var permissions = model.Permissions.Select(Permission.GetById).ToList();
+            var permissions = model.Permissions.Select(DepartmentPermission.GetById).ToList();
             foreach (var permission in permissions.Where(permission => !department.Permissions.Any(p => p.Id == permission.Id)))
             {
                 _context.Attach(permission);

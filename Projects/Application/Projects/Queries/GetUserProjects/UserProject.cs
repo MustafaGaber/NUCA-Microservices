@@ -15,7 +15,7 @@ namespace NUCA.Projects.Application.Projects.Queries.GetUserProjects
     public class PrivilegeModel
     {
         public required PrivilegeType Type { get; init; }
-        public required Guid? DepartmentId { get; init; }
+        public required string? DepartmentId { get; init; }
     }
 
 }

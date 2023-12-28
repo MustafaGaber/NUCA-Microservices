@@ -16,7 +16,7 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjectsWithStatements
             _dbContext = dbContext;
         }
 
-        public Task<List<ProjectWithStatementsModel>> Execute(Guid userId)
+        public Task<List<ProjectWithStatementsModel>> Execute(string userId)
         {
             var allowedPrivileges = new List<PrivilegeType> {
                 PrivilegeType.Execution,

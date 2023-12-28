@@ -1,23 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using NUCA.Identity.Domain;
-using System.Reflection.Emit;
+
 
 namespace NUCA.Identity.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>,
+    UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public DbSet<Department> Departments { get; private set; }
         public DbSet<Enrollment> Enrollments { get; private set; }
-        public DbSet<Permission> Permissions { get; private set; }
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-            
-        }
+        public DbSet<DepartmentPermission> DepartmentPermissions { get; private set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,6 +39,22 @@ namespace NUCA.Identity.Data
                    .WithOne()
                    .IsRequired()
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UserRole>(ur =>
+            {
+                ur.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+                ur.HasOne(ur => ur.Role)
+                    .WithMany(r => r.Users)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .IsRequired();
+
+                ur.HasOne(ur => ur.User)
+                    .WithMany(r => r.Roles)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+            });
+
 
             builder.Entity<Enrollment>()
                    .HasKey(e => new { e.DepartmentId, e.UserId });

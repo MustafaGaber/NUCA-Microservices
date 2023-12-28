@@ -11,8 +11,8 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231219080517_Init")]
-    partial class Init
+    [Migration("20231228115538_Roles")]
+    partial class Roles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,9 +20,9 @@ namespace NUCA.Identity.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
 
-            modelBuilder.Entity("DepartmentPermission", b =>
+            modelBuilder.Entity("DepartmentDepartmentPermission", b =>
                 {
-                    b.Property<Guid>("DepartmentId")
+                    b.Property<string>("DepartmentId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PermissionsId")
@@ -32,33 +32,7 @@ namespace NUCA.Identity.Data.Migrations
 
                     b.HasIndex("PermissionsId");
 
-                    b.ToTable("DepartmentPermission");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("DepartmentDepartmentPermission");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -165,8 +139,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("NUCA.Identity.Domain.Department", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -177,9 +150,22 @@ namespace NUCA.Identity.Data.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("NUCA.Identity.Domain.DepartmentPermission", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DepartmentPermissions");
+                });
+
             modelBuilder.Entity("NUCA.Identity.Domain.Enrollment", b =>
                 {
-                    b.Property<Guid>("DepartmentId")
+                    b.Property<string>("DepartmentId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
@@ -193,19 +179,6 @@ namespace NUCA.Identity.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Enrollments");
-                });
-
-            modelBuilder.Entity("NUCA.Identity.Domain.Permission", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.User", b =>
@@ -278,7 +251,51 @@ namespace NUCA.Identity.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("DepartmentPermission", b =>
+            modelBuilder.Entity("NUCA.Identity.Domain.Role", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublicName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("UserUserRole", b =>
+                {
+                    b.Property<string>("RolesId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("RolesId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserUserRole");
+                });
+
+            modelBuilder.Entity("DepartmentDepartmentPermission", b =>
                 {
                     b.HasOne("NUCA.Identity.Domain.Department", null)
                         .WithMany()
@@ -286,7 +303,7 @@ namespace NUCA.Identity.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Identity.Domain.Permission", null)
+                    b.HasOne("NUCA.Identity.Domain.DepartmentPermission", null)
                         .WithMany()
                         .HasForeignKey("PermissionsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -295,7 +312,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("NUCA.Identity.Domain.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -322,7 +339,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("NUCA.Identity.Domain.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -359,6 +376,21 @@ namespace NUCA.Identity.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("UserUserRole", b =>
+                {
+                    b.HasOne("NUCA.Identity.Domain.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NUCA.Identity.Domain.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.Department", b =>

@@ -13,7 +13,7 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjects
             _dbContext = dbContext;
         }
 
-        public Task<List<UserProject>> Execute(Guid userId)
+        public Task<List<UserProject>> Execute(string userId)
         {
             return _dbContext.Projects
                 .Include(p => p.Company)

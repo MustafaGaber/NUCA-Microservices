@@ -1,7 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. AllPermissions rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
+﻿
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -35,9 +32,10 @@ namespace NUCA.Identity
             services.AddDbContext<DbContext, ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, Role>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddUserStore<ApplicationUserStore>()
+                    .AddRoles<Role>()
                     .AddDefaultTokenProviders();
             services.Configure<SecurityStampValidatorOptions>(options =>
             {

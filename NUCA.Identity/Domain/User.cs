@@ -9,6 +9,9 @@ namespace NUCA.Identity.Domain
     {
         private List<Enrollment> _enrollments = new List<Enrollment>();
         public virtual IReadOnlyList<Enrollment> Enrollments => _enrollments.ToList();
+
+        private List<UserRole> _roles = new List<UserRole>();
+        public virtual IReadOnlyList<UserRole> Roles => _roles.ToList();
         public string FullName { get; private set; }
         public string NationalId { get; private set; }
 
@@ -17,7 +20,7 @@ namespace NUCA.Identity.Domain
             UserName = Guard.Against.NullOrWhiteSpace(userName.Trim());
             FullName = Guard.Against.NullOrWhiteSpace(fullName.Trim());
             NationalId = Guard.Against.NullOrWhiteSpace(nationalId.Trim());
-            _enrollments = enrollments;
+            _enrollments = enrollments;    
         }
 
         public void Update(string fullName, string nationalId, List<Enrollment> enrollments)

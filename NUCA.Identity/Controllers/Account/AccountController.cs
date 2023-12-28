@@ -56,11 +56,11 @@ namespace NUCA.Identity.Controllers
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 
-            if (vm.IsExternalLoginOnly)
+            /*if (vm.IsExternalLoginOnly)
             {
                 // we only have one option for logging in and it's an external provider
                 return RedirectToAction("Challenge", "External", new { scheme = vm.ExternalLoginScheme, returnUrl });
-            }
+            }*/
 
             return View(vm);
         }
@@ -227,17 +227,17 @@ namespace NUCA.Identity.Controllers
                     Username = context?.LoginHint,
                 };
 
-                if (!local)
+               /* if (!local)
                 {
                     vm.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
-                }
+                }*/
 
                 return vm;
             }
 
             var schemes = await _schemeProvider.GetAllSchemesAsync();
 
-            var providers = schemes
+           /* var providers = schemes
                 .Where(x => x.DisplayName != null)
                 .Select(x => new ExternalProvider
                 {
@@ -258,15 +258,15 @@ namespace NUCA.Identity.Controllers
                         providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
                     }
                 }
-            }
+            }*/
 
             return new LoginViewModel
             {
                 AllowRememberLogin = AccountOptions.AllowRememberLogin,
-                EnableLocalLogin = allowLocal && AccountOptions.AllowLocalLogin,
+                EnableLocalLogin = /*allowLocal &&*/ AccountOptions.AllowLocalLogin,
                 ReturnUrl = returnUrl,
                 Username = context?.LoginHint,
-                ExternalProviders = providers.ToArray()
+                //ExternalProviders = providers.ToArray()
             };
         }
 

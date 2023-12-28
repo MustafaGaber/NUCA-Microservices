@@ -26,14 +26,14 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdatePrivileges
                 Privilege? privilege = privileges.Find(_p => _p.Type == p.Type && p.DepartmentId == _p.DepartmentId);
                 if (privilege != null)
                 {
-                    privilege.Update((Guid)p.UserId!);
+                    privilege.Update(p.UserId!);
                 }
             });
             _dbContext.AddRange(
               model.Privileges
                    .Where(p => p.UserId != null)
                    .Where(p => !privileges.Any(_p => p.Type == _p.Type && p.DepartmentId == _p.DepartmentId))
-                   .Select(p => new Privilege(projectId, (Guid)p.UserId!, p.Type, p.DepartmentId)));
+                   .Select(p => new Privilege(projectId, p.UserId!, p.Type, p.DepartmentId)));
             await _dbContext.SaveChangesAsync();
         }
     }

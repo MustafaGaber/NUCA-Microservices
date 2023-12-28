@@ -4,6 +4,6 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjects
 {
     public interface IGetUserProjectsQuery
     {
-        Task<List<UserProject>> Execute(Guid userId);
+        Task<List<UserProject>> Execute(string userId);
     }
 }
