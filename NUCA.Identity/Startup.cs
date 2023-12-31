@@ -11,6 +11,12 @@ using NUCA.Identity.Domain;
 using Microsoft.AspNetCore.Http;
 using System;
 using NUCA.Identity.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using static IdentityServer4.IdentityServerConstants;
+using IdentityServer4;
 
 namespace NUCA.Identity
 {
@@ -27,7 +33,14 @@ namespace NUCA.Identity
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+            services.AddControllersWithViews(configure =>
+            {
+                configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+            });
 
             services.AddDbContext<DbContext, ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
@@ -48,6 +61,7 @@ namespace NUCA.Identity
                 {
                      PathString.FromUriComponent(new Uri(Config.FrontendUri))
                 };
+                
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
@@ -63,6 +77,7 @@ namespace NUCA.Identity
               .AddProfileService<ProfileService>();
 
 
+
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
             services.AddCors(options =>
@@ -76,11 +91,34 @@ namespace NUCA.Identity
                             .AllowAnyHeader();
                     });
             });
-            services.AddAuthentication();
+            services.AddLocalApiAuthentication();
+           /* services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                //options.Authority = "https://localhost:5010";
+                options.Audience = "identity";
+               / options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                };
+            });*/
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(LocalApi.PolicyName, policy =>
+                {
+                    policy.AddAuthenticationSchemes(LocalApi.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireRole(Role.Admin.Name);
+                });
+            });
+
         }
 
         public void Configure(IApplicationBuilder app)
         {
+
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -92,6 +130,7 @@ namespace NUCA.Identity
 
             app.UseRouting();
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

@@ -8,5 +8,7 @@ namespace NUCA.Identity.Controllers.Users
         public string FullName { get; init; }
         public string Password { get; init; }
         public List<EnrollmentModel> Enrollments { get; init; }
+        public List<string> Roles { get; init; } = new List<string> { };
+
     }
 }

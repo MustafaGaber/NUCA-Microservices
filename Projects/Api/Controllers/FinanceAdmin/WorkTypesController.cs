@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.FinanceAdmin.WorkTypes.Commands;
 using NUCA.Projects.Application.FinanceAdmin.WorkTypes.Commands.CreateWorkType;
@@ -10,6 +11,7 @@ using NUCA.Projects.Application.FinanceAdmin.WorkTypes.Queries.GetWorkTypes;
 
 namespace NUCA.Projects.Api.Controllers.FinanceAdmin
 {
+    [Authorize("RevisionUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkTypesController : BaseController

@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace NUCA.Identity.Core
 {
-    public class ApplicationUserStore : UserStore<User, Role, ApplicationDbContext>
+    public class ApplicationUserStore : UserStore<User, Role, ApplicationDbContext,
+        string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>,
+        IdentityUserToken<string>, IdentityRoleClaim<string>>
     {
         public ApplicationUserStore(ApplicationDbContext context, IdentityErrorDescriber describer = null) : base(context, describer)
         {
@@ -21,6 +23,9 @@ namespace NUCA.Identity.Core
                 .Include(u => u.Enrollments)
                 .ThenInclude(e => e.Department)
                 .ThenInclude(d => d.Permissions)
+                .Include(u => u.Roles)
+                .ThenInclude(r => r.Role)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
         }
 
@@ -28,6 +33,9 @@ namespace NUCA.Identity.Core
                Context.Set<User>()
                       .Include(u => u.Enrollments)
                       .ThenInclude(e => e.Department)
-                      .ThenInclude(d => d.Permissions);
+                      .ThenInclude(d => d.Permissions)
+                      .Include(u => u.Roles)
+                      .ThenInclude(r => r.Role)
+                      .AsSplitQuery();
     }
 }

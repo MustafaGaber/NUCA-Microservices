@@ -15,11 +15,12 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjects
 
         public Task<List<UserProject>> Execute(string userId)
         {
-            return _dbContext.Projects
+            var query = _dbContext.Projects
                 .Include(p => p.Company)
                 .Include(p => p.Privileges)
-                .Where(p => p.Privileges.Any(privilege => privilege.UserId == userId))
-                .Select(project =>
+                .Where(p => p.Privileges.Any(privilege => privilege.UserId == userId));
+
+            return query.Select(project =>
                 new UserProject
                 {
                     Id = project.Id,

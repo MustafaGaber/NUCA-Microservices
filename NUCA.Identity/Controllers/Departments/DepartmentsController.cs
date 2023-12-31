@@ -8,11 +8,12 @@ using NUCA.Identity.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 using System.Threading.Tasks;
+using static IdentityServer4.IdentityServerConstants;
 
 namespace NUCA.Identity.Controllers.Departments
 {
+    [Authorize(LocalApi.PolicyName)]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentsController : BaseController

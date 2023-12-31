@@ -116,9 +116,9 @@ namespace NUCA.Identity.Controllers
             // it doesn't expose an API to issue additional claims from the login workflow
             var principal = await _signInManager.CreateUserPrincipalAsync(user);
             additionalLocalClaims.AddRange(principal.Claims);
-            var name = principal.FindFirst(JwtClaimTypes.Name)?.Value ?? user.Id;
+            var name = principal.FindFirst(JwtClaimTypes.PublicName)?.Value ?? user.Name;
 
-            var isuser = new IdentityServerUser(user.Id)
+            var isuser = new IdentityServerUser(user.Name)
             {
                 DisplayName = name,
                 IdentityProvider = provider,
@@ -135,7 +135,7 @@ namespace NUCA.Identity.Controllers
 
             // check if external login is in the context of an OIDC request
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
-            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.Id, name, true, context?.Client.ClientId));
+            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.Name, name, true, context?.Client.ClientId));
 
             if (context != null)
             {
@@ -181,11 +181,11 @@ namespace NUCA.Identity.Controllers
             var filtered = new List<Claim>();
 
             // user's display name
-            var name = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Name)?.Value ??
-                claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            var name = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.PublicName)?.Value ??
+                claims.FirstOrDefault(x => x.Type == ClaimTypes.PublicName)?.Value;
             if (name != null)
             {
-                filtered.Add(new Claim(JwtClaimTypes.Name, name));
+                filtered.Add(new Claim(JwtClaimTypes.PublicName, name));
             }
             else
             {
@@ -195,15 +195,15 @@ namespace NUCA.Identity.Controllers
                     claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname)?.Value;
                 if (first != null && last != null)
                 {
-                    filtered.Add(new Claim(JwtClaimTypes.Name, first + " " + last));
+                    filtered.Add(new Claim(JwtClaimTypes.PublicName, first + " " + last));
                 }
                 else if (first != null)
                 {
-                    filtered.Add(new Claim(JwtClaimTypes.Name, first));
+                    filtered.Add(new Claim(JwtClaimTypes.PublicName, first));
                 }
                 else if (last != null)
                 {
-                    filtered.Add(new Claim(JwtClaimTypes.Name, last));
+                    filtered.Add(new Claim(JwtClaimTypes.PublicName, last));
                 }
             }
 
@@ -250,7 +250,7 @@ namespace NUCA.Identity.Controllers
             var idToken = externalResult.Properties.GetTokenValue("id_token");
             if (idToken != null)
             {
-                localSignInProps.StoreTokens(new[] { new AuthenticationToken { Name = "id_token", Value = idToken } });
+                localSignInProps.StoreTokens(new[] { new AuthenticationToken { PublicName = "id_token", Value = idToken } });
             }
         }
     }

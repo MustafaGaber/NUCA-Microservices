@@ -10,6 +10,10 @@ namespace NUCA.Identity.Data
     public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>,
     UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
         public DbSet<Department> Departments { get; private set; }
         public DbSet<Enrollment> Enrollments { get; private set; }
         public DbSet<DepartmentPermission> DepartmentPermissions { get; private set; }
@@ -57,7 +61,7 @@ namespace NUCA.Identity.Data
 
 
             builder.Entity<Enrollment>()
-                   .HasKey(e => new { e.DepartmentId, e.UserId });
+                   .HasKey(e => new { e.DepartmentId, e.UserId , e.Job});
 
         }
     }

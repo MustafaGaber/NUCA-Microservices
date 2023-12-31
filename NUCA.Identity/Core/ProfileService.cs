@@ -29,7 +29,7 @@ namespace NUCA.Identity.Core
             };
             User user = await _userManager.GetUserAsync(context.Subject);
             context.IssuedClaims.Add(new Claim("fullName", user.FullName));
-            context.IssuedClaims.Add(new Claim("enrollments", JsonSerializer.Serialize(user.Enrollments.Select(e => new { departmentId = e.DepartmentId, departmentName = e.Department.Name, role = e.Role }), serielizeOptions)));
+            context.IssuedClaims.Add(new Claim("enrollments", JsonSerializer.Serialize(user.Enrollments.Select(e => new { departmentId = e.DepartmentId, departmentName = e.Department.Name, role = e.Job }), serielizeOptions)));
             foreach (var enrollment in user.Enrollments)
             {
                 foreach (var permission in enrollment.Department.Permissions)
@@ -37,6 +37,7 @@ namespace NUCA.Identity.Core
                     context.IssuedClaims.Add(new Claim("permission", permission.Id));
                 }
             }
+            context.IssuedClaims.AddRange( user.Roles.Select(r => new Claim("role", r.Role.Name)));
         }
 
         public async Task IsActiveAsync(IsActiveContext context)

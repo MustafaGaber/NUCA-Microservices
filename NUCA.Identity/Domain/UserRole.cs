@@ -4,7 +4,7 @@ namespace NUCA.Identity.Domain
 {
     public class UserRole : IdentityUserRole<string>
     {
-        protected UserRole() { }
+        public UserRole() { }
         public virtual User User { get; private set; }
         public virtual Role Role { get; private set; }
     }

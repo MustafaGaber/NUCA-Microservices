@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace NUCA.Projects.Api.Controllers.Companies
 {
+    [Authorize("ProjectsUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class CompaniesController : BaseController

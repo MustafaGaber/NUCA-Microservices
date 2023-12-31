@@ -22,7 +22,7 @@ var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser().Build();
 builder.Services.AddControllersWithViews(configure =>
 {
-   // configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+    configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
 });
 builder.Services.Configure<RazorViewEngineOptions>(o =>
 {
@@ -78,6 +78,10 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AccountingUser", policy =>
     {
         policy.RequireClaim("permission",  Permissions.Accounting );
+    });
+    options.AddPolicy("FinanceUser", policy =>
+    {
+        policy.RequireClaim("permission", new string[] { Permissions.Revision,Permissions.Accounting });
     });
 });
 builder.Services.Configure<SecurityStampValidatorOptions>(options =>

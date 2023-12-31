@@ -9,6 +9,7 @@ namespace NUCA.Identity.Controllers.Users
         public required string Id { get; init; }
         public required string FullName { get; init; }
         public required List<GetEnrollmentModel> Enrollments { get; init; }
+        public required List<RoleModel> Roles { get; init; }
 
         static public GetUserModel FromUser(User user)
         {
@@ -16,7 +17,8 @@ namespace NUCA.Identity.Controllers.Users
             {
                 Id = user.Id,
                 FullName = user.FullName,
-                Enrollments = user.Enrollments.Select(e => new GetEnrollmentModel() { DepartmentId = e.Department.Id.ToString(), DepartmentName = e.Department.Name, Role = e.Role }).ToList().ToList()
+                Enrollments = user.Enrollments.Select(e => new GetEnrollmentModel() { DepartmentId = e.Department.Id.ToString(), DepartmentName = e.Department.Name, Job = e.Job }).ToList().ToList(),
+                Roles = user.Roles.Select(r => new RoleModel() { Name = r.Role.Name, PublicName = r.Role.PublicName }).ToList()
             };
         }
     }
@@ -25,6 +27,13 @@ namespace NUCA.Identity.Controllers.Users
     {
         public required string DepartmentId { get; init; }
         public required string DepartmentName { get; init; }
-        public required EnrollmentRole Role { get; init; }
+        public required Job Job { get; init; }
+    }
+
+
+    public class RoleModel
+    {
+        public required string Name { get; init; }
+        public required string PublicName { get; init; }
     }
 }

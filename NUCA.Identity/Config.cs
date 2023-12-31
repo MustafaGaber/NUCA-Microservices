@@ -25,11 +25,13 @@ namespace NUCA.Identity
                  {
                      Scopes ={"projects.fullaccess"},
                  },
+                 new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
            };
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
                  new ApiScope("projects.fullaccess"),
+                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -59,6 +61,7 @@ namespace NUCA.Identity
                     AllowedScopes =
                     {
                         "projects.fullaccess",
+                        IdentityServerConstants.LocalApi.ScopeName,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                     },

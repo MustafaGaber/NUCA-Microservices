@@ -16,7 +16,8 @@ namespace NUCA.Identity.Domain
             PublicName = publicName;
         }
 
-        public static Role Admin  = new Role("admin", "مسؤل النظام");
+        //public static Role User = new Role("user", "مستخدم");
+        public static Role Admin = new Role("admin", "مسؤل النظام");
 
         public static List<Role> AllRoles = new List<Role> { Admin };
     }

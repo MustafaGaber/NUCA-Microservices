@@ -1,6 +1,6 @@
 ﻿namespace NUCA.Identity.Domain
 {
-    public enum EnrollmentRole
+    public enum Job
     {
         Employee = 1,
         Manager = 2,

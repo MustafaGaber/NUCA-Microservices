@@ -23,10 +23,9 @@ namespace NUCA.Identity.Domain
             _enrollments = enrollments;    
         }
 
-        public void Update(string fullName, string nationalId, List<Enrollment> enrollments)
+        public void Update(string fullName, List<Enrollment> enrollments)
         {
             FullName = Guard.Against.NullOrWhiteSpace(fullName);
-            NationalId = Guard.Against.NullOrWhiteSpace(nationalId);
             _enrollments = enrollments;
         }
     }
