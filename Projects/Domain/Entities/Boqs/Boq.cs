@@ -11,9 +11,11 @@ namespace NUCA.Projects.Domain.Entities.Boqs
     {
         public long ProjectId { get; private set; }
         public Project Project { get; private set; } = null!;
+        public double PriceChangePercent { get; private set; }
+        public bool Approved { get; private set; }
+        public string? ApprovedBy { get; private set; }
 
         private readonly List<BoqTable> _tables = new List<BoqTable>();
-        public double PriceChangePercent { get; private set; }
         public virtual IReadOnlyList<BoqTable> Tables => _tables.ToList();
         protected Boq() { }
         public Boq(long projectId, double priceChangePercent)
@@ -77,6 +79,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             BoqTable table = _tables.First(t => t.Id == tableId);
             table.DeleteItem(sectionId, itemId);
         }
-
+        public void Approve(string userId)
+        {
+            Approved = true;
+            ApprovedBy = userId;
+        }
     }
 }

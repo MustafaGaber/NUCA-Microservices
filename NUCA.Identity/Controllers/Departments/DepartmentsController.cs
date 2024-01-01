@@ -13,7 +13,7 @@ using static IdentityServer4.IdentityServerConstants;
 
 namespace NUCA.Identity.Controllers.Departments
 {
-    [Authorize(LocalApi.PolicyName)]
+   // [Authorize(LocalApi.PolicyName)]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentsController : BaseController

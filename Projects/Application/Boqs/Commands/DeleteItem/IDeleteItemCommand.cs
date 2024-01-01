@@ -5,6 +5,6 @@ namespace NUCA.Projects.Application.Boqs.Commands.DeleteItem
 {
     public interface IDeleteItemCommand
     {
-        Task<BoqModel> Execute(long projectId, long tableId, long sectionId, long itemId);
+        Task<BoqModel> Execute(long boqId, long tableId, long sectionId, long itemId);
     }
 }

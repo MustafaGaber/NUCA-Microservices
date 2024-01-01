@@ -15,9 +15,9 @@ namespace NUCA.Projects.Application.Boqs.Commands.UpdateSection
             _boqRepository = boqRepository;
             _departmentRepository = departmentRepository;
         }
-        public async Task<BoqModel> Execute(long projectId, long tableId, long sectionId, UpdateSectionModel model)
+        public async Task<BoqModel> Execute(long boqId, long tableId, long sectionId, UpdateSectionModel model)
         {
-            Boq? boq = await _boqRepository.GetByProjectId(projectId);
+            Boq? boq = await _boqRepository.Get(boqId);
            // Department? department = await _departmentRepository.Get(model.DepartmentId);
             if (boq == null)
 

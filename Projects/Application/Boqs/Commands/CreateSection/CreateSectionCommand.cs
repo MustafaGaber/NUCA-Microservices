@@ -14,9 +14,9 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateSection
             _boqRepository = boqRepository;
             _departmentRepository = departmentRepository;
         }
-        public async Task<BoqModel> Execute(long id, long tableId, CreateSectionModel model)
+        public async Task<BoqModel> Execute(long boqId, long tableId, CreateSectionModel model)
         {
-            Boq? boq = await _boqRepository.GetByProjectId(id);
+            Boq? boq = await _boqRepository.Get(boqId);
            // Department? department = await _departmentRepository.Get(model.DepartmentId);
             if (boq == null)
             {

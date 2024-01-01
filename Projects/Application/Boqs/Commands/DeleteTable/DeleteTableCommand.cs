@@ -12,9 +12,9 @@ namespace NUCA.Projects.Application.Boqs.Commands.DeleteTable
         {
             _boqRepository = boqRepository;
         }
-        public async Task<BoqModel> Execute(long projectId, long tableId)
+        public async Task<BoqModel> Execute(long boqId, long tableId)
         {
-            Boq? boq = await _boqRepository.GetByProjectId(projectId);
+            Boq? boq = await _boqRepository.Get(boqId);
             if (boq == null)
             {
                 throw new InvalidOperationException();

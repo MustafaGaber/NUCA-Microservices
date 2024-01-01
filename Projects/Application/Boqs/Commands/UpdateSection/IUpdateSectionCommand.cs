@@ -4,6 +4,6 @@ namespace NUCA.Projects.Application.Boqs.Commands.UpdateSection
 {
     public interface IUpdateSectionCommand
     {
-        Task<BoqModel> Execute(long projectId, long tableId, long sectionId, UpdateSectionModel section);
+        Task<BoqModel> Execute(long boqId, long tableId, long sectionId, UpdateSectionModel section);
     }
 }

@@ -9,6 +9,7 @@ namespace NUCA.Projects.Application.Boqs.Models
         public long ProjectId { get; init; }
         public double PriceChangePercent { get; init; }
         public List<TableModel> Tables { get; init; } = new List<TableModel>();
+        public bool Approved { get; init; }
         public BoqModel(Boq boq)
         {
             Id = boq.Id;
@@ -40,6 +41,7 @@ namespace NUCA.Projects.Application.Boqs.Models
                     }).ToList()
                 }).ToList()
             }).ToList();
+            Approved = boq.Approved;
         }
     }
 

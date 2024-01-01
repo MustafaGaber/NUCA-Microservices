@@ -10,6 +10,6 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateSection
 {
     public interface ICreateSectionCommand
     {
-        Task<BoqModel> Execute(long id, long tableId, CreateSectionModel section);
+        Task<BoqModel> Execute(long boqId, long tableId, CreateSectionModel section);
     }
 }

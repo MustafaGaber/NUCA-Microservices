@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Projects.Data;
 
@@ -10,9 +11,11 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    partial class ProjectsDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240101081154_CreatedByString")]
+    partial class CreatedByString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
@@ -28,7 +31,13 @@ namespace NUCA.Projects.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("TEXT");
 
                     b.HasKey("DepartmentsId", "UsersId");
@@ -71,7 +80,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("EngineersSyndicateValue")
@@ -114,7 +122,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("ValueAddedTax")
@@ -149,7 +156,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("FromStatement")
@@ -166,7 +172,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Value")
@@ -185,17 +190,10 @@ namespace NUCA.Projects.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("Approved")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ApprovedBy")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
@@ -208,7 +206,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -236,7 +233,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Index")
@@ -257,7 +253,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -283,7 +278,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DepartmentId")
@@ -302,7 +296,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -328,7 +321,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
@@ -345,7 +337,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -376,7 +367,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ElectronicInvoice")
@@ -403,7 +393,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -421,7 +410,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
@@ -432,7 +420,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -450,7 +437,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("EstimatedPrice")
@@ -464,7 +450,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -482,7 +467,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
@@ -493,7 +477,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("ValueAddedTaxPercent")
@@ -514,7 +497,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Index")
@@ -528,7 +510,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -546,7 +527,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DepartmentId")
@@ -562,7 +542,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
@@ -585,12 +564,6 @@ namespace NUCA.Projects.Migrations
                     b.Property<double?>("AdvancedPaymentPercentage")
                         .HasColumnType("REAL");
 
-                    b.Property<bool>("Approved")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ApprovedBy")
-                        .HasColumnType("TEXT");
-
                     b.Property<int?>("AwardTypeId")
                         .HasColumnType("INTEGER");
 
@@ -601,7 +574,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DepartmentId")
@@ -660,7 +632,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool?>("ValueAddedTaxIncluded")
@@ -691,7 +662,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DepartmentId")
@@ -727,7 +697,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -747,7 +716,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
@@ -766,7 +734,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -786,7 +753,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Final")
@@ -817,7 +783,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("WorksDate")
@@ -850,7 +815,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Index")
@@ -880,7 +844,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -903,7 +866,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DepartmentId")
@@ -921,7 +883,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -947,7 +908,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
@@ -967,7 +927,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -987,7 +946,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
@@ -1004,7 +962,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Value")
@@ -1027,7 +984,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
@@ -1038,7 +994,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

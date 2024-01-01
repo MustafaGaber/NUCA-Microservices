@@ -11,7 +11,6 @@ using NUCA.Projects.Application.FinanceAdmin.WorkTypes.Queries.GetWorkTypes;
 
 namespace NUCA.Projects.Api.Controllers.FinanceAdmin
 {
-    [Authorize("RevisionUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkTypesController : BaseController
@@ -54,6 +53,7 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
             return Ok(canDelete);
         }
 
+        [Authorize("RevisionUser")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] WorkTypeModel WorkType)
         {
@@ -61,6 +61,7 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
             return Ok(result.Id);
         }
 
+        [Authorize("RevisionUser")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] WorkTypeModel WorkType)
         {
@@ -68,6 +69,7 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
             return Ok();
         }
 
+        [Authorize("RevisionUser")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -11,9 +11,9 @@ namespace NUCA.Projects.Application.Boqs.Commands.UpdateBoq
         {
             _boqRepository = boqRepository;
         }
-        public async Task<BoqModel> Execute(long id, UpdateBoqModel model)
+        public async Task<BoqModel> Execute(long boqId, UpdateBoqModel model)
         {
-            Boq? boq = await _boqRepository.GetByProjectId(id);
+            Boq? boq = await _boqRepository.Get(boqId);
             boq.UpdateBoq(model.PriceChangePercent);
             await _boqRepository.Update(boq);
             return new BoqModel(boq);

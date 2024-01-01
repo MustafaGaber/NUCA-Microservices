@@ -11,7 +11,7 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231231072559_Init")]
+    [Migration("20240101081734_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -37,7 +37,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.Property<int>("Name")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -51,7 +51,7 @@ namespace NUCA.Identity.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
@@ -60,7 +60,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.Property<int>("Name")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -74,7 +74,7 @@ namespace NUCA.Identity.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
@@ -111,39 +111,39 @@ namespace NUCA.Identity.Data.Migrations
                     b.Property<string>("LoginProvider")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PublicName")
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("UserId", "LoginProvider", "PublicName");
+                    b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.Department", b =>
                 {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PublicName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.DepartmentPermission", b =>
                 {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PublicName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.ToTable("DepartmentPermissions");
                 });
@@ -159,23 +159,23 @@ namespace NUCA.Identity.Data.Migrations
                     b.Property<int>("Job")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("DepartmentId", "UserId");
+                    b.HasKey("DepartmentId", "UserId", "Job");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Enrollments");
                 });
 
-            modelBuilder.Entity("NUCA.Identity.Domain.Job", b =>
+            modelBuilder.Entity("NUCA.Identity.Domain.Role", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PublicName")
+                    b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
@@ -186,7 +186,7 @@ namespace NUCA.Identity.Data.Migrations
                     b.Property<string>("PublicName")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -197,7 +197,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("NUCA.Identity.Domain.User", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("AccessFailedCount")
@@ -253,7 +253,7 @@ namespace NUCA.Identity.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -297,7 +297,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("NUCA.Identity.Domain.Job", null)
+                    b.HasOne("NUCA.Identity.Domain.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -350,7 +350,7 @@ namespace NUCA.Identity.Data.Migrations
 
             modelBuilder.Entity("NUCA.Identity.Domain.UserRole", b =>
                 {
-                    b.HasOne("NUCA.Identity.Domain.Job", "Job")
+                    b.HasOne("NUCA.Identity.Domain.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -362,7 +362,7 @@ namespace NUCA.Identity.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Job");
+                    b.Navigation("Role");
 
                     b.Navigation("User");
                 });
@@ -372,7 +372,7 @@ namespace NUCA.Identity.Data.Migrations
                     b.Navigation("Enrollments");
                 });
 
-            modelBuilder.Entity("NUCA.Identity.Domain.Job", b =>
+            modelBuilder.Entity("NUCA.Identity.Domain.Role", b =>
                 {
                     b.Navigation("Users");
                 });

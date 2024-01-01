@@ -39,7 +39,7 @@ namespace NUCA.Identity
 
             services.AddControllersWithViews(configure =>
             {
-                configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+               // configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
             });
 
             services.AddDbContext<DbContext, ApplicationDbContext>(options =>

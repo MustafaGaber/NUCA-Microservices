@@ -11,9 +11,9 @@ namespace NUCA.Projects.Application.Boqs.Commands.UpdateTable
         {
             _boqRepository = boqRepository;
         }
-        public async Task<BoqModel> Execute(long id, long tableId, UpdateTableModel table)
+        public async Task<BoqModel> Execute(long boqId, long tableId, UpdateTableModel table)
         {
-            Boq? boq = await _boqRepository.GetByProjectId(id);
+            Boq? boq = await _boqRepository.Get(boqId);
             if (boq == null)
             {
                 throw new InvalidOperationException();

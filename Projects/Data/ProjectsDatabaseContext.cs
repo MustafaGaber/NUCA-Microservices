@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using NUCA.Projects.Data.Adjustments;
 using NUCA.Projects.Data.Boqs;
 using NUCA.Projects.Data.Companies;
@@ -18,6 +19,7 @@ using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
 using NUCA.Projects.Domain.Entities.Users;
 using System.Security.AccessControl;
+using System.Security.Claims;
 
 namespace NUCA.Projects.Data
 {
@@ -34,7 +36,11 @@ namespace NUCA.Projects.Data
         public DbSet<AwardType> AwardTypes { get; init; }
         public DbSet<Ledger> Ledgers { get; init; }
 
-        public ProjectsDatabaseContext(DbContextOptions<ProjectsDatabaseContext> options) : base(options){}
+        private IHttpContextAccessor _contextAccessor;
+        public ProjectsDatabaseContext(DbContextOptions<ProjectsDatabaseContext> options, IHttpContextAccessor contextAccessor) : base(options)
+        {
+            _contextAccessor = contextAccessor;
+        }
 
         public new DbSet<T> Set<T, TId>() where T : Entity<TId>
         {
@@ -54,8 +60,6 @@ namespace NUCA.Projects.Data
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new StatementTableConfiguration());
             modelBuilder.ApplyConfiguration(new StatementConfiguration());
-           // modelBuilder.ApplyConfiguration(new WorksTableConfiguration());
-            //modelBuilder.ApplyConfiguration(new SuppliesTableConfiguration());
             modelBuilder.ApplyConfiguration(new StatementSectionConfiguration());
             modelBuilder.ApplyConfiguration(new StatementItemConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
@@ -63,11 +67,12 @@ namespace NUCA.Projects.Data
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
-                //  if (entityType.DisplayName() != nameof(Date) && entityType.DisplayName() != nameof(Duration))
                 if (!entityType.IsOwned())
                 {
                     modelBuilder.Entity(entityType.Name).Property<DateTime>("Created");
                     modelBuilder.Entity(entityType.Name).Property<DateTime>("LastModified");
+                    modelBuilder.Entity(entityType.Name).Property<string>("CreatedBy");
+                    modelBuilder.Entity(entityType.Name).Property<string>("UpdatedBy");
                 }
             }
         }
@@ -78,17 +83,19 @@ namespace NUCA.Projects.Data
             return base.SaveChanges();
         }
 
-        /*public override int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            OnSaveChanges();
-            return base.SaveChanges(acceptAllChangesOnSuccess);
-        }*/
+    
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             OnSaveChanges();
             return base.SaveChangesAsync(cancellationToken);
         }
+
+        /*public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            OnSaveChanges();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }*/
 
         /*public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
@@ -100,14 +107,24 @@ namespace NUCA.Projects.Data
         {
             ChangeTracker.DetectChanges();
             var now = DateTime.Now;
+            var httpContextAccessor = this.GetService<IHttpContextAccessor>();
+            string? userId = _contextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
             foreach (var entry in ChangeTracker.Entries().Where(e =>
             (e.State == EntityState.Added || e.State == EntityState.Modified) &&
             !e.Metadata.IsOwned()))
             {
                 entry.Property("LastModified").CurrentValue = now;
+                if (userId != null)
+                {
+                    entry.Property("UpdatedBy").CurrentValue = userId;
+                }
                 if (entry.State == EntityState.Added)
                 {
                     entry.Property("Created").CurrentValue = now;
+                    if (userId != null)
+                    {
+                        entry.Property("CreatedBy").CurrentValue = userId;
+                    }
                 }
             }
 

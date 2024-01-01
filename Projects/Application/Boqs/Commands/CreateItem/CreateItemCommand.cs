@@ -11,9 +11,9 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateItem
         {
             _boqRepository = boqRepository;
         }
-        public async Task<BoqModel> Execute(long projectId, long tableId, long sectionId, CreateItemModel item)
+        public async Task<BoqModel> Execute(long boqId, long tableId, long sectionId, CreateItemModel item)
         {
-            Boq? boq = await _boqRepository.GetByProjectId(projectId);
+            Boq? boq = await _boqRepository.Get(boqId);
             if (boq == null)
             {
                 throw new InvalidOperationException();

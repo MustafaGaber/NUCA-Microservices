@@ -35,6 +35,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public DateOnly? FinalDeliveryDate { get; private set; }
         public int? TotalContractPapers { get; private set; }
         public string Notes { get; private set; }
+        public bool Approved { get; private set; }
+        public string? ApprovedBy { get; private set; }
         public virtual IReadOnlyList<Statement> Statements { get; private set; }
         public Boq? Boq { get; private set; }
 
@@ -115,6 +117,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
             int? totalContractPapers,
             string notes)
         {
+            /*if (Approved)
+            {
+                throw new InvalidOperationException();
+            }*/
             if (!Enum.IsDefined(typeof(ProjectStatus), status))
             {
                 throw new ArgumentException();
@@ -176,6 +182,11 @@ namespace NUCA.Projects.Domain.Entities.Projects
             Notes = notes;
         }
 
+        public void Approve(string userId)
+        {
+            Approved = true;
+            ApprovedBy = userId;
+        }
        /* public void UpdatePrivileges(List<PrivilegeModel> privileges)
         {
             _privileges.RemoveAll(privilege => !privileges.Any(p => p.Id == privilege.Id));

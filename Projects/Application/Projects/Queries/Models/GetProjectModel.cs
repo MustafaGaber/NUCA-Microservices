@@ -31,8 +31,8 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
         public DateOnly? InitialDeliverySigningDate { get; init; }
         public DateOnly? FinalDeliveryDate { get; init; }
         public string Notes { get; init; }
+        public bool Approved { get; init; }
         public bool HasBoq { get; init; }
-
 
         public static GetProjectModel FromProject(Project project, bool hasBoq)
         {
@@ -65,6 +65,7 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
                 FinalDeliveryDate = project.FinalDeliveryDate,
                 Notes = project.Notes,
                 HasBoq = hasBoq,
+                Approved = project.Approved,
             };
         }
     }

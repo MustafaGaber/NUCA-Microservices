@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.Projects.Commands;
+using NUCA.Projects.Application.Projects.Commands.ApproveProject;
 using NUCA.Projects.Application.Projects.Commands.CreateProject;
 using NUCA.Projects.Application.Projects.Commands.DeleteProject;
 using NUCA.Projects.Application.Projects.Commands.UpdatePrivileges;
@@ -31,7 +32,8 @@ namespace NUCA.Projects.Api.Controllers.Projects
         private readonly IUpdateProjectCommand _updateCommand;
         private readonly IDeleteProjectCommand _deleteCommand;
         private readonly IUpdatePrivilegesCommand _updatePrivilegesCommand;
-        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery, IGetProjectWithPrivilegesQuery getProjectWithPrivilegesQuery, IUpdatePrivilegesCommand updatePrivilegesCommand)
+        private readonly IApproveProjectCommand _approveProjectCommand;
+        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery, IGetProjectWithPrivilegesQuery getProjectWithPrivilegesQuery, IUpdatePrivilegesCommand updatePrivilegesCommand, IApproveProjectCommand approveProjectCommand)
         {
             _listQuery = listQuery;
             _detailQuery = detailQuery;
@@ -42,6 +44,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
             _updateCommand = updateCommand;
             _deleteCommand = deleteCommand;
             _updatePrivilegesCommand = updatePrivilegesCommand;
+            _approveProjectCommand = approveProjectCommand;
         }
 
         // [Authorize(Policy = "ExecutionUser")]
@@ -97,6 +100,13 @@ namespace NUCA.Projects.Api.Controllers.Projects
         {
             await _updateCommand.Execute(id, project);
             return Ok();
+        }
+
+        [HttpPut("{id}/Approve")]
+        public async Task<IActionResult> Approve(long id)
+        {
+            GetProjectModel project = await _approveProjectCommand.Execute(id, User);
+            return Ok(project);
         }
 
         [HttpPut("{id}/Privileges")]
