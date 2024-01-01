@@ -48,9 +48,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
         [HttpGet()]
         public async Task<IActionResult> Index()
         {
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null) return Unauthorized();
-            List<UserProject> projects = await _listQuery.Execute(userId);
+            List<UserProject> projects = await _listQuery.Execute(User);
             return Ok(projects);
         }
 
