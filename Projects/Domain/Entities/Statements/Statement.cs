@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Boqs;
+using NUCA.Projects.Domain.Entities.Projects;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
@@ -134,7 +135,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             )).ToList();
             UpdateTotals();
         }
-        public void Update(UpdateStatementModel model, long userId)
+        public void Update(UpdateStatementModel model, List<Privilege> privileges)
         {
             if (State > StatementState.TechnicalOffice)
             {
@@ -142,9 +143,17 @@ namespace NUCA.Projects.Domain.Entities.Statements
             }
             model.Items.ForEach(item =>
             {
+                if (!privileges.Any(p => p.DepartmentId != null && p.DepartmentId == ""))
+                {
+                    throw new UnauthorizedAccessException();
+                }
+            });
+            model.Items.ForEach(item =>
+            {
                 StatementTable table = _tables.First(table => table.Id == item.TableId);
                 table.UpdateItem(item);
             });
+
             UpdateWithholdings(model.Withholdings);
             UpdateExternalSuppliesItems(model.ExternalSuppliesItems);
             UpdateTotals();

@@ -18,7 +18,7 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
             {
                 throw new InvalidOperationException();
             }
-            statement.Update(model, 1L);
+            statement.Update(model);
             if (model.Submit)
             {
                 statement.Submit();
