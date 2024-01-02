@@ -5,7 +5,7 @@ using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
 namespace NUCA.Projects.Data.FinanceAdmin
 {
-    public class WorkTypeRepository : Repository<WorkType, int>, IWorkTypeRepository
+    public class WorkTypeRepository : Repository<WorkType>, IWorkTypeRepository
     {
         public WorkTypeRepository(ProjectsDatabaseContext database)
           : base(database) { }

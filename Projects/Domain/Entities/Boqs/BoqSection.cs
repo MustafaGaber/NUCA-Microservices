@@ -4,7 +4,7 @@ using NUCA.Projects.Domain.Entities.Departments;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
 {
-    public class BoqSection : Entity<long>
+    public class BoqSection : Entity
     {
         public long BoqId { get; private set; }
 

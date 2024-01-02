@@ -6,7 +6,7 @@ using NUCA.Projects.Domain.Entities.Departments;
 
 namespace NUCA.Projects.Data.Departments
 {
-    public class DepartmentRepository : Repository<Department, int>, IDepartmentRepository
+    public class DepartmentRepository : Repository<Department>, IDepartmentRepository
     {
         public DepartmentRepository(ProjectsDatabaseContext database)
          : base(database) { }
@@ -14,7 +14,7 @@ namespace NUCA.Projects.Data.Departments
 
         public async Task<bool> DepartmentHasUsers(string id)
         {
-            /* int count = await database.Users.Include(u => u.Departments).Where(u => u.Departments.Select(d => d.Id).Contains(id)).CountAsync();
+            /* int count = await database.Users.Include(u => u.ExecutionDepartments).Where(u => u.ExecutionDepartments.Select(d => d.Id).Contains(id)).CountAsync();
              return count > 0;*/
             return true;
         }

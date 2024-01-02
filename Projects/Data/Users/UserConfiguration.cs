@@ -18,7 +18,7 @@ namespace NUCA.Projects.Data.Users
          public void Configure(EntityTypeBuilder<UserDepartment> builder)
          {
              builder.HasOne(u => u.Department).WithMany();
-             builder.HasOne(u => u.User).WithMany(d => d.Departments);
+             builder.HasOne(u => u.User).WithMany(d => d.ExecutionDepartments);
              builder.HasKey(d => new { d.UserId , d.DepartmentId});
          }
      }*/

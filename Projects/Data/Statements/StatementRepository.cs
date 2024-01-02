@@ -7,17 +7,21 @@ using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Data.Statements
 {
-    public class StatementRepository : Repository<Statement, long>, IStatementRepository
+    public class StatementRepository : Repository<Statement>, IStatementRepository
     {
         public StatementRepository(ProjectsDatabaseContext database)
          : base(database) { }
 
+        public Task<Statement?> GetMainStatementData(long id)
+        {
+            return database.Statements.FirstOrDefaultAsync(s => s.Id == id);
+        }
         public override Task<Statement?> Get(long id)
         {
             return StatementQuery.FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public Task<Statement?> GetLastStatement(long projectId)
+        public Task<Statement?> GetLastStatementForProject(long projectId)
         {
             return StatementQuery
                 .OrderBy(s => s.Id)
@@ -45,7 +49,7 @@ namespace NUCA.Projects.Data.Statements
             // TODO: get user statements,
             return database.Statements
                 //.Where(s => s. == userId)
-                .Where(s => s.State == StatementState.ExecutionState)
+                .Where(s => s.State == StatementState.Execution)
                 .Join(database.Projects,
                 s => s.ProjectId,
                 p => p.Id,

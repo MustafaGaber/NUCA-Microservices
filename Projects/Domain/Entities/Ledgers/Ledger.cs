@@ -3,7 +3,7 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.Ledgers
 {
-    public class Ledger: Entity<int>
+    public class Ledger: Entity
     {
         public string Name { get; private set; }
         public int Index { get; private set; }

@@ -9,7 +9,7 @@ using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Domain.Entities.Projects
 {
-    public class Project : AggregateRoot<long>
+    public class Project : AggregateRoot
     {
         public string Name { get; private set; }
         public string DepartmentId { get; private set; }

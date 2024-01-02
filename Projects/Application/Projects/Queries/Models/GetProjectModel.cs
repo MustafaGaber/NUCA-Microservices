@@ -9,10 +9,10 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
         public string Name { get; init; }
         public string DepartmentId { get; init; }
         public string DepartmentName { get; init; }
-        public int TypeId { get; init; }
+        public long TypeId { get; init; }
         public string TypeName { get; init; }
         public ProjectStatus Status { get; init; }
-        public int? AwardTypeId { get; init; }
+        public long? AwardTypeId { get; init; }
         public string? AwardTypeName { get; init; }
         public int? OrderNumber { get; init; }
         public DateOnly? OrderDate { get; init; }

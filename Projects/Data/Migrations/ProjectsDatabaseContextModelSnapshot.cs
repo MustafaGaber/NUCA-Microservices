@@ -2,27 +2,24 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Projects.Data;
 
 #nullable disable
 
-namespace NUCA.Projects.Migrations
+namespace NUCA.Projects.Data.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    [Migration("20240101122510_EntityCreatedBy")]
-    partial class EntityCreatedBy
+    partial class ProjectsDatabaseContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
 
             modelBuilder.Entity("DepartmentUser", b =>
                 {
-                    b.Property<int>("DepartmentsId")
+                    b.Property<long>("DepartmentsId")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("UsersId")
@@ -416,7 +413,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Departments.Department", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -445,7 +442,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.AwardType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -477,7 +474,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -509,7 +506,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Ledgers.Ledger", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -594,7 +591,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<string>("ApprovedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("AwardTypeId")
+                    b.Property<long?>("AwardTypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("CompanyId")
@@ -659,7 +656,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<int?>("TotalContractPapers")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TypeId")
+                    b.Property<long>("TypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1020,6 +1017,42 @@ namespace NUCA.Projects.Migrations
                     b.ToTable("StatementWithholding");
                 });
 
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.UserSubmission", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Approved")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DepartmentId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("StatementId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatementId");
+
+                    b.ToTable("UserSubmission");
+                });
+
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Users.User", b =>
                 {
                     b.Property<long>("Id")
@@ -1153,7 +1186,7 @@ namespace NUCA.Projects.Migrations
 
                     b.OwnsMany("NUCA.Projects.Domain.Entities.Shared.Date", "ModifiedEndDates", b1 =>
                         {
-                            b1.Property<long>("Id")
+                            b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("INTEGER");
 
@@ -1270,6 +1303,15 @@ namespace NUCA.Projects.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.UserSubmission", b =>
+                {
+                    b.HasOne("NUCA.Projects.Domain.Entities.Statements.Statement", null)
+                        .WithMany("Submissions")
+                        .HasForeignKey("StatementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.Adjustment", b =>
                 {
                     b.Navigation("Withholdings");
@@ -1302,6 +1344,8 @@ namespace NUCA.Projects.Migrations
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.Statement", b =>
                 {
                     b.Navigation("ExternalSuppliesItems");
+
+                    b.Navigation("Submissions");
 
                     b.Navigation("Tables");
 

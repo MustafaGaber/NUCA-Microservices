@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NUCA.Projects.Data;
 using NUCA.Projects.Domain.Entities.Projects;
-using NUCA.Projects.Migrations;
 
 namespace NUCA.Projects.Application.Projects.Commands.UpdatePrivileges
 {

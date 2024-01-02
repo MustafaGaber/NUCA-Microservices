@@ -44,7 +44,7 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjectsWithStatements
                       Status = project.Status,
                       CompanyName = project.Company == null ? null : project.Company.Name,
                       StatementsCount = project.Statements.Count,
-                      HasInProgressStatement = project.Statements.Any(s => s.State < StatementState.AdjustedState)
+                      HasInProgressStatement = project.Statements.Any(s => s.State < StatementState.Adjusted)
                   })
                 .ToListAsync();
         }

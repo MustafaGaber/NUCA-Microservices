@@ -19,7 +19,7 @@ namespace NUCA.Projects.Data.Departments
          public void Configure(EntityTypeBuilder<Group> builder)
          {
              builder.ToTable("DGroup");
-             builder.HasMany(g => g.Departments).WithOne(d => d.Group)
+             builder.HasMany(g => g.ExecutionDepartments).WithOne(d => d.Group)
                  .OnDelete(DeleteBehavior.Cascade);
          }
      }

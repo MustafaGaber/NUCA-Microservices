@@ -3,7 +3,7 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.FinanceAdmin
 {
-    public class WorkType : Entity<int>
+    public class WorkType : Entity
     {
         public string Name { get; private set; }
         public double ValueAddedTaxPercent { get; private set; }

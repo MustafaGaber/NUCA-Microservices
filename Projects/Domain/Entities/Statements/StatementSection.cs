@@ -6,7 +6,7 @@ using NUCA.Projects.Domain.Entities.Boqs;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
-    public class StatementSection : Entity<long>
+    public class StatementSection : Entity
     {
         private readonly List<StatementItem> _items = new List<StatementItem>();
         public long BoqSectionId { get; private set; }

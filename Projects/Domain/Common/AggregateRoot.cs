@@ -2,7 +2,7 @@
 
 namespace NUCA.Projects.Domain.Common
 {
-    public class AggregateRoot<TId> : Entity<TId>
+    public class AggregateRoot: Entity
     {
         private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
         public virtual IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;

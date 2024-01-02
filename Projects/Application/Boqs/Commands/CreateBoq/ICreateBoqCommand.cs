@@ -4,6 +4,6 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateBoq
 {
     public interface ICreateBoqCommand
     {
-        Task<BoqModel> Execute(long projectId, CreateBoqModel model);
+        Task<long> Execute(long projectId, CreateBoqModel model);
     }
 }

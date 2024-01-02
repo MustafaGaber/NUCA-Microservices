@@ -2,7 +2,7 @@
 
 namespace NUCA.Projects.Application.Interfaces.Persistence
 {
-    public interface ILedgerRepository: IRepository<Ledger, int>
+    public interface ILedgerRepository: IRepository<Ledger>
     {
     }
 }

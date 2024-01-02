@@ -7,7 +7,7 @@ using NUCA.Projects.Domain.Entities.Adjustments;
 
 namespace NUCA.Projects.Data.Adjustments
 {
-    public class AdjustmentRepository : Repository<Adjustment, long>, IAdjustmentRepository
+    public class AdjustmentRepository : Repository<Adjustment>, IAdjustmentRepository
     {
         public AdjustmentRepository(ProjectsDatabaseContext database) : base(database)
         {

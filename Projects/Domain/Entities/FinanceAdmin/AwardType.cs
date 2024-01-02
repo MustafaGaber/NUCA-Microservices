@@ -3,7 +3,7 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.FinanceAdmin
 {
-    public class AwardType : Entity<int>
+    public class AwardType : Entity
     {
         public string Name { get; private set; }
         public bool EstimatedPrice { get; private set; }

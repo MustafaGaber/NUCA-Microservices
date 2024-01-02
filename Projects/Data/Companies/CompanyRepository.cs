@@ -7,7 +7,7 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Data.Companies
 {
-    public class CompanyRepository: Repository<Company, long>, ICompanyRepository
+    public class CompanyRepository: Repository<Company>, ICompanyRepository
     {
         public CompanyRepository(ProjectsDatabaseContext database)
           : base(database) { }

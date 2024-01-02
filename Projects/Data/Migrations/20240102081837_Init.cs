@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NUCA.Projects.Migrations
+namespace NUCA.Projects.Data.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -15,12 +15,14 @@ namespace NUCA.Projects.Migrations
                 name: "AwardTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     EstimatedPrice = table.Column<bool>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,7 +44,9 @@ namespace NUCA.Projects.Migrations
                     ElectronicInvoice = table.Column<string>(type: "TEXT", nullable: false),
                     CommercialIndustrialTaxFree = table.Column<bool>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,11 +57,13 @@ namespace NUCA.Projects.Migrations
                 name: "Departments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,12 +74,14 @@ namespace NUCA.Projects.Migrations
                 name: "Ledgers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Index = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,7 +96,9 @@ namespace NUCA.Projects.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,12 +109,14 @@ namespace NUCA.Projects.Migrations
                 name: "WorkTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     ValueAddedTaxPercent = table.Column<double>(type: "REAL", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,7 +127,7 @@ namespace NUCA.Projects.Migrations
                 name: "DepartmentUser",
                 columns: table => new
                 {
-                    DepartmentsId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DepartmentsId = table.Column<long>(type: "INTEGER", nullable: false),
                     UsersId = table.Column<long>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
@@ -146,9 +158,9 @@ namespace NUCA.Projects.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     DepartmentId = table.Column<string>(type: "TEXT", nullable: false),
                     DepartmentName = table.Column<string>(type: "TEXT", nullable: false),
-                    TypeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TypeId = table.Column<long>(type: "INTEGER", nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
-                    AwardTypeId = table.Column<int>(type: "INTEGER", nullable: true),
+                    AwardTypeId = table.Column<long>(type: "INTEGER", nullable: true),
                     CompanyId = table.Column<long>(type: "INTEGER", nullable: true),
                     OrderNumber = table.Column<int>(type: "INTEGER", nullable: true),
                     OrderDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
@@ -166,8 +178,12 @@ namespace NUCA.Projects.Migrations
                     FinalDeliveryDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     TotalContractPapers = table.Column<int>(type: "INTEGER", nullable: true),
                     Notes = table.Column<string>(type: "TEXT", nullable: false),
+                    Approved = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ApprovedBy = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,8 +215,12 @@ namespace NUCA.Projects.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ProjectId = table.Column<long>(type: "INTEGER", nullable: false),
                     PriceChangePercent = table.Column<double>(type: "REAL", nullable: false),
+                    Approved = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ApprovedBy = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -217,7 +237,7 @@ namespace NUCA.Projects.Migrations
                 name: "EndDates",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Value = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     ProjectId = table.Column<long>(type: "INTEGER", nullable: false)
@@ -239,11 +259,14 @@ namespace NUCA.Projects.Migrations
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ProjectId = table.Column<long>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    DepartmentId = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ProjectId = table.Column<long>(type: "INTEGER", nullable: false)
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -272,7 +295,9 @@ namespace NUCA.Projects.Migrations
                     TotalWorks = table.Column<double>(type: "REAL", nullable: false),
                     TotalSupplies = table.Column<double>(type: "REAL", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -297,7 +322,9 @@ namespace NUCA.Projects.Migrations
                     PriceChangePercent = table.Column<double>(type: "REAL", nullable: false),
                     Type = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -340,7 +367,9 @@ namespace NUCA.Projects.Migrations
                     Total = table.Column<double>(type: "REAL", nullable: false),
                     Submitted = table.Column<bool>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -376,7 +405,9 @@ namespace NUCA.Projects.Migrations
                     Percentage = table.Column<double>(type: "REAL", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    StatementId = table.Column<long>(type: "INTEGER", nullable: false)
+                    StatementId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -402,7 +433,9 @@ namespace NUCA.Projects.Migrations
                     Type = table.Column<int>(type: "INTEGER", nullable: false),
                     BoqTableType = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -426,13 +459,38 @@ namespace NUCA.Projects.Migrations
                     Type = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    StatementId = table.Column<long>(type: "INTEGER", nullable: false)
+                    StatementId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StatementWithholding", x => x.Id);
                     table.ForeignKey(
                         name: "FK_StatementWithholding_Statements_StatementId",
+                        column: x => x.StatementId,
+                        principalTable: "Statements",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserSubmission",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    DepartmentId = table.Column<string>(type: "TEXT", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    StatementId = table.Column<long>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserSubmission", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserSubmission_Statements_StatementId",
                         column: x => x.StatementId,
                         principalTable: "Statements",
                         principalColumn: "Id",
@@ -451,7 +509,9 @@ namespace NUCA.Projects.Migrations
                     DepartmentName = table.Column<string>(type: "TEXT", nullable: false),
                     BoqTableId = table.Column<long>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -476,7 +536,9 @@ namespace NUCA.Projects.Migrations
                     FromStatement = table.Column<bool>(type: "INTEGER", nullable: false),
                     AdjustmentId = table.Column<long>(type: "INTEGER", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -500,7 +562,9 @@ namespace NUCA.Projects.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    StatementTableId = table.Column<long>(type: "INTEGER", nullable: false)
+                    StatementTableId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -526,7 +590,9 @@ namespace NUCA.Projects.Migrations
                     UnitPrice = table.Column<double>(type: "REAL", nullable: false),
                     BoqSectionId = table.Column<long>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -556,7 +622,9 @@ namespace NUCA.Projects.Migrations
                     Percentage = table.Column<double>(type: "REAL", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    StatementSectionId = table.Column<long>(type: "INTEGER", nullable: false)
+                    StatementSectionId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -580,7 +648,9 @@ namespace NUCA.Projects.Migrations
                     Notes = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    StatementItemId = table.Column<long>(type: "INTEGER", nullable: false)
+                    StatementItemId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -688,6 +758,11 @@ namespace NUCA.Projects.Migrations
                 name: "IX_StatementWithholding_StatementId",
                 table: "StatementWithholding",
                 column: "StatementId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSubmission_StatementId",
+                table: "UserSubmission",
+                column: "StatementId");
         }
 
         /// <inheritdoc />
@@ -719,6 +794,9 @@ namespace NUCA.Projects.Migrations
 
             migrationBuilder.DropTable(
                 name: "StatementWithholding");
+
+            migrationBuilder.DropTable(
+                name: "UserSubmission");
 
             migrationBuilder.DropTable(
                 name: "Adjustments");

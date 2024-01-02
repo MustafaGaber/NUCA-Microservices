@@ -4,7 +4,7 @@ using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
-    public class StatementWithholding : Entity<long>
+    public class StatementWithholding : Entity
     {
         public string Name { get; private set; }
         public double Value { get; private set; }

@@ -9,6 +9,7 @@ namespace NUCA.Projects.Application.Projects.Queries.GetUserProjects
         public required ProjectStatus Status { get; init; }
         public required string? CompanyName { get; init; }
         public required List<PrivilegeModel> Privileges { get; init; }
+       // public required long? BoqId { get; init; }
         public required bool Approved { get; init; }
 
     }

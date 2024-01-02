@@ -7,7 +7,7 @@ using System.Reflection.Metadata;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
 {
-    public class Boq : AggregateRoot<long>
+    public class Boq : AggregateRoot
     {
         public long ProjectId { get; private set; }
         public Project Project { get; private set; } = null!;

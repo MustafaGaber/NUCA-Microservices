@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
 {
-    public class BoqItem: Entity<long>
+    public class BoqItem: Entity
     {
         public string Index { get; private set; }
         public string Content { get; private set; }

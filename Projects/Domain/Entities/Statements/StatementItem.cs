@@ -3,7 +3,7 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
-    public class StatementItem : Entity<long>
+    public class StatementItem : Entity
     {
         private List<PercentageDetail> _percentageDetails = new List<PercentageDetail>();
         public long BoqItemId { get; private set; }

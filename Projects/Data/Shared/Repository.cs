@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace NUCA.Projects.Data.Shared
 {
-    public class Repository<T, TId> : IRepository<T, TId> where T : Entity<TId>
+    public class Repository<T> : IRepository<T> where T : Entity
     {
         protected readonly ProjectsDatabaseContext database;
 
@@ -26,7 +26,7 @@ namespace NUCA.Projects.Data.Shared
             return database.Set<T>().AsQueryable().Where(predicate).ToListAsync();
         }
 
-        public virtual async Task<T?> Get(TId id)
+        public virtual async Task<T?> Get(long id)
         {
             var item = await database.Set<T>().FindAsync(id);
             return item;
@@ -44,7 +44,7 @@ namespace NUCA.Projects.Data.Shared
             return item;
         }
 
-        public virtual async Task Delete(TId id)
+        public virtual async Task Delete(long id)
         {
             var entity = await database.Set<T>().FindAsync(id);
             if (entity == null) return;
@@ -62,7 +62,7 @@ namespace NUCA.Projects.Data.Shared
             return database.Set<T>().Select(selector).ToListAsync();
         }
 
-        public virtual Task<List<T>> GetSome(List<TId> ids)
+        public virtual Task<List<T>> GetSome(List<long> ids)
         {
             return database.Set<T>().Where((item) => ids.Contains(item.Id)).ToListAsync();
         }

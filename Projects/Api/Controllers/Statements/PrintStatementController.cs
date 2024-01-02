@@ -25,7 +25,7 @@ namespace NUCA.Projects.Api.Controllers.Statements
         public async Task<IActionResult> Print(long id)
         {
             var model = await _printStatementQuery.Execute(id);
-            if (model.Statement.State < StatementState.RevisionState)
+            if (model.Statement.State < StatementState.Revision)
             {
                 throw new InvalidOperationException();
             }

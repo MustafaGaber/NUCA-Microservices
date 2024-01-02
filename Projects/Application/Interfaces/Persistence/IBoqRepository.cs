@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NUCA.Projects.Application.Interfaces.Persistence
 {
-    public interface IBoqRepository : IRepository<Boq, long>
+    public interface IBoqRepository : IRepository<Boq>
     {
         public Task<Boq?> GetByProjectId(long projectId);
     }

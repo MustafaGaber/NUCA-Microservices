@@ -3,7 +3,7 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
-    public class ExternalSuppliesItem : Entity<long>
+    public class ExternalSuppliesItem : Entity
     {
         public long SuppliesTableId { get; private set; }
         public int DepartmentId { get; private set; } 

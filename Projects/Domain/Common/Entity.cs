@@ -2,11 +2,11 @@
 
 namespace NUCA.Projects.Domain.Common
 {
-    public class Entity<TId>
+    public class Entity
     {
-        public virtual TId Id { get; protected set; }
-        /*public string CreatedBy { get; protected set; }
-        public string UpdatedBy { get; protected set; }*/
+        public virtual long Id { get; protected set; }
+        public string CreatedBy { get; protected set; }
+        public string UpdatedBy { get; protected set; }
 
         protected Entity() { }
 

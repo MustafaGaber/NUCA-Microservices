@@ -9,7 +9,7 @@
 
     public class DepartmentModel
     {
-        public int Id { get; init; }
+        public long Id { get; init; }
         public string Name { get; init; }
 
     }

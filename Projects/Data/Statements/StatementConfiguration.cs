@@ -12,7 +12,8 @@ namespace NUCA.Projects.Data.Statements
         {
             builder
                 .Ignore(s => s.WorksTables)
-                .Ignore(s => s.SuppliesTables);
+                .Ignore(s => s.SuppliesTables)
+                .Ignore(s => s.ExecutionDepartments);
             builder.HasMany(s => s.Tables)
                 .WithOne().IsRequired()
                 .HasForeignKey(t => t.StatementId)
@@ -25,6 +26,10 @@ namespace NUCA.Projects.Data.Statements
             builder.HasMany(s => s.Withholdings)
                 .WithOne().IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(s => s.Submissions)
+               .WithOne().IsRequired()
+               .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

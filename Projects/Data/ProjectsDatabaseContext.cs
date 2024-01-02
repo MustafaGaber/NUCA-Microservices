@@ -42,7 +42,7 @@ namespace NUCA.Projects.Data
             _contextAccessor = contextAccessor;
         }
 
-        public new DbSet<T> Set<T, TId>() where T : Entity<TId>
+        public new DbSet<T> Set<T>() where T : Entity
         {
             return base.Set<T>();
         }
@@ -71,8 +71,8 @@ namespace NUCA.Projects.Data
                 {
                     modelBuilder.Entity(entityType.Name).Property<DateTime>("Created");
                     modelBuilder.Entity(entityType.Name).Property<DateTime>("LastModified");
-                    modelBuilder.Entity(entityType.Name).Property<string>("CreatedBy");
-                    modelBuilder.Entity(entityType.Name).Property<string>("UpdatedBy");
+                   // modelBuilder.Entity(entityType.Name).Property<string>("CreatedBy");
+                   // modelBuilder.Entity(entityType.Name).Property<string>("UpdatedBy");
                 }
             }
         }
@@ -97,7 +97,7 @@ namespace NUCA.Projects.Data
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }*/
 
-        /*public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        /*public override Task SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             OnSaveChanges();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -114,7 +114,7 @@ namespace NUCA.Projects.Data
             !e.Metadata.IsOwned()))
             {
                 entry.Property("LastModified").CurrentValue = now;
-                if (userId != null)
+                if (userId != null && (entry.Entity is Entity))
                 {
                     entry.Property("UpdatedBy").CurrentValue = userId;
                 }
@@ -128,12 +128,12 @@ namespace NUCA.Projects.Data
                 }
             }
 
-            List<AggregateRoot<long>> aggregateRoots = ChangeTracker
+            List<AggregateRoot> aggregateRoots = ChangeTracker
                    .Entries()
-                   .Where(x => x.Entity is AggregateRoot<long>)
-                   .Select(x => (AggregateRoot<long>)x.Entity)
+                   .Where(x => x.Entity is AggregateRoot)
+                   .Select(x => (AggregateRoot)x.Entity)
                    .ToList();
-            foreach (AggregateRoot<long> aggregateRoot in aggregateRoots)
+            foreach (AggregateRoot aggregateRoot in aggregateRoots)
             {
                 foreach (IDomainEvent domainEvent in aggregateRoot.DomainEvents)
                 {
@@ -142,19 +142,19 @@ namespace NUCA.Projects.Data
                 aggregateRoot.ClearEvents();
             }
 
-            List<AggregateRoot<int>> aggregateRoots2 = ChangeTracker
+           /*/ List<AggregateRoot> aggregateRoots2 = ChangeTracker
                   .Entries()
-                  .Where(x => x.Entity is AggregateRoot<int>)
-                  .Select(x => (AggregateRoot<int>)x.Entity)
+                  .Where(x => x.Entity is AggregateRoot)
+                  .Select(x => (AggregateRoot)x.Entity)
                   .ToList();
-            foreach (AggregateRoot<int> aggregateRoot in aggregateRoots2)
+            foreach (AggregateRoot aggregateRoot in aggregateRoots2)
             {
                 foreach (IDomainEvent domainEvent in aggregateRoot.DomainEvents)
                 {
                     DomainEvents.Dispatch(domainEvent);
                 }
                 aggregateRoot.ClearEvents();
-            }
+            }*/
         }
 
 

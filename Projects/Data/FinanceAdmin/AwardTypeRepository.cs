@@ -5,7 +5,7 @@ using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
 namespace NUCA.Projects.Data.FinanceAdmin
 {
-    public class AwardTypeRepository : Repository<AwardType, int>, IAwardTypeRepository
+    public class AwardTypeRepository : Repository<AwardType>, IAwardTypeRepository
     {
         public AwardTypeRepository(ProjectsDatabaseContext database)
           : base(database) { }

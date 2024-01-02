@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
-    public class StatementTable : Entity<long>
+    public class StatementTable : Entity
     {
         private readonly List<StatementSection> _sections = new List<StatementSection>();
         public virtual IReadOnlyList<StatementSection> Sections => _sections.ToList();

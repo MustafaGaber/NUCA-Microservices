@@ -17,7 +17,7 @@ namespace NUCA.Projects.Data.Core
         DbSet<Company> Companies { get; init; }
         DbSet<User> Users { get; init; }
         DbSet<Statement> Statements { get; init; }
-        DbSet<T> Set<T, TId>() where T : Entity<TId>;
+        DbSet<T> Set<T, TId>() where T : Entity;
         void Save();
     }
 }

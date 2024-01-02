@@ -4,7 +4,7 @@ using NUCA.Projects.Domain.Entities.Users;
 
 namespace NUCA.Projects.Domain.Entities.Departments
 {
-    public class Department : Entity<int>
+    public class Department : Entity
     {
         private readonly List<User> _users = new List<User>();
         public virtual IReadOnlyList<User> Users => _users.ToList();

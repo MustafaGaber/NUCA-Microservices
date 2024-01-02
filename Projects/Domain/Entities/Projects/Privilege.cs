@@ -3,7 +3,7 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.Projects
 {
-    public class Privilege : Entity<long>
+    public class Privilege : Entity
     {
         public long ProjectId { get; private set; }
         public string UserId { get; private set; }

@@ -28,7 +28,7 @@ namespace NUCA.Projects.Data.Projects
                     a.ToTable("EndDates");
                     a.WithOwner().HasForeignKey("ProjectId");
                     a.HasKey("Id");
-                    a.Property<long>("Id");
+                    a.Property("Id");
                 });
             builder.OwnsOne(p => p.Duration);
         }

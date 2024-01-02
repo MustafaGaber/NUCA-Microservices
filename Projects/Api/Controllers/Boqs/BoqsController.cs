@@ -66,8 +66,8 @@ namespace NUCA.Projects.Api.Controllers.Boqs
         [HttpPost("{id}")]
         public async Task<IActionResult> CreateBoq(long id, [FromBody] CreateBoqModel model)
         {
-            BoqModel boq = await _createBoqCommand.Execute(id, model);
-            return Ok(boq);
+            long boqId = await _createBoqCommand.Execute(id, model);
+            return Ok(boqId);
         }
 
         [HttpPut("{id}/Approve")]

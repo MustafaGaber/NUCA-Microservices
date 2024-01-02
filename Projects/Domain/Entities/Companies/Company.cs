@@ -3,7 +3,7 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.Companies
 {
-    public class Company : Entity<long>
+    public class Company : Entity
     {
         public string Name { get; private set; }
         public string Address { get; private set; }

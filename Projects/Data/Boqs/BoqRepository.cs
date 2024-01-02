@@ -6,7 +6,7 @@ using NUCA.Projects.Domain.Entities.Boqs;
 
 namespace NUCA.Projects.Data.Boqs
 {
-    public class BoqRepository : Repository<Boq, long>, IBoqRepository
+    public class BoqRepository : Repository<Boq>, IBoqRepository
     {
         private IQueryable<Boq> boqQuery;
         public BoqRepository(ProjectsDatabaseContext database)

@@ -3,7 +3,7 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
-    public class PercentageDetail : Entity<long>
+    public class PercentageDetail : Entity
     {
         public double Quantity { get; private set; }
         public double Percentage { get; private set; }

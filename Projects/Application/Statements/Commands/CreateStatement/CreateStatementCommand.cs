@@ -20,8 +20,8 @@ namespace NUCA.Projects.Application.Statements.Commands.CreateStatement
             {
                 throw new InvalidOperationException();
             }
-            Statement? previousStatement = await _statementRepository.GetLastStatement(projectId);
-            if (previousStatement != null && previousStatement.State < StatementState.AdjustedState)
+            Statement? previousStatement = await _statementRepository.GetLastStatementForProject(projectId);
+            if (previousStatement != null && previousStatement.State < StatementState.Adjusted)
             {
                 throw new InvalidOperationException();
             }

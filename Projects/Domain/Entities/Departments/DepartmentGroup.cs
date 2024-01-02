@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NUCA.Projects.Domain.Entities.Departments
+namespace NUCA.Projects.Domain.Entities.ExecutionDepartments
 {
     public class DepartmentGroup: Entity
     {

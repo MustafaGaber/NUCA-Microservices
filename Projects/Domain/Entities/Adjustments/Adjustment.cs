@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace NUCA.Projects.Domain.Entities.Adjustments
 {
-    public class Adjustment : AggregateRoot<long>
+    public class Adjustment : AggregateRoot
     {
         public long ProjectId { get; private set; }
         public int StatementIndex { get; private set; }

@@ -5,7 +5,7 @@ using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
 {
-    public class BoqTable : Entity<long>
+    public class BoqTable : Entity
     {
         public long BoqId { get; private set; }
 

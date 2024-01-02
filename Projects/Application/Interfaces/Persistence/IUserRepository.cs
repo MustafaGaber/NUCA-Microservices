@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NUCA.Projects.Application.Interfaces.Persistence
 {
-    public interface IUserRepository: IRepository<User, long>
+    public interface IUserRepository: IRepository<User>
     {
     }
 }

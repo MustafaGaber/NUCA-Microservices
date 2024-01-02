@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace NUCA.Projects.Data.Users
 {
-    public class UserRepository : Repository<User, long>, IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
         public UserRepository(ProjectsDatabaseContext database)
          : base(database) { }

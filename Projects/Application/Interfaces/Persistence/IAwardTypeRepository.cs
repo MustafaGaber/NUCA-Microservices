@@ -2,7 +2,7 @@
 
 namespace NUCA.Projects.Application.Interfaces.Persistence
 {
-    public interface IAwardTypeRepository : IRepository<AwardType, int>
+    public interface IAwardTypeRepository : IRepository<AwardType>
     {
         public Task<bool> AwardTypeHasProjects(int id);
     }

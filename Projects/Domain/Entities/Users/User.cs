@@ -4,7 +4,7 @@ using NUCA.Projects.Domain.Entities.Departments;
 
 namespace NUCA.Projects.Domain.Entities.Users
 {
-    public class User : AggregateRoot<long>
+    public class User : AggregateRoot
     {
         private readonly List<Department> _departments = new List<Department>();
         public virtual IReadOnlyList<Department> Departments => _departments.ToList();

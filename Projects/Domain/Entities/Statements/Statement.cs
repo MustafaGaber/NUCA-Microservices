@@ -4,7 +4,7 @@ using NUCA.Projects.Domain.Entities.Boqs;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
-    public class Statement : AggregateRoot<long>
+    public class Statement : AggregateRoot
     {
         private readonly List<ExternalSuppliesItem> _externalSuppliesItems = new List<ExternalSuppliesItem>();
         public virtual IReadOnlyList<ExternalSuppliesItem> ExternalSuppliesItems => _externalSuppliesItems.ToList();
@@ -26,7 +26,8 @@ namespace NUCA.Projects.Domain.Entities.Statements
             }).ToList();
 
         public IReadOnlyList<SuppliesTable> SuppliesTables => _tables.Where(t => t.Type == StatementTableType.Supplies)
-           .Select(table => {
+           .Select(table =>
+           {
                var externalSuppliesItems = _externalSuppliesItems.Where(i => i.SuppliesTableId == table.Id).ToList();
                var externalSuppliesItemsTotal = externalSuppliesItems.Sum(i => i.NetPrice);
                var TotalBeforePriceChange = table.TotalBeforePriceChange + externalSuppliesItemsTotal;
@@ -57,7 +58,16 @@ namespace NUCA.Projects.Domain.Entities.Statements
 
         private readonly List<StatementWithholding> _withholdings = new List<StatementWithholding>();
         public virtual IReadOnlyList<StatementWithholding> Withholdings => _withholdings.ToList();
+        public List<string> ExecutionDepartments => _tables.Aggregate(new List<string> { },
+            (departments, table) =>
+            {
+                departments.AddRange(table.Sections.Select(s => s.DepartmentId));
+                return departments;
+            }).Distinct().ToList();
 
+        private readonly List<UserSubmission> _submissions = new List<UserSubmission>();
+
+        public List<UserSubmission> Submissions => _submissions.ToList();
         protected Statement()
         {
             if (Math.Abs(CalculateTotalWorks() - TotalWorks) > 0.001)
@@ -73,7 +83,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         {
             ProjectId = Guard.Against.NegativeOrZero(projectId, nameof(projectId));
             Index = 1;
-            State = StatementState.ExecutionState;
+            State = StatementState.Execution;
             WorksDate = Guard.Against.Null(worksDate, nameof(worksDate));
             Final = final;
             PriceChangePercent = boq.PriceChangePercent;
@@ -86,12 +96,12 @@ namespace NUCA.Projects.Domain.Entities.Statements
         {
             Guard.Against.Null(previousStatement, nameof(previousStatement));
             Guard.Against.Null(boq, nameof(boq));
-            if (previousStatement.State < StatementState.AdjustedState || previousStatement.Index < 1)
+            if (previousStatement.State < StatementState.Adjusted || previousStatement.Index < 1)
             {
                 throw new InvalidOperationException();
             }
             ProjectId = Guard.Against.NegativeOrZero(projectId, nameof(projectId));
-            State = StatementState.ExecutionState;
+            State = StatementState.Execution;
             WorksDate = Guard.Against.Null(worksDate, nameof(worksDate));
             Final = final;
             PriceChangePercent = boq.PriceChangePercent;
@@ -126,7 +136,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         }
         public void Update(UpdateStatementModel model, long userId)
         {
-            if (State > StatementState.TechnicalOfficeState)
+            if (State > StatementState.TechnicalOffice)
             {
                 throw new InvalidOperationException();
             }
@@ -188,12 +198,58 @@ namespace NUCA.Projects.Domain.Entities.Statements
 
         public void Submit()
         {
-            State = StatementState.RevisionState;
+            State = StatementState.Revision;
         }
 
-        public void SetAdjustmentCreated()
+        public void ExecutionSubmit(string departmentId, string userId)
         {
-            State = StatementState.AdjustedState;
+            if (State != StatementState.Execution) return;
+            _submissions.Add(new UserSubmission(departmentId, userId, true));
+            if (ExecutionDepartments.All(d => _submissions.Select(s => s.DepartmentId).Contains(d)))
+            {
+                State = StatementState.TechnicalOffice;
+            }
+        }
+
+        public void TechnicalOfficeApprove(string departmentId, string userId)
+        {
+            if (State != StatementState.TechnicalOffice) return;
+            _submissions.Add(new UserSubmission(departmentId, userId, true ));
+            State = StatementState.Revision;
+        }
+
+        public void TechnicalOfficeDisapprove(string departmentId, string userId, string message)
+        {
+            if (State != StatementState.TechnicalOffice) return;
+            _submissions.Add(new UserSubmission(departmentId, userId, false, message));
+            State = StatementState.ReturnedToExecution;
+        }
+
+        public void ReturnFromRevisionToExecution(string departmentId, string userId, string message)
+        {
+            if (State != StatementState.Revision) return;
+            _submissions.Add(new UserSubmission(departmentId, userId, false, message));
+            State = StatementState.ReturnedToExecution;
+        }
+
+        public void ReturnFromRevisionToTechnicalOffice(string departmentId, string userId, string message)
+        {
+            if (State != StatementState.Revision) return;
+            _submissions.Add(new UserSubmission(departmentId, userId, false, message));
+            State = StatementState.ReturnedToTechnicalOffice;
+        }
+
+        public void RevisionApprove(string departmentId, string userId)
+        {
+            if (State != StatementState.Revision) return;
+            _submissions.Add(new UserSubmission(departmentId, userId, true));
+            State = StatementState.RevisionApproved;
+        }
+
+        public void SetAdjusted()
+        {
+            if (State != StatementState.RevisionApproved) return;
+            State = StatementState.Adjusted;
         }
 
         private double CalculateTotalWorks()

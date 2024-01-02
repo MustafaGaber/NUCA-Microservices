@@ -2,11 +2,13 @@
 {
     public enum StatementState
     {
-        ExecutionState = 10,
-        TechnicalOfficeState = 20,
-        RevisionState = 30,
-        AdjustedState = 40,
-        PaidState = 50,
-
+        Execution = 10,
+        ReturnedToExecution = 20,
+        TechnicalOffice = 30,
+        ReturnedToTechnicalOffice = 40,
+        Revision = 50,
+        RevisionApproved = 60,
+        Adjusted = 70,
+        Paid = 80,
     }
 }

@@ -4,7 +4,7 @@ using NUCA.Projects.Domain.Entities.Ledgers;
 
 namespace NUCA.Projects.Data.Ledgers
 {
-    public class LedgerRepository : Repository<Ledger, int>, ILedgerRepository
+    public class LedgerRepository : Repository<Ledger>, ILedgerRepository
     {
         public LedgerRepository(ProjectsDatabaseContext database) : base(database)
         {

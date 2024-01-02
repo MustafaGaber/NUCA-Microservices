@@ -29,7 +29,7 @@ namespace NUCA.Identity.Data.Migrations
 
                     b.HasIndex("PermissionsId");
 
-                    b.ToTable("DepartmentDepartmentPermission");
+                    b.ToTable("DepartmentDepartmentPermission", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -129,7 +129,7 @@ namespace NUCA.Identity.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.DepartmentPermission", b =>
@@ -142,7 +142,7 @@ namespace NUCA.Identity.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DepartmentPermissions");
+                    b.ToTable("DepartmentPermissions", (string)null);
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.Enrollment", b =>
@@ -160,7 +160,7 @@ namespace NUCA.Identity.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Enrollments");
+                    b.ToTable("Enrollments", (string)null);
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.Role", b =>
