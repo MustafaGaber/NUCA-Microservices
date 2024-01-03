@@ -44,6 +44,7 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
                     statement.ExecutionSubmit(privilege.DepartmentId!, userId);
                 }
             }
+            
             await _statementRepository.Update(statement);
             return statement;
         }

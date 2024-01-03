@@ -19,7 +19,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         {
             UserId = Guard.Against.NullOrEmpty(userId);
             PrivilegeType = privilegeType;
-            DepartmentId = Guard.Against.NullOrEmpty(departmentId);
+            DepartmentId = departmentId;
             Approved = approved;
             Message = message;
         }

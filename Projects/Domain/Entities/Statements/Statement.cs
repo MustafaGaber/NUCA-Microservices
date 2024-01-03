@@ -69,6 +69,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         private readonly List<UserSubmission> _submissions = new();
 
         public List<UserSubmission> Submissions => _submissions.ToList();
+        public string? Message { get; private set; }
         protected Statement()
         {
             if (Math.Abs(CalculateTotalWorks() - TotalWorks) > 0.001)
@@ -194,11 +195,15 @@ namespace NUCA.Projects.Domain.Entities.Statements
 
         public void ExecutionSubmit(string departmentId, string userId)
         {
-            if (State != StatementState.Execution) return;
+            if (!(State == StatementState.Execution || State == StatementState.ReturnedToExecution))
+            {
+                throw new InvalidOperationException();
+            }
             _submissions.Add(new UserSubmission(userId, PrivilegeType.Execution, departmentId, true));
             if (ExecutionDepartments.All(d => _submissions.Select(s => s.DepartmentId).Contains(d)))
             {
                 State = StatementState.TechnicalOffice;
+                Message = null;
             }
         }
 
@@ -207,6 +212,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             if (State != StatementState.TechnicalOffice) return;
             _submissions.Add(new UserSubmission(userId, PrivilegeType.TechnicalOffice, null,  true ));
             State = StatementState.Revision;
+            Message = null;
         }
 
         public void TechnicalOfficeDisapprove(string userId, string? message)
@@ -214,6 +220,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             if (State != StatementState.TechnicalOffice) return;
             _submissions.Add(new UserSubmission(userId, PrivilegeType.TechnicalOffice, null,  false, message));
             State = StatementState.ReturnedToExecution;
+            Message = message;
         }
 
         public void ReturnFromRevisionToExecution(string userId, string message)
@@ -221,6 +228,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             if (State != StatementState.Revision) return;
             _submissions.Add(new UserSubmission(userId, PrivilegeType.Revision, null,  false, message));
             State = StatementState.ReturnedToExecution;
+            Message = message;
         }
 
         public void ReturnFromRevisionToTechnicalOffice(string userId, string message)
@@ -228,6 +236,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             if (State != StatementState.Revision) return;
             _submissions.Add(new UserSubmission(userId, PrivilegeType.Revision, null, false, message));
             State = StatementState.ReturnedToTechnicalOffice;
+            Message = message;
         }
 
         public void RevisionApprove( string userId)
@@ -235,6 +244,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             if (State != StatementState.Revision) return;
             _submissions.Add(new UserSubmission(userId, PrivilegeType.Revision, null, true));
             State = StatementState.RevisionApproved;
+            Message = null;
         }
 
         public void SetAdjusted()

@@ -694,8 +694,9 @@ namespace NUCA.Projects.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("DepartmentId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Index")
                         .IsRequired()
@@ -796,6 +797,9 @@ namespace NUCA.Projects.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Message")
                         .HasColumnType("TEXT");
 
                     b.Property<double>("PriceChangePercent")
@@ -1030,7 +1034,6 @@ namespace NUCA.Projects.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DepartmentId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
@@ -1038,6 +1041,9 @@ namespace NUCA.Projects.Data.Migrations
 
                     b.Property<string>("Message")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("PrivilegeType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");

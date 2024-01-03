@@ -70,7 +70,7 @@ namespace NUCA.Projects.Api.Controllers.Statements
             return Ok(statement);
         }
 
-        [HttpPut("{id}/TechnicalOffice")]
+        [HttpPut("{id}/TechnicalOfficeSubmit")]
         public async Task<IActionResult> TechnicalOfficeSubmit(long id, [FromBody] TechnicalOfficeSubmitModel model)
         {
             var statement = await _technicalOfficeSubmitCommand.Execute(id, model,User);

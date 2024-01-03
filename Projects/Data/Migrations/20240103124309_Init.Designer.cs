@@ -11,7 +11,7 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Data.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    [Migration("20240102081837_Init")]
+    [Migration("20240103124309_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -697,8 +697,9 @@ namespace NUCA.Projects.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("DepartmentId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Index")
                         .IsRequired()
@@ -1026,15 +1027,23 @@ namespace NUCA.Projects.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Approved")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DepartmentId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PrivilegeType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");

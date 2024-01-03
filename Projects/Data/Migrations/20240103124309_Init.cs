@@ -395,7 +395,7 @@ namespace NUCA.Projects.Data.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     SuppliesTableId = table.Column<long>(type: "INTEGER", nullable: false),
-                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DepartmentId = table.Column<string>(type: "TEXT", nullable: false),
                     Index = table.Column<string>(type: "TEXT", nullable: false),
                     Content = table.Column<string>(type: "TEXT", nullable: false),
                     Unit = table.Column<string>(type: "TEXT", nullable: false),
@@ -481,7 +481,10 @@ namespace NUCA.Projects.Data.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    DepartmentId = table.Column<string>(type: "TEXT", nullable: false),
+                    PrivilegeType = table.Column<int>(type: "INTEGER", nullable: false),
+                    DepartmentId = table.Column<string>(type: "TEXT", nullable: true),
+                    Approved = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Message = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
                     StatementId = table.Column<long>(type: "INTEGER", nullable: false)
