@@ -1,18 +1,13 @@
-﻿using jsreport.AspNetCore;
-using jsreport.Binary;
-using jsreport.Local;
-using jsreport.Types;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.Statements.Commands.CreateStatement;
+using NUCA.Projects.Application.Statements.Commands.TechnicalOfficeSubmit;
 using NUCA.Projects.Application.Statements.Commands.UpdateStatement;
-using NUCA.Projects.Application.Statements.Queries.PrintStatement;
 using NUCA.Projects.Application.Statements.Queries.GetProjectStatements;
 using NUCA.Projects.Application.Statements.Queries.GetStatement;
 using NUCA.Projects.Application.Statements.Queries.GetUserStatements;
 using NUCA.Projects.Domain.Entities.Statements;
-
+using NUCA.Projects.Shared.Extensions;
 
 namespace NUCA.Projects.Api.Controllers.Statements
 {
@@ -25,13 +20,16 @@ namespace NUCA.Projects.Api.Controllers.Statements
         private readonly IGetProjectStatementsQuery _getProjectStatementsQuery;
         private readonly ICreateStatementCommand _createCommand;
         private readonly IUpdateStatementCommand _updateStatementCommand;
-        public StatementsController(IGetStatementQuery getStatementQuery, IGetCurrentStatementsQuery getCurrentStatementsQuery, IGetProjectStatementsQuery getProjectStatementsQuery, ICreateStatementCommand createCommand, IUpdateStatementCommand updateStatementCommand)
+        private readonly ITechnicalOfficeSubmitCommand _technicalOfficeSubmitCommand;
+
+        public StatementsController(IGetStatementQuery getStatementQuery, IGetCurrentStatementsQuery getCurrentStatementsQuery, IGetProjectStatementsQuery getProjectStatementsQuery, ICreateStatementCommand createCommand, IUpdateStatementCommand updateStatementCommand, ITechnicalOfficeSubmitCommand technicalOfficeSubmitCommand)
         {
             _getStatementQuery = getStatementQuery;
             _getCurrentStatementsQuery = getCurrentStatementsQuery;
             _getProjectStatementsQuery = getProjectStatementsQuery;
             _createCommand = createCommand;
             _updateStatementCommand = updateStatementCommand;
+            _technicalOfficeSubmitCommand = technicalOfficeSubmitCommand;
         }
 
         [HttpGet("ProjectStatements/{projectId}")]
@@ -63,17 +61,25 @@ namespace NUCA.Projects.Api.Controllers.Statements
             return Ok(result);
         }
 
-        [HttpPut("Update/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStatement(long id, [FromBody] UpdateStatementModel updates)
         {
-            var statement = await _updateStatementCommand.Execute(id, updates, 0);
+            string? userId = User.Id();
+            if (userId == null) return Unauthorized(); 
+            var statement = await _updateStatementCommand.Execute(id, updates, userId!);
             return Ok(statement);
         }
 
-        /*[HttpPut("Submit/{id}")]
-        public async Task<IActionResult> UpdateStatementAndSubmit(long id, [FromBody] UpdateStatementModel updates)
+        [HttpPut("{id}/TechnicalOffice")]
+        public async Task<IActionResult> TechnicalOfficeSubmit(long id, [FromBody] TechnicalOfficeSubmitModel model)
         {
-            var statement = await _updateStatementCommand.Execute(id, updates, 0, true);
+            var statement = await _technicalOfficeSubmitCommand.Execute(id, model,User);
+            return Ok(statement);
+        }
+        /*[HttpPut("Submit/{id}")]
+        public async Task<IActionResult> UpdateStatementAndSubmit(long id, [FromBody] UpdateStatementModel model)
+        {
+            var statement = await _updateStatementCommand.Execute(id, model, 0, true);
             return Ok(statement);
         }*/
 

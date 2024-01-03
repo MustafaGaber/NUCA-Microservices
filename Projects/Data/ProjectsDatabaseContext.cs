@@ -121,7 +121,7 @@ namespace NUCA.Projects.Data
                 if (entry.State == EntityState.Added)
                 {
                     entry.Property("Created").CurrentValue = now;
-                    if (userId != null)
+                    if (userId != null && (entry.Entity is Entity))
                     {
                         entry.Property("CreatedBy").CurrentValue = userId;
                     }

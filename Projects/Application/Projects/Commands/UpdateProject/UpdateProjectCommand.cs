@@ -24,21 +24,13 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
         }
         public async Task<Project> Execute(long id, ProjectModel model)
         {
-            Project? project = await _projectRepository.Get(id);
-            if (project == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Project? project = await _projectRepository.Get(id) ?? throw new InvalidOperationException();
             /*Department? department = await _departmentRepository.Get(model.DepartmentId);
             if (department == null)
             {
                 throw new InvalidOperationException();
             }*/
-            WorkType? type = await _workTypeRepository.Get(model.TypeId);
-            if (type == null)
-            {
-                throw new InvalidOperationException();
-            }
+            WorkType? type = await _workTypeRepository.Get(model.TypeId) ?? throw new InvalidOperationException();
             AwardType? awardType = model.AwardTypeId == null ? null : await _awardTypeRepository.Get((int)model.AwardTypeId);
             if (model.AwardTypeId != null && awardType == null)
             {

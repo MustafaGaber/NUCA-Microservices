@@ -73,11 +73,7 @@ namespace NUCA.Identity.Controllers.Departments
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, [FromBody] CreateDepartmentModel model)
         {
-            var department = await _context.Set<Department>().Include(d => d.Permissions).FirstOrDefaultAsync(d => d.Id == id);
-            if (department == null)
-            {
-                throw new InvalidOperationException();
-            }
+            var department = await _context.Set<Department>().Include(d => d.Permissions).FirstOrDefaultAsync(d => d.Id == id) ?? throw new InvalidOperationException();
             var permissions = model.Permissions.Select(DepartmentPermission.GetById).ToList();
             foreach (var permission in permissions.Where(permission => !department.Permissions.Any(p => p.Id == permission.Id)))
             {

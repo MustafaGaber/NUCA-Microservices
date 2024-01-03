@@ -15,11 +15,7 @@ namespace NUCA.Projects.Application.Statements.Commands.CreateStatement
         }
         public async Task<long> Execute(long projectId, CreateStatementModel model)
         {
-            Boq? boq = await _boqRepository.GetByProjectId(projectId);
-            if (boq == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Boq? boq = await _boqRepository.GetByProjectId(projectId) ?? throw new InvalidOperationException();
             Statement? previousStatement = await _statementRepository.GetLastStatementForProject(projectId);
             if (previousStatement != null && previousStatement.State < StatementState.Adjusted)
             {

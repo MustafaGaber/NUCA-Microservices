@@ -21,7 +21,7 @@
     public class ExternalItemModel
     {
         public required long Id { get; init; }
-        public required int DepartmentId { get; init; }
+        public required string DepartmentId { get; init; }
         public required long SuppliesTableId { get; init; }
         public required string Index { get; init; }
         public required string Content { get; init; }

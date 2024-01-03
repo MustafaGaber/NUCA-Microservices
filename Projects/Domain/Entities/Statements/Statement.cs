@@ -7,10 +7,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
 {
     public class Statement : AggregateRoot
     {
-        private readonly List<ExternalSuppliesItem> _externalSuppliesItems = new List<ExternalSuppliesItem>();
+        private readonly List<ExternalSuppliesItem> _externalSuppliesItems = new();
         public virtual IReadOnlyList<ExternalSuppliesItem> ExternalSuppliesItems => _externalSuppliesItems.ToList();
 
-        private readonly List<StatementTable> _tables = new List<StatementTable>();
+        private readonly List<StatementTable> _tables = new();
         public IReadOnlyList<StatementTable> Tables => _tables.ToList();
         public IReadOnlyList<WorksTable> WorksTables => _tables.Where(t => t.Type == StatementTableType.Works)
             .Select(table =>
@@ -57,7 +57,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public double TotalSupplies { get; private set; }
         public double TotalWorksAndSupplies => TotalWorks + TotalSupplies;
 
-        private readonly List<StatementWithholding> _withholdings = new List<StatementWithholding>();
+        private readonly List<StatementWithholding> _withholdings = new();
         public virtual IReadOnlyList<StatementWithholding> Withholdings => _withholdings.ToList();
         public List<string> ExecutionDepartments => _tables.Aggregate(new List<string> { },
             (departments, table) =>
@@ -66,7 +66,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
                 return departments;
             }).Distinct().ToList();
 
-        private readonly List<UserSubmission> _submissions = new List<UserSubmission>();
+        private readonly List<UserSubmission> _submissions = new();
 
         public List<UserSubmission> Submissions => _submissions.ToList();
         protected Statement()
@@ -135,19 +135,12 @@ namespace NUCA.Projects.Domain.Entities.Statements
             )).ToList();
             UpdateTotals();
         }
-        public void Update(UpdateStatementModel model, List<Privilege> privileges)
+        public void Update(UpdateStatementModel model)
         {
             if (State > StatementState.TechnicalOffice)
             {
                 throw new InvalidOperationException();
             }
-            model.Items.ForEach(item =>
-            {
-                if (!privileges.Any(p => p.DepartmentId != null && p.DepartmentId == ""))
-                {
-                    throw new UnauthorizedAccessException();
-                }
-            });
             model.Items.ForEach(item =>
             {
                 StatementTable table = _tables.First(table => table.Id == item.TableId);
@@ -170,10 +163,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             withholdings.ForEach(w =>
             {
                 StatementWithholding? withholding = _withholdings.Find(_w => _w.Id == w.Id);
-                if (withholding != null)
-                {
-                    withholding.Update(w.Name, w.Value, w.Type);
-                }
+                withholding?.Update(w.Name, w.Value, w.Type);
             });
             _withholdings.AddRange(withholdings.Where(w => w.Id == 0).Select(w => new StatementWithholding(w.Name, w.Value, w.Type)));
         }
@@ -184,10 +174,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             items.ForEach(i =>
             {
                 ExternalSuppliesItem? item = _externalSuppliesItems.Find(_i => _i.Id == i.Id);
-                if (item != null)
-                {
-                    item.Update(i.TotalQuantity, i.Percentage);
-                }
+                item?.Update(i.TotalQuantity, i.Percentage);
             });
             _externalSuppliesItems.AddRange(items
                 .Where(item => item.Id == 0)
@@ -205,53 +192,48 @@ namespace NUCA.Projects.Domain.Entities.Statements
             ));
         }
 
-        public void Submit()
-        {
-            State = StatementState.Revision;
-        }
-
         public void ExecutionSubmit(string departmentId, string userId)
         {
             if (State != StatementState.Execution) return;
-            _submissions.Add(new UserSubmission(departmentId, userId, true));
+            _submissions.Add(new UserSubmission(userId, PrivilegeType.Execution, departmentId, true));
             if (ExecutionDepartments.All(d => _submissions.Select(s => s.DepartmentId).Contains(d)))
             {
                 State = StatementState.TechnicalOffice;
             }
         }
 
-        public void TechnicalOfficeApprove(string departmentId, string userId)
+        public void TechnicalOfficeApprove(string userId)
         {
             if (State != StatementState.TechnicalOffice) return;
-            _submissions.Add(new UserSubmission(departmentId, userId, true ));
+            _submissions.Add(new UserSubmission(userId, PrivilegeType.TechnicalOffice, null,  true ));
             State = StatementState.Revision;
         }
 
-        public void TechnicalOfficeDisapprove(string departmentId, string userId, string message)
+        public void TechnicalOfficeDisapprove(string userId, string? message)
         {
             if (State != StatementState.TechnicalOffice) return;
-            _submissions.Add(new UserSubmission(departmentId, userId, false, message));
+            _submissions.Add(new UserSubmission(userId, PrivilegeType.TechnicalOffice, null,  false, message));
             State = StatementState.ReturnedToExecution;
         }
 
-        public void ReturnFromRevisionToExecution(string departmentId, string userId, string message)
+        public void ReturnFromRevisionToExecution(string userId, string message)
         {
             if (State != StatementState.Revision) return;
-            _submissions.Add(new UserSubmission(departmentId, userId, false, message));
+            _submissions.Add(new UserSubmission(userId, PrivilegeType.Revision, null,  false, message));
             State = StatementState.ReturnedToExecution;
         }
 
-        public void ReturnFromRevisionToTechnicalOffice(string departmentId, string userId, string message)
+        public void ReturnFromRevisionToTechnicalOffice(string userId, string message)
         {
             if (State != StatementState.Revision) return;
-            _submissions.Add(new UserSubmission(departmentId, userId, false, message));
+            _submissions.Add(new UserSubmission(userId, PrivilegeType.Revision, null, false, message));
             State = StatementState.ReturnedToTechnicalOffice;
         }
 
-        public void RevisionApprove(string departmentId, string userId)
+        public void RevisionApprove( string userId)
         {
             if (State != StatementState.Revision) return;
-            _submissions.Add(new UserSubmission(departmentId, userId, true));
+            _submissions.Add(new UserSubmission(userId, PrivilegeType.Revision, null, true));
             State = StatementState.RevisionApproved;
         }
 

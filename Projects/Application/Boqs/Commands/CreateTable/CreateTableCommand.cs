@@ -13,11 +13,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateTable
         }
         public async Task<BoqModel> Execute(long boqId, CreateTableModel table)
         {
-            Boq? boq = await _boqRepository.Get(boqId);
-            if (boq == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Boq? boq = await _boqRepository.Get(boqId) ?? throw new InvalidOperationException();
             boq.AddTable(table.TableName, table.Count, table.PriceChangePercent, table.Type);
             await _boqRepository.Update(boq);
             return new BoqModel(boq);

@@ -15,11 +15,7 @@ namespace NUCA.Projects.Application.Departments.Commands.UpdateDepartment
         public async Task<Department> Execute(int id, DepartmentModel model)
         {
            // List<Group> groups = model.GroupsIds.Select(id => _departmentRepository.GetGroup(id)).Where(g => g != null).ToList();
-            var department = await _departmentRepository.Get(id);
-            if (department == null)
-            {
-                throw new InvalidOperationException();
-            }
+            var department = await _departmentRepository.Get(id) ?? throw new InvalidOperationException();
             department.Update(model.Name);
             await _departmentRepository.Update(department);
             return department;

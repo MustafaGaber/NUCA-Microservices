@@ -12,11 +12,7 @@ namespace NUCA.Projects.Application.FinanceAdmin.WorkTypes.Commands.UpdateWorkTy
         }
         public async Task<WorkType> Execute(int id, WorkTypeModel model)
         {
-            WorkType? workType = await _workTypeRepository.Get(id);
-            if (workType == null)
-            {
-                throw new InvalidOperationException();
-            }
+            WorkType? workType = await _workTypeRepository.Get(id) ?? throw new InvalidOperationException();
             workType.Update(model.Name, model.ValueAddedTaxPercent);
             await _workTypeRepository.Update(workType);
             return workType;

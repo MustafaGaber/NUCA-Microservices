@@ -1,5 +1,7 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Statements;
+using NUCA.Projects.Shared.Extensions;
 using System.Security.Claims;
 
 namespace NUCA.Projects.Application.Statements.Commands.TechnicalOfficeSubmit
@@ -14,15 +16,25 @@ namespace NUCA.Projects.Application.Statements.Commands.TechnicalOfficeSubmit
             _statementRepository = statementRepository;
             _privilegeRepository = privilegeRepository;
         }
-        public async Task Execute(long id, TechnicalOfficeSubmitModel model, ClaimsPrincipal user)
+        public async Task<Statement> Execute(long id, TechnicalOfficeSubmitModel model, ClaimsPrincipal user)
         {
-            Statement? statement = await _statementRepository.GetMainStatementData(id);
-            if (statement == null)
+            string userId = user.Id() ?? throw new ArgumentNullException(nameof(user));
+            Statement? statement = await _statementRepository.Get(id) ?? throw new InvalidOperationException();
+            List<Privilege> privileges = await _privilegeRepository.GetProjectPrivilegesForUser(statement.ProjectId, userId);
+            if (!(privileges.Any(p => p.Type == PrivilegeType.TechnicalOffice || p.Type == PrivilegeType.TechnicalOfficeManager)))
             {
-                throw new InvalidOperationException();
+                throw new UnauthorizedAccessException();
             }
-           // statement.TechnicalOfficeApprove();
+            if (model.Approved)
+            {
+                 statement.TechnicalOfficeApprove(userId);
+            }
+            else
+            {
+                statement.TechnicalOfficeDisapprove(userId, model.Message);
+            }
             await _statementRepository.Update(statement);
+            return statement;
         }
     }
 }

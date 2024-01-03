@@ -15,11 +15,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.UpdateWithholding
 
         public async Task<AdjustmentModel?> Execute(long adjustmentId, long withholdingId, EditWithholdingModel model)
         {
-            Adjustment? adjustment = await _adjustmentRepository.Get(adjustmentId);
-            if (adjustment == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Adjustment? adjustment = await _adjustmentRepository.Get(adjustmentId) ?? throw new InvalidOperationException();
             AdjustmentWithholding withholding = new AdjustmentWithholding(model.Name, model.Value, model.Type, false);
             adjustment.UpdateWithholding(withholdingId, withholding);
             await _adjustmentRepository.Update(adjustment);

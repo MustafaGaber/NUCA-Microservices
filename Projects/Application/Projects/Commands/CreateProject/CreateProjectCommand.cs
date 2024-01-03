@@ -29,11 +29,7 @@ namespace NUCA.Projects.Application.Projects.Commands.CreateProject
             {
                 throw new InvalidOperationException();
             }*/
-            WorkType? type = await _workTypeRepository.Get(model.TypeId);
-            if (type == null)
-            {
-                throw new InvalidOperationException();
-            }
+            WorkType? type = await _workTypeRepository.Get(model.TypeId) ?? throw new InvalidOperationException();
             AwardType? awardType = model.AwardTypeId == null ? null : await _awardTypeRepository.Get((int)model.AwardTypeId);
             if (model.AwardTypeId != null && awardType == null)
             {

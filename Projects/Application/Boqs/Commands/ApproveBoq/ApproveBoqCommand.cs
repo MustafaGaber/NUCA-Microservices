@@ -23,11 +23,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.ApproveBoq
         {
             if (user.Id() == null) throw new UnauthorizedAccessException();
             if (!user.HasPermission(Permissions.Revision)) throw new UnauthorizedAccessException();
-            Boq? boq = await _boqRepository.Get(boqId);
-            if (boq == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Boq? boq = await _boqRepository.Get(boqId) ?? throw new InvalidOperationException();
             boq.Approve(user.Id()!);
             await _boqRepository.Update(boq);
             return new BoqModel(boq);

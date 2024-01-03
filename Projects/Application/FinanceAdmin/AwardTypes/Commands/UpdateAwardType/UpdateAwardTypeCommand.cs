@@ -12,11 +12,7 @@ namespace NUCA.Projects.Application.FinanceAdmin.AwardTypes.Commands.UpdateAward
         }
         public async Task<AwardType> Execute(int id, AwardTypeModel model)
         {
-            AwardType? awardType = await _awardTypeRepository.Get(id);
-            if (awardType == null)
-            {
-                throw new InvalidOperationException();
-            }
+            AwardType? awardType = await _awardTypeRepository.Get(id) ?? throw new InvalidOperationException();
             awardType.Update(model.Name, model.EstimatedPrice);
             await _awardTypeRepository.Update(awardType);
             return awardType;

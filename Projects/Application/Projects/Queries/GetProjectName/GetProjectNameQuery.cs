@@ -13,11 +13,7 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjectName
 
         public async Task<string> Execute(long id)
         {
-            string? name = await _repository.SelectOne(p => p.Id == id, p => p.Name);
-            if (name == null)
-            {
-                throw new InvalidOperationException();
-            }
+            string? name = await _repository.SelectOne(p => p.Id == id, p => p.Name) ?? throw new InvalidOperationException();
             return name;
         }
 

@@ -13,11 +13,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.UpdateItem
         }
         public async Task<BoqModel> Execute(long boqId, long tableId, long sectionId, long itemId, UpdateItemModel item)
         {
-            Boq? boq = await _boqRepository.Get(boqId);
-            if (boq == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Boq? boq = await _boqRepository.Get(boqId) ?? throw new InvalidOperationException();
             boq.UpdateItem(tableId, sectionId, itemId, item.Index, item.Content, item.Unit, item.Quantity, item.UnitPrice);
             await _boqRepository.Update(boq);
             return new BoqModel(boq);

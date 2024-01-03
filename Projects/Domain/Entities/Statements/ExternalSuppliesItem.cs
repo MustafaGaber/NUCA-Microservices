@@ -6,7 +6,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
     public class ExternalSuppliesItem : Entity
     {
         public long SuppliesTableId { get; private set; }
-        public int DepartmentId { get; private set; } 
+        public string DepartmentId { get; private set; } 
         public string Index { get; private set; }
         public string Content { get; private set; }
         public string Unit { get; private set; }
@@ -19,10 +19,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public double NetPrice => GrossPrice * Percentage / 100.0;
         public bool HasQuantities => !(PreviousQuantity == 0 && TotalQuantity == 0);
         protected ExternalSuppliesItem() { }
-        public ExternalSuppliesItem(long suppliesTableId, int departmentId, string index, string content, string unit, double unitPrice,
+        public ExternalSuppliesItem(long suppliesTableId, string departmentId, string index, string content, string unit, double unitPrice,
             double previousQuantity, double totalQuantity, double percentage)
         {
-            DepartmentId = Guard.Against.NegativeOrZero(departmentId);
+            DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             SuppliesTableId = Guard.Against.NegativeOrZero(suppliesTableId);
             Index = Guard.Against.NullOrEmpty(index, nameof(index));
             Content = Guard.Against.NullOrEmpty(content, nameof(content));

@@ -24,11 +24,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
             {
                 return;
             }
-            Statement? statement = await _dbContext.Statements.Include(s => s.Withholdings).FirstOrDefaultAsync(s => s.Id == statementId);
-            if (statement == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Statement? statement = await _dbContext.Statements.Include(s => s.Withholdings).FirstOrDefaultAsync(s => s.Id == statementId) ?? throw new InvalidOperationException();
             int index = statement.Index;
             Statement? prevoiusStatement = null;
             if (index > 1)
@@ -43,11 +39,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                 .Include(p => p.Company)
                 .Include(p => p.Type)
                 .Include(p => p.AwardType)
-                .FirstOrDefaultAsync(p => p.Id == projectId);
-            if (project == null)
-            {
-                throw new InvalidOperationException();
-            }
+                .FirstOrDefaultAsync(p => p.Id == projectId) ?? throw new InvalidOperationException();
             Adjustment adjustment = Adjustment.Create(
                 statementId: statementId,
                 projectId: projectId,

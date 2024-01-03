@@ -16,12 +16,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateSection
         }
         public async Task<BoqModel> Execute(long boqId, long tableId, CreateSectionModel model)
         {
-            Boq? boq = await _boqRepository.Get(boqId);
-           // Department? department = await _departmentRepository.Get(model.DepartmentId);
-            if (boq == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Boq? boq = await _boqRepository.Get(boqId) ?? throw new InvalidOperationException();
             boq.AddSection(tableId, model.SectionName, model.DepartmentId, model.DepartmentName);
             await _boqRepository.Update(boq);
             return new BoqModel(boq);

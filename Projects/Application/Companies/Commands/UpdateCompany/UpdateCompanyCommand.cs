@@ -12,11 +12,7 @@ namespace NUCA.Projects.Application.Companies.Commands.UpdateCompany
         }
         public async Task<Company> Execute(long id, CompanyModel model)
         {
-            Company? company = await _companyRepository.Get(id);
-            if (company == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Company? company = await _companyRepository.Get(id) ?? throw new InvalidOperationException();
             company.Update(
                 name: model.Name,
                 address: model.Address,

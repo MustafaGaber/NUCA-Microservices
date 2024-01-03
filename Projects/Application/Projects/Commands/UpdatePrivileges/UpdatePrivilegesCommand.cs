@@ -23,10 +23,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdatePrivileges
             model.Privileges.Where(p => p.UserId != null).ToList().ForEach(p =>
             {
                 Privilege? privilege = privileges.Find(_p => _p.Type == p.Type && p.DepartmentId == _p.DepartmentId);
-                if (privilege != null)
-                {
-                    privilege.Update(p.UserId!);
-                }
+                privilege?.Update(p.UserId!);
             });
             _dbContext.AddRange(
               model.Privileges

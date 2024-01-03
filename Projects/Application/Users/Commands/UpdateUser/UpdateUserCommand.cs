@@ -18,11 +18,7 @@ namespace NUCA.Projects.Application.Users.Commands.UpdateUser
         public async Task<User?> Execute(long id, UserModel model)
         {
             List<Department> departments = await _departmentRepository.GetSome(model.DepartmentsIds);
-            User? user = await _userRepository.Get(id);
-            if (user == null)
-            {
-                throw new InvalidOperationException();
-            }
+            User? user = await _userRepository.Get(id) ?? throw new InvalidOperationException();
             user.Update(model.Name, departments);
             await _userRepository.Update(user);
             return user;

@@ -12,11 +12,7 @@ namespace NUCA.Projects.Application.Ledgers.Commands.UpdateLedger
         }
         public async Task<Ledger> Execute(int id, LedgerModel model)
         {
-            Ledger? ledger = await _ledgerRepository.Get(id);
-            if (ledger == null)
-            {
-                throw new InvalidOperationException();
-            }
+            Ledger? ledger = await _ledgerRepository.Get(id) ?? throw new InvalidOperationException();
             ledger.Update(model.Name, model.Index);
             await _ledgerRepository.Update(ledger);
             return ledger;

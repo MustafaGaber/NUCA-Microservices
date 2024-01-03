@@ -68,11 +68,7 @@ namespace NUCA.Identity.Controllers.Users
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, [FromBody] UpdateUserModel model)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(d => d.Id == id);
-            if (user == null)
-            {
-                throw new InvalidOperationException();
-            }
+            var user = await _userManager.Users.FirstOrDefaultAsync(d => d.Id == id) ?? throw new InvalidOperationException();
             var departmentsIds = model.Enrollments.Select(e => e.DepartmentId).ToList();
             var departments = await _context.Departments.Where(d => departmentsIds.Contains(d.Id)).ToListAsync();
             var oldEnrollments = await _context.Enrollments
