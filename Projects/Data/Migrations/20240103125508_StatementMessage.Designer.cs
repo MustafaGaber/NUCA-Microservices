@@ -924,7 +924,7 @@ namespace NUCA.Projects.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("StatementTableId")
+                    b.Property<long>("SuppliesTableId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -933,7 +933,7 @@ namespace NUCA.Projects.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatementTableId");
+                    b.HasIndex("SuppliesTableId");
 
                     b.ToTable("StatementSection");
                 });
@@ -1289,7 +1289,7 @@ namespace NUCA.Projects.Data.Migrations
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Statements.StatementTable", null)
                         .WithMany("Sections")
-                        .HasForeignKey("StatementTableId")
+                        .HasForeignKey("SuppliesTableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

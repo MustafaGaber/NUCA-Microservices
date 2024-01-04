@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Departments;
+using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
@@ -49,15 +50,31 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 _sections.Remove(section);
             }
         }
-        internal void AddItem(long sectionId, string index, string content, string unit, double quantity, double unitPrice)
+        internal void AddItem(long sectionId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
         {
             BoqSection? section = _sections.Find(s => s.Id == sectionId);
-            section.AddItem(index, content, unit, quantity, unitPrice);
+            section.AddItem(index: index,
+                content: content,
+                unit: unit,
+                quantity: quantity,
+                unitPrice: unitPrice,
+                workType: workType,
+                calculationMethod: calculationMethod,
+                sovereign: sovereign);
         }
-        internal void UpdateItem(long sectionId, long itemId, string index, string content, string unit, double quantity, double unitPrice)
+        internal void UpdateItem(long sectionId, long itemId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
         {
             BoqSection? section = _sections.Find(s => s.Id == sectionId);
-            section.UpdateItem(itemId, index, content, unit, quantity, unitPrice);
+            section.UpdateItem(
+                id: itemId,
+                index: index,
+                content: content,
+                unit: unit,
+                quantity: quantity,
+                unitPrice: unitPrice,
+                workType: workType,
+                calculationMethod: calculationMethod,
+                sovereign: sovereign);
         }
         internal void DeleteItem(long sectionId, long itemId)
         {

@@ -63,6 +63,15 @@ namespace NUCA.Identity.Data
             builder.Entity<Enrollment>()
                    .HasKey(e => new { e.DepartmentId, e.UserId , e.Job});
 
+            DepartmentPermission.AllPermissions.ForEach(permission =>
+            {
+                builder.Entity<DepartmentPermission>().HasData(permission);
+            });
+            builder.Entity<DepartmentPermission>().HasData(new Role("superAdmin", "مدير النظام"));
+            Role.AllRoles.ForEach(role =>
+            {
+                builder.Entity<DepartmentPermission>().HasData(role);
+            });
         }
     }
 }

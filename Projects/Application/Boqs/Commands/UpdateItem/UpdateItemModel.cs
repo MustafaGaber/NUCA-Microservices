@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUCA.Projects.Domain.Entities.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,8 @@ namespace NUCA.Projects.Application.Boqs.Commands.UpdateItem
         public string Unit { get; init; }
         public double Quantity { get; init; }
         public double UnitPrice { get; init; }
+        public long WorkTypeId { get; init; }
+        public CalculationMethod CalculationMethod { get; init; }
+        public bool Sovereign { get; init; }
     }
 }

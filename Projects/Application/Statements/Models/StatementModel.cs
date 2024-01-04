@@ -1,11 +1,13 @@
-﻿using NUCA.Projects.Domain.Entities.Shared;
+﻿using NUCA.Projects.Domain.Entities.Projects;
+using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
 
 
 namespace NUCA.Projects.Application.Statements.Models
 {
-   /* public class StatementModel
+    public class StatementModel
     {
+        public long Id { get; init; }
         public int Index { get; init; }
         public List<Table> Tables { get; init; }
         public double PriceChangePercent { get; init; }
@@ -16,9 +18,12 @@ namespace NUCA.Projects.Application.Statements.Models
         public double TotalWorks { get; init; }
         public double TotalSupplies { get; init; }
         public List<WithholdingModel> Withholdings { get; init; }
+        public List<ExternalSuppliesItemModel> ExternalSuppliesItems { get; init; }
+        public List<PrivilegeModel> Privileges { get; init; }
 
-        public StatementModel(Statement statement)
+        public StatementModel(Statement statement, List<Privilege> privileges)
         {
+            Id = statement.Id;
             Index = statement.Index;
             PriceChangePercent = statement.PriceChangePercent;
             WorksDate = statement.WorksDate;
@@ -59,19 +64,41 @@ namespace NUCA.Projects.Application.Statements.Models
                         PreviousQuantity = i.PreviousQuantity,
                         TotalQuantity = i.TotalQuantity,
                         Percentage = i.Percentage,
-                        UserId = i.UserId,
+                        PercentageDetails = i.PercentageDetails.Select(d => new PercentageDetailModel()
+                        {
+                            Notes = d.Notes,
+                            Quantity = d.Quantity,
+                            Percentage = d.Percentage
+                        }).ToList()
                     }).ToList(),
                 }).ToList(),
             }).ToList();
+            ExternalSuppliesItems = statement.ExternalSuppliesItems.Select(item => new ExternalSuppliesItemModel()
+            {
+                Id = item.Id,
+                DepartmentId = item.DepartmentId,
+                SuppliesTableId = item.SuppliesTableId,
+                Index = item.Index,
+                Content = item.Content,
+                Unit = item.Unit,
+                UnitPrice = item.UnitPrice,
+                TotalQuantity = item.TotalQuantity,
+                Percentage = item.Percentage,
+                PreviousQuantity = item.PreviousQuantity,
+            }).ToList();
+            Privileges = privileges.Select( p=> new PrivilegeModel()
+            {
+                DepartmentId= p.DepartmentId,
+                Type = p.Type,
+            }).ToList();
         }
 
-    }*/
+    }
 
     public class Table
     {
         public long Id { get; init; }
         public required List<Section> Sections { get; init; }
-       // public required List<ExternalSuppliesItem> ExternalSuppliesItems { get; init; }
         public required long BoqTableId { get; init; }
         public required string Name { get; init; }
         public required double PriceChangePercent { get; init; }
@@ -79,10 +106,6 @@ namespace NUCA.Projects.Application.Statements.Models
         public required BoqTableType BoqTableType { get; init; }
     }
 
-   /* public class WroksTable : Table { }
-    public class SuppliesTable : Table {
-        public required List<ExternalSuppliesItem> ExternalSuppliesItems { get; init; }
-    }*/
 
     public class Section
     {
@@ -105,14 +128,14 @@ namespace NUCA.Projects.Application.Statements.Models
         public required double PreviousQuantity { get; init; }
         public required double TotalQuantity { get; init; }
         public required double Percentage { get; init; }
-        //public required virtual IReadOnlyList<PercentageDetail> PercentageDetails => _percentageDetails.ToList();
-        public required long? UserId { get; init; }
+        public required IReadOnlyList<PercentageDetailModel> PercentageDetails { get; init; }
     }
 
     public class ExternalSuppliesItemModel
     {
-        public required int DepartmentId { get; init; }
-        public required long StatementTableId { get; init; }
+        public required long Id { get; init; }
+        public required string DepartmentId { get; init; }
+        public required long SuppliesTableId { get; init; }
         public required string Index { get; init; }
         public required string Content { get; init; }
         public required string Unit { get; init; }
@@ -123,6 +146,18 @@ namespace NUCA.Projects.Application.Statements.Models
         public double GrossPrice => TotalQuantity * UnitPrice;
         public required double Percentage { get; init; }
         public double NetPrice => GrossPrice * Percentage / 100.0;
-        public required long? UserId { get; init; }
+    }
+
+    public class PercentageDetailModel
+    {
+        public required double Quantity { get; init; }
+        public required double Percentage { get; init; }
+        public string? Notes { get; init; }
+    }
+
+    public class PrivilegeModel
+    {
+        public PrivilegeType Type { get; init; }
+        public string? DepartmentId { get; init; }
     }
 }

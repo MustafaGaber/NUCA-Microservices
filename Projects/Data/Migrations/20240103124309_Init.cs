@@ -750,7 +750,7 @@ namespace NUCA.Projects.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_StatementSection_StatementTableId",
                 table: "StatementSection",
-                column: "StatementTableId");
+                column: "SuppliesTableId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StatementTable_StatementId",

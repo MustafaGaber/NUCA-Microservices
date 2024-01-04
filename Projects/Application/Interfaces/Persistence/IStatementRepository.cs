@@ -1,5 +1,6 @@
 ﻿using NUCA.Projects.Application.Statements.Queries.GetCurrentStatements;
 using NUCA.Projects.Application.Statements.Queries.GetProjectStatements;
+using NUCA.Projects.Data.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Application.Interfaces.Persistence

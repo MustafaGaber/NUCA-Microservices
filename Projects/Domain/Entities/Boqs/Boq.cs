@@ -1,6 +1,8 @@
 ﻿using Ardalis.GuardClauses;
+using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Departments;
+using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Shared;
 using System.Reflection.Metadata;
@@ -64,15 +66,34 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             BoqTable table = _tables.First(t => t.Id == tableId);
             table.DeleteSection(sectionId);
         }
-        public void AddItem(long tableId, long sectionId, string index, string content, string unit, double quantity, double unitPrice)
+        public void AddItem(long tableId, long sectionId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
         {
             BoqTable table = _tables.First(t => t.Id == tableId);
-            table.AddItem(sectionId, index, content, unit, quantity, unitPrice);
+            table.AddItem(
+                sectionId: sectionId,
+                index: index,
+                content: content,
+                unit: unit,
+                quantity: quantity,
+                unitPrice: unitPrice,
+                workType: workType,
+                calculationMethod: calculationMethod,
+                sovereign: sovereign);
         }
-        public void UpdateItem(long tableId, long sectionId, long itemId, string index, string content, string unit, double quantity, double unitPrice)
+        public void UpdateItem(long tableId, long sectionId, long itemId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
         {
             BoqTable table = _tables.First(t => t.Id == tableId);
-            table.UpdateItem(sectionId, itemId, index, content, unit, quantity, unitPrice);
+            table.UpdateItem(
+                sectionId: sectionId,
+                itemId: itemId,
+                index: index,
+                content: content,
+                unit: unit,
+                quantity: quantity,
+                unitPrice: unitPrice,
+                workType: workType,
+                calculationMethod: calculationMethod,
+                sovereign: sovereign);
         }
         public void DeleteItem(long tableId, long sectionId, long itemId)
         {

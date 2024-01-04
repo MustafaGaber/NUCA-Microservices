@@ -1,4 +1,5 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Statements;
 
@@ -13,7 +14,7 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
             _statementRepository = statementRepository;
             _privilegeRepository = privilegeRepository;
         }
-        public async Task<Statement> Execute(long id, UpdateStatementModel model, string userId)
+        public async Task<StatementModel> Execute(long id, UpdateStatementModel model, string userId)
         {
             Statement? statement = await _statementRepository.Get(id) ?? throw new InvalidOperationException();
             if (statement.State != StatementState.Execution && statement.State != StatementState.ReturnedToExecution)
@@ -46,7 +47,7 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
             }
             
             await _statementRepository.Update(statement);
-            return statement;
+            return new StatementModel(statement, privileges);
         }
     }
 }

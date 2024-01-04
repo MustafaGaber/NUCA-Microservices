@@ -1,5 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
+using NUCA.Projects.Domain.Entities.FinanceAdmin;
+using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {
@@ -20,21 +22,40 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public double Percentage { get; private set; }
         public virtual IReadOnlyList<PercentageDetail> PercentageDetails => _percentageDetails.ToList();
         public double NetPrice => GrossPrice * Percentage / 100.0;
+        public double PreviousNetPrice { get; private set; }
+        public WorkType WorkType { get; private set; }
+        public CalculationMethod CalculationMethod { get; private set; }
         public bool HasQuantities => !(PreviousQuantity == 0 && TotalQuantity == 0);
         protected StatementItem()
         {
             ValidatePercentage();
         }
-        public StatementItem(long boqItemId, string index, string content, string unit, double quantity, double unitPrice, double previousQuantity, double totalQuantity,
-             double percentage, List<PercentageDetail> percentageDetails)
+        public StatementItem(
+            long boqItemId,
+            string index, 
+            string content,
+            string unit,
+            double quantity, 
+            double unitPrice, 
+            WorkType workType,
+            CalculationMethod calculationMethod, 
+            double previousQuantity, 
+            double totalQuantity,
+            double percentage,
+            List<PercentageDetail> percentageDetails)
         {
+            if (!Enum.IsDefined(typeof(CalculationMethod), calculationMethod))
+            {
+                throw new ArgumentException();
+            }
             BoqItemId = Guard.Against.NegativeOrZero(boqItemId);
-            Index = Guard.Against.NullOrEmpty(index, nameof(index));
-            Content = Guard.Against.NullOrEmpty(content, nameof(content));
-            Unit = Guard.Against.NullOrEmpty(unit, nameof(unit));
-            BoqQuantity = Guard.Against.NegativeOrZero(quantity, nameof(quantity));
-            UnitPrice = Guard.Against.NegativeOrZero(unitPrice, nameof(unitPrice));
-            PreviousQuantity = Guard.Against.Negative(previousQuantity, nameof(previousQuantity));
+            Index = Guard.Against.NullOrEmpty(index);
+            Content = Guard.Against.NullOrEmpty(content);
+            Unit = Guard.Against.NullOrEmpty(unit);
+            BoqQuantity = Guard.Against.NegativeOrZero(quantity);
+            UnitPrice = Guard.Against.NegativeOrZero(unitPrice);
+            WorkType = Guard.Against.Null(workType);
+            CalculationMethod = calculationMethod; PreviousQuantity = Guard.Against.Negative(previousQuantity, nameof(previousQuantity));
             TotalQuantity = totalQuantity;
             Percentage = Guard.Against.OutOfRange(percentage, nameof(percentage), 0, 100);
             _percentageDetails = percentageDetails;
@@ -44,19 +65,19 @@ namespace NUCA.Projects.Domain.Entities.Statements
         {
             TotalQuantity = Guard.Against.Negative(updates.TotalQuantity);
             Percentage = Guard.Against.OutOfRange(updates.Percentage, nameof(updates.Percentage), 0, 100);
-            _percentageDetails = updates.PercentageDetails.Select(p => new PercentageDetail(p.Quantity, p.Percentage, p.Notes)).ToList() ;
-           /* _percentageDetails.RemoveAll(detail => !withholdings.Any(w => w.Id == withholding.Id));
-            _percentageDetails.ForEach(w =>
-            {
-                StatementWithholding? withholding = _withholdings.Find(_w => _w.Id == w.Id);
-                if (withholding != null)
-                {
-                    withholding.Update(w.Name, w.Value, w.Type);
-                }
-            });
-            _percentageDetails.AddRange(withholdings.Where(w => w.Id == 0).Select(w => new StatementWithholding(w.Name, w.Value, w.Type)));
+            _percentageDetails = updates.PercentageDetails.Select(p => new PercentageDetail(p.Quantity, p.Percentage, p.Notes)).ToList();
+            /* _percentageDetails.RemoveAll(detail => !withholdings.Any(w => w.Id == withholding.Id));
+             _percentageDetails.ForEach(w =>
+             {
+                 StatementWithholding? withholding = _withholdings.Find(_w => _w.Id == w.Id);
+                 if (withholding != null)
+                 {
+                     withholding.Update(w.Name, w.Value, w.Type);
+                 }
+             });
+             _percentageDetails.AddRange(withholdings.Where(w => w.Id == 0).Select(w => new StatementWithholding(w.Name, w.Value, w.Type)));
 
-            */
+             */
             ValidatePercentage();
         }
 

@@ -1,6 +1,8 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Departments;
+using NUCA.Projects.Domain.Entities.FinanceAdmin;
+using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
 {
@@ -27,14 +29,29 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
         }
-        internal void AddItem(string index, string content, string unit, double quantity, double unitPrice)
+        internal void AddItem(string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
         {
-            _items.Add(new BoqItem(index, content, unit, quantity, unitPrice));
+            _items.Add(new BoqItem(
+                index: index,
+                content: content,
+                unit: unit,
+                quantity: quantity,
+                unitPrice: unitPrice,
+                workType: workType,
+                calculationMethod: calculationMethod,
+                sovereign: sovereign));
         }
-        internal void UpdateItem(long id, string index, string content, string unit, double quantity, double unitPrice)
+        internal void UpdateItem(long id, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
         {
             BoqItem item = _items.First(t => t.Id == id);
-            item.UpdateItem(index, content, unit, quantity, unitPrice);
+            item.Update(index: index,
+                content: content,
+                unit: unit,
+                quantity: quantity,
+                unitPrice: unitPrice,
+                workType: workType,
+                calculationMethod: calculationMethod,
+                sovereign: sovereign);
         }
         internal void DeleteItem(long id)
         {

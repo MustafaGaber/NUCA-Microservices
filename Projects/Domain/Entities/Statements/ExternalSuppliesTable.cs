@@ -33,7 +33,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             });
             _items.AddRange(items.Where(i => i.Id == 0));
         }
-        public void UpdateItem(UpdateStatementItemModel model, long userId)
+        public void Update(UpdateStatementItemModel model, long userId)
         {
             ExternalSuppliesItem item = _externalItems.First(i => i.Id == model.ItemId);
             item.Update(model, userId);

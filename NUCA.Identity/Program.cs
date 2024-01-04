@@ -37,7 +37,7 @@ namespace NUCA.Identity
 
             try
             {
-                var seed = true;//args.Contains("/seed");
+                var seed = args.Contains("/seed");
                 if (seed)
                 {
                     args = args.Except(new[] { "/seed" }).ToArray();

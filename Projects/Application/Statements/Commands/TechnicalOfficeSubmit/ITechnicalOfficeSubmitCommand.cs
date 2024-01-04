@@ -1,12 +1,12 @@
 ﻿
 
-using NUCA.Projects.Domain.Entities.Statements;
+using NUCA.Projects.Application.Statements.Models;
 using System.Security.Claims;
 
 namespace NUCA.Projects.Application.Statements.Commands.TechnicalOfficeSubmit
 {
     public interface ITechnicalOfficeSubmitCommand
     {
-       public Task<Statement> Execute(long id, TechnicalOfficeSubmitModel model, ClaimsPrincipal user);
+       public Task<StatementModel> Execute(long id, TechnicalOfficeSubmitModel model, ClaimsPrincipal user);
     }
 }

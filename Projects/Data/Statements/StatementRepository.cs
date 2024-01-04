@@ -9,16 +9,16 @@ namespace NUCA.Projects.Data.Statements
 {
     public class StatementRepository : Repository<Statement>, IStatementRepository
     {
-        public StatementRepository(ProjectsDatabaseContext database)
-         : base(database) { }
 
-        public Task<Statement?> GetMainStatementData(long id)
-        {
-            return database.Statements.FirstOrDefaultAsync(s => s.Id == id);
-        }
+        public StatementRepository(ProjectsDatabaseContext database): base(database) { }
+
         public override Task<Statement?> Get(long id)
         {
             return StatementQuery.FirstOrDefaultAsync(s => s.Id == id);
+        }
+        public Task<Statement?> GetMainStatementData(long id)
+        {
+            return database.Statements.FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public Task<Statement?> GetLastStatementForProject(long projectId)
@@ -71,10 +71,11 @@ namespace NUCA.Projects.Data.Statements
         {
             return StatementQuery
              .FirstOrDefaultAsync(s => s.ProjectId == projectId && s.Index == index);
-
         }
 
-        private IQueryable<Statement> StatementQuery => database.Statements.Include(s => s.Withholdings)
+        private IQueryable<Statement> StatementQuery => 
+               database.Statements
+                .Include(s => s.Withholdings)
                 .Include(s => s.Tables)
                 .ThenInclude(t => t.Sections)
                 .ThenInclude(s => s.Items)

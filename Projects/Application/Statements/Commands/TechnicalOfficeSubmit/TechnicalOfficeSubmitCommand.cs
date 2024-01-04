@@ -1,4 +1,5 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Statements;
 using NUCA.Projects.Shared.Extensions;
@@ -16,7 +17,7 @@ namespace NUCA.Projects.Application.Statements.Commands.TechnicalOfficeSubmit
             _statementRepository = statementRepository;
             _privilegeRepository = privilegeRepository;
         }
-        public async Task<Statement> Execute(long id, TechnicalOfficeSubmitModel model, ClaimsPrincipal user)
+        public async Task<StatementModel> Execute(long id, TechnicalOfficeSubmitModel model, ClaimsPrincipal user)
         {
             string userId = user.Id() ?? throw new ArgumentNullException(nameof(user));
             Statement? statement = await _statementRepository.Get(id) ?? throw new InvalidOperationException();
@@ -34,7 +35,7 @@ namespace NUCA.Projects.Application.Statements.Commands.TechnicalOfficeSubmit
                 statement.TechnicalOfficeDisapprove(userId, model.Message);
             }
             await _statementRepository.Update(statement);
-            return statement;
+            return new StatementModel(statement, privileges);
         }
     }
 }

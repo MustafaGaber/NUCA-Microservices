@@ -3,6 +3,7 @@ using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.Statements.Commands.CreateStatement;
 using NUCA.Projects.Application.Statements.Commands.TechnicalOfficeSubmit;
 using NUCA.Projects.Application.Statements.Commands.UpdateStatement;
+using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Application.Statements.Queries.GetProjectStatements;
 using NUCA.Projects.Application.Statements.Queries.GetStatement;
 using NUCA.Projects.Application.Statements.Queries.GetUserStatements;
@@ -39,18 +40,20 @@ namespace NUCA.Projects.Api.Controllers.Statements
             return Ok(statements);
         }
 
-        [HttpGet("CurrentStatements")]
+        /*[HttpGet("CurrentStatements")]
         public async Task<IActionResult> GetCurrentStatements()
         {
             long userId = 1;
             var statements = await _getCurrentStatementsQuery.Execute(userId);
             return Ok(statements);
-        }
+        }*/
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {
-            var statement = await _getStatementQuery.Execute(id);
+            string? userId = User.Id();
+            if (userId == null) return Unauthorized();
+            StatementModel statement = await _getStatementQuery.Execute(id, userId);
             return Ok(statement);
         }
 
@@ -65,15 +68,15 @@ namespace NUCA.Projects.Api.Controllers.Statements
         public async Task<IActionResult> UpdateStatement(long id, [FromBody] UpdateStatementModel updates)
         {
             string? userId = User.Id();
-            if (userId == null) return Unauthorized(); 
-            var statement = await _updateStatementCommand.Execute(id, updates, userId!);
+            if (userId == null) return Unauthorized();
+            StatementModel statement = await _updateStatementCommand.Execute(id, updates, userId!);
             return Ok(statement);
         }
 
         [HttpPut("{id}/TechnicalOfficeSubmit")]
         public async Task<IActionResult> TechnicalOfficeSubmit(long id, [FromBody] TechnicalOfficeSubmitModel model)
         {
-            var statement = await _technicalOfficeSubmitCommand.Execute(id, model,User);
+            StatementModel statement = await _technicalOfficeSubmitCommand.Execute(id, model,User);
             return Ok(statement);
         }
         /*[HttpPut("Submit/{id}")]
