@@ -11,6 +11,7 @@ using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Adjustments;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Companies;
+using NUCA.Projects.Domain.Entities.CostCenters;
 using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Ledgers;
@@ -35,6 +36,7 @@ namespace NUCA.Projects.Data
         public DbSet<WorkType> WorkTypes { get; init; }
         public DbSet<AwardType> AwardTypes { get; init; }
         public DbSet<Ledger> Ledgers { get; init; }
+        public DbSet<CostCenter> CostCenters { get; init; }
 
         private IHttpContextAccessor _contextAccessor;
         public ProjectsDatabaseContext(DbContextOptions<ProjectsDatabaseContext> options, IHttpContextAccessor contextAccessor) : base(options)

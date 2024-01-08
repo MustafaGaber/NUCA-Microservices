@@ -42,7 +42,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
                 throw new InvalidOperationException();
             }
             project.Update(
-              name: model.Name,
+                name: model.Name,
                 departmentId: model.DepartmentId,
                 departmentName: model.DepartmentName,
                 type: type,

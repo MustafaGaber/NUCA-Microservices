@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NUCA.Projects.Domain.Entities.Boqs;
-using System.Reflection.Emit;
-using System.Reflection.Metadata;
 
 namespace NUCA.Projects.Data.Projects
 {
@@ -19,6 +17,9 @@ namespace NUCA.Projects.Data.Projects
                    .IsRequired()
                    .HasForeignKey(p => p.ProjectId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.Classifications).WithMany(c => c.Projects);
+
             builder.HasMany(p => p.Statements).WithOne()
                    .HasForeignKey(s => s.ProjectId)
                    .OnDelete(DeleteBehavior.Restrict);

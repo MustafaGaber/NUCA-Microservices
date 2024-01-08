@@ -54,6 +54,29 @@ namespace NUCA.Projects.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CostCenters",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    ParentId = table.Column<long>(type: "INTEGER", nullable: true),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CostCenters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CostCenters_CostCenters_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "CostCenters",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
                 {
@@ -294,6 +317,7 @@ namespace NUCA.Projects.Data.Migrations
                     State = table.Column<int>(type: "INTEGER", nullable: false),
                     TotalWorks = table.Column<double>(type: "REAL", nullable: false),
                     TotalSupplies = table.Column<double>(type: "REAL", nullable: false),
+                    Message = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
@@ -591,6 +615,9 @@ namespace NUCA.Projects.Data.Migrations
                     Unit = table.Column<string>(type: "TEXT", nullable: false),
                     Quantity = table.Column<double>(type: "REAL", nullable: false),
                     UnitPrice = table.Column<double>(type: "REAL", nullable: false),
+                    WorkTypeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CalculationMethod = table.Column<int>(type: "INTEGER", nullable: false),
+                    Sovereign = table.Column<bool>(type: "INTEGER", nullable: false),
                     BoqSectionId = table.Column<long>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -604,6 +631,12 @@ namespace NUCA.Projects.Data.Migrations
                         name: "FK_BoqItem_BoqSection_BoqSectionId",
                         column: x => x.BoqSectionId,
                         principalTable: "BoqSection",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BoqItem_WorkTypes_WorkTypeId",
+                        column: x => x.WorkTypeId,
+                        principalTable: "WorkTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -623,6 +656,9 @@ namespace NUCA.Projects.Data.Migrations
                     PreviousQuantity = table.Column<double>(type: "REAL", nullable: false),
                     TotalQuantity = table.Column<double>(type: "REAL", nullable: false),
                     Percentage = table.Column<double>(type: "REAL", nullable: false),
+                    PreviousNetPrice = table.Column<double>(type: "REAL", nullable: false),
+                    WorkTypeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CalculationMethod = table.Column<int>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
                     StatementSectionId = table.Column<long>(type: "INTEGER", nullable: false),
@@ -636,6 +672,12 @@ namespace NUCA.Projects.Data.Migrations
                         name: "FK_StatementItem_StatementSection_StatementSectionId",
                         column: x => x.StatementSectionId,
                         principalTable: "StatementSection",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StatementItem_WorkTypes_WorkTypeId",
+                        column: x => x.WorkTypeId,
+                        principalTable: "WorkTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -682,6 +724,11 @@ namespace NUCA.Projects.Data.Migrations
                 column: "BoqSectionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BoqItem_WorkTypeId",
+                table: "BoqItem",
+                column: "WorkTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Boqs_ProjectId",
                 table: "Boqs",
                 column: "ProjectId",
@@ -696,6 +743,11 @@ namespace NUCA.Projects.Data.Migrations
                 name: "IX_BoqTable_BoqId",
                 table: "BoqTable",
                 column: "BoqId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CostCenters_ParentId",
+                table: "CostCenters",
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DepartmentUser_UsersId",
@@ -743,6 +795,11 @@ namespace NUCA.Projects.Data.Migrations
                 column: "StatementSectionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_StatementItem_WorkTypeId",
+                table: "StatementItem",
+                column: "WorkTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Statements_ProjectId",
                 table: "Statements",
                 column: "ProjectId");
@@ -750,7 +807,7 @@ namespace NUCA.Projects.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_StatementSection_StatementTableId",
                 table: "StatementSection",
-                column: "SuppliesTableId");
+                column: "StatementTableId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StatementTable_StatementId",
@@ -776,6 +833,9 @@ namespace NUCA.Projects.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "BoqItem");
+
+            migrationBuilder.DropTable(
+                name: "CostCenters");
 
             migrationBuilder.DropTable(
                 name: "DepartmentUser");

@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
+using NUCA.Projects.Domain.Entities.CostCenters;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Shared;
 using System;
@@ -17,11 +18,13 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         public double UnitPrice { get; private set; }
         public WorkType WorkType { get; private set; }
         public CalculationMethod CalculationMethod { get; private set; }
+        public CostCenter CostCenter { get; private set; }
         public bool Sovereign { get; private set; }
 
         protected BoqItem() { }
         public BoqItem(string index, string content, string unit, double quantity,
-            double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
+            double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign,
+            CostCenter costCenter)
         {
             Update(
                 index: index,
@@ -31,11 +34,12 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 unitPrice: unitPrice,
                 workType: workType,
                 calculationMethod: calculationMethod,
-                sovereign: sovereign
+                sovereign: sovereign,
+                costCenter: costCenter
            );
         }
 
-        internal void Update(string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
+        internal void Update(string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
         {
             if (!Enum.IsDefined(typeof(CalculationMethod), calculationMethod))
             {
@@ -46,9 +50,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             Unit = Guard.Against.NullOrEmpty(unit, nameof(unit));
             Quantity = Guard.Against.NegativeOrZero(quantity, nameof(quantity));
             UnitPrice = Guard.Against.NegativeOrZero(unitPrice, nameof(unitPrice));
-            WorkType = Guard.Against.Null(workType);
             CalculationMethod = calculationMethod;
+            WorkType = Guard.Against.Null(workType);
             Sovereign = sovereign;
+            CostCenter = Guard.Against.Null(costCenter);
         }
     }
 }

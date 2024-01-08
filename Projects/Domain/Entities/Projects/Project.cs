@@ -15,7 +15,11 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public string DepartmentId { get; private set; }
         public string DepartmentName { get; private set; }
         public WorkType Type { get; private set; }
+       
+        private readonly List<Classification> _classifications = new();
+        public virtual IReadOnlyList<Classification> Classifications => _classifications.ToList();
         public ProjectStatus Status { get; private set; }
+        public FundingType FundingType { get; private set; }
         public AwardType? AwardType { get; private set; }
         public Company? Company { get; private set; }
         public int? OrderNumber { get; private set; }
@@ -48,7 +52,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
             string departmentId,
             string departmentName,
             WorkType type,
+            List<Classification> classifications,
             ProjectStatus status,
+            FundingType fundingType,
             AwardType? awardType,
             Company? company,
             int? orderNumber,
@@ -72,7 +78,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 departmentId: departmentId,
                 departmentName: departmentName,
                 type: type,
+                classifications: classifications,
                 status: status,
+                fundingType: fundingType,
                 awardType: awardType,
                 company: company,
                 orderNumber: orderNumber,
@@ -97,8 +105,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
             string name,
             string departmentId,
             string departmentName,
+            List<Classification> classifications,
             WorkType type,
             ProjectStatus status,
+            FundingType fundingType,
             AwardType? awardType,
             Company? company,
             int? orderNumber,
@@ -125,11 +135,18 @@ namespace NUCA.Projects.Domain.Entities.Projects
             {
                 throw new ArgumentException();
             }
+            if (!Enum.IsDefined(typeof(FundingType), fundingType))
+            {
+                throw new ArgumentException();
+            }
             Name = Guard.Against.NullOrWhiteSpace(name);
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
             Type = Guard.Against.Null(type, nameof(type));
+            _classifications.Clear();
+            _classifications.AddRange(classifications);
             Status = Guard.Against.Null(status, nameof(status));
+            FundingType = fundingType;
             if (status >= ProjectStatus.Awarded)
             {
                 Guard.Against.Null(awardType, nameof(awardType));
