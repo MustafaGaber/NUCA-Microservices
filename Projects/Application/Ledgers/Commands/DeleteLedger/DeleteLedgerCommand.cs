@@ -9,7 +9,7 @@ namespace NUCA.Projects.Application.Ledgers.Commands.DeleteLedger
         {
             _ledgerRepository = ledgerRepository;
         }
-        public async Task Execute(int id)
+        public async Task Execute(long id)
         {
             bool hasAdjustments = true; //await _ledgerRepository.LedgerHasAdjustments(id);
             if (!hasAdjustments)

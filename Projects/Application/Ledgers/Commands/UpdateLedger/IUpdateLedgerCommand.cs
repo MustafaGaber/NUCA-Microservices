@@ -4,6 +4,6 @@ namespace NUCA.Projects.Application.Ledgers.Commands.UpdateLedger
 {
     public interface IUpdateLedgerCommand
     {
-        Task<Ledger> Execute(int id, LedgerModel model);
+        Task<Ledger> Execute(long id, LedgerModel model);
     }
 }

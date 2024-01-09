@@ -2,8 +2,8 @@
 {
     public class GetLedgerModel
     {
-        public long Id { get; init; }
-        public string Name { get; init; }
-        public int Index { get; init; }
+        public required long Id { get; init; }
+        public required string Name { get; init; }
+        public required int Index { get; init; }
     }
 }

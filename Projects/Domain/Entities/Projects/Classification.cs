@@ -13,5 +13,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public Classification(string name) {
             Name = Guard.Against.NullOrEmpty(name); 
         }
+
+        public void Update(string name)
+        {
+            Name = Guard.Against.NullOrEmpty(name);
+        }
     }
 }
