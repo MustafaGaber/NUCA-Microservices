@@ -1,4 +1,5 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Data.Projects;
 using NUCA.Projects.Domain.Entities.Companies;
 using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
@@ -14,13 +15,15 @@ namespace NUCA.Projects.Application.Projects.Commands.CreateProject
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IWorkTypeRepository _workTypeRepository;
         private readonly IAwardTypeRepository _awardTypeRepository;
-        public CreateProjectCommand(IProjectRepository projectRepository, ICompanyRepository companyRepository, IDepartmentRepository departmentRepository, IWorkTypeRepository workTypeRepository, IAwardTypeRepository awardTypeRepository)
+        private readonly IClassificationRepository _classificationRepository;
+        public CreateProjectCommand(IProjectRepository projectRepository, ICompanyRepository companyRepository, IDepartmentRepository departmentRepository, IWorkTypeRepository workTypeRepository, IAwardTypeRepository awardTypeRepository, IClassificationRepository classificationRepository)
         {
             _projectRepository = projectRepository;
             _companyRepository = companyRepository;
             _departmentRepository = departmentRepository;
             _workTypeRepository = workTypeRepository;
             _awardTypeRepository = awardTypeRepository;
+            _classificationRepository = classificationRepository;
         }
         public async Task<Project> Execute(ProjectModel model)
         {
@@ -40,13 +43,16 @@ namespace NUCA.Projects.Application.Projects.Commands.CreateProject
             {
                 throw new InvalidOperationException();
             }
+            List<Classification> classifications = await _classificationRepository.GetSome(model.ClassificationsIds);
             var project = await _projectRepository.Add(new Project
             (
                 name: model.Name,
                 departmentId: model.DepartmentId,
                 departmentName: model.DepartmentName,
                 type: type,
+                classifications: classifications,
                 status: model.Status,
+                fundingType: model.FundingType,
                 awardType: awardType,
                 company: company,
                 orderNumber: model.OrderNumber,

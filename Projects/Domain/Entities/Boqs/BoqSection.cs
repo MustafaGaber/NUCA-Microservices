@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
+using NUCA.Projects.Domain.Entities.CostCenters;
 using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Shared;
@@ -29,7 +30,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
         }
-        internal void AddItem(string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
+        internal void AddItem(string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
         {
             _items.Add(new BoqItem(
                 index: index,
@@ -39,9 +40,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 unitPrice: unitPrice,
                 workType: workType,
                 calculationMethod: calculationMethod,
-                sovereign: sovereign));
+                sovereign: sovereign,
+                costCenter: costCenter));
         }
-        internal void UpdateItem(long id, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign)
+        internal void UpdateItem(long id, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
         {
             BoqItem item = _items.First(t => t.Id == id);
             item.Update(index: index,
@@ -51,7 +53,8 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 unitPrice: unitPrice,
                 workType: workType,
                 calculationMethod: calculationMethod,
-                sovereign: sovereign);
+                sovereign: sovereign,
+                costCenter: costCenter);
         }
         internal void DeleteItem(long id)
         {

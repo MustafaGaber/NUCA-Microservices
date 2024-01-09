@@ -9,7 +9,9 @@ namespace NUCA.Projects.Application.Projects.Commands
         public string DepartmentId { get; init; }
         public string DepartmentName { get; init; }
         public int TypeId { get; init; }
+        public List<long> ClassificationsIds { get; init; }
         public ProjectStatus Status { get; init; }
+        public  FundingType FundingType {  get; init; }
         public int? AwardTypeId { get; init; }
         public long? CompanyId { get; init; }
         public int? OrderNumber { get; init; }
