@@ -18,7 +18,6 @@ namespace NUCA.Projects.Application.FinanceAdmin.TaxAuthorities.Queries.GetTaxAu
             {
                 Id = taxAuthority.Id,
                 Name = taxAuthority.Name,
-                EstimatedPrice = taxAuthority.EstimatedPrice,
             } : null;
         }
 
