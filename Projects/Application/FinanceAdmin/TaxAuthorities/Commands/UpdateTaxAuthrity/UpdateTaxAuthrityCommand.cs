@@ -13,7 +13,7 @@ namespace NUCA.Projects.Application.FinanceAdmin.TaxAuthorities.Commands.UpdateT
         public async Task<TaxAuthority> Execute(int id, TaxAuthorityModel model)
         {
             TaxAuthority? taxAuthority = await _taxAuthorityRepository.Get(id) ?? throw new InvalidOperationException();
-            taxAuthority.Update(model.Name, model.EstimatedPrice);
+            taxAuthority.Update(model.Name);
             await _taxAuthorityRepository.Update(taxAuthority);
             return taxAuthority;
         }

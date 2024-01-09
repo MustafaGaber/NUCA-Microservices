@@ -19,7 +19,6 @@ namespace NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBanks
             {
                 Id = mainBank.Id,
                 Name = mainBank.Name,
-                ValueAddedTaxPercent = mainBank.ValueAddedTaxPercent,
             });
         }
     }

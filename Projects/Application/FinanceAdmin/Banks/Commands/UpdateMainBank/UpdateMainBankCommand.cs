@@ -13,7 +13,7 @@ namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.UpdateMainBank
         public async Task<MainBank> Execute(int id, MainBankModel model)
         {
             MainBank? mainBank = await _repository.Get(id) ?? throw new InvalidOperationException();
-            mainBank.Update(model.Name, model.ValueAddedTaxPercent);
+            mainBank.Update(model.Name);
             await _repository.Update(mainBank);
             return mainBank;
         }

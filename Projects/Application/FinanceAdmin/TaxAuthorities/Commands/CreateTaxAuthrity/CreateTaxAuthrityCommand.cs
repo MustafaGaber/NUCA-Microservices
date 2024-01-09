@@ -12,7 +12,7 @@ namespace NUCA.Projects.Application.FinanceAdmin.TaxAuthorities.Commands.CreateT
         }
         public Task<TaxAuthority> Execute(TaxAuthorityModel model)
         {
-            return _taxAuthorityRepository.Add(new TaxAuthority(model.Name, model.EstimatedPrice));
+            return _taxAuthorityRepository.Add(new TaxAuthority(model.Name));
         }
 
     }

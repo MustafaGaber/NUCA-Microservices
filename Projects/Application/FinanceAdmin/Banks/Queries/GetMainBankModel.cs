@@ -4,6 +4,5 @@
     {
         public long Id { get; init; }
         public string Name { get; init; }
-        public double ValueAddedTaxPercent { get; init; }
     }
 }

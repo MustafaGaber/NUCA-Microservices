@@ -13,7 +13,7 @@ namespace NUCA.Projects.Data.FinanceAdmin
         public async Task<bool> BankHasProjects(long id)
         {
             int count = await database.Projects
-                .Include(p => p.)
+                .Include(p => p.Bank)
                 .Where(p => p.Bank != null && p.Bank.Id == id)
                 .CountAsync();
             return count > 0;

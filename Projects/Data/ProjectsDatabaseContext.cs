@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using NUCA.Banks.Data.Banks;
 using NUCA.Projects.Data.Adjustments;
 using NUCA.Projects.Data.Boqs;
 using NUCA.Projects.Data.Companies;

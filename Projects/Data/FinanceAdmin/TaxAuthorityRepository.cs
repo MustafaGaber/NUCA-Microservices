@@ -10,7 +10,7 @@ namespace NUCA.Projects.Data.FinanceAdmin
         public TaxAuthorityRepository(ProjectsDatabaseContext database)
           : base(database) { }
 
-        public async Task<bool> TaxAuthorityHasProjects(int id)
+        public async Task<bool> TaxAuthorityHasProjects(long id)
         {
             int count = await database.Projects
                 .Include(p => p.TaxAuthority)

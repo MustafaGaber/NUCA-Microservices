@@ -11,7 +11,7 @@ namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.DeleteMainBank
         }
         public async Task Execute(int id)
         {
-            bool hasProjects = await _repository.MainBankHasProjects(id);
+            bool hasProjects = await _repository.BankHasProjects(id);
             if (!hasProjects)
             {
                 await _repository.Delete(id);

@@ -11,7 +11,7 @@ namespace NUCA.Projects.Application.FinanceAdmin.Banks.Queries.CanDeleteMainBank
         }
         public async Task<bool> Execute(int id)
         {
-            var hasProjects = await _repository.MainBankHasProjects(id);
+            var hasProjects = await _repository.BankHasProjects(id);
             return !hasProjects;
         }
     }

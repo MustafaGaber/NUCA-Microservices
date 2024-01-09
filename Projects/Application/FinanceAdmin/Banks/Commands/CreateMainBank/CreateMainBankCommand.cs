@@ -12,7 +12,7 @@ namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.CreateMainBank
         }
         public Task<MainBank> Execute(MainBankModel model)
         {
-            return _repository.Add(new MainBank(model.Name, model.ValueAddedTaxPercent));
+            return _repository.Add(new MainBank(model.Name));
         }
 
     }
