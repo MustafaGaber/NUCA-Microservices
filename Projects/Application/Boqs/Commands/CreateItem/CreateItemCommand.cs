@@ -32,7 +32,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateItem
                 quantity: item.Quantity,
                 unitPrice: item.UnitPrice,
                 workType: workType,
-                calculationMethod: item.CalculationMethod,
+                isPerformanceRate: item.IsPerformanceRate,
                 sovereign: item.Sovereign,
                 costCenter: costCenter
              );

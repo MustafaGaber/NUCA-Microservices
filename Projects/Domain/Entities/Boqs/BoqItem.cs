@@ -17,13 +17,13 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         public double Quantity { get; private set; }
         public double UnitPrice { get; private set; }
         public WorkType WorkType { get; private set; }
-        public CalculationMethod CalculationMethod { get; private set; }
+        public bool IsPerformanceRate { get; private set; }
         public CostCenter CostCenter { get; private set; }
         public bool Sovereign { get; private set; }
 
         protected BoqItem() { }
         public BoqItem(string index, string content, string unit, double quantity,
-            double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign,
+            double unitPrice, WorkType workType, bool isPerformanceRate, bool sovereign,
             CostCenter costCenter)
         {
             Update(
@@ -33,24 +33,20 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 quantity: quantity,
                 unitPrice: unitPrice,
                 workType: workType,
-                calculationMethod: calculationMethod,
+                isPerformanceRate: isPerformanceRate,
                 sovereign: sovereign,
                 costCenter: costCenter
            );
         }
 
-        internal void Update(string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
+        internal void Update(string index, string content, string unit, double quantity, double unitPrice, WorkType workType, bool isPerformanceRate, bool sovereign, CostCenter costCenter)
         {
-            if (!Enum.IsDefined(typeof(CalculationMethod), calculationMethod))
-            {
-                throw new ArgumentException();
-            }
             Index = Guard.Against.NullOrEmpty(index, nameof(index));
             Content = Guard.Against.NullOrEmpty(content, nameof(content));
             Unit = Guard.Against.NullOrEmpty(unit, nameof(unit));
             Quantity = Guard.Against.NegativeOrZero(quantity, nameof(quantity));
             UnitPrice = Guard.Against.NegativeOrZero(unitPrice, nameof(unitPrice));
-            CalculationMethod = calculationMethod;
+            IsPerformanceRate = isPerformanceRate;
             WorkType = Guard.Against.Null(workType);
             Sovereign = sovereign;
             CostCenter = Guard.Against.Null(costCenter);

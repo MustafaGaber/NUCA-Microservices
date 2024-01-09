@@ -30,6 +30,23 @@ namespace NUCA.Projects.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Classification",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classification", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Companies",
                 columns: table => new
                 {
@@ -183,6 +200,7 @@ namespace NUCA.Projects.Data.Migrations
                     DepartmentName = table.Column<string>(type: "TEXT", nullable: false),
                     TypeId = table.Column<long>(type: "INTEGER", nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    FundingType = table.Column<int>(type: "INTEGER", nullable: false),
                     AwardTypeId = table.Column<long>(type: "INTEGER", nullable: true),
                     CompanyId = table.Column<long>(type: "INTEGER", nullable: true),
                     OrderNumber = table.Column<int>(type: "INTEGER", nullable: true),
@@ -254,6 +272,32 @@ namespace NUCA.Projects.Data.Migrations
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClassificationProject",
+                columns: table => new
+                {
+                    ClassificationsId = table.Column<long>(type: "INTEGER", nullable: false),
+                    ProjectsId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassificationProject", x => new { x.ClassificationsId, x.ProjectsId });
+                    table.ForeignKey(
+                        name: "FK_ClassificationProject_Classification_ClassificationsId",
+                        column: x => x.ClassificationsId,
+                        principalTable: "Classification",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClassificationProject_Projects_ProjectsId",
+                        column: x => x.ProjectsId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -617,6 +661,7 @@ namespace NUCA.Projects.Data.Migrations
                     UnitPrice = table.Column<double>(type: "REAL", nullable: false),
                     WorkTypeId = table.Column<long>(type: "INTEGER", nullable: false),
                     CalculationMethod = table.Column<int>(type: "INTEGER", nullable: false),
+                    CostCenterId = table.Column<long>(type: "INTEGER", nullable: false),
                     Sovereign = table.Column<bool>(type: "INTEGER", nullable: false),
                     BoqSectionId = table.Column<long>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -631,6 +676,12 @@ namespace NUCA.Projects.Data.Migrations
                         name: "FK_BoqItem_BoqSection_BoqSectionId",
                         column: x => x.BoqSectionId,
                         principalTable: "BoqSection",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BoqItem_CostCenters_CostCenterId",
+                        column: x => x.CostCenterId,
+                        principalTable: "CostCenters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -724,6 +775,11 @@ namespace NUCA.Projects.Data.Migrations
                 column: "BoqSectionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BoqItem_CostCenterId",
+                table: "BoqItem",
+                column: "CostCenterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BoqItem_WorkTypeId",
                 table: "BoqItem",
                 column: "WorkTypeId");
@@ -743,6 +799,11 @@ namespace NUCA.Projects.Data.Migrations
                 name: "IX_BoqTable_BoqId",
                 table: "BoqTable",
                 column: "BoqId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClassificationProject_ProjectsId",
+                table: "ClassificationProject",
+                column: "ProjectsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CostCenters_ParentId",
@@ -835,7 +896,7 @@ namespace NUCA.Projects.Data.Migrations
                 name: "BoqItem");
 
             migrationBuilder.DropTable(
-                name: "CostCenters");
+                name: "ClassificationProject");
 
             migrationBuilder.DropTable(
                 name: "DepartmentUser");
@@ -866,6 +927,12 @@ namespace NUCA.Projects.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "BoqSection");
+
+            migrationBuilder.DropTable(
+                name: "CostCenters");
+
+            migrationBuilder.DropTable(
+                name: "Classification");
 
             migrationBuilder.DropTable(
                 name: "Departments");

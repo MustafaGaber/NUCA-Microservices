@@ -10,6 +10,8 @@ using NUCA.Projects.Api.Controllers.Core;
 
 namespace NUCA.Projects.Api.Controllers.Classifications
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ClassificationsController : BaseController
     {
         private readonly IGetClassificationsQuery _listQuery;

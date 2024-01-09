@@ -15,7 +15,7 @@ namespace NUCA.Projects.Application.Boqs.Commands.UpdateItem
         public double Quantity { get; init; }
         public double UnitPrice { get; init; }
         public long WorkTypeId { get; init; }
-        public CalculationMethod CalculationMethod { get; init; }
+        public bool IsPerformanceRate { get; init; }
         public bool Sovereign { get; init; }
         public long CostCenterId { get; init; }
     }

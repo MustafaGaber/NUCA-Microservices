@@ -67,7 +67,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             BoqTable table = _tables.First(t => t.Id == tableId);
             table.DeleteSection(sectionId);
         }
-        public void AddItem(long tableId, long sectionId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
+        public void AddItem(long tableId, long sectionId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, bool isPerformanceRate, bool sovereign, CostCenter costCenter)
         {
             BoqTable table = _tables.First(t => t.Id == tableId);
             table.AddItem(
@@ -78,11 +78,11 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 quantity: quantity,
                 unitPrice: unitPrice,
                 workType: workType,
-                calculationMethod: calculationMethod,
+               isPerformanceRate: isPerformanceRate,
                 sovereign: sovereign,
                 costCenter: costCenter);
         }
-        public void UpdateItem(long tableId, long sectionId, long itemId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
+        public void UpdateItem(long tableId, long sectionId, long itemId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, bool isPerformanceRate, bool sovereign, CostCenter costCenter)
         {
             BoqTable table = _tables.First(t => t.Id == tableId);
             table.UpdateItem(
@@ -94,7 +94,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 quantity: quantity,
                 unitPrice: unitPrice,
                 workType: workType,
-                calculationMethod: calculationMethod,
+                isPerformanceRate: isPerformanceRate,
                 sovereign: sovereign,
                 costCenter: costCenter);
         }

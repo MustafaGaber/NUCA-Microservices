@@ -21,10 +21,24 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public double GrossPrice => TotalQuantity * UnitPrice;
         public double Percentage { get; private set; }
         public virtual IReadOnlyList<PercentageDetail> PercentageDetails => _percentageDetails.ToList();
-        public double NetPrice => GrossPrice * Percentage / 100.0;
+        public double NetPrice
+        {
+            get
+            {
+                if (IsPerformanceRate)
+                {
+                    return PreviousNetPrice + CurrentQuantity * Percentage;
+                }
+                else
+                {
+                    return GrossPrice * Percentage / 100.0;
+                }
+            }
+        }
+
         public double PreviousNetPrice { get; private set; }
         public WorkType WorkType { get; private set; }
-        public CalculationMethod CalculationMethod { get; private set; }
+        public bool IsPerformanceRate { get; private set; }
         public bool HasQuantities => !(PreviousQuantity == 0 && TotalQuantity == 0);
         protected StatementItem()
         {
@@ -32,22 +46,18 @@ namespace NUCA.Projects.Domain.Entities.Statements
         }
         public StatementItem(
             long boqItemId,
-            string index, 
+            string index,
             string content,
             string unit,
-            double quantity, 
-            double unitPrice, 
+            double quantity,
+            double unitPrice,
             WorkType workType,
-            CalculationMethod calculationMethod, 
-            double previousQuantity, 
+            bool isPerformanceRate,
+            double previousQuantity,
             double totalQuantity,
             double percentage,
             List<PercentageDetail> percentageDetails)
         {
-            if (!Enum.IsDefined(typeof(CalculationMethod), calculationMethod))
-            {
-                throw new ArgumentException();
-            }
             BoqItemId = Guard.Against.NegativeOrZero(boqItemId);
             Index = Guard.Against.NullOrEmpty(index);
             Content = Guard.Against.NullOrEmpty(content);
@@ -55,7 +65,8 @@ namespace NUCA.Projects.Domain.Entities.Statements
             BoqQuantity = Guard.Against.NegativeOrZero(quantity);
             UnitPrice = Guard.Against.NegativeOrZero(unitPrice);
             WorkType = Guard.Against.Null(workType);
-            CalculationMethod = calculationMethod; PreviousQuantity = Guard.Against.Negative(previousQuantity, nameof(previousQuantity));
+            IsPerformanceRate = isPerformanceRate;
+            PreviousQuantity = Guard.Against.Negative(previousQuantity, nameof(previousQuantity));
             TotalQuantity = totalQuantity;
             Percentage = Guard.Against.OutOfRange(percentage, nameof(percentage), 0, 100);
             _percentageDetails = percentageDetails;

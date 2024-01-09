@@ -54,6 +54,7 @@ namespace NUCA.Projects.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Ignore<WorksTable>();
             modelBuilder.Ignore<SuppliesTable>();
+            modelBuilder.ApplyConfiguration(new BankConfiguration());
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
             modelBuilder.ApplyConfiguration(new BoqConfiguration());

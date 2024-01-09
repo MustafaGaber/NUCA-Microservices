@@ -3,6 +3,7 @@ using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Companies;
+using NUCA.Projects.Domain.Entities.CostCenters;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
@@ -15,7 +16,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public string DepartmentId { get; private set; }
         public string DepartmentName { get; private set; }
         public WorkType Type { get; private set; }
-       
+        public CostCenter CostCenter { get; private set; }
+
         private readonly List<Classification> _classifications = new();
         public virtual IReadOnlyList<Classification> Classifications => _classifications.ToList();
         public ProjectStatus Status { get; private set; }
@@ -52,6 +54,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             string departmentId,
             string departmentName,
             WorkType type,
+            CostCenter costCenter,
             List<Classification> classifications,
             ProjectStatus status,
             FundingType fundingType,
@@ -78,6 +81,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 departmentId: departmentId,
                 departmentName: departmentName,
                 type: type,
+                costCenter: costCenter,
                 classifications: classifications,
                 status: status,
                 fundingType: fundingType,
@@ -105,8 +109,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
             string name,
             string departmentId,
             string departmentName,
-            List<Classification> classifications,
             WorkType type,
+            CostCenter costCenter,
+            List<Classification> classifications,
             ProjectStatus status,
             FundingType fundingType,
             AwardType? awardType,
@@ -142,21 +147,22 @@ namespace NUCA.Projects.Domain.Entities.Projects
             Name = Guard.Against.NullOrWhiteSpace(name);
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
-            Type = Guard.Against.Null(type, nameof(type));
+            Type = Guard.Against.Null(type);
+            CostCenter = Guard.Against.Null(costCenter);
             _classifications.Clear();
             _classifications.AddRange(classifications);
-            Status = Guard.Against.Null(status, nameof(status));
+            Status = Guard.Against.Null(status);
             FundingType = fundingType;
             if (status >= ProjectStatus.Awarded)
             {
-                Guard.Against.Null(awardType, nameof(awardType));
-                Guard.Against.Null(company, nameof(company));
-                Guard.Against.Null(orderNumber, nameof(orderNumber));
-                Guard.Against.Null(orderDate, nameof(orderDate));
-                Guard.Against.Null(price, nameof(price));
+                Guard.Against.Null(awardType);
+                Guard.Against.Null(company);
+                Guard.Against.Null(orderNumber);
+                Guard.Against.Null(orderDate);
+                Guard.Against.Null(price);
                 Guard.Against.NegativeOrZero((double)price, nameof(price));
-                Guard.Against.Null(advancedPaymentPercentage, nameof(advancedPaymentPercentage));
-                Guard.Against.Null(valueAddedTaxIncluded, nameof(valueAddedTaxIncluded));
+                Guard.Against.Null(advancedPaymentPercentage);
+                Guard.Against.Null(valueAddedTaxIncluded);
                 Guard.Against.Null(totalContractPapers);
                 Guard.Against.NegativeOrZero((int)totalContractPapers!);
                 if (duration.Empty)
@@ -166,18 +172,18 @@ namespace NUCA.Projects.Domain.Entities.Projects
             }
             if (status >= ProjectStatus.Started)
             {
-                Guard.Against.Null(handoverDate, nameof(handoverDate));
-                Guard.Against.Null(startDate, nameof(startDate));
-                Guard.Against.Null(endDate, nameof(endDate));
+                Guard.Against.Null(handoverDate);
+                Guard.Against.Null(startDate);
+                Guard.Against.Null(endDate);
             }
             if (status >= ProjectStatus.InitiallyDelivered)
             {
-                Guard.Against.Null(initialDeliveryDate, nameof(initialDeliveryDate));
-                Guard.Against.Null(initialDeliverySigningDate, nameof(initialDeliverySigningDate));
+                Guard.Against.Null(initialDeliveryDate);
+                Guard.Against.Null(initialDeliverySigningDate);
             }
             if (status >= ProjectStatus.FinallyDelivered)
             {
-                Guard.Against.Null(finalDeliveryDate, nameof(finalDeliveryDate));
+                Guard.Against.Null(finalDeliveryDate);
             }
             AwardType = awardType;
             Company = company;

@@ -30,7 +30,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
         }
-        internal void AddItem(string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
+        internal void AddItem(string index, string content, string unit, double quantity, double unitPrice, WorkType workType, bool isPerformanceRate, bool sovereign, CostCenter costCenter)
         {
             _items.Add(new BoqItem(
                 index: index,
@@ -39,11 +39,11 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 quantity: quantity,
                 unitPrice: unitPrice,
                 workType: workType,
-                calculationMethod: calculationMethod,
+                isPerformanceRate: isPerformanceRate,
                 sovereign: sovereign,
                 costCenter: costCenter));
         }
-        internal void UpdateItem(long id, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
+        internal void UpdateItem(long id, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, bool isPerformanceRate, bool sovereign, CostCenter costCenter)
         {
             BoqItem item = _items.First(t => t.Id == id);
             item.Update(index: index,
@@ -52,7 +52,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 quantity: quantity,
                 unitPrice: unitPrice,
                 workType: workType,
-                calculationMethod: calculationMethod,
+                isPerformanceRate: isPerformanceRate,
                 sovereign: sovereign,
                 costCenter: costCenter);
         }

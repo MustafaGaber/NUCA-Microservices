@@ -51,7 +51,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 _sections.Remove(section);
             }
         }
-        internal void AddItem(long sectionId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
+        internal void AddItem(long sectionId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, bool isPerformanceRate, bool sovereign, CostCenter costCenter)
         {
             BoqSection? section = _sections.Find(s => s.Id == sectionId);
             section.AddItem(index: index,
@@ -60,11 +60,11 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 quantity: quantity,
                 unitPrice: unitPrice,
                 workType: workType,
-                calculationMethod: calculationMethod,
+                isPerformanceRate: isPerformanceRate,
                 sovereign: sovereign,
                 costCenter: costCenter);
         }
-        internal void UpdateItem(long sectionId, long itemId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, CalculationMethod calculationMethod, bool sovereign, CostCenter costCenter)
+        internal void UpdateItem(long sectionId, long itemId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, bool isPerformanceRate, bool sovereign, CostCenter costCenter)
         {
             BoqSection? section = _sections.Find(s => s.Id == sectionId);
             section.UpdateItem(
@@ -75,7 +75,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 quantity: quantity,
                 unitPrice: unitPrice,
                 workType: workType,
-                calculationMethod: calculationMethod,
+                isPerformanceRate: isPerformanceRate,
                 sovereign: sovereign,
                 costCenter: costCenter);
         }

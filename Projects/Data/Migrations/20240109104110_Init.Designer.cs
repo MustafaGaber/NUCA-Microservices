@@ -11,7 +11,7 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Data.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    [Migration("20240108070010_Init")]
+    [Migration("20240109104110_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -19,6 +19,27 @@ namespace NUCA.Projects.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
+
+            modelBuilder.Entity("ClassificationProject", b =>
+                {
+                    b.Property<long>("ClassificationsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("ProjectsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ClassificationsId", "ProjectsId");
+
+                    b.HasIndex("ProjectsId");
+
+                    b.ToTable("ClassificationProject");
+                });
 
             modelBuilder.Entity("DepartmentUser", b =>
                 {
@@ -238,6 +259,9 @@ namespace NUCA.Projects.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("CostCenterId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
@@ -275,6 +299,8 @@ namespace NUCA.Projects.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BoqSectionId");
+
+                    b.HasIndex("CostCenterId");
 
                     b.HasIndex("WorkTypeId");
 
@@ -584,6 +610,35 @@ namespace NUCA.Projects.Data.Migrations
                     b.ToTable("Ledgers");
                 });
 
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Classification", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Classification");
+                });
+
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Privilege", b =>
                 {
                     b.Property<long>("Id")
@@ -665,6 +720,9 @@ namespace NUCA.Projects.Data.Migrations
 
                     b.Property<DateOnly?>("FinalDeliveryDate")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("FundingType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateOnly?>("HandoverDate")
                         .HasColumnType("TEXT");
@@ -1147,6 +1205,21 @@ namespace NUCA.Projects.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ClassificationProject", b =>
+                {
+                    b.HasOne("NUCA.Projects.Domain.Entities.Projects.Classification", null)
+                        .WithMany()
+                        .HasForeignKey("ClassificationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NUCA.Projects.Domain.Entities.Projects.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DepartmentUser", b =>
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Departments.Department", null)
@@ -1204,11 +1277,19 @@ namespace NUCA.Projects.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("NUCA.Projects.Domain.Entities.CostCenters.CostCenter", "CostCenter")
+                        .WithMany()
+                        .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
                         .WithMany()
                         .HasForeignKey("WorkTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CostCenter");
 
                     b.Navigation("WorkType");
                 });
