@@ -5,7 +5,7 @@ using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
 namespace NUCA.Projects.Data.FinanceAdmin
 {
-    public class BankRepository : Repository<Bank>, IBankRepository
+    public class BankRepository : Repository<MainBank>, IBankRepository
     {
         public BankRepository(ProjectsDatabaseContext database)
           : base(database) { }
@@ -13,7 +13,7 @@ namespace NUCA.Projects.Data.FinanceAdmin
         public async Task<bool> BankHasProjects(long id)
         {
             int count = await database.Projects
-                .Include(p => p.Bank)
+                .Include(p => p.)
                 .Where(p => p.Bank != null && p.Bank.Id == id)
                 .CountAsync();
             return count > 0;

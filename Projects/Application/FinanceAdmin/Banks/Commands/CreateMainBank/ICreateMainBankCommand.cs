@@ -1,6 +1,6 @@
 ﻿using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
-namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Commands.CreateMainBank
+namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.CreateMainBank
 {
     public interface ICreateMainBankCommand
     {

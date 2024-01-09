@@ -1,4 +1,4 @@
-﻿namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Commands
+﻿namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands
 {
     public class MainBankModel
     {

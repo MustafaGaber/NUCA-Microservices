@@ -1,4 +1,4 @@
-﻿namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Queries.GetMainBank
+﻿namespace NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBank
 {
     public interface IGetMainBankQuery
     {

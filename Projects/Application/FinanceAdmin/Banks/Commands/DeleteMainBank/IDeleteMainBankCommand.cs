@@ -1,4 +1,4 @@
-﻿namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Commands.DeleteMainBank
+﻿namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.DeleteMainBank
 {
     public interface IDeleteMainBankCommand
     {

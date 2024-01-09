@@ -1,4 +1,4 @@
-﻿namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Queries
+﻿namespace NUCA.Projects.Application.FinanceAdmin.Banks.Queries
 {
     public class GetMainBankModel
     {

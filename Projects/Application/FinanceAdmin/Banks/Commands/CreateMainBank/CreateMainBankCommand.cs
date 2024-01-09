@@ -1,7 +1,7 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
-namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Commands.CreateMainBank
+namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.CreateMainBank
 {
     public class CreateMainBankCommand : ICreateMainBankCommand
     {

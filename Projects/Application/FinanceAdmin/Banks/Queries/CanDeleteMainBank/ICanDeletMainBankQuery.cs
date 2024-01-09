@@ -1,4 +1,4 @@
-﻿namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Queries.CanDeleteMainBank
+﻿namespace NUCA.Projects.Application.FinanceAdmin.Banks.Queries.CanDeleteMainBank
 {
     public interface ICanDeleteMainBankQuery
     {

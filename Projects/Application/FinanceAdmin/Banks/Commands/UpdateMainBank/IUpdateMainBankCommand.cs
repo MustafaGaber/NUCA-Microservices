@@ -1,6 +1,6 @@
 ﻿using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
-namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Commands.UpdateMainBank
+namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.UpdateMainBank
 {
     public interface IUpdateMainBankCommand
     {

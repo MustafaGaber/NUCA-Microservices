@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" Version="4.1.1" />
     <PackageReference Include="IdentityModel" Version="6.2.0" />
     <PackageReference Include="jsreport.AspNetCore" Version="3.8.0" />
@@ -33,6 +38,10 @@
   <ItemGroup>
     <Folder Include="Application\FinanceAdmin\Banks\" />
     <Folder Include="Application\FinanceAdmin\TaxAuthorities\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="NUCA.Projects.csproj.user" />
   </ItemGroup>
 
 </Project>

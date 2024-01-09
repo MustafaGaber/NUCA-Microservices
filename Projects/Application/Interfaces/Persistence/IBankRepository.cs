@@ -2,7 +2,7 @@
 
 namespace NUCA.Projects.Application.Interfaces.Persistence
 {
-    public interface IBankRepository : IRepository<Bank>
+    public interface IBankRepository : IRepository<MainBank>
     {
         public Task<bool> BankHasProjects(int id);
     }

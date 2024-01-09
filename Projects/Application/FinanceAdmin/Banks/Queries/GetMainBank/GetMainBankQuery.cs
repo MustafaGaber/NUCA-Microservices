@@ -1,6 +1,6 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
 
-namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Queries.GetMainBank
+namespace NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBank
 {
     public class GetMainBankQuery : IGetMainBankQuery
     {

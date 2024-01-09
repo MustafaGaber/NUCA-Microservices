@@ -10,7 +10,7 @@ namespace NUCA.Projects.Data.FinanceAdmin
         public AwardTypeRepository(ProjectsDatabaseContext database)
           : base(database) { }
 
-        public async Task<bool> AwardTypeHasProjects(int id)
+        public async Task<bool> AwardTypeHasProjects(long id)
         {
             int count = await database.Projects
                 .Include(p => p.AwardType)

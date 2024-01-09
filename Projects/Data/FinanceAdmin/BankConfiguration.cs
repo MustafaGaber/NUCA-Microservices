@@ -1,15 +1,15 @@
-﻿using NUCA.Banks.Domain.Entities.Banks;
+﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NUCA.Banks.Domain.Entities.Boqs;
+using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
 namespace NUCA.Banks.Data.Banks
 {
-    public class BankConfiguration : IEntityTypeConfiguration<Bank>
+    public class BankConfiguration : IEntityTypeConfiguration<MainBank>
     {
-        public void Configure(EntityTypeBuilder<Bank> builder)
+        public void Configure(EntityTypeBuilder<MainBank> builder)
         {
-            builder.HasOne(p => p.Boq).WithOne(b => b.Bank).OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(b => b.Branches).WithOne(b => b.MainBank).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

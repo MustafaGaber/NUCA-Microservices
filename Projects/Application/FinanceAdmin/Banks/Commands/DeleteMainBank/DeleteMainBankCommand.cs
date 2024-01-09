@@ -1,6 +1,6 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
 
-namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Commands.DeleteMainBank
+namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.DeleteMainBank
 {
     public class DeleteMainBankCommand : IDeleteMainBankCommand
     {

@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Commands;
-using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.CreateBank;
-using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.DeleteBank;
-using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.UpdateBank;
-using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.CanDeleteBank;
-using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetBank;
-using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetBanks;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.CreateMainBank;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.DeleteMainBank;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.UpdateMainBank;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.CanDeleteMainBank;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBank;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBanks;
 
 namespace NUCA.Projects.Api.Controllers.FinanceAdmin
 {
@@ -15,14 +15,14 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
     [ApiController]
     public class BanksController : BaseController
     {
-        private readonly IGetBanksQuery _listQuery;
-        private readonly IGetBankQuery _detailQuery;
-        private readonly ICanDeleteBankQuery _canDeleteQuery;
-        private readonly ICreateBankCommand _createCommand;
-        private readonly IUpdateBankCommand _updateCommand;
-        private readonly IDeleteBankCommand _deleteCommand;
+        private readonly IGetMainBanksQuery _listQuery;
+        private readonly IGetMainBankQuery _detailQuery;
+        private readonly ICanDeleteMainBankQuery _canDeleteQuery;
+        private readonly ICreateMainBankCommand _createCommand;
+        private readonly IUpdateMainBankCommand _updateCommand;
+        private readonly IDeleteMainBankCommand _deleteCommand;
 
-        public BanksController(IGetBanksQuery listQuery, IGetBankQuery detailQuery, ICanDeleteBankQuery canDeleteQuery, ICreateBankCommand createCommand, IUpdateBankCommand updateCommand, IDeleteBankCommand deleteCommand)
+        public BanksController(IGetMainBanksQuery listQuery, IGetMainBankQuery detailQuery, ICanDeleteMainBankQuery canDeleteQuery, ICreateMainBankCommand createCommand, IUpdateMainBankCommand updateCommand, IDeleteMainBankCommand deleteCommand)
         {
             _listQuery = listQuery;
             _detailQuery = detailQuery;
@@ -55,7 +55,7 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
 
         [Authorize("RevisionUser")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] BankModel Bank)
+        public async Task<IActionResult> Create([FromBody] MainBankModel Bank)
         {
             var result = await _createCommand.Execute(Bank);
             return Ok(result.Id);
@@ -63,7 +63,7 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
 
         [Authorize("RevisionUser")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] BankModel Bank)
+        public async Task<IActionResult> Update(int id, [FromBody] MainBankModel Bank)
         {
             await _updateCommand.Execute(id, Bank);
             return Ok();

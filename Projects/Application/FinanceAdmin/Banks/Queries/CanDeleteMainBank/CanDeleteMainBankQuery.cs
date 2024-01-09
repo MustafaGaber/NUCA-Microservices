@@ -1,6 +1,6 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
 
-namespace NUCA.Projects.Application.FinanceAdmin.MainBanks.Queries.CanDeleteMainBank
+namespace NUCA.Projects.Application.FinanceAdmin.Banks.Queries.CanDeleteMainBank
 {
     public class CanDeleteMainBankQuery : ICanDeleteMainBankQuery
     {
