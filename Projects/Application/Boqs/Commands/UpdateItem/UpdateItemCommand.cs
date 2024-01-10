@@ -1,8 +1,6 @@
 ﻿using NUCA.Projects.Application.Boqs.Models;
 using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Data.CostCenters;
 using NUCA.Projects.Domain.Entities.Boqs;
-using NUCA.Projects.Domain.Entities.CostCenters;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
 namespace NUCA.Projects.Application.Boqs.Commands.UpdateItem

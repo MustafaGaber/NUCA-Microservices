@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NUCA.Projects.Domain.Entities.CostCenters;
+using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
-namespace NUCA.Projects.Data.CostCenters
+namespace NUCA.Projects.Data.FinanceAdmin
 {
     public class CostCenterConfiguration : IEntityTypeConfiguration<CostCenter>
     {

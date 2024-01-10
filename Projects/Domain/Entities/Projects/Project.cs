@@ -3,7 +3,6 @@ using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Companies;
-using NUCA.Projects.Domain.Entities.CostCenters;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
@@ -31,7 +30,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public Duration Duration { get; private set; }
         public bool? ValueAddedTaxIncluded { get; private set; }
         public double? AdvancedPaymentPercentage { get; private set; }
-        public BankBranch Bank {  get; private set; }
+        public Bank Bank {  get; private set; }
         public TaxAuthority TaxAuthority { get; private set; }
         public DateOnly? HandoverDate { get; private set; }
         public DateOnly? StartDate { get; private set; }

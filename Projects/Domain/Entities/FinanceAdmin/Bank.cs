@@ -3,13 +3,13 @@ using NUCA.Projects.Domain.Common;
 
 namespace NUCA.Projects.Domain.Entities.FinanceAdmin
 {
-    public class BankBranch: Entity
+    public class Bank: Entity
     {
         public string Name { get; private set; }
         public MainBank MainBank { get; private set; }
-        protected BankBranch() { }
+        protected Bank() { }
 
-        public BankBranch(string name, MainBank mainBank)
+        public Bank(string name, MainBank mainBank)
         {
             Name = Guard.Against.NullOrEmpty(name);
             MainBank = mainBank;

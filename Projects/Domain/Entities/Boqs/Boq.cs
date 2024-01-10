@@ -1,7 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Domain.Common;
-using NUCA.Projects.Domain.Entities.CostCenters;
 using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Projects;

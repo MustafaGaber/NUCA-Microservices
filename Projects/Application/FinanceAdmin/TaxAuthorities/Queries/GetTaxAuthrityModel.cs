@@ -2,7 +2,9 @@
 {
     public class GetTaxAuthorityModel
     {
-        public long Id { get; init; }
-        public string Name { get; init; }
+        public required long Id { get; init; }
+        public required string Name { get; init; }
+        public required string? Address { get; init; }
+
     }
 }

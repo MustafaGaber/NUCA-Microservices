@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NUCA.Projects.Data.Migrations
+namespace NUCA.Projects.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -129,6 +129,40 @@ namespace NUCA.Projects.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MainBanks",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MainBanks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaxAuthorities",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxAuthorities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -161,6 +195,30 @@ namespace NUCA.Projects.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WorkTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Banks",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    MainBankId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Banks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Banks_MainBanks_MainBankId",
+                        column: x => x.MainBankId,
+                        principalTable: "MainBanks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,6 +257,8 @@ namespace NUCA.Projects.Data.Migrations
                     DepartmentId = table.Column<string>(type: "TEXT", nullable: false),
                     DepartmentName = table.Column<string>(type: "TEXT", nullable: false),
                     TypeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CostCenterId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Sovereign = table.Column<bool>(type: "INTEGER", nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
                     FundingType = table.Column<int>(type: "INTEGER", nullable: false),
                     AwardTypeId = table.Column<long>(type: "INTEGER", nullable: true),
@@ -211,13 +271,16 @@ namespace NUCA.Projects.Data.Migrations
                     Duration_Days = table.Column<int>(type: "INTEGER", nullable: false),
                     ValueAddedTaxIncluded = table.Column<bool>(type: "INTEGER", nullable: true),
                     AdvancedPaymentPercentage = table.Column<double>(type: "REAL", nullable: true),
+                    BankId = table.Column<long>(type: "INTEGER", nullable: false),
+                    TaxAuthorityId = table.Column<long>(type: "INTEGER", nullable: false),
                     HandoverDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     StartDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     EndDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     InitialDeliveryDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     InitialDeliverySigningDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     FinalDeliveryDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
-                    TotalContractPapers = table.Column<int>(type: "INTEGER", nullable: true),
+                    ContractPapersCount = table.Column<int>(type: "INTEGER", nullable: true),
+                    ContractsCount = table.Column<int>(type: "INTEGER", nullable: true),
                     Notes = table.Column<string>(type: "TEXT", nullable: false),
                     Approved = table.Column<bool>(type: "INTEGER", nullable: false),
                     ApprovedBy = table.Column<string>(type: "TEXT", nullable: true),
@@ -235,11 +298,29 @@ namespace NUCA.Projects.Data.Migrations
                         principalTable: "AwardTypes",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_Projects_Banks_BankId",
+                        column: x => x.BankId,
+                        principalTable: "Banks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Projects_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Projects_CostCenters_CostCenterId",
+                        column: x => x.CostCenterId,
+                        principalTable: "CostCenters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Projects_TaxAuthorities_TaxAuthorityId",
+                        column: x => x.TaxAuthorityId,
+                        principalTable: "TaxAuthorities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Projects_WorkTypes_TypeId",
                         column: x => x.TypeId,
@@ -660,7 +741,7 @@ namespace NUCA.Projects.Data.Migrations
                     Quantity = table.Column<double>(type: "REAL", nullable: false),
                     UnitPrice = table.Column<double>(type: "REAL", nullable: false),
                     WorkTypeId = table.Column<long>(type: "INTEGER", nullable: false),
-                    CalculationMethod = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsPerformanceRate = table.Column<bool>(type: "INTEGER", nullable: false),
                     CostCenterId = table.Column<long>(type: "INTEGER", nullable: false),
                     Sovereign = table.Column<bool>(type: "INTEGER", nullable: false),
                     BoqSectionId = table.Column<long>(type: "INTEGER", nullable: false),
@@ -709,7 +790,7 @@ namespace NUCA.Projects.Data.Migrations
                     Percentage = table.Column<double>(type: "REAL", nullable: false),
                     PreviousNetPrice = table.Column<double>(type: "REAL", nullable: false),
                     WorkTypeId = table.Column<long>(type: "INTEGER", nullable: false),
-                    CalculationMethod = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsPerformanceRate = table.Column<bool>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
                     StatementSectionId = table.Column<long>(type: "INTEGER", nullable: false),
@@ -768,6 +849,11 @@ namespace NUCA.Projects.Data.Migrations
                 name: "IX_AdjustmentWithholding_AdjustmentId",
                 table: "AdjustmentWithholding",
                 column: "AdjustmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Banks_MainBankId",
+                table: "Banks",
+                column: "MainBankId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqItem_BoqSectionId",
@@ -841,9 +927,24 @@ namespace NUCA.Projects.Data.Migrations
                 column: "AwardTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Projects_BankId",
+                table: "Projects",
+                column: "BankId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Projects_CompanyId",
                 table: "Projects",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_CostCenterId",
+                table: "Projects",
+                column: "CostCenterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_TaxAuthorityId",
+                table: "Projects",
+                column: "TaxAuthorityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_TypeId",
@@ -929,9 +1030,6 @@ namespace NUCA.Projects.Data.Migrations
                 name: "BoqSection");
 
             migrationBuilder.DropTable(
-                name: "CostCenters");
-
-            migrationBuilder.DropTable(
                 name: "Classification");
 
             migrationBuilder.DropTable(
@@ -965,10 +1063,22 @@ namespace NUCA.Projects.Data.Migrations
                 name: "AwardTypes");
 
             migrationBuilder.DropTable(
+                name: "Banks");
+
+            migrationBuilder.DropTable(
                 name: "Companies");
 
             migrationBuilder.DropTable(
+                name: "CostCenters");
+
+            migrationBuilder.DropTable(
+                name: "TaxAuthorities");
+
+            migrationBuilder.DropTable(
                 name: "WorkTypes");
+
+            migrationBuilder.DropTable(
+                name: "MainBanks");
         }
     }
 }

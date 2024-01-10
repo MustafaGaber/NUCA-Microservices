@@ -3,6 +3,6 @@
     public class TaxAuthorityModel
     {
         public string Name { get; init; }
-        public bool EstimatedPrice { get; init; }
+        public string? Address { get; init; }
     }
 }

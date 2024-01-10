@@ -2,7 +2,6 @@
 using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Application.Statements.Models;
 using NUCA.Projects.Domain.Entities.Boqs;
-using NUCA.Projects.Domain.Entities.CostCenters;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
 namespace NUCA.Projects.Application.Boqs.Commands.CreateItem

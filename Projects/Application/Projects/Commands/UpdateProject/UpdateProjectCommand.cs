@@ -1,8 +1,5 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Data.CostCenters;
 using NUCA.Projects.Domain.Entities.Companies;
-using NUCA.Projects.Domain.Entities.CostCenters;
-using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Shared;
@@ -55,6 +52,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
                 departmentName: model.DepartmentName,
                 type: type,
                 costCenter: costCenter,
+                sovereign: model.Sovereign,
                 classifications: classifications,
                 status: model.Status,
                 fundingType: model.FundingType,
