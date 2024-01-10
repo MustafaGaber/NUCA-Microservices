@@ -17,6 +17,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public string DepartmentName { get; private set; }
         public WorkType Type { get; private set; }
         public CostCenter CostCenter { get; private set; }
+        public bool Sovereign { get; private set; }
 
         private readonly List<Classification> _classifications = new();
         public virtual IReadOnlyList<Classification> Classifications => _classifications.ToList();
@@ -41,7 +42,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public DateOnly? InitialDeliveryDate { get; private set; }
         public DateOnly? InitialDeliverySigningDate { get; private set; }
         public DateOnly? FinalDeliveryDate { get; private set; }
-        public int? TotalContractPapers { get; private set; }
+        public int? ContractPapersCount { get; private set; }
+        public int? ContractsCount { get; private set; }
         public string Notes { get; private set; }
         public bool Approved { get; private set; }
         public string? ApprovedBy { get; private set; }
@@ -57,6 +59,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             string departmentName,
             WorkType type,
             CostCenter costCenter,
+            bool sovereign,
             List<Classification> classifications,
             ProjectStatus status,
             FundingType fundingType,
@@ -75,7 +78,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DateOnly? initialDeliveryDate,
             DateOnly? initialDeliverySigningDate,
             DateOnly? finalDeliveryDate,
-            int? totalContractPapers,
+            int? contractsCount,
+            int? contractPapersCount,
             string notes)
         {
             Update(
@@ -84,6 +88,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 departmentName: departmentName,
                 type: type,
                 costCenter: costCenter,
+                sovereign: sovereign,
                 classifications: classifications,
                 status: status,
                 fundingType: fundingType,
@@ -102,7 +107,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 initialDeliveryDate: initialDeliveryDate,
                 initialDeliverySigningDate: initialDeliverySigningDate,
                 finalDeliveryDate: finalDeliveryDate,
-                totalContractPapers: totalContractPapers,
+                contractsCount: contractsCount,
+                contractPapersCount: contractPapersCount,
                 notes: notes
               );
         }
@@ -113,6 +119,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             string departmentName,
             WorkType type,
             CostCenter costCenter,
+            bool sovereign,
             List<Classification> classifications,
             ProjectStatus status,
             FundingType fundingType,
@@ -131,7 +138,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DateOnly? initialDeliveryDate,
             DateOnly? initialDeliverySigningDate,
             DateOnly? finalDeliveryDate,
-            int? totalContractPapers,
+            int? contractsCount,
+            int? contractPapersCount,
             string notes)
         {
             /*if (Approved)
@@ -151,6 +159,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
             Type = Guard.Against.Null(type);
             CostCenter = Guard.Against.Null(costCenter);
+            Sovereign = sovereign;
             _classifications.Clear();
             _classifications.AddRange(classifications);
             Status = Guard.Against.Null(status);
@@ -165,8 +174,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 Guard.Against.NegativeOrZero((double)price, nameof(price));
                 Guard.Against.Null(advancedPaymentPercentage);
                 Guard.Against.Null(valueAddedTaxIncluded);
-                Guard.Against.Null(totalContractPapers);
-                Guard.Against.NegativeOrZero((int)totalContractPapers!);
+                Guard.Against.Null(contractsCount);
+                Guard.Against.NegativeOrZero((int)contractsCount!);
+                Guard.Against.Null(contractPapersCount);
+                Guard.Against.NegativeOrZero((int)contractPapersCount!);
                 if (duration.Empty)
                 {
                     throw new ArgumentException("Empty duration");
@@ -203,7 +214,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
             InitialDeliveryDate = initialDeliveryDate;
             InitialDeliverySigningDate = initialDeliverySigningDate;
             FinalDeliveryDate = finalDeliveryDate;
-            TotalContractPapers = totalContractPapers;
+            ContractsCount = contractsCount;
+            ContractPapersCount = contractPapersCount;
             Notes = notes;
         }
 

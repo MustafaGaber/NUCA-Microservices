@@ -152,7 +152,8 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
            bool valueAddedTaxIncluded,
            double advancedPaymentPercent,
            bool commercialIndustrialTaxFree,
-           int totalContractPapers,
+           int contractsCount,
+           int contractPapersCount,
            double orderPrice,
            double contractPaperPrice,
            List<AdjustmentWithholding> withholdings)
@@ -161,7 +162,8 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             Guard.Against.NegativeOrZero(statementIndex);
             Guard.Against.OutOfRange(valueAddedTaxPercent, nameof(valueAddedTaxPercent), 0, 100);
             Guard.Against.OutOfRange(advancedPaymentPercent, nameof(advancedPaymentPercent), 0, 100);
-            Guard.Against.NegativeOrZero(totalContractPapers);
+            Guard.Against.NegativeOrZero(contractsCount);
+            Guard.Against.NegativeOrZero(contractPapersCount);
             Guard.Against.NegativeOrZero(orderPrice);
             Guard.Against.Null(worksDate);
             double currentWorks = totalWorks - previousTotalWorks;
@@ -184,7 +186,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             double valueAddedTax = Math.Max(0, originalCurrentWorks * valueAddedTaxPercent / 100);
             double wasteRemovalInsurance = Math.Max(0, currentWorksAndSupplies * .0025);
             double tahyaMisrFundValue = Math.Max(0, currentWorksAndSupplies * 0.01);
-            double conractStampDuty = statementIndex == 1 ? totalContractPapers * contractPaperPrice : 0;
+            double conractStampDuty = statementIndex == 1 ? contractsCount * contractPapersCount * contractPaperPrice : 0;
             double contractorsFederationValue = statementIndex == 1 ?
                                         Math.Min(5000, orderPrice * .0005) : 0;
 

@@ -1,5 +1,7 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Data.CostCenters;
 using NUCA.Projects.Domain.Entities.Companies;
+using NUCA.Projects.Domain.Entities.CostCenters;
 using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Projects;
@@ -15,8 +17,8 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
         private readonly IWorkTypeRepository _workTypeRepository;
         private readonly IAwardTypeRepository _awardTypeRepository;
         private readonly IClassificationRepository _classificationRepository;
-
-        public UpdateProjectCommand(IProjectRepository projectRepository, ICompanyRepository companyRepository, IDepartmentRepository departmentRepository, IWorkTypeRepository workTypeRepository, IAwardTypeRepository awardTypeRepository, IClassificationRepository classificationRepository)
+        private readonly ICostCenterRepository _costCenterRepository;
+        public UpdateProjectCommand(IProjectRepository projectRepository, ICompanyRepository companyRepository, IDepartmentRepository departmentRepository, IWorkTypeRepository workTypeRepository, IAwardTypeRepository awardTypeRepository, IClassificationRepository classificationRepository, ICostCenterRepository costCenterRepository)
         {
             _projectRepository = projectRepository;
             _companyRepository = companyRepository;
@@ -24,6 +26,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
             _workTypeRepository = workTypeRepository;
             _awardTypeRepository = awardTypeRepository;
             _classificationRepository = classificationRepository;
+            _costCenterRepository = costCenterRepository;
         }
         public async Task<Project> Execute(long id, ProjectModel model)
         {
@@ -34,6 +37,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
                 throw new InvalidOperationException();
             }*/
             WorkType? type = await _workTypeRepository.Get(model.TypeId) ?? throw new InvalidOperationException();
+            CostCenter? costCenter = await _costCenterRepository.Get(model.CostCenterId) ?? throw new InvalidOperationException();
             AwardType? awardType = model.AwardTypeId == null ? null : await _awardTypeRepository.Get((int)model.AwardTypeId);
             if (model.AwardTypeId != null && awardType == null)
             {
@@ -50,6 +54,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
                 departmentId: model.DepartmentId,
                 departmentName: model.DepartmentName,
                 type: type,
+                costCenter: costCenter,
                 classifications: classifications,
                 status: model.Status,
                 fundingType: model.FundingType,
@@ -68,7 +73,8 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
                 initialDeliveryDate: model.InitialDeliveryDate,
                 initialDeliverySigningDate: model.InitialDeliverySigningDate,
                 finalDeliveryDate: model.FinalDeliveryDate,
-                totalContractPapers: model.TotalContractPapers,
+                contractsCount: model.ContractsCount,
+                contractPapersCount: model.ContractPapersCount,
                 notes: model.Notes
             );
             await _projectRepository.Update(project);

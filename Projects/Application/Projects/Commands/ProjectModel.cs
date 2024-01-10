@@ -8,11 +8,12 @@ namespace NUCA.Projects.Application.Projects.Commands
         public string Name { get; init; }
         public string DepartmentId { get; init; }
         public string DepartmentName { get; init; }
-        public int TypeId { get; init; }
+        public long TypeId { get; init; }
+        public long CostCenterId { get; init; }
         public List<long> ClassificationsIds { get; init; }
         public ProjectStatus Status { get; init; }
         public  FundingType FundingType {  get; init; }
-        public int? AwardTypeId { get; init; }
+        public long? AwardTypeId { get; init; }
         public long? CompanyId { get; init; }
         public int? OrderNumber { get; init; }
         public DateOnly? OrderDate { get; init; }
@@ -27,7 +28,9 @@ namespace NUCA.Projects.Application.Projects.Commands
         public DateOnly? InitialDeliveryDate { get; init; }
         public DateOnly? InitialDeliverySigningDate { get; init; }
         public DateOnly? FinalDeliveryDate { get; init; }
-        public int? TotalContractPapers { get; init; }
+        public int? ContractPapersCount { get; init; }
+        public int? ContractsCount { get; init; }
+        public bool Sovereign { get; init; }
         public string Notes { get; init; }
     }
 

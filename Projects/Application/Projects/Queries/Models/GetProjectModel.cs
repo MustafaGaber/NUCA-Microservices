@@ -5,35 +5,37 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
 {
     public class GetProjectModel
     {
-        public long Id { get; init; }
-        public string Name { get; init; }
-        public string DepartmentId { get; init; }
-        public string DepartmentName { get; init; }
-        public long TypeId { get; init; }
-        public string TypeName { get; init; }
-        public ProjectStatus Status { get; init; }
-        public long? AwardTypeId { get; init; }
-        public string? AwardTypeName { get; init; }
-        public int? OrderNumber { get; init; }
-        public DateOnly? OrderDate { get; init; }
-        public Duration? Duration { get; init; }
-        public double? Price { get; init; }
-        public long? CompanyId { get; init; }
-        public string CompanyName { get; init; }
-        public double? AdvancedPaymentPercentage { get; init; }
-        public double? TotalContractPapers { get; init; }
-        public bool? ValueAddedTaxIncluded { get; init; }
-        public DateOnly? HandoverDate { get; init; }
-        public DateOnly? StartDate { get; init; }
-        public DateOnly? EndDate { get; init; }
-        public List<DateOnly> ModifiedEndDates { get; init; }
-        public DateOnly? InitialDeliveryDate { get; init; }
-        public DateOnly? InitialDeliverySigningDate { get; init; }
-        public DateOnly? FinalDeliveryDate { get; init; }
-        public string Notes { get; init; }
-        public bool Approved { get; init; }
-        public bool HasBoq { get; init; }
-
+        public required long Id { get; init; }
+        public required string Name { get; init; }
+        public required string DepartmentId { get; init; }
+        public required string DepartmentName { get; init; }
+        public required long TypeId { get; init; }
+        public required long CostCenterId { get; init; }
+        public required bool Sovereign { get; init; }
+        public required string TypeName { get; init; }
+        public required ProjectStatus Status { get; init; }
+        public required long? AwardTypeId { get; init; }
+        public required string? AwardTypeName { get; init; }
+        public required int? OrderNumber { get; init; }
+        public required DateOnly? OrderDate { get; init; }
+        public required Duration? Duration { get; init; }
+        public required double? Price { get; init; }
+        public required long? CompanyId { get; init; }
+        public required string CompanyName { get; init; }
+        public required double? AdvancedPaymentPercentage { get; init; }
+        public required int? ContractPapersCount { get; init; }
+        public required int? ContractsCount { get; init; }
+        public required bool? ValueAddedTaxIncluded { get; init; }
+        public required DateOnly? HandoverDate { get; init; }
+        public required DateOnly? StartDate { get; init; }
+        public required DateOnly? EndDate { get; init; }
+        public required List<DateOnly> ModifiedEndDates { get; init; }
+        public required DateOnly? InitialDeliveryDate { get; init; }
+        public required DateOnly? InitialDeliverySigningDate { get; init; }
+        public required DateOnly? FinalDeliveryDate { get; init; }
+        public required string Notes { get; init; }
+        public required bool Approved { get; init; }
+        public required bool HasBoq { get; init; }
         public static GetProjectModel FromProject(Project project, bool hasBoq)
         {
             return new GetProjectModel
@@ -44,6 +46,8 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
                 DepartmentName = project.DepartmentName,
                 TypeId = project.Type.Id,
                 TypeName = project.Type.Name,
+                CostCenterId = project.CostCenter.Id,
+                Sovereign = project.Sovereign,
                 Status = project.Status,
                 AwardTypeId = project.AwardType?.Id,
                 AwardTypeName = project.AwardType?.Name,
@@ -54,7 +58,8 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
                 CompanyId = project.Company?.Id,
                 CompanyName = project.Company?.Name,
                 AdvancedPaymentPercentage = project.AdvancedPaymentPercentage,
-                TotalContractPapers = project.TotalContractPapers,
+                ContractsCount = project.ContractsCount,
+                ContractPapersCount = project.ContractPapersCount,
                 ValueAddedTaxIncluded = project.ValueAddedTaxIncluded,
                 HandoverDate = project.HandoverDate,
                 StartDate = project.StartDate,

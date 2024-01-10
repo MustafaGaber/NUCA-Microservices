@@ -53,7 +53,8 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                 valueAddedTaxIncluded: (bool)project.ValueAddedTaxIncluded!,
                 advancedPaymentPercent: (double)project.AdvancedPaymentPercentage!,
                 commercialIndustrialTaxFree: project.Company!.CommercialIndustrialTaxFree,
-                totalContractPapers: (int)project.TotalContractPapers!,
+                contractsCount: (int)project.ContractsCount!,
+                contractPapersCount: (int)project.ContractPapersCount!,
                 orderPrice: (double)project.Price!,
                 contractPaperPrice: 2.9, // TODO :Get from settings
                 withholdings: statement.Withholdings.Select(w => new AdjustmentWithholding(w.Name, w.Value, w.Type, true)).ToList()
