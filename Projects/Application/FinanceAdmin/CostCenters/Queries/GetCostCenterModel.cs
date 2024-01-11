@@ -2,8 +2,10 @@
 {
     public class GetCostCenterModel
     {
-        public long Id { get; init; }
-        public string Name { get; init; }
-        public double ValueAddedTaxPercent { get; init; }
+        public required long Id { get; init; }
+        public required string Name { get; init; }
+        public required long? ParentId { get; init; }
+        public required string? FullParentPath { get; init; }
+
     }
 }

@@ -18,6 +18,8 @@ namespace NUCA.Projects.Application.FinanceAdmin.CostCenters.Queries.GetCostCent
             {
                 Id = costCenter.Id,
                 Name = costCenter.Name,
+                ParentId = costCenter.ParentId,
+                FullParentPath = costCenter.ParentFullPath
             } : null;
         }
 

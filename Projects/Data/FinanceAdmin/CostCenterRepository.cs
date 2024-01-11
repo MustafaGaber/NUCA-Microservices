@@ -17,5 +17,13 @@ namespace NUCA.Projects.Data.FinanceAdmin
                 .CountAsync();
             return count > 0;
         }
+
+        public async Task<bool> HasChildren(long id)
+        {
+            int count = await database.CostCenters
+               .Where(c => c.ParentId == id)
+               .CountAsync();
+            return count > 0;
+        }
     }
 }

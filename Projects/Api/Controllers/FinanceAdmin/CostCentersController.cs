@@ -5,6 +5,7 @@ using NUCA.Projects.Application.FinanceAdmin.CostCenters.Commands;
 using NUCA.Projects.Application.FinanceAdmin.CostCenters.Commands.CreateCostCenter;
 using NUCA.Projects.Application.FinanceAdmin.CostCenters.Commands.DeleteCostCenter;
 using NUCA.Projects.Application.FinanceAdmin.CostCenters.Commands.UpdateCostCenter;
+using NUCA.Projects.Application.FinanceAdmin.CostCenters.Queries;
 using NUCA.Projects.Application.FinanceAdmin.CostCenters.Queries.CanDeleteCostCenter;
 using NUCA.Projects.Application.FinanceAdmin.CostCenters.Queries.GetCostCenter;
 using NUCA.Projects.Application.FinanceAdmin.CostCenters.Queries.GetCostCenters;
@@ -57,16 +58,16 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CostCenterModel CostCenter)
         {
-            var result = await _createCommand.Execute(CostCenter);
-            return Ok(result.Id);
+            GetCostCenterModel costCenter = await _createCommand.Execute(CostCenter);
+            return Ok(costCenter);
         }
 
         [Authorize("RevisionUser")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] CostCenterModel CostCenter)
         {
-            await _updateCommand.Execute(id, CostCenter);
-            return Ok();
+            GetCostCenterModel costCenter = await _updateCommand.Execute(id, CostCenter);
+            return Ok(costCenter);
         }
 
         [Authorize("RevisionUser")]

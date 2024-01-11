@@ -4,7 +4,7 @@ namespace NUCA.Projects.Application.Interfaces.Persistence
 {
     public interface ICostCenterRepository: IRepository<CostCenter>
     {
-        public Task<bool> CostCenterHasProjects(long id);
-
+         Task<bool> CostCenterHasProjects(long id);
+         Task<bool> HasChildren(long id);
     }
 }

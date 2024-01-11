@@ -1,4 +1,5 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
 namespace NUCA.Projects.Application.FinanceAdmin.CostCenters.Commands.DeleteCostCenter
 {
@@ -12,14 +13,16 @@ namespace NUCA.Projects.Application.FinanceAdmin.CostCenters.Commands.DeleteCost
         public async Task Execute(int id)
         {
             bool hasProjects = await _costCenterRepository.CostCenterHasProjects(id);
-            if (!hasProjects)
-            {
-                await _costCenterRepository.Delete(id);
-            }
-            else
+            if (hasProjects)
             {
                 throw new InvalidOperationException("CostCenter has projects");
             }
+            bool hasChildren = await _costCenterRepository.HasChildren(id);
+            if (hasChildren)
+            {
+                throw new InvalidOperationException("CostCenter has children");
+            }
+            await _costCenterRepository.Delete(id);
         }
     }
 }
