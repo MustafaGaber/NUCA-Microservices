@@ -512,7 +512,7 @@ namespace NUCA.Projects.Migrations
                     b.ToTable("AwardTypes");
                 });
 
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.Bank", b =>
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.BankBranch", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -543,7 +543,7 @@ namespace NUCA.Projects.Migrations
 
                     b.HasIndex("MainBankId");
 
-                    b.ToTable("Banks");
+                    b.ToTable("BankBranches");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", b =>
@@ -1425,7 +1425,7 @@ namespace NUCA.Projects.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.Bank", b =>
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.BankBranch", b =>
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.MainBank", "MainBank")
                         .WithMany("Branches")
@@ -1460,7 +1460,7 @@ namespace NUCA.Projects.Migrations
                         .WithMany()
                         .HasForeignKey("AwardTypeId");
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.Bank", "Bank")
+                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.BankBranch", "BankBranch")
                         .WithMany()
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1535,7 +1535,7 @@ namespace NUCA.Projects.Migrations
 
                     b.Navigation("AwardType");
 
-                    b.Navigation("Bank");
+                    b.Navigation("BankBranch");
 
                     b.Navigation("Company");
 

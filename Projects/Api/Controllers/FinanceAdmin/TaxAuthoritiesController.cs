@@ -46,7 +46,7 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
             return Ok(workType);
         }
 
-        [HttpGet("canDelete/{id}")]
+        [HttpGet("{id}/CanDelete")]
         public async Task<IActionResult> CanDelete(int id)
         {
             bool canDelete = await _canDeleteQuery.Execute(id);

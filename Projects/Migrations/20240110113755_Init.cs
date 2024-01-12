@@ -198,7 +198,7 @@ namespace NUCA.Projects.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Banks",
+                name: "BankBranches",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -300,7 +300,7 @@ namespace NUCA.Projects.Migrations
                     table.ForeignKey(
                         name: "FK_Projects_Banks_BankId",
                         column: x => x.BankId,
-                        principalTable: "Banks",
+                        principalTable: "BankBranches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -852,7 +852,7 @@ namespace NUCA.Projects.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Banks_MainBankId",
-                table: "Banks",
+                table: "BankBranches",
                 column: "MainBankId");
 
             migrationBuilder.CreateIndex(
@@ -1063,7 +1063,7 @@ namespace NUCA.Projects.Migrations
                 name: "AwardTypes");
 
             migrationBuilder.DropTable(
-                name: "Banks");
+                name: "BankBranches");
 
             migrationBuilder.DropTable(
                 name: "Companies");

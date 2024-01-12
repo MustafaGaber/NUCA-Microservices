@@ -1,9 +1,9 @@
-﻿using NUCA.Projects.Domain.Entities.FinanceAdmin;
+﻿using NUCA.Projects.Application.FinanceAdmin.Banks.Queries;
 
 namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.CreateMainBank
 {
     public interface ICreateMainBankCommand
     {
-        Task<MainBank> Execute(MainBankModel model);
+        Task<GetMainBankModel> Execute(MainBankModel model);
     }
 }

@@ -5,8 +5,10 @@ using NUCA.Projects.Application.FinanceAdmin.Banks.Commands;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.CreateMainBank;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.DeleteMainBank;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.UpdateMainBank;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Queries;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.CanDeleteMainBank;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBank;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBankBranches;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBanks;
 
 namespace NUCA.Projects.Api.Controllers.FinanceAdmin
@@ -21,8 +23,8 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
         private readonly ICreateMainBankCommand _createCommand;
         private readonly IUpdateMainBankCommand _updateCommand;
         private readonly IDeleteMainBankCommand _deleteCommand;
-
-        public BanksController(IGetMainBanksQuery listQuery, IGetMainBankQuery detailQuery, ICanDeleteMainBankQuery canDeleteQuery, ICreateMainBankCommand createCommand, IUpdateMainBankCommand updateCommand, IDeleteMainBankCommand deleteCommand)
+        private readonly IGetMainBankBranchesQuery _getMainBankBranchesQuery;
+        public BanksController(IGetMainBanksQuery listQuery, IGetMainBankQuery detailQuery, ICanDeleteMainBankQuery canDeleteQuery, ICreateMainBankCommand createCommand, IUpdateMainBankCommand updateCommand, IDeleteMainBankCommand deleteCommand, IGetMainBankBranchesQuery getMainBankBranchesQuery)
         {
             _listQuery = listQuery;
             _detailQuery = detailQuery;
@@ -30,24 +32,25 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
             _createCommand = createCommand;
             _updateCommand = updateCommand;
             _deleteCommand = deleteCommand;
+            _getMainBankBranchesQuery = getMainBankBranchesQuery;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> GetMainBanks()
         {
-            var workTypes = await _listQuery.Execute();
-            return Ok(workTypes);
+            List<GetMainBankModel> mainBanks = await _listQuery.Execute();
+            return Ok(mainBanks);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{id}/Branches")]
+        public async Task<IActionResult> GetBranches(long id)
         {
-            var workType = await _detailQuery.Execute(id);
-            return Ok(workType);
+            List<GetBankBranchModel> branches = await _getMainBankBranchesQuery.Execute(id);
+            return Ok(branches);
         }
 
-        [HttpGet("canDelete/{id}")]
-        public async Task<IActionResult> CanDelete(int id)
+        [HttpGet("{id}/CanDelete")]
+        public async Task<IActionResult> CanDeleteMainBank(long id)
         {
             bool canDelete = await _canDeleteQuery.Execute(id);
             return Ok(canDelete);
@@ -55,23 +58,23 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
 
         [Authorize("RevisionUser")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] MainBankModel Bank)
+        public async Task<IActionResult> CreateMainBank([FromBody] MainBankModel model)
         {
-            var result = await _createCommand.Execute(Bank);
-            return Ok(result.Id);
+            GetMainBankModel mainBank = await _createCommand.Execute(model);
+            return Ok(mainBank.Id);
         }
 
         [Authorize("RevisionUser")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] MainBankModel Bank)
+        public async Task<IActionResult> UpdateMainBank(long id, [FromBody] MainBankModel model)
         {
-            await _updateCommand.Execute(id, Bank);
-            return Ok();
+            GetMainBankModel mainBank = await _updateCommand.Execute(id, model);
+            return Ok(mainBank);
         }
 
         [Authorize("RevisionUser")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(long id)
         {
             await _deleteCommand.Execute(id);
             return Ok();

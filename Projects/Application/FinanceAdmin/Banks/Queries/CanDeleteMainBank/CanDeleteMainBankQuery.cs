@@ -9,9 +9,11 @@ namespace NUCA.Projects.Application.FinanceAdmin.Banks.Queries.CanDeleteMainBank
         {
             _repository = repository;
         }
-        public async Task<bool> Execute(int id)
+        public async Task<bool> Execute(long id)
         {
-            var hasProjects = await _repository.BankHasProjects(id);
+            var hasBranches = await _repository.MainBankHasBranches(id);
+            if (hasBranches) return false;
+            var hasProjects = await _repository.MainBankHasProjects(id);
             return !hasProjects;
         }
     }

@@ -8,8 +8,8 @@ namespace NUCA.Projects.Domain.Entities.FinanceAdmin
     {
         public string Name { get; private set; }
 
-        private readonly List<Bank> _branches = new();
-        public virtual IReadOnlyList<Bank> Branches => _branches.ToList();
+        private readonly List<BankBranch> _branches = new();
+        public virtual IReadOnlyList<BankBranch> Branches => _branches.ToList();
         protected MainBank() { }
 
         public MainBank(string name)

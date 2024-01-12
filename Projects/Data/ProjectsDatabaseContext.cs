@@ -38,7 +38,7 @@ namespace NUCA.Projects.Data
         public DbSet<Ledger> Ledgers { get; init; }
         public DbSet<CostCenter> CostCenters { get; init; }
         public DbSet<MainBank> MainBanks { get; init; }
-        public DbSet<Bank> Banks { get; init; }
+        public DbSet<BankBranch> BankBranches { get; init; }
         public DbSet<TaxAuthority> TaxAuthorities { get; init; }
 
         private IHttpContextAccessor _contextAccessor;

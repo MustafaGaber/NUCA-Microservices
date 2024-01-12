@@ -2,6 +2,6 @@
 {
     public interface ICanDeleteMainBankQuery
     {
-        Task<bool> Execute(int id);
+        Task<bool> Execute(long id);
     }
 }

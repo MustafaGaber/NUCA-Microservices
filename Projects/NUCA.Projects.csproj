@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\FinanceAdmin\Banks\" />
     <Folder Include="Application\FinanceAdmin\CostCenters\" />
     <Folder Include="Application\FinanceAdmin\TaxAuthorities\" />
     <Folder Include="Domain\Entities\CostCenters\" />

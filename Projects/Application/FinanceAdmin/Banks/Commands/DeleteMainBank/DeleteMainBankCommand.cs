@@ -9,17 +9,19 @@ namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.DeleteMainBank
         {
             _repository = repository;
         }
-        public async Task Execute(int id)
+        public async Task Execute(long id)
         {
-            bool hasProjects = await _repository.BankHasProjects(id);
-            if (!hasProjects)
+            bool hasProjects = await _repository.MainBankHasProjects(id);
+            if (hasProjects)
             {
-                await _repository.Delete(id);
+                throw new InvalidOperationException("Main Bank has projects");
             }
-            else
+            bool hasBranches = await _repository.MainBankHasBranches(id);
+            if (hasBranches)
             {
-                throw new InvalidOperationException("MainBank has projects");
+                throw new InvalidOperationException("Main Bank has branches");
             }
+            await _repository.Delete(id);
         }
     }
 }

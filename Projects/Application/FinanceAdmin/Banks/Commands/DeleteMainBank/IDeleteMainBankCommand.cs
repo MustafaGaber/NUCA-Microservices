@@ -2,6 +2,6 @@
 {
     public interface IDeleteMainBankCommand
     {
-        Task Execute(int id);
+        Task Execute(long id);
     }
 }

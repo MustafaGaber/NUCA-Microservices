@@ -30,7 +30,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public Duration Duration { get; private set; }
         public bool? ValueAddedTaxIncluded { get; private set; }
         public double? AdvancedPaymentPercentage { get; private set; }
-        public Bank Bank {  get; private set; }
+        public MainBank MainBank { get; private set; }
+        public BankBranch BankBranch {  get; private set; }
         public TaxAuthority TaxAuthority { get; private set; }
         public DateOnly? HandoverDate { get; private set; }
         public DateOnly? StartDate { get; private set; }
