@@ -8,6 +8,7 @@ namespace NUCA.Projects.Application.Interfaces.Persistence
         Task<bool> MainBankHasProjects(long id);
         Task<bool> MainBankHasBranches(long id);
         Task<bool> BranchHasProjects(long id);
+        Task<List<BankBranch>> AllBranches();
         Task<BankBranch?> GetBranch(long id);
         Task<BankBranch> AddBranch(BankBranch branch);
         Task<BankBranch> UpdateBranch(BankBranch branch);

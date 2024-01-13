@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Commands;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries;
 using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Data.Shared;
@@ -11,6 +12,10 @@ namespace NUCA.Projects.Data.FinanceAdmin
         public BankRepository(ProjectsDatabaseContext database)
           : base(database) { }
 
+        public Task<List<BankBranch>> AllBranches()
+        {
+            return database.BankBranches.ToListAsync();
+        }
         public async Task<BankBranch?> GetBranch(long id)
         {
             var branch = await database.Set<BankBranch>().FindAsync(id);

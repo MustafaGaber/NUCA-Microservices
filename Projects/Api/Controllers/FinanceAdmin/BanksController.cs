@@ -11,6 +11,7 @@ using NUCA.Projects.Application.FinanceAdmin.Banks.Commands.UpdateMainBank;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.CanDeleteBranch;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.CanDeleteMainBank;
+using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetBanksAndBranches;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBank;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBankBranches;
 using NUCA.Projects.Application.FinanceAdmin.Banks.Queries.GetMainBanks;
@@ -21,6 +22,7 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
     [ApiController]
     public class BanksController : BaseController
     {
+        private readonly IGetBanksAndBranchesQuery _banksAndBranchesQuery;
         private readonly IGetMainBanksQuery _listQuery;
         private readonly IGetMainBankQuery _detailQuery;
         private readonly ICanDeleteMainBankQuery _canDeleteQuery;
@@ -32,7 +34,7 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
         private readonly ICreateBranchCommand _createBranchCommand;
         private readonly IUpdateBranchCommand _updateBranchCommand;
         private readonly IDeleteBranchCommand _deleteBranchCommand;
-        public BanksController(IGetMainBanksQuery listQuery, IGetMainBankQuery detailQuery, ICanDeleteMainBankQuery canDeleteQuery, ICreateMainBankCommand createCommand, IUpdateMainBankCommand updateCommand, IDeleteMainBankCommand deleteCommand, IGetMainBankBranchesQuery getMainBankBranchesQuery, ICanDeleteBranchQuery canDeleteBranchQuery, ICreateBranchCommand createBranchCommand, IUpdateBranchCommand updateBranchCommand, IDeleteBranchCommand deleteBranchCommand)
+        public BanksController(IGetMainBanksQuery listQuery, IGetMainBankQuery detailQuery, ICanDeleteMainBankQuery canDeleteQuery, ICreateMainBankCommand createCommand, IUpdateMainBankCommand updateCommand, IDeleteMainBankCommand deleteCommand, IGetMainBankBranchesQuery getMainBankBranchesQuery, ICanDeleteBranchQuery canDeleteBranchQuery, ICreateBranchCommand createBranchCommand, IUpdateBranchCommand updateBranchCommand, IDeleteBranchCommand deleteBranchCommand, IGetBanksAndBranchesQuery banksAndBranchesQuery)
         {
             _listQuery = listQuery;
             _detailQuery = detailQuery;
@@ -45,9 +47,17 @@ namespace NUCA.Projects.Api.Controllers.FinanceAdmin
             _createBranchCommand = createBranchCommand;
             _updateBranchCommand = updateBranchCommand;
             _deleteBranchCommand = deleteBranchCommand;
+            _banksAndBranchesQuery = banksAndBranchesQuery;
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetBanksAndBranches()
+        {
+            GetBanksAndBranchesModel banks = await _banksAndBranchesQuery.Execute();
+            return Ok(banks);
+        }
+
+        [HttpGet("MainBanks")]
         public async Task<IActionResult> GetMainBanks()
         {
             List<GetMainBankModel> mainBanks = await _listQuery.Execute();
