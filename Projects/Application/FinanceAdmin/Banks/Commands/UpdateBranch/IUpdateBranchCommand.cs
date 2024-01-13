@@ -1,9 +1,9 @@
-﻿using NUCA.Projects.Domain.Entities.FinanceAdmin;
+﻿using NUCA.Projects.Application.FinanceAdmin.Banks.Queries;
 
 namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.UpdateBranch
 {
     public interface IUpdateBranchCommand
     {
-        Task<BankBranch> Execute(long id, BankBranchModel model);
+        Task<GetBankBranchModel> Execute(long id, BankBranchModel model);
     }
 }

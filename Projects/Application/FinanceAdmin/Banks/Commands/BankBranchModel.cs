@@ -2,7 +2,6 @@
 {
     public class BankBranchModel
     {
-        public long MainBankId { get; init; }
         public string Name { get; init; }
     }
 }

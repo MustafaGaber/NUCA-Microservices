@@ -1,4 +1,5 @@
-﻿using NUCA.Projects.Application.Interfaces.Persistence;
+﻿using NUCA.Projects.Application.FinanceAdmin.Banks.Queries;
+using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 
 namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.CreateBranch
@@ -10,11 +11,11 @@ namespace NUCA.Projects.Application.FinanceAdmin.Banks.Commands.CreateBranch
         {
             _repository = repository;
         }
-        public async Task<BankBranch> Execute(BankBranchModel model)
+        public async Task<GetBankBranchModel> Execute(long mainBankId, BankBranchModel model)
         {
-            MainBank mainBank = await _repository.Get(model.MainBankId) ?? throw new ArgumentNullException();
+            MainBank mainBank = await _repository.Get(mainBankId) ?? throw new ArgumentNullException();
             var branch = await _repository.AddBranch(new BankBranch(model.Name, mainBank));
-            return branch;
+            return new GetBankBranchModel { Id = branch.Id, MainBankId = branch.MainBankId, Name = branch.Name };
         }
     }
 }

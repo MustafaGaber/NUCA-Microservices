@@ -792,7 +792,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long?>("AwardTypeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("BankId")
+                    b.Property<long>("BankBranchId")
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("CompanyId")
@@ -843,6 +843,9 @@ namespace NUCA.Projects.Migrations
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("MainBankId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -886,11 +889,13 @@ namespace NUCA.Projects.Migrations
 
                     b.HasIndex("AwardTypeId");
 
-                    b.HasIndex("BankId");
+                    b.HasIndex("BankBranchId");
 
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("CostCenterId");
+
+                    b.HasIndex("MainBankId");
 
                     b.HasIndex("TaxAuthorityId");
 
@@ -1465,7 +1470,7 @@ namespace NUCA.Projects.Migrations
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.BankBranch", "BankBranch")
                         .WithMany()
-                        .HasForeignKey("BankId")
+                        .HasForeignKey("BankBranchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1477,6 +1482,12 @@ namespace NUCA.Projects.Migrations
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", "CostCenter")
                         .WithMany()
                         .HasForeignKey("CostCenterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.MainBank", "MainBank")
+                        .WithMany()
+                        .HasForeignKey("MainBankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1546,6 +1557,8 @@ namespace NUCA.Projects.Migrations
 
                     b.Navigation("Duration")
                         .IsRequired();
+
+                    b.Navigation("MainBank");
 
                     b.Navigation("ModifiedEndDates");
 

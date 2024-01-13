@@ -78,6 +78,7 @@ namespace NUCA.Projects.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     ParentId = table.Column<long>(type: "INTEGER", nullable: true),
+                    ParentFullPath = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
@@ -152,6 +153,7 @@ namespace NUCA.Projects.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Address = table.Column<string>(type: "TEXT", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
@@ -212,9 +214,9 @@ namespace NUCA.Projects.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Banks", x => x.Id);
+                    table.PrimaryKey("PK_BankBranches", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Banks_MainBanks_MainBankId",
+                        name: "FK_BankBranches_MainBanks_MainBankId",
                         column: x => x.MainBankId,
                         principalTable: "MainBanks",
                         principalColumn: "Id",
@@ -271,7 +273,8 @@ namespace NUCA.Projects.Migrations
                     Duration_Days = table.Column<int>(type: "INTEGER", nullable: false),
                     ValueAddedTaxIncluded = table.Column<bool>(type: "INTEGER", nullable: true),
                     AdvancedPaymentPercentage = table.Column<double>(type: "REAL", nullable: true),
-                    BankId = table.Column<long>(type: "INTEGER", nullable: false),
+                    MainBankId = table.Column<long>(type: "INTEGER", nullable: false),
+                    BankBranchId = table.Column<long>(type: "INTEGER", nullable: false),
                     TaxAuthorityId = table.Column<long>(type: "INTEGER", nullable: false),
                     HandoverDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     StartDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
@@ -298,8 +301,8 @@ namespace NUCA.Projects.Migrations
                         principalTable: "AwardTypes",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Projects_Banks_BankId",
-                        column: x => x.BankId,
+                        name: "FK_Projects_BankBranches_BankBranchId",
+                        column: x => x.BankBranchId,
                         principalTable: "BankBranches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -313,6 +316,12 @@ namespace NUCA.Projects.Migrations
                         name: "FK_Projects_CostCenters_CostCenterId",
                         column: x => x.CostCenterId,
                         principalTable: "CostCenters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Projects_MainBanks_MainBankId",
+                        column: x => x.MainBankId,
+                        principalTable: "MainBanks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -851,7 +860,7 @@ namespace NUCA.Projects.Migrations
                 column: "AdjustmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Banks_MainBankId",
+                name: "IX_BankBranches_MainBankId",
                 table: "BankBranches",
                 column: "MainBankId");
 
@@ -927,9 +936,9 @@ namespace NUCA.Projects.Migrations
                 column: "AwardTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_BankId",
+                name: "IX_Projects_BankBranchId",
                 table: "Projects",
-                column: "BankId");
+                column: "BankBranchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_CompanyId",
@@ -940,6 +949,11 @@ namespace NUCA.Projects.Migrations
                 name: "IX_Projects_CostCenterId",
                 table: "Projects",
                 column: "CostCenterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_MainBankId",
+                table: "Projects",
+                column: "MainBankId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_TaxAuthorityId",
