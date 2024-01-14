@@ -183,7 +183,7 @@ namespace NUCA.Projects.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -378,7 +378,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<double>("PriceChangePercent")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -756,7 +756,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("ProjectId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -792,7 +792,10 @@ namespace NUCA.Projects.Migrations
                     b.Property<long?>("AwardTypeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("BankBranchId")
+                    b.Property<string>("BankAccountNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("BankBranchId")
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("CompanyId")
@@ -843,7 +846,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("MainBankId")
+                    b.Property<long?>("MainBankId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -872,10 +875,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("TaxAuthorityId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("WorkTypeId")
+                    b.Property<long?>("TaxAuthorityId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -883,6 +883,9 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool?>("ValueAddedTaxIncluded")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("WorkTypeId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -1205,7 +1208,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1242,7 +1245,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1470,9 +1473,7 @@ namespace NUCA.Projects.Migrations
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.BankBranch", "BankBranch")
                         .WithMany()
-                        .HasForeignKey("BankBranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BankBranchId");
 
                     b.HasOne("NUCA.Projects.Domain.Entities.Companies.Company", "Company")
                         .WithMany()
@@ -1487,15 +1488,11 @@ namespace NUCA.Projects.Migrations
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.MainBank", "MainBank")
                         .WithMany()
-                        .HasForeignKey("MainBankId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MainBankId");
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.TaxAuthority", "TaxAuthority")
                         .WithMany()
-                        .HasForeignKey("TaxAuthorityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TaxAuthorityId");
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
                         .WithMany()

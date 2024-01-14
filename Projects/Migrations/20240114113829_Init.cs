@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -257,7 +258,7 @@ namespace NUCA.Projects.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     DepartmentId = table.Column<string>(type: "TEXT", nullable: false),
                     DepartmentName = table.Column<string>(type: "TEXT", nullable: false),
-                    TypeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    WorkTypeId = table.Column<long>(type: "INTEGER", nullable: false),
                     CostCenterId = table.Column<long>(type: "INTEGER", nullable: false),
                     Sovereign = table.Column<bool>(type: "INTEGER", nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
@@ -272,9 +273,6 @@ namespace NUCA.Projects.Migrations
                     Duration_Days = table.Column<int>(type: "INTEGER", nullable: false),
                     ValueAddedTaxIncluded = table.Column<bool>(type: "INTEGER", nullable: true),
                     AdvancedPaymentPercentage = table.Column<double>(type: "REAL", nullable: true),
-                    MainBankId = table.Column<long>(type: "INTEGER", nullable: false),
-                    BankBranchId = table.Column<long>(type: "INTEGER", nullable: false),
-                    TaxAuthorityId = table.Column<long>(type: "INTEGER", nullable: false),
                     HandoverDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     StartDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     EndDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
@@ -283,6 +281,10 @@ namespace NUCA.Projects.Migrations
                     FinalDeliveryDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     ContractPapersCount = table.Column<int>(type: "INTEGER", nullable: true),
                     ContractsCount = table.Column<int>(type: "INTEGER", nullable: true),
+                    MainBankId = table.Column<long>(type: "INTEGER", nullable: true),
+                    BankBranchId = table.Column<long>(type: "INTEGER", nullable: true),
+                    BankAccountNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    TaxAuthorityId = table.Column<long>(type: "INTEGER", nullable: true),
                     Notes = table.Column<string>(type: "TEXT", nullable: false),
                     Approved = table.Column<bool>(type: "INTEGER", nullable: false),
                     ApprovedBy = table.Column<string>(type: "TEXT", nullable: true),
@@ -303,8 +305,7 @@ namespace NUCA.Projects.Migrations
                         name: "FK_Projects_BankBranches_BankBranchId",
                         column: x => x.BankBranchId,
                         principalTable: "BankBranches",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Projects_Companies_CompanyId",
                         column: x => x.CompanyId,
@@ -321,17 +322,15 @@ namespace NUCA.Projects.Migrations
                         name: "FK_Projects_MainBanks_MainBankId",
                         column: x => x.MainBankId,
                         principalTable: "MainBanks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Projects_TaxAuthorities_TaxAuthorityId",
                         column: x => x.TaxAuthorityId,
                         principalTable: "TaxAuthorities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Projects_WorkTypes_TypeId",
-                        column: x => x.TypeId,
+                        name: "FK_Projects_WorkTypes_WorkTypeId",
+                        column: x => x.WorkTypeId,
                         principalTable: "WorkTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -960,7 +959,7 @@ namespace NUCA.Projects.Migrations
                 column: "TaxAuthorityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_TypeId",
+                name: "IX_Projects_WorkTypeId",
                 table: "Projects",
                 column: "WorkTypeId");
 

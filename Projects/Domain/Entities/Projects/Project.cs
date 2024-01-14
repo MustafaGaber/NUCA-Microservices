@@ -231,7 +231,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             ContractPapersCount = contractPapersCount;
             MainBank = mainBank;
             BankBranch = bankBranch;
-            bankAccountNumber = bankAccountNumber;
+            BankAccountNumber = bankAccountNumber;
             TaxAuthority = taxAuthority;
             Notes = notes;
         }

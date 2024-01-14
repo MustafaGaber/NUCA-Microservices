@@ -36,6 +36,11 @@ namespace NUCA.Projects.Data.Projects
                 // .Include(p => p.Department)
                 .Include(p => p.WorkType)
                 .Include(p => p.AwardType)
+                .Include(p => p.CostCenter)
+                .Include(p => p.Classifications)
+                .Include(p => p.MainBank)
+                .Include(p => p.BankBranch)
+                .Include(p => p.TaxAuthority)
                 .Include(p => p.ModifiedEndDates);
     }
 }
