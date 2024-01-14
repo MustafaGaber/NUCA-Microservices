@@ -37,7 +37,7 @@ namespace NUCA.Projects.Data.Statements
     {
         public void Configure(EntityTypeBuilder<StatementTable> builder)
         {
-           /* builder.HasDiscriminator(t => t.Type)
+           /* builder.HasDiscriminator(t => t.WorkType)
                 .HasValue<WorksTable>(StatementTableType.Works)
                 .HasValue<SuppliesTable>(StatementTableType.Supplies);*/
 

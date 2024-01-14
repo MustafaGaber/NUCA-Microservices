@@ -183,7 +183,7 @@ namespace NUCA.Projects.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -378,7 +378,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<double>("PriceChangePercent")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -756,7 +756,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("ProjectId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -875,7 +875,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("TaxAuthorityId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("TypeId")
+                    b.Property<long>("WorkTypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -899,7 +899,7 @@ namespace NUCA.Projects.Migrations
 
                     b.HasIndex("TaxAuthorityId");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("WorkTypeId");
 
                     b.ToTable("Projects");
                 });
@@ -1205,7 +1205,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1242,7 +1242,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1497,9 +1497,9 @@ namespace NUCA.Projects.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "Type")
+                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
                         .WithMany()
-                        .HasForeignKey("TypeId")
+                        .HasForeignKey("WorkTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1564,7 +1564,7 @@ namespace NUCA.Projects.Migrations
 
                     b.Navigation("TaxAuthority");
 
-                    b.Navigation("Type");
+                    b.Navigation("WorkType");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.ExternalSuppliesItem", b =>

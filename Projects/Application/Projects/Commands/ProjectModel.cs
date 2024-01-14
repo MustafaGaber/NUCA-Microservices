@@ -8,7 +8,7 @@ namespace NUCA.Projects.Application.Projects.Commands
         public string Name { get; init; }
         public string DepartmentId { get; init; }
         public string DepartmentName { get; init; }
-        public long TypeId { get; init; }
+        public long WorkTypeId { get; init; }
         public long CostCenterId { get; init; }
         public List<long> ClassificationsIds { get; init; }
         public ProjectStatus Status { get; init; }
@@ -31,6 +31,10 @@ namespace NUCA.Projects.Application.Projects.Commands
         public int? ContractPapersCount { get; init; }
         public int? ContractsCount { get; init; }
         public bool Sovereign { get; init; }
+        public long? MainBankId { get; init; }
+        public long? BankBranchId { get; init; }
+        public string? BankAccountNumber { get; init; }
+        public long? TaxAuthorityId { get; init; }
         public string Notes { get; init; }
     }
 

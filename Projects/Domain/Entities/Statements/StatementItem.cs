@@ -83,10 +83,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
                  StatementWithholding? withholding = _withholdings.Find(_w => _w.Id == w.Id);
                  if (withholding != null)
                  {
-                     withholding.Update(w.Name, w.Value, w.Type);
+                     withholding.Update(w.Name, w.Value, w.WorkType);
                  }
              });
-             _percentageDetails.AddRange(withholdings.Where(w => w.Id == 0).Select(w => new StatementWithholding(w.Name, w.Value, w.Type)));
+             _percentageDetails.AddRange(withholdings.Where(w => w.Id == 0).Select(w => new StatementWithholding(w.Name, w.Value, w.WorkType)));
 
              */
             ValidatePercentage();

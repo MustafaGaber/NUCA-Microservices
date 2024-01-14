@@ -962,7 +962,7 @@ namespace NUCA.Projects.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_TypeId",
                 table: "Projects",
-                column: "TypeId");
+                column: "WorkTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StatementItem_StatementSectionId",

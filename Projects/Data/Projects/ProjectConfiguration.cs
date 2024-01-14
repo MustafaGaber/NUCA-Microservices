@@ -12,7 +12,7 @@ namespace NUCA.Projects.Data.Projects
             builder.HasOne(p => p.Boq).WithOne(b => b.Project).HasForeignKey<Boq>(b => b.ProjectId).IsRequired().OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(p => p.Company).WithMany().OnDelete(DeleteBehavior.Restrict);
             //builder.HasOne(p => p.Department).WithMany().OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(p => p.Type).WithMany().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(p => p.WorkType).WithMany().OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(p => p.Privileges).WithOne()
                    .IsRequired()
                    .HasForeignKey(p => p.ProjectId)

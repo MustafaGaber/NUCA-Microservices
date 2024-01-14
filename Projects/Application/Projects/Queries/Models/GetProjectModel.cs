@@ -9,10 +9,10 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
         public required string Name { get; init; }
         public required string DepartmentId { get; init; }
         public required string DepartmentName { get; init; }
-        public required long TypeId { get; init; }
+        public required long WorkTypeId { get; init; }
+        public required string WorkTypeName { get; init; }
         public required long CostCenterId { get; init; }
         public required bool Sovereign { get; init; }
-        public required string TypeName { get; init; }
         public required ProjectStatus Status { get; init; }
         public required long? AwardTypeId { get; init; }
         public required string? AwardTypeName { get; init; }
@@ -44,8 +44,8 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
                 Name = project.Name,
                 DepartmentId = project.DepartmentId,
                 DepartmentName = project.DepartmentName,
-                TypeId = project.Type.Id,
-                TypeName = project.Type.Name,
+                WorkTypeId = project.WorkType.Id,
+                WorkTypeName = project.WorkType.Name,
                 CostCenterId = project.CostCenter.Id,
                 Sovereign = project.Sovereign,
                 Status = project.Status,

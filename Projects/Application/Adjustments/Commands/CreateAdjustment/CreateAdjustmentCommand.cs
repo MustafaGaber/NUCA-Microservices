@@ -37,7 +37,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
             }
             Project? project = await _dbContext.Projects
                 .Include(p => p.Company)
-                .Include(p => p.Type)
+                .Include(p => p.WorkType)
                 .Include(p => p.AwardType)
                 .FirstOrDefaultAsync(p => p.Id == projectId) ?? throw new InvalidOperationException();
             Adjustment adjustment = Adjustment.Create(
@@ -49,7 +49,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                 previousTotalWorks: prevoiusStatement == null ? 0 : prevoiusStatement.TotalWorks,
                 totalSupplies: statement.TotalSupplies,
                 previousTotalSupplies: prevoiusStatement == null ? 0 : prevoiusStatement.TotalSupplies,
-                valueAddedTaxPercent: project.Type.ValueAddedTaxPercent,
+                valueAddedTaxPercent: project.WorkType.ValueAddedTaxPercent,
                 valueAddedTaxIncluded: (bool)project.ValueAddedTaxIncluded!,
                 advancedPaymentPercent: (double)project.AdvancedPaymentPercentage!,
                 commercialIndustrialTaxFree: project.Company!.CommercialIndustrialTaxFree,

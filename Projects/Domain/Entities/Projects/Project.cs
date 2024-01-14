@@ -14,7 +14,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public string Name { get; private set; }
         public string DepartmentId { get; private set; }
         public string DepartmentName { get; private set; }
-        public WorkType Type { get; private set; }
+        public WorkType WorkType { get; private set; }
         public CostCenter CostCenter { get; private set; }
         public bool Sovereign { get; private set; }
 
@@ -30,9 +30,6 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public Duration Duration { get; private set; }
         public bool? ValueAddedTaxIncluded { get; private set; }
         public double? AdvancedPaymentPercentage { get; private set; }
-        public MainBank MainBank { get; private set; }
-        public BankBranch BankBranch {  get; private set; }
-        public TaxAuthority TaxAuthority { get; private set; }
         public DateOnly? HandoverDate { get; private set; }
         public DateOnly? StartDate { get; private set; }
         public DateOnly? EndDate { get; private set; }
@@ -44,6 +41,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public DateOnly? FinalDeliveryDate { get; private set; }
         public int? ContractPapersCount { get; private set; }
         public int? ContractsCount { get; private set; }
+        public MainBank? MainBank { get; private set; }
+        public BankBranch? BankBranch { get; private set; }
+        public string? BankAccountNumber { get; private set; }
+        public TaxAuthority? TaxAuthority { get; private set; }
         public string Notes { get; private set; }
         public bool Approved { get; private set; }
         public string? ApprovedBy { get; private set; }
@@ -57,7 +58,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             string name,
             string departmentId,
             string departmentName,
-            WorkType type,
+            WorkType workType,
             CostCenter costCenter,
             bool sovereign,
             List<Classification> classifications,
@@ -80,13 +81,17 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DateOnly? finalDeliveryDate,
             int? contractsCount,
             int? contractPapersCount,
+            MainBank? mainBank,
+            BankBranch? bankBranch,
+            string? bankAccountNumber,
+            TaxAuthority? taxAuthority,
             string notes)
         {
             Update(
                 name: name,
                 departmentId: departmentId,
                 departmentName: departmentName,
-                type: type,
+                workType: workType,
                 costCenter: costCenter,
                 sovereign: sovereign,
                 classifications: classifications,
@@ -109,6 +114,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 finalDeliveryDate: finalDeliveryDate,
                 contractsCount: contractsCount,
                 contractPapersCount: contractPapersCount,
+                mainBank: mainBank,
+                bankBranch: bankBranch,
+                bankAccountNumber: bankAccountNumber,
+                taxAuthority: taxAuthority,
                 notes: notes
               );
         }
@@ -117,7 +126,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             string name,
             string departmentId,
             string departmentName,
-            WorkType type,
+            WorkType workType,
             CostCenter costCenter,
             bool sovereign,
             List<Classification> classifications,
@@ -140,6 +149,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DateOnly? finalDeliveryDate,
             int? contractsCount,
             int? contractPapersCount,
+            MainBank? mainBank,
+            BankBranch? bankBranch,
+            string? bankAccountNumber,
+            TaxAuthority? taxAuthority,
             string notes)
         {
             /*if (Approved)
@@ -157,7 +170,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             Name = Guard.Against.NullOrWhiteSpace(name);
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
-            Type = Guard.Against.Null(type);
+            WorkType = Guard.Against.Null(workType);
             CostCenter = Guard.Against.Null(costCenter);
             Sovereign = sovereign;
             _classifications.Clear();
@@ -216,6 +229,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
             FinalDeliveryDate = finalDeliveryDate;
             ContractsCount = contractsCount;
             ContractPapersCount = contractPapersCount;
+            MainBank = mainBank;
+            BankBranch = bankBranch;
+            bankAccountNumber = bankAccountNumber;
+            TaxAuthority = taxAuthority;
             Notes = notes;
         }
 
@@ -232,10 +249,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 Privilege? privilege = _privileges.Find(_p => _p.Id == p.Id);
                 if (privilege != null)
                 {
-                    privilege.Update(p.UserId, p.Type, p.DepartmentId);
+                    privilege.Update(p.UserId, p.WorkType, p.DepartmentId);
                 }
             });
-            _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.UserId, p.Type, p.DepartmentId )));
+            _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.UserId, p.WorkType, p.DepartmentId )));
         }*/
     }
 

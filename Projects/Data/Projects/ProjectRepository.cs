@@ -34,7 +34,7 @@ namespace NUCA.Projects.Data.Projects
             database.Projects
                 .Include(p => p.Company)
                 // .Include(p => p.Department)
-                .Include(p => p.Type)
+                .Include(p => p.WorkType)
                 .Include(p => p.AwardType)
                 .Include(p => p.ModifiedEndDates);
     }

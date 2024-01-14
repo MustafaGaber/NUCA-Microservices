@@ -50,9 +50,9 @@ namespace NUCA.Projects.Domain.Common
             return (GetRealType().ToString() + Id).GetHashCode();
         }
 
-        private Type GetRealType()
+        private WorkType GetRealType()
         {
-            Type type = GetType();
+            WorkType type = GetType();
             if (type.ToString().Contains("Castle.Proxies."))
                 return type.BaseType;
 

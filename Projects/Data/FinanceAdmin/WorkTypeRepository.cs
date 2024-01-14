@@ -12,7 +12,7 @@ namespace NUCA.Projects.Data.FinanceAdmin
 
         public async Task<bool> WorkTypeHasProjects(int id)
         {
-            int count = await database.Projects.Include(p => p.Type).Where(p => p.Type.Id == id).CountAsync();
+            int count = await database.Projects.Include(p => p.WorkType).Where(p => p.WorkType.Id == id).CountAsync();
             // Todo: boq items;
             return count > 0;
         }
