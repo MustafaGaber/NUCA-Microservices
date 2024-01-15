@@ -12,6 +12,7 @@ namespace NUCA.Projects.Data.Boqs
             //builder.Property("Id").ValueGeneratedNever();
            // builder.HasOne<Project>().WithOne().IsRequired().HasForeignKey<Boq>(b => b.ProjectId).OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(b => b.Tables).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(b => b.Departments).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
         }
     }
 
@@ -21,6 +22,14 @@ namespace NUCA.Projects.Data.Boqs
         {
             builder.HasKey(t => t.Id);
             builder.HasMany(t => t.Sections).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+
+    public class BoqDepartmentConfiguration : IEntityTypeConfiguration<BoqDepartment>
+    {
+        public void Configure(EntityTypeBuilder<BoqDepartment> builder)
+        {
+            builder.HasKey(d => new {d.BoqId, d.DepartmentId});
         }
     }
 

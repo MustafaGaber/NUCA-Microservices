@@ -61,6 +61,7 @@ namespace NUCA.Projects.Data
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new ProjectConfiguration());
             modelBuilder.ApplyConfiguration(new BoqConfiguration());
+            modelBuilder.ApplyConfiguration(new BoqDepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new TableConfiguration());
             modelBuilder.ApplyConfiguration(new SectionConfiguration());
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());

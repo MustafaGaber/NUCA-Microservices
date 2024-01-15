@@ -28,18 +28,18 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjectWithPrivileges
                  })
                  .FirstAsync();
 
-            List<DepartmentModel> departments =
-                _dbContext.Set<BoqSection>()
-                          .Where(s => s.BoqId == project.BoqId)
-                          .GroupBy(s => s.DepartmentId)
-                          .Select(s => new DepartmentModel() { Id = s.First().DepartmentId, Name = s.First().DepartmentName })
-                          .ToList();
+            IEnumerable<DepartmentModel> departments = await
+                _dbContext.Set<Boq>()
+                          .Include(b => b.Departments)
+                          .Where(b => b.ProjectId == project.BoqId)
+                          .Select(b => b.Departments.Select(d => new DepartmentModel() { Id = d.DepartmentId, Name = d.DepartmentName }))
+                          .FirstAsync();
 
             return new ProjectWithPrivilegesModel
             {
                 Name = project.Name,
                 CompanyName = project.CompanyName,
-                Departments = departments,
+                Departments = departments.ToList(),
                 Privileges = project.Privileges.Select(p =>
                     new PrivilegeModel()
                     {

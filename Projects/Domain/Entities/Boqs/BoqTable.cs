@@ -73,7 +73,6 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             bool sovereign)
         {
             _sections.Add(new BoqSection(
-                boqId: BoqId,
                 name: sectionName,
                 departmentId: departmentId,
                 departmentName: departmentName,

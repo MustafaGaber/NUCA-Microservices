@@ -5,6 +5,7 @@ using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Shared;
+using System.Linq;
 using System.Reflection.Metadata;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
@@ -19,6 +20,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         
         private readonly List<BoqTable> _tables = new List<BoqTable>();
         public virtual IReadOnlyList<BoqTable> Tables => _tables.ToList();
+       
+        private readonly List<BoqDepartment> _departments = new();
+        public virtual IReadOnlyList<BoqDepartment> Departments => _departments.ToList();
+
         protected Boq() { }
         public Boq(long projectId, double priceChangePercent)
         {
@@ -104,6 +109,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 isPerformanceRate: isPerformanceRate,
                 costCenter: costCenter,
                 sovereign: sovereign);
+            UpdateDepartments();
         }
         public void UpdateSection(
             long tableId, 
@@ -126,11 +132,42 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 isPerformanceRate: isPerformanceRate,
                 costCenter: costCenter,
                 sovereign: sovereign);
+            UpdateDepartments();
         }
         public void DeleteSection(long tableId, long sectionId)
         {
             BoqTable table = _tables.First(t => t.Id == tableId);
             table.DeleteSection(sectionId);
+            UpdateDepartments();
+        }
+
+        private void UpdateDepartments()
+        {
+            var departments = _tables.Aggregate(
+            new List<BoqDepartment> { },
+            (departments, table) =>
+                {
+                    departments.AddRange(table.Sections.Select(s => new BoqDepartment {
+                        DepartmentId= s.DepartmentId, 
+                        DepartmentName = s.DepartmentName,
+                        BoqId = Id
+                    }));
+                    return departments;
+                }).Distinct().ToList();
+            departments.ForEach(department =>
+            {
+                if (!_departments.Any(d => d.DepartmentId == department.DepartmentId && d.DepartmentName == department.DepartmentName))
+                {
+                    _departments.Add(department);
+                }
+            });
+            _departments.ForEach(department =>
+            {
+                if (!departments.Any(d => d.DepartmentId == department.DepartmentId && d.DepartmentName == department.DepartmentName))
+                {
+                    _departments.Remove(department);
+                }
+            });
         }
         public void AddItem(long tableId, long sectionId, string index, string content, string unit, double quantity, double unitPrice, WorkType workType, bool isPerformanceRate, bool sovereign, CostCenter costCenter)
         {
