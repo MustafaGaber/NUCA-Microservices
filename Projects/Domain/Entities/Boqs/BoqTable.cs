@@ -3,6 +3,7 @@ using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Departments;
 using NUCA.Projects.Domain.Entities.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Shared;
+using System.Xml.Linq;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
 {
@@ -15,9 +16,22 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         public int Count { get; private set; }
         public double PriceChangePercent { get; private set; }
         public BoqTableType Type { get; private set; }
+        public WorkType WorkType { get; private set; }
+        public bool IsPerformanceRate { get; private set; }
+        public CostCenter CostCenter { get; private set; }
+        public bool Sovereign { get; private set; }
         public virtual IReadOnlyList<BoqSection> Sections => _sections.ToList();
         protected BoqTable() { }
-        public BoqTable(long boqId, string name, int count, double priceChangePercent, BoqTableType type)
+        public BoqTable(
+            long boqId,
+            string name,
+            int count,
+            double priceChangePercent,
+            BoqTableType type,
+            WorkType workType,
+            bool isPerformanceRate,
+            CostCenter costCenter,
+            bool sovereign)
         {
             BoqId = Guard.Against.NegativeOrZero(boqId);
             Name = name;
@@ -25,22 +39,69 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             PriceChangePercent = Guard.Against.OutOfRange(priceChangePercent, nameof(priceChangePercent), -100, double.MaxValue);
             Type = Guard.Against.Null(type);
             BoqId = boqId;
+            WorkType = Guard.Against.Null(workType);
+            IsPerformanceRate = isPerformanceRate;
+            CostCenter = Guard.Against.Null(costCenter);
+            Sovereign = sovereign;
         }
-        internal void UpdateTable(string name, int count, double priceChangePercent, BoqTableType type)
+        internal void UpdateTable(
+            string name,
+            int count,
+            double priceChangePercent,
+            BoqTableType type,
+            WorkType workType,
+            bool isPerformanceRate,
+            CostCenter costCenter,
+            bool sovereign)
         {
             Name = name;
             Count = Guard.Against.NegativeOrZero(count, nameof(count));
             PriceChangePercent = Guard.Against.OutOfRange(priceChangePercent, nameof(priceChangePercent), -100, double.MaxValue);
             Type = Guard.Against.Null(type);
+            WorkType = Guard.Against.Null(workType);
+            IsPerformanceRate = isPerformanceRate;
+            CostCenter = Guard.Against.Null(costCenter);
+            Sovereign = sovereign;
         }
-        internal void AddSection(string sectionName, string departmentId, string departmentName)
+        internal void AddSection(
+            string sectionName,
+            string departmentId,
+            string departmentName,
+             WorkType workType,
+            bool isPerformanceRate,
+            CostCenter costCenter,
+            bool sovereign)
         {
-            _sections.Add(new BoqSection(BoqId, sectionName, departmentId, departmentName));
+            _sections.Add(new BoqSection(
+                boqId: BoqId,
+                name: sectionName,
+                departmentId: departmentId,
+                departmentName: departmentName,
+                workType: workType,
+                isPerformanceRate: isPerformanceRate,
+                sovereign: sovereign,
+                costCenter: costCenter
+                ));
         }
-        internal void UpdateSection(long id, string sectionName, string departmentId, string departmentName)
+        internal void UpdateSection(
+            long id,
+            string sectionName,
+            string departmentId,
+            string departmentName,
+            WorkType workType,
+            bool isPerformanceRate,
+            CostCenter costCenter,
+            bool sovereign
+            )
         {
             BoqSection? section = _sections.Find(s => s.Id == id);
-            section.Update(sectionName, departmentId, departmentName);
+            section.Update(name: sectionName,
+                departmentId: departmentId,
+                departmentName: departmentName,
+                workType: workType,
+                isPerformanceRate: isPerformanceRate,
+                sovereign: sovereign,
+                costCenter: costCenter);
         }
         internal void DeleteSection(long id)
         {

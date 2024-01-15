@@ -10,6 +10,7 @@ namespace NUCA.Projects.Application.Projects.Commands
         public string DepartmentName { get; init; }
         public long WorkTypeId { get; init; }
         public long CostCenterId { get; init; }
+        public bool Sovereign { get; init; }
         public List<long> ClassificationsIds { get; init; }
         public ProjectStatus Status { get; init; }
         public  FundingType FundingType {  get; init; }
@@ -30,7 +31,6 @@ namespace NUCA.Projects.Application.Projects.Commands
         public DateOnly? FinalDeliveryDate { get; init; }
         public int? ContractPapersCount { get; init; }
         public int? ContractsCount { get; init; }
-        public bool Sovereign { get; init; }
         public long? MainBankId { get; init; }
         public long? BankBranchId { get; init; }
         public string? BankAccountNumber { get; init; }

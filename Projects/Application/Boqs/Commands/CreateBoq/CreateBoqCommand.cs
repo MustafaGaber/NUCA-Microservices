@@ -1,5 +1,4 @@
-﻿using NUCA.Projects.Application.Boqs.Models;
-using NUCA.Projects.Application.Interfaces.Persistence;
+﻿using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Domain.Entities.Boqs;
 
 namespace NUCA.Projects.Application.Boqs.Commands.CreateBoq

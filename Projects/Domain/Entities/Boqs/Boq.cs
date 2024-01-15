@@ -16,7 +16,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         public double PriceChangePercent { get; private set; }
         public bool Approved { get; private set; }
         public string? ApprovedBy { get; private set; }
-
+        
         private readonly List<BoqTable> _tables = new List<BoqTable>();
         public virtual IReadOnlyList<BoqTable> Tables => _tables.ToList();
         protected Boq() { }
@@ -29,18 +29,52 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         {
             PriceChangePercent = Guard.Against.OutOfRange(priceChangePercent, nameof(priceChangePercent), -100, double.MaxValue);
         }
-        public void AddTable(string name, int count, double priceChangePercent, BoqTableType type)
+        public void AddTable(
+            string name, 
+            int count, 
+            double priceChangePercent, 
+            BoqTableType type,
+            WorkType workType,
+            bool isPerformanceRate,
+            CostCenter costCenter,
+            bool sovereign)
         {
             Guard.Against.NegativeOrZero(count, nameof(count));
             Guard.Against.OutOfRange(priceChangePercent, nameof(priceChangePercent), -1, double.MaxValue);
-            BoqTable table = new BoqTable(Id, name, count, priceChangePercent, type);
+            BoqTable table = new BoqTable(
+                boqId:Id, 
+                name: name, 
+                count: count,
+                priceChangePercent: priceChangePercent, 
+                type: type,
+                workType: workType,
+                isPerformanceRate: isPerformanceRate,
+                costCenter: costCenter,
+                sovereign: sovereign);
             _tables.Add(table);
         }
-        public void UpdateTable(long id, string name, int count, double priceChangePercent, BoqTableType type)
+        public void UpdateTable(
+            long id, 
+            string name, 
+            int count,
+            double priceChangePercent,
+            BoqTableType type,
+            WorkType workType,
+            bool isPerformanceRate,
+            CostCenter costCenter,
+            bool sovereign)
         {
             Guard.Against.OutOfRange(priceChangePercent, nameof(priceChangePercent), -1, double.MaxValue);
             BoqTable table = _tables.First(t => t.Id == id);
-            table.UpdateTable(name, count, priceChangePercent, type);
+            table.UpdateTable(
+                 name: name,
+                count: count,
+                priceChangePercent: priceChangePercent,
+                type: type,
+                workType: workType,
+                isPerformanceRate: isPerformanceRate,
+                costCenter: costCenter,
+                sovereign: sovereign);
         }
 
         public void DeleteTable(long id)
@@ -51,15 +85,47 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 _tables.Remove(table);
             }
         }
-        public void AddSection(long tableId, string sectionName, string departmentId, string departmentName)
+        public void AddSection(
+            long tableId, 
+            string sectionName, 
+            string departmentId, 
+            string departmentName,
+            WorkType workType,
+            bool isPerformanceRate,
+            CostCenter costCenter,
+            bool sovereign)
         {
             BoqTable table = _tables.First(t => t.Id == tableId);
-            table.AddSection(sectionName, departmentId, departmentName);
+            table.AddSection(
+                sectionName: sectionName,
+                departmentId: departmentId,
+                departmentName: departmentName,
+                workType: workType,
+                isPerformanceRate: isPerformanceRate,
+                costCenter: costCenter,
+                sovereign: sovereign);
         }
-        public void UpdateSection(long tableId, long sectionId, string sectionName, string departmentId, string departmentName)
+        public void UpdateSection(
+            long tableId, 
+            long sectionId, 
+            string sectionName, 
+            string departmentId, 
+            string departmentName,
+            WorkType workType,
+            bool isPerformanceRate,
+            CostCenter costCenter,
+            bool sovereign)
         {
             BoqTable table = _tables.First(t => t.Id == tableId);
-            table.UpdateSection(sectionId, sectionName, departmentId, departmentName);
+            table.UpdateSection(
+                id: sectionId,
+                sectionName: sectionName,
+                departmentId: departmentId,
+                departmentName: departmentName,
+                workType: workType,
+                isPerformanceRate: isPerformanceRate,
+                costCenter: costCenter,
+                sovereign: sovereign);
         }
         public void DeleteSection(long tableId, long sectionId)
         {
@@ -77,7 +143,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                 quantity: quantity,
                 unitPrice: unitPrice,
                 workType: workType,
-               isPerformanceRate: isPerformanceRate,
+                isPerformanceRate: isPerformanceRate,
                 sovereign: sovereign,
                 costCenter: costCenter);
         }
