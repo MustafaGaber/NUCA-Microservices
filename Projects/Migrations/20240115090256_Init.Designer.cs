@@ -186,7 +186,7 @@ namespace NUCA.Projects.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -426,7 +426,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<bool>("Sovereign")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -811,7 +811,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("ProjectId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1263,7 +1263,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1300,7 +1300,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("WorkType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")

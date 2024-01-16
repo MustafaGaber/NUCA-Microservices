@@ -12,8 +12,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         public double Quantity { get; private set; }
         public double UnitPrice { get; private set; }
         public WorkType WorkType { get; private set; }
+        public long WorkTypeId { get; private set; }
         public bool IsPerformanceRate { get; private set; }
         public CostCenter CostCenter { get; private set; }
+        public long CostCenterId { get; private set; }
         public bool Sovereign { get; private set; }
 
         protected BoqItem() { }
@@ -43,8 +45,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             UnitPrice = Guard.Against.NegativeOrZero(unitPrice, nameof(unitPrice));
             IsPerformanceRate = isPerformanceRate;
             WorkType = Guard.Against.Null(workType);
+            WorkTypeId = Guard.Against.NegativeOrZero(workType.Id);
             Sovereign = sovereign;
             CostCenter = Guard.Against.Null(costCenter);
+            CostCenterId = Guard.Against.NegativeOrZero(costCenter.Id);
         }
     }
 }

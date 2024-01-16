@@ -14,7 +14,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public string Name { get; private set; }
         public string DepartmentId { get; private set; }
         public string DepartmentName { get; private set; }
+        public long WorkTypeId { get; private set; }
         public WorkType WorkType { get; private set; }
+        public long CostCenterId { get; private set; }
         public CostCenter CostCenter { get; private set; }
         public bool Sovereign { get; private set; }
 
@@ -23,7 +25,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public ProjectStatus Status { get; private set; }
         public FundingType FundingType { get; private set; }
         public AwardType? AwardType { get; private set; }
+        public long? AwardTypeId { get; private set; }
         public Company? Company { get; private set; }
+        public long? CompanyId { get; private set; }
         public int? OrderNumber { get; private set; }
         public DateOnly? OrderDate { get; private set; }
         public double? Price { get; private set; }
@@ -42,9 +46,12 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public int? ContractPapersCount { get; private set; }
         public int? ContractsCount { get; private set; }
         public MainBank? MainBank { get; private set; }
+        public long? MainBankId { get; private set; }
         public BankBranch? BankBranch { get; private set; }
+        public long? BankBranchId { get; private set; }
         public string? BankAccountNumber { get; private set; }
         public TaxAuthority? TaxAuthority { get; private set; }
+        public long? TaxAuthorityId { get; private set; }
         public string Notes { get; private set; }
         public bool Approved { get; private set; }
         public string? ApprovedBy { get; private set; }
@@ -171,7 +178,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
             WorkType = Guard.Against.Null(workType);
+            WorkTypeId = Guard.Against.NegativeOrZero(workType.Id);
             CostCenter = Guard.Against.Null(costCenter);
+            CostCenterId = Guard.Against.NegativeOrZero(costCenter.Id);
             Sovereign = sovereign;
             _classifications.Clear();
             _classifications.AddRange(classifications);
@@ -212,7 +221,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 Guard.Against.Null(finalDeliveryDate);
             }
             AwardType = awardType;
+            AwardTypeId = awardType?.Id;
             Company = company;
+            CompanyId = company?.Id;
             OrderNumber = orderNumber;
             OrderDate = orderDate;
             Price = price;
@@ -230,9 +241,12 @@ namespace NUCA.Projects.Domain.Entities.Projects
             ContractsCount = contractsCount;
             ContractPapersCount = contractPapersCount;
             MainBank = mainBank;
+            MainBankId = mainBank?.Id;
             BankBranch = bankBranch;
+            BankBranchId = bankBranch?.Id;
             BankAccountNumber = bankAccountNumber;
             TaxAuthority = taxAuthority;
+            TaxAuthorityId = taxAuthority?.Id;
             Notes = notes;
         }
 

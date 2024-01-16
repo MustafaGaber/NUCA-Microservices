@@ -11,6 +11,7 @@ using NUCA.Projects.Application.Projects.Queries.GetProject;
 using NUCA.Projects.Application.Projects.Queries.GetProjectName;
 using NUCA.Projects.Application.Projects.Queries.GetProjects;
 using NUCA.Projects.Application.Projects.Queries.GetProjectsWithStatements;
+using NUCA.Projects.Application.Projects.Queries.GetProjectWithBoqData;
 using NUCA.Projects.Application.Projects.Queries.GetProjectWithPrivileges;
 using NUCA.Projects.Application.Projects.Queries.GetUserProjects;
 using NUCA.Projects.Application.Projects.Queries.Models;
@@ -28,12 +29,13 @@ namespace NUCA.Projects.Api.Controllers.Projects
         private readonly IGetProjectWithStatementsQuery _getProjectWithStatementsQuery;
         private readonly IGetProjectNameQuery _getNameQuery;
         private readonly IGetProjectWithPrivilegesQuery _getProjectWithPrivilegesQuery;
+        private readonly IGetProjectWithBoqDataQuery _getProjectWithBoqDataQuery;
         private readonly ICreateProjectCommand _createCommand;
         private readonly IUpdateProjectCommand _updateCommand;
         private readonly IDeleteProjectCommand _deleteCommand;
         private readonly IUpdatePrivilegesCommand _updatePrivilegesCommand;
         private readonly IApproveProjectCommand _approveProjectCommand;
-        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery, IGetProjectWithPrivilegesQuery getProjectWithPrivilegesQuery, IUpdatePrivilegesCommand updatePrivilegesCommand, IApproveProjectCommand approveProjectCommand)
+        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery, IGetProjectWithPrivilegesQuery getProjectWithPrivilegesQuery, IUpdatePrivilegesCommand updatePrivilegesCommand, IApproveProjectCommand approveProjectCommand, IGetProjectWithBoqDataQuery getProjectWithBoqDataQuery)
         {
             _listQuery = listQuery;
             _detailQuery = detailQuery;
@@ -45,6 +47,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
             _deleteCommand = deleteCommand;
             _updatePrivilegesCommand = updatePrivilegesCommand;
             _approveProjectCommand = approveProjectCommand;
+            _getProjectWithBoqDataQuery = getProjectWithBoqDataQuery;
         }
 
         // [Authorize(Policy = "ExecutionUser")]
@@ -71,6 +74,15 @@ namespace NUCA.Projects.Api.Controllers.Projects
             if (userId == null) return Unauthorized();
             string name = await _getNameQuery.Execute(id);
             return Ok(name);
+        }
+
+        [HttpGet("{id}/BoqData")]
+        public async Task<IActionResult> GeProjectWithBoqData(long id)
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+            ProjectWithBoqData project = await _getProjectWithBoqDataQuery.Execute(id);
+            return Ok(project);
         }
 
         //[Authorize(Policy = "Admin")]

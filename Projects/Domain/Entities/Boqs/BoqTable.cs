@@ -17,8 +17,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         public double PriceChangePercent { get; private set; }
         public BoqTableType Type { get; private set; }
         public WorkType WorkType { get; private set; }
+        public long WorkTypeId { get; private set; }
         public bool IsPerformanceRate { get; private set; }
         public CostCenter CostCenter { get; private set; }
+        public long CostCenterId { get; private set; }
         public bool Sovereign { get; private set; }
         public virtual IReadOnlyList<BoqSection> Sections => _sections.ToList();
         protected BoqTable() { }
@@ -40,8 +42,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             Type = Guard.Against.Null(type);
             BoqId = boqId;
             WorkType = Guard.Against.Null(workType);
+            WorkTypeId = Guard.Against.NegativeOrZero(workType.Id);
             IsPerformanceRate = isPerformanceRate;
             CostCenter = Guard.Against.Null(costCenter);
+            CostCenterId = Guard.Against.NegativeOrZero(costCenter.Id);
             Sovereign = sovereign;
         }
         internal void UpdateTable(

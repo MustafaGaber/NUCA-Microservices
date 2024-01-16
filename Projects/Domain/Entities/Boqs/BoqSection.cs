@@ -12,8 +12,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
         public string DepartmentId { get; private set; }
         public string DepartmentName { get; private set; }
         public WorkType WorkType { get; private set; }
+        public long WorkTypeId { get; private set; }
         public bool IsPerformanceRate { get; private set; }
         public CostCenter CostCenter { get; private set; }
+        public long CostCenterId { get; private set; }
         public bool Sovereign { get; private set; }
         public virtual IReadOnlyList<BoqItem> Items => _items.ToList();
         protected BoqSection() { }
@@ -30,8 +32,10 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
             WorkType = Guard.Against.Null(workType);
+            WorkTypeId = Guard.Against.NegativeOrZero(workType.Id);
             IsPerformanceRate = isPerformanceRate;
             CostCenter = Guard.Against.Null(costCenter);
+            CostCenterId = Guard.Against.NegativeOrZero(costCenter.Id);
             Sovereign = sovereign;
         }
         internal void Update(
