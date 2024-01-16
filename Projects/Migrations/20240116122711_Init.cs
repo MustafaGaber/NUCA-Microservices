@@ -521,13 +521,13 @@ namespace NUCA.Projects.Migrations
                         column: x => x.CostCenterId,
                         principalTable: "CostCenters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BoqTable_WorkTypes_WorkTypeId",
                         column: x => x.WorkTypeId,
                         principalTable: "WorkTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -726,13 +726,13 @@ namespace NUCA.Projects.Migrations
                         column: x => x.CostCenterId,
                         principalTable: "CostCenters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BoqSection_WorkTypes_WorkTypeId",
                         column: x => x.WorkTypeId,
                         principalTable: "WorkTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -823,13 +823,13 @@ namespace NUCA.Projects.Migrations
                         column: x => x.CostCenterId,
                         principalTable: "CostCenters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BoqItem_WorkTypes_WorkTypeId",
                         column: x => x.WorkTypeId,
                         principalTable: "WorkTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -850,6 +850,8 @@ namespace NUCA.Projects.Migrations
                     PreviousNetPrice = table.Column<double>(type: "REAL", nullable: false),
                     WorkTypeId = table.Column<long>(type: "INTEGER", nullable: false),
                     IsPerformanceRate = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CostCenterId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Sovereign = table.Column<bool>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
                     StatementSectionId = table.Column<long>(type: "INTEGER", nullable: false),
@@ -863,12 +865,6 @@ namespace NUCA.Projects.Migrations
                         name: "FK_StatementItem_StatementSection_StatementSectionId",
                         column: x => x.StatementSectionId,
                         principalTable: "StatementSection",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StatementItem_WorkTypes_WorkTypeId",
-                        column: x => x.WorkTypeId,
-                        principalTable: "WorkTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -922,12 +918,14 @@ namespace NUCA.Projects.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BoqItem_CostCenterId",
                 table: "BoqItem",
-                column: "CostCenterId");
+                column: "CostCenterId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqItem_WorkTypeId",
                 table: "BoqItem",
-                column: "WorkTypeId");
+                column: "WorkTypeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boqs_ProjectId",
@@ -943,12 +941,14 @@ namespace NUCA.Projects.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BoqSection_CostCenterId",
                 table: "BoqSection",
-                column: "CostCenterId");
+                column: "CostCenterId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqSection_WorkTypeId",
                 table: "BoqSection",
-                column: "WorkTypeId");
+                column: "WorkTypeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqTable_BoqId",
@@ -958,12 +958,14 @@ namespace NUCA.Projects.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BoqTable_CostCenterId",
                 table: "BoqTable",
-                column: "CostCenterId");
+                column: "CostCenterId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqTable_WorkTypeId",
                 table: "BoqTable",
-                column: "WorkTypeId");
+                column: "WorkTypeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassificationProject_ProjectsId",
@@ -1039,11 +1041,6 @@ namespace NUCA.Projects.Migrations
                 name: "IX_StatementItem_StatementSectionId",
                 table: "StatementItem",
                 column: "StatementSectionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StatementItem_WorkTypeId",
-                table: "StatementItem",
-                column: "WorkTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Statements_ProjectId",

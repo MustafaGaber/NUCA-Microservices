@@ -183,7 +183,7 @@ namespace NUCA.Projects.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -320,9 +320,11 @@ namespace NUCA.Projects.Migrations
 
                     b.HasIndex("BoqSectionId");
 
-                    b.HasIndex("CostCenterId");
+                    b.HasIndex("CostCenterId")
+                        .IsUnique();
 
-                    b.HasIndex("WorkTypeId");
+                    b.HasIndex("WorkTypeId")
+                        .IsUnique();
 
                     b.ToTable("BoqItem");
                 });
@@ -378,9 +380,11 @@ namespace NUCA.Projects.Migrations
 
                     b.HasIndex("BoqTableId");
 
-                    b.HasIndex("CostCenterId");
+                    b.HasIndex("CostCenterId")
+                        .IsUnique();
 
-                    b.HasIndex("WorkTypeId");
+                    b.HasIndex("WorkTypeId")
+                        .IsUnique();
 
                     b.ToTable("BoqSection");
                 });
@@ -423,7 +427,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<bool>("Sovereign")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -437,9 +441,11 @@ namespace NUCA.Projects.Migrations
 
                     b.HasIndex("BoqId");
 
-                    b.HasIndex("CostCenterId");
+                    b.HasIndex("CostCenterId")
+                        .IsUnique();
 
-                    b.HasIndex("WorkTypeId");
+                    b.HasIndex("WorkTypeId")
+                        .IsUnique();
 
                     b.ToTable("BoqTable");
                 });
@@ -808,7 +814,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("ProjectId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1132,6 +1138,9 @@ namespace NUCA.Projects.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("CostCenterId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
@@ -1158,6 +1167,9 @@ namespace NUCA.Projects.Migrations
                     b.Property<double>("PreviousQuantity")
                         .HasColumnType("REAL");
 
+                    b.Property<bool>("Sovereign")
+                        .HasColumnType("INTEGER");
+
                     b.Property<long>("StatementSectionId")
                         .HasColumnType("INTEGER");
 
@@ -1181,8 +1193,6 @@ namespace NUCA.Projects.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("StatementSectionId");
-
-                    b.HasIndex("WorkTypeId");
 
                     b.ToTable("StatementItem");
                 });
@@ -1260,7 +1270,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1297,7 +1307,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("StatementId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("WorkType")
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
@@ -1463,15 +1473,15 @@ namespace NUCA.Projects.Migrations
                         .IsRequired();
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", "CostCenter")
-                        .WithMany()
-                        .HasForeignKey("CostCenterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("NUCA.Projects.Domain.Entities.Boqs.BoqItem", "CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
-                        .WithMany()
-                        .HasForeignKey("WorkTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("NUCA.Projects.Domain.Entities.Boqs.BoqItem", "WorkTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CostCenter");
@@ -1488,15 +1498,15 @@ namespace NUCA.Projects.Migrations
                         .IsRequired();
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", "CostCenter")
-                        .WithMany()
-                        .HasForeignKey("CostCenterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("NUCA.Projects.Domain.Entities.Boqs.BoqSection", "CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
-                        .WithMany()
-                        .HasForeignKey("WorkTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("NUCA.Projects.Domain.Entities.Boqs.BoqSection", "WorkTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CostCenter");
@@ -1513,15 +1523,15 @@ namespace NUCA.Projects.Migrations
                         .IsRequired();
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", "CostCenter")
-                        .WithMany()
-                        .HasForeignKey("CostCenterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("NUCA.Projects.Domain.Entities.Boqs.BoqTable", "CostCenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
-                        .WithMany()
-                        .HasForeignKey("WorkTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("NUCA.Projects.Domain.Entities.Boqs.BoqTable", "WorkTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CostCenter");
@@ -1691,14 +1701,6 @@ namespace NUCA.Projects.Migrations
                         .HasForeignKey("StatementSectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
-                        .WithMany()
-                        .HasForeignKey("WorkTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WorkType");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.StatementSection", b =>

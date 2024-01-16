@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NUCA.Projects.Domain.Entities.Boqs;
-using NUCA.Projects.Domain.Entities.Projects;
 
 namespace NUCA.Projects.Data.Boqs
 {
@@ -16,12 +15,14 @@ namespace NUCA.Projects.Data.Boqs
         }
     }
 
-    public class TableConfiguration : IEntityTypeConfiguration<BoqTable>
+    public class BoqTableConfiguration : IEntityTypeConfiguration<BoqTable>
     {
         public void Configure(EntityTypeBuilder<BoqTable> builder)
         {
             builder.HasKey(t => t.Id);
             builder.HasMany(t => t.Sections).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(i => i.WorkType).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.CostCenter).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -33,13 +34,23 @@ namespace NUCA.Projects.Data.Boqs
         }
     }
 
-    public class SectionConfiguration : IEntityTypeConfiguration<BoqSection>
+    public class BoqSectionConfiguration : IEntityTypeConfiguration<BoqSection>
     {
         public void Configure(EntityTypeBuilder<BoqSection> builder)
         {
-            builder.HasKey(s => s.Id);
             //builder.HasOne(p => p.Department).WithMany();
             builder.HasMany(s => s.Items).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(i => i.WorkType).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.CostCenter).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+
+    public class BoqItemConfiguration : IEntityTypeConfiguration<BoqItem>
+    {
+        public void Configure(EntityTypeBuilder<BoqItem> builder)
+        {
+            builder.HasOne(i => i.WorkType).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.CostCenter).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

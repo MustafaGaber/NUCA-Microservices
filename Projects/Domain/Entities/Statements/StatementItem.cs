@@ -37,8 +37,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
         }
 
         public double PreviousNetPrice { get; private set; }
-        public WorkType WorkType { get; private set; }
+        public long WorkTypeId { get; private set; }
         public bool IsPerformanceRate { get; private set; }
+        public long CostCenterId { get; private set; }
+        public bool Sovereign { get; private set; }
         public bool HasQuantities => !(PreviousQuantity == 0 && TotalQuantity == 0);
         protected StatementItem()
         {
@@ -51,8 +53,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
             string unit,
             double quantity,
             double unitPrice,
-            WorkType workType,
+            long workTypeId,
             bool isPerformanceRate,
+            long costCenterId,
+            bool sovereign,
             double previousQuantity,
             double totalQuantity,
             double percentage,
@@ -64,8 +68,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
             Unit = Guard.Against.NullOrEmpty(unit);
             BoqQuantity = Guard.Against.NegativeOrZero(quantity);
             UnitPrice = Guard.Against.NegativeOrZero(unitPrice);
-            WorkType = Guard.Against.Null(workType);
+            WorkTypeId = Guard.Against.NegativeOrZero(workTypeId);
             IsPerformanceRate = isPerformanceRate;
+            CostCenterId = Guard.Against.NegativeOrZero(costCenterId);
+            Sovereign = sovereign;
             PreviousQuantity = Guard.Against.Negative(previousQuantity, nameof(previousQuantity));
             TotalQuantity = totalQuantity;
             Percentage = Guard.Against.OutOfRange(percentage, nameof(percentage), 0, 100);
