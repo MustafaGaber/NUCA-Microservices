@@ -40,14 +40,6 @@ namespace NUCA.Projects.Api.Controllers.Statements
             return Ok(statements);
         }
 
-        /*[HttpGet("CurrentStatements")]
-        public async Task<IActionResult> GetCurrentStatements()
-        {
-            long userId = 1;
-            var statements = await _getCurrentStatementsQuery.Execute(userId);
-            return Ok(statements);
-        }*/
-
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {

@@ -27,7 +27,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             {
                 if (IsPerformanceRate)
                 {
-                    return PreviousNetPrice + CurrentQuantity * Percentage;
+                    return PreviousNetPrice + CurrentQuantity * UnitPrice * Percentage / 100;
                 }
                 else
                 {
@@ -60,7 +60,8 @@ namespace NUCA.Projects.Domain.Entities.Statements
             double previousQuantity,
             double totalQuantity,
             double percentage,
-            List<PercentageDetail> percentageDetails)
+            List<PercentageDetail> percentageDetails,
+            double previousNetPrice)
         {
             BoqItemId = Guard.Against.NegativeOrZero(boqItemId);
             Index = Guard.Against.NullOrEmpty(index);
@@ -76,6 +77,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             TotalQuantity = totalQuantity;
             Percentage = Guard.Against.OutOfRange(percentage, nameof(percentage), 0, 100);
             _percentageDetails = percentageDetails;
+            PreviousNetPrice = previousNetPrice;
             ValidatePercentage();
         }
         public void Update(UpdateStatementItemModel updates)
@@ -101,6 +103,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
         private void ValidatePercentage()
         {
             if (_percentageDetails.Count == 0) return;
+            if (_percentageDetails.Count > 0 && IsPerformanceRate)
+            {
+                throw new ArgumentException("Invalid percentage");
+            }
             if (TotalQuantity != _percentageDetails.Sum(p => p.Quantity))
             {
                 throw new ArgumentException("Invalid percentage");

@@ -69,7 +69,9 @@ namespace NUCA.Projects.Application.Statements.Models
                             Notes = d.Notes,
                             Quantity = d.Quantity,
                             Percentage = d.Percentage
-                        }).ToList()
+                        }).ToList(),
+                        IsPerformanceRate = i.IsPerformanceRate,
+                        PreviousNetPrice = i.PreviousNetPrice,
                     }).ToList(),
                 }).ToList(),
             }).ToList();
@@ -129,6 +131,8 @@ namespace NUCA.Projects.Application.Statements.Models
         public required double TotalQuantity { get; init; }
         public required double Percentage { get; init; }
         public required IReadOnlyList<PercentageDetailModel> PercentageDetails { get; init; }
+        public required bool IsPerformanceRate { get; init; }
+        public required double PreviousNetPrice { get; init; }
     }
 
     public class ExternalSuppliesItemModel

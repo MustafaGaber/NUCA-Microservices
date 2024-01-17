@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NUCA.Projects.Application.Boqs.Queries.GetBoq;
 using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Data.Shared;
 using NUCA.Projects.Domain.Entities.Boqs;
