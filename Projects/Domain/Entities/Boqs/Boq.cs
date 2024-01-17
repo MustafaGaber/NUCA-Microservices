@@ -85,6 +85,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
             if (table != null)
             {
                 _tables.Remove(table);
+                UpdateDepartments();
             }
         }
         public void AddSection(
@@ -158,7 +159,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
                     _departments.Add(department);
                 }
             });
-            _departments.ForEach(department =>
+            _departments.ToList().ForEach(department =>
             {
                 if (!departments.Any(d => d.DepartmentId == department.DepartmentId && d.DepartmentName == department.DepartmentName))
                 {

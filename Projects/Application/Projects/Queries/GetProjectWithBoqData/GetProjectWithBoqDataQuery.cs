@@ -17,6 +17,8 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjectWithBoqData
                 CostCenterId = p.CostCenterId,
                 WorkTypeId = p.WorkTypeId,
                 Sovereign = p.Sovereign,
+                DepartmentId = p.DepartmentId,
+                DepartmentName = p.DepartmentName,
             }) ?? throw new InvalidOperationException();
             return project;
         }

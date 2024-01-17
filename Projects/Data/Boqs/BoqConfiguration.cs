@@ -21,8 +21,8 @@ namespace NUCA.Projects.Data.Boqs
         {
             builder.HasKey(t => t.Id);
             builder.HasMany(t => t.Sections).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(i => i.WorkType).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(i => i.CostCenter).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.WorkType).WithMany().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.CostCenter).WithMany().OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -40,8 +40,8 @@ namespace NUCA.Projects.Data.Boqs
         {
             //builder.HasOne(p => p.Department).WithMany();
             builder.HasMany(s => s.Items).WithOne().IsRequired().OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(i => i.WorkType).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(i => i.CostCenter).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.WorkType).WithMany().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.CostCenter).WithMany().OnDelete(DeleteBehavior.Restrict);
         }
     }
 
@@ -49,8 +49,8 @@ namespace NUCA.Projects.Data.Boqs
     {
         public void Configure(EntityTypeBuilder<BoqItem> builder)
         {
-            builder.HasOne(i => i.WorkType).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(i => i.CostCenter).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.WorkType).WithMany().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.CostCenter).WithMany().OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
