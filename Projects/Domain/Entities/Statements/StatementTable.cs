@@ -24,7 +24,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             BoqTableId = Guard.Against.NegativeOrZero(boqTable.Id);
             Name = boqTable.Name;
             PriceChangePercent = Guard.Against.OutOfRange(boqTable.PriceChangePercent, nameof(boqTable.PriceChangePercent), -100, double.MaxValue);
-            _sections = boqTable.Sections.Select(section => new StatementSection(section, boqTable.Count)).ToList();
+            _sections = boqTable.Sections.Select(section => new StatementSection(section, boqTable.Count, type == StatementTableType.Supplies)).ToList();
             Type = Guard.Against.Null(type);
             BoqTableType = Guard.Against.Null(boqTableType);
         }
@@ -36,7 +36,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             _sections = boqTable.Sections.Select(section =>
             {
                 var previousSection = previousTable.Sections.FirstOrDefault(s => s.BoqSectionId == section.Id);
-                return previousSection == null ? new StatementSection(section, boqTable.Count) : new StatementSection(section, previousSection, boqTable.Count);
+                return previousSection == null ? new StatementSection(section, boqTable.Count, type == StatementTableType.Supplies) : new StatementSection(section, previousSection, boqTable.Count, type == StatementTableType.Supplies);
             }).ToList();
             Type = Guard.Against.Null(type);
             BoqTableType = Guard.Against.Null(boqTableType);

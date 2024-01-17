@@ -53,6 +53,10 @@
             <td class="fst-italic  py-0">
                 <div class="text-center">
                     @item.Percentage.Round().UseArabicDigits() ٪
+                    @if (item.IsPerformanceRate)
+                    {
+                        <span>للحالي</span>
+                    }
                 </div>
             </td>
             <td>

@@ -38,24 +38,24 @@ namespace NUCA.Projects.Api.Controllers.Statements
             var rs = new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create();
             var report = await rs.RenderAsync(new RenderRequest()
             {
-                //Data = model,
+                Data = model,
                 Template = new Template()
                 {
                     Recipe = Recipe.ChromePdf,
                     Engine = Engine.Handlebars,
-                    //Content = content,
+                    Content = content,
                     Chrome = new Chrome()
                     {
-                       // DisplayHeaderFooter = true,
-                       // HeaderTemplate = header,
-                       // FooterTemplate = footer,
+                        DisplayHeaderFooter = true,
+                        HeaderTemplate = header,
+                        FooterTemplate = footer,
                         Landscape = true,
                         MarginTop = "3cm",
                         MarginLeft = "1cm",
                         MarginBottom = "2.5cm",
                         MarginRight = "1cm",
                     },
-                    /*/PdfOperations =
+                    PdfOperations =
                     new List<PdfOperation> {
                         new PdfOperation()
                         {
@@ -76,7 +76,7 @@ namespace NUCA.Projects.Api.Controllers.Statements
                                   Content = pdfOperations,
                                 },
                             },
-                    },*/
+                    },
                 },
             });
             var memoryStream = new MemoryStream();

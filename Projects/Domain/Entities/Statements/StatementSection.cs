@@ -14,14 +14,13 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public string Name { get; private set; }
         public virtual IReadOnlyList<StatementItem> Items => _items.ToList();
         public bool HasQuantities => _items.Any(i => i.HasQuantities);
-
         protected StatementSection() { }
-        public StatementSection(BoqSection boqSection, int count)
+        public StatementSection(BoqSection boqSection, int count, bool supplies)
         {
             BoqSectionId = Guard.Against.NegativeOrZero(boqSection.Id);
             DepartmentId = Guard.Against.NullOrEmpty(boqSection.DepartmentId);
             Name = boqSection.Name;
-            _items = boqSection.Items.Select(boqItem => new StatementItem(
+            _items = boqSection.Items.Where(i => !i.IsPerformanceRate || !supplies ).Select(boqItem => new StatementItem(
                 boqItemId: boqItem.Id,
                 index: boqItem.Index,
                 content: boqItem.Content,
@@ -40,12 +39,12 @@ namespace NUCA.Projects.Domain.Entities.Statements
                 )
             ).ToList();
         }
-        public StatementSection(BoqSection boqSection, StatementSection previousStatementSection, int count)
+        public StatementSection(BoqSection boqSection, StatementSection previousStatementSection, int count, bool supplies)
         {
             BoqSectionId = Guard.Against.NegativeOrZero(boqSection.Id);
             DepartmentId = Guard.Against.NullOrEmpty(boqSection.DepartmentId);
             Name = boqSection.Name;
-            _items = boqSection.Items.Select(boqItem =>
+            _items = boqSection.Items.Where(i => !i.IsPerformanceRate || !supplies).Select(boqItem =>
             {
                 StatementItem? previousItem = previousStatementSection._items.FirstOrDefault(i => i.BoqItemId == boqItem.Id);
                 return new StatementItem(
