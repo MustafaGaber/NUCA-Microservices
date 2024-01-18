@@ -7,24 +7,25 @@ namespace NUCA.Projects.Application.Statements.Models
 {
     public class StatementModel
     {
-        public long Id { get; init; }
-        public int Index { get; init; }
-        public List<Table> Tables { get; init; }
-        public double PriceChangePercent { get; init; }
-        public DateOnly WorksDate { get; init; }
-        public DateOnly SubmissionDate { get; init; }
-        public bool Final { get; init; }
-        public StatementState State { get; init; }
-        public double TotalWorks { get; init; }
-        public double TotalSupplies { get; init; }
-        public List<WithholdingModel> Withholdings { get; init; }
-        public List<ExternalSuppliesItemModel> ExternalSuppliesItems { get; init; }
-        public List<PrivilegeModel> Privileges { get; init; }
-
-        public StatementModel(Statement statement, List<Privilege> privileges)
+        public long Id { get; private set; }
+        public int Index { get; private set; }
+        public List<Table> Tables { get; private set; }
+        public double PriceChangePercent { get; private set; }
+        public DateOnly WorksDate { get; private set; }
+        public DateOnly SubmissionDate { get; private set; }
+        public bool Final { get; private set; }
+        public StatementState State { get; private set; }
+        public double TotalWorks { get; private set; }
+        public double TotalSupplies { get; private set; }
+        public List<WithholdingModel> Withholdings { get; private set; }
+        public List<ExternalSuppliesItemModel> ExternalSuppliesItems { get; private set; }
+        public List<PrivilegeModel> Privileges { get; private set; }
+        public bool IsFirst { get; private set; }
+        public StatementModel(Statement statement, List<Privilege> privileges, bool isFirst)
         {
             Id = statement.Id;
             Index = statement.Index;
+            IsFirst = isFirst;
             PriceChangePercent = statement.PriceChangePercent;
             WorksDate = statement.WorksDate;
             SubmissionDate = statement.SubmissionDate;
@@ -99,7 +100,7 @@ namespace NUCA.Projects.Application.Statements.Models
 
     public class Table
     {
-        public long Id { get; init; }
+        public required long Id { get; init; }
         public required List<Section> Sections { get; init; }
         public required long BoqTableId { get; init; }
         public required string Name { get; init; }
@@ -145,23 +146,23 @@ namespace NUCA.Projects.Application.Statements.Models
         public required string Unit { get; init; }
         public required double UnitPrice { get; init; }
         public required double PreviousQuantity { get; init; }
-        public double CurrentQuantity => TotalQuantity - PreviousQuantity;
+        public  double CurrentQuantity => TotalQuantity - PreviousQuantity;
         public required double TotalQuantity { get; init; }
-        public double GrossPrice => TotalQuantity * UnitPrice;
+        public  double GrossPrice => TotalQuantity * UnitPrice;
         public required double Percentage { get; init; }
-        public double NetPrice => GrossPrice * Percentage / 100.0;
+        public  double NetPrice => GrossPrice * Percentage / 100.0;
     }
 
     public class PercentageDetailModel
     {
         public required double Quantity { get; init; }
         public required double Percentage { get; init; }
-        public string? Notes { get; init; }
+        public required string? Notes { get; init; }
     }
 
     public class PrivilegeModel
     {
-        public PrivilegeType Type { get; init; }
-        public string? DepartmentId { get; init; }
+        public required PrivilegeType Type { get; init; }
+        public required string? DepartmentId { get; init; }
     }
 }

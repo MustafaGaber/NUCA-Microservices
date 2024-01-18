@@ -80,23 +80,19 @@ namespace NUCA.Projects.Domain.Entities.Statements
             PreviousNetPrice = previousNetPrice;
             ValidatePercentage();
         }
-        public void Update(UpdateStatementItemModel updates)
+        public void Update(double? previousQuantity, double totalQuantity, double percentage, List<PercentageDetail> percentageDetails, double? previousNetPrice)
         {
-            TotalQuantity = Guard.Against.Negative(updates.TotalQuantity);
-            Percentage = Guard.Against.OutOfRange(updates.Percentage, nameof(updates.Percentage), 0, 100);
-            _percentageDetails = updates.PercentageDetails.Select(p => new PercentageDetail(p.Quantity, p.Percentage, p.Notes)).ToList();
-            /* _percentageDetails.RemoveAll(detail => !withholdings.Any(w => w.Id == withholding.Id));
-             _percentageDetails.ForEach(w =>
-             {
-                 StatementWithholding? withholding = _withholdings.Find(_w => _w.Id == w.Id);
-                 if (withholding != null)
-                 {
-                     withholding.Update(w.Name, w.Value, w.WorkType);
-                 }
-             });
-             _percentageDetails.AddRange(withholdings.Where(w => w.Id == 0).Select(w => new StatementWithholding(w.Name, w.Value, w.WorkType)));
-
-             */
+            if (previousQuantity != null)
+            {
+                PreviousQuantity = Guard.Against.Negative((double)previousQuantity);
+            }
+            if (previousNetPrice != null)
+            {
+                PreviousNetPrice = Guard.Against.Negative((double)previousNetPrice);
+            }
+            TotalQuantity = Guard.Against.Negative(totalQuantity);
+            Percentage = Guard.Against.OutOfRange(percentage, nameof(percentage), 0, 100);
+            _percentageDetails = percentageDetails;
             ValidatePercentage();
         }
 

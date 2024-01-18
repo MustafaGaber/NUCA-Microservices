@@ -19,7 +19,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
 
         public async Task Execute(long projectId, long statementId)
         {
-            bool created = await  _dbContext.Adjustments.Where(a => a.Id == statementId).AnyAsync();
+            bool created = await _dbContext.Adjustments.Where(a => a.Id == statementId).AnyAsync();
             if (created)
             {
                 return;
@@ -40,6 +40,13 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                 .Include(p => p.WorkType)
                 .Include(p => p.AwardType)
                 .FirstOrDefaultAsync(p => p.Id == projectId) ?? throw new InvalidOperationException();
+           
+            List<double> advancedPaymentDeductions = await _dbContext
+                 .AdvancedPaymentDeductions
+                 .Where(a => a.ProjectId == projectId)
+                 .Select(a => a.Amount)
+                 .ToListAsync();
+            double totalAdvancedPaymentDeductions = advancedPaymentDeductions.Sum();
             Adjustment adjustment = Adjustment.Create(
                 statementId: statementId,
                 projectId: projectId,
@@ -52,14 +59,19 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                 valueAddedTaxPercent: project.WorkType.ValueAddedTaxPercent,
                 valueAddedTaxIncluded: (bool)project.ValueAddedTaxIncluded!,
                 advancedPaymentPercent: (double)project.AdvancedPaymentPercentage!,
+                totalAdvancedPaymentDeductions: totalAdvancedPaymentDeductions,
                 commercialIndustrialTaxFree: project.Company!.CommercialIndustrialTaxFree,
                 contractsCount: (int)project.ContractsCount!,
                 contractPapersCount: (int)project.ContractPapersCount!,
                 orderPrice: (double)project.Price!,
                 contractPaperPrice: 2.9, // TODO :Get from settings
                 withholdings: statement.Withholdings.Select(w => new AdjustmentWithholding(w.Name, w.Value, w.Type, true)).ToList()
-                ) ;
+            );
             _dbContext.Adjustments.Add(adjustment);
+            /*if(adjustment.AdvancedPaymentDeduction != null)
+            {
+                _dbContext.AdvancedPaymentDeductions.Add(adjustment.AdvancedPaymentDeduction);
+            }*/
             await _dbContext.SaveChangesAsync();
         }
 

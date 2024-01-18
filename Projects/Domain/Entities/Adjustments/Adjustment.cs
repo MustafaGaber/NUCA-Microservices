@@ -1,6 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
-using System.ComponentModel;
 
 namespace NUCA.Projects.Domain.Entities.Adjustments
 {
@@ -31,6 +30,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
 
         private readonly List<AdjustmentWithholding> _withholdings = new List<AdjustmentWithholding>();
         public virtual IReadOnlyList<AdjustmentWithholding> Withholdings => _withholdings.ToList();
+        public AdvancedPaymentDeduction? AdvancedPaymentDeduction { get; private set; }
         public double Total { get; private set; }
         public bool Submitted { get; private set; }
         public double CurrentWorks => TotalWorks - PreviousTotalWorks;
@@ -86,6 +86,14 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             ContractorsFederationValue = Guard.Against.Negative(contractorsFederationValue);
             Submitted = false;
             _withholdings = withholdings;
+            if (advancedPaymentValue > 0)
+            {
+                AdvancedPaymentDeduction = new AdvancedPaymentDeduction
+                {
+                    ProjectId = projectId,
+                    Amount = advancedPaymentValue
+                };
+            }
             UpdateTotal();
         }
 
@@ -151,6 +159,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
            double valueAddedTaxPercent,
            bool valueAddedTaxIncluded,
            double advancedPaymentPercent,
+           double totalAdvancedPaymentDeductions,
            bool commercialIndustrialTaxFree,
            int contractsCount,
            int contractPapersCount,
@@ -173,7 +182,8 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             double originalCurrentWorks = valueAddedTaxIncluded ? currentWorks :
                                           currentWorks * 100 / (100 + valueAddedTaxPercent);
             double originalCurrentWorksAndSupplies = originalCurrentWorks + currentSupplies;
-            double remainingAdvancedPaymentValue = Math.Max(0, (orderPrice - previousTotalWorks) * advancedPaymentPercent / 100);
+            //double remainingAdvancedPaymentValue = Math.Max(0, (orderPrice - previousTotalWorks) * advancedPaymentPercent / 100);
+            double remainingAdvancedPaymentValue = Math.Max(0, orderPrice - totalAdvancedPaymentDeductions);
             double advancedPaymentValue = Math.Min(Math.Max(0, currentWorks * advancedPaymentPercent / 100),
                                                    remainingAdvancedPaymentValue);
             double completionGuaranteeValue = Math.Max(0, currentWorks * 5 / 100);

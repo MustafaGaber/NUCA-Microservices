@@ -23,6 +23,11 @@ namespace NUCA.Projects.Data.Projects
             builder.HasMany(p => p.Statements).WithOne()
                    .HasForeignKey(s => s.ProjectId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(p => p.AdvancedPaymentDeductions).WithOne()
+                 .HasForeignKey(d => d.ProjectId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
             builder.OwnsMany(
                 p => p.ModifiedEndDates, a =>
                 {

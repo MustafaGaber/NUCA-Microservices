@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Projects.Data;
 
@@ -10,9 +11,11 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    partial class ProjectsDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240118083833_AdvancedPaymentDeductions")]
+    partial class AdvancedPaymentDeductions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
@@ -230,9 +233,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AdjustmentId")
-                        .IsUnique();
 
                     b.HasIndex("ProjectId");
 
@@ -1479,12 +1479,6 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.AdvancedPaymentDeduction", b =>
                 {
-                    b.HasOne("NUCA.Projects.Domain.Entities.Adjustments.Adjustment", null)
-                        .WithOne("AdvancedPaymentDeduction")
-                        .HasForeignKey("NUCA.Projects.Domain.Entities.Adjustments.AdvancedPaymentDeduction", "AdjustmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("NUCA.Projects.Domain.Entities.Projects.Project", null)
                         .WithMany("AdvancedPaymentDeductions")
                         .HasForeignKey("ProjectId")
@@ -1789,8 +1783,6 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.Adjustment", b =>
                 {
-                    b.Navigation("AdvancedPaymentDeduction");
-
                     b.Navigation("Withholdings");
                 });
 

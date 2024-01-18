@@ -45,12 +45,12 @@ namespace NUCA.Projects.Domain.Entities.Statements
                    Total = TotalBeforePriceChange
                };
            }).ToList();
-        public long ProjectId { get; init; }
-        public int Index { get; init; }
-        public double PriceChangePercent { get; init; }
-        public DateOnly WorksDate { get; init; }
-        public DateOnly SubmissionDate { get; init; }
-        public bool Final { get; init; }
+        public long ProjectId { get; private set; }
+        public int Index { get; private set; }
+        public double PriceChangePercent { get; private set; }
+        public DateOnly WorksDate { get; private set; }
+        public DateOnly SubmissionDate { get; private set; }
+        public bool Final { get; private set; }
         public StatementState State { get; private set; }
         public double TotalWorksBeforePriceChange => TotalWorks * 100 / (100 + PriceChangePercent);
         public double TotalWorks { get; private set; }
@@ -81,10 +81,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
                 throw new InvalidOperationException();
             }
         }
-        public Statement(long projectId, Boq boq, DateOnly worksDate, bool final)
+        public Statement(long projectId, Boq boq, int index, DateOnly worksDate, bool final)
         {
             ProjectId = Guard.Against.NegativeOrZero(projectId, nameof(projectId));
-            Index = 1;
+            Index = Guard.Against.NegativeOrZero(index);
             State = StatementState.Execution;
             WorksDate = Guard.Against.Null(worksDate, nameof(worksDate));
             Final = final;
@@ -136,7 +136,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             )).ToList();
             UpdateTotals();
         }
-        public void Update(UpdateStatementModel model)
+        public void Update(UpdateStatementModel model, bool isFirst)
         {
             if (State > StatementState.TechnicalOffice)
             {
@@ -144,8 +144,20 @@ namespace NUCA.Projects.Domain.Entities.Statements
             }
             model.Items.ForEach(item =>
             {
+                if (!isFirst && (item.PreviousQuantity != null || item.PreviousNetPrice != null))
+                {
+                    throw new InvalidOperationException();
+                }
                 StatementTable table = _tables.First(table => table.Id == item.TableId);
-                table.UpdateItem(item);
+                table.UpdateItem(
+                   sectionId: item.SectionId,
+                   itemId: item.ItemId,
+                   previousQuantity: item.PreviousQuantity,
+                   totalQuantity: item.TotalQuantity,
+                   percentage: item.Percentage,
+                   percentageDetails: item.PercentageDetails.Select(p => new PercentageDetail(p.Quantity, p.Percentage, p.Notes)).ToList(),
+                   previousNetPrice: item.PreviousNetPrice
+                );
             });
 
             UpdateWithholdings(model.Withholdings);
@@ -210,7 +222,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public void TechnicalOfficeApprove(string userId)
         {
             if (State != StatementState.TechnicalOffice) return;
-            _submissions.Add(new UserSubmission(userId, PrivilegeType.TechnicalOffice, null,  true ));
+            _submissions.Add(new UserSubmission(userId, PrivilegeType.TechnicalOffice, null, true));
             State = StatementState.Revision;
             Message = null;
         }
@@ -218,7 +230,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public void TechnicalOfficeDisapprove(string userId, string? message)
         {
             if (State != StatementState.TechnicalOffice) return;
-            _submissions.Add(new UserSubmission(userId, PrivilegeType.TechnicalOffice, null,  false, message));
+            _submissions.Add(new UserSubmission(userId, PrivilegeType.TechnicalOffice, null, false, message));
             State = StatementState.ReturnedToExecution;
             Message = message;
         }
@@ -226,7 +238,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public void ReturnFromRevisionToExecution(string userId, string message)
         {
             if (State != StatementState.Revision) return;
-            _submissions.Add(new UserSubmission(userId, PrivilegeType.Revision, null,  false, message));
+            _submissions.Add(new UserSubmission(userId, PrivilegeType.Revision, null, false, message));
             State = StatementState.ReturnedToExecution;
             Message = message;
         }
@@ -239,7 +251,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             Message = message;
         }
 
-        public void RevisionApprove( string userId)
+        public void RevisionApprove(string userId)
         {
             if (State != StatementState.Revision) return;
             _submissions.Add(new UserSubmission(userId, PrivilegeType.Revision, null, true));
@@ -249,7 +261,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
 
         public void SetAdjusted()
         {
-            if (State != StatementState.RevisionApproved) return;
+            // if (State != StatementState.RevisionApproved) return;
             State = StatementState.Adjusted;
         }
 

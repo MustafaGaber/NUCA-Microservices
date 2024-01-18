@@ -24,7 +24,8 @@ namespace NUCA.Projects.Application.Statements.Queries.GetStatement
             {
                 throw new UnauthorizedAccessException();
             }
-            return new StatementModel(statement ?? throw new ArgumentNullException(), privileges);
+            var statementsCount = await _statementRepository.StatementsCount(statement.ProjectId);
+            return new StatementModel(statement ?? throw new ArgumentNullException(), privileges, statementsCount == 1);
         }
 
     }

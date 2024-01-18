@@ -21,8 +21,15 @@ namespace NUCA.Projects.Application.Statements.Commands.CreateStatement
             {
                 throw new InvalidOperationException();
             }
+            if (previousStatement == null && model.Index == null) {
+                throw new InvalidOperationException();
+            }
+            if (previousStatement != null && model.Index != null)
+            {
+                throw new InvalidOperationException();
+            }
             Statement statement = previousStatement == null ?
-            new Statement(projectId, boq, model.WorksDate, model.IsFinal)
+            new Statement(projectId, boq, (int)model.Index!, model.WorksDate, model.IsFinal)
             : new Statement(projectId, boq, model.WorksDate, model.IsFinal, previousStatement);
             Statement addedStatement = await _statementRepository.Add(statement);
             return addedStatement.Id;

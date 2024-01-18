@@ -37,7 +37,8 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
             {
                 throw new UnauthorizedAccessException();
             }
-            statement.Update(model);
+            var statementsCount = await _statementRepository.StatementsCount(statement.ProjectId);
+            statement.Update(model, statementsCount == 1);
             if (model.Submit)
             {
                 foreach (var privilege in privileges.Where(p => p.Type == PrivilegeType.Execution && p.DepartmentId != null))
@@ -47,7 +48,7 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
             }
             
             await _statementRepository.Update(statement);
-            return new StatementModel(statement, privileges);
+            return new StatementModel(statement, privileges, statementsCount == 1);
         }
     }
 }

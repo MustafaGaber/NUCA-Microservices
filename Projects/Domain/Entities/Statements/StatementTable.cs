@@ -40,10 +40,17 @@ namespace NUCA.Projects.Domain.Entities.Statements
             Type = Guard.Against.Null(type);
             BoqTableType = Guard.Against.Null(boqTableType);
         }
-        public void UpdateItem(UpdateStatementItemModel model)
+        public void UpdateItem(long sectionId, long itemId, double? previousQuantity, double totalQuantity, double percentage, List<PercentageDetail> percentageDetails, double? previousNetPrice)
         {
-            StatementSection section = _sections.First(s => s.Id == model.SectionId);
-            section.UpdateItem(model);
+            StatementSection section = _sections.First(s => s.Id == sectionId);
+            section.UpdateItem(
+                itemId: itemId,
+                previousQuantity: previousQuantity,
+                totalQuantity: totalQuantity,
+                percentage: percentage,
+                percentageDetails: percentageDetails,
+                previousNetPrice: previousNetPrice
+            );
         }
 
         public double TotalBeforePriceChange => _sections.Sum(s => s.Total);

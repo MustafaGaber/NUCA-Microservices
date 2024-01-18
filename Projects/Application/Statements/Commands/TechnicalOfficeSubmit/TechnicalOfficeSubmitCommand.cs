@@ -35,7 +35,8 @@ namespace NUCA.Projects.Application.Statements.Commands.TechnicalOfficeSubmit
                 statement.TechnicalOfficeDisapprove(userId, model.Message);
             }
             await _statementRepository.Update(statement);
-            return new StatementModel(statement, privileges);
+            var statementsCount = await _statementRepository.StatementsCount(statement.ProjectId);
+            return new StatementModel(statement, privileges, statementsCount == 1);
         }
     }
 }

@@ -33,6 +33,7 @@ namespace NUCA.Projects.Data
         public DbSet<User> Users { get; init; }
         public DbSet<Statement> Statements { get; init; }
         public DbSet<Adjustment> Adjustments { get; init; }
+        public DbSet<AdvancedPaymentDeduction> AdvancedPaymentDeductions { get; init; }
         public DbSet<WorkType> WorkTypes { get; init; }
         public DbSet<AwardType> AwardTypes { get; init; }
         public DbSet<Ledger> Ledgers { get; init; }

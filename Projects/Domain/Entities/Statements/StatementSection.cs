@@ -20,7 +20,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             BoqSectionId = Guard.Against.NegativeOrZero(boqSection.Id);
             DepartmentId = Guard.Against.NullOrEmpty(boqSection.DepartmentId);
             Name = boqSection.Name;
-            _items = boqSection.Items.Where(i => !i.IsPerformanceRate || !supplies ).Select(boqItem => new StatementItem(
+            _items = boqSection.Items.Where(i => !i.IsPerformanceRate || !supplies).Select(boqItem => new StatementItem(
                 boqItemId: boqItem.Id,
                 index: boqItem.Index,
                 content: boqItem.Content,
@@ -68,10 +68,16 @@ namespace NUCA.Projects.Domain.Entities.Statements
                     );
             }).ToList();
         }
-        public void UpdateItem(UpdateStatementItemModel model)
+        public void UpdateItem(long itemId, double? previousQuantity, double totalQuantity, double percentage, List<PercentageDetail> percentageDetails, double? previousNetPrice)
         {
-            StatementItem item = _items.First(i => i.Id == model.ItemId);
-            item.Update(model);
+            StatementItem item = _items.First(i => i.Id == itemId);
+            item.Update(
+                previousQuantity: previousQuantity,
+                totalQuantity: totalQuantity,
+                percentage: percentage,
+                percentageDetails: percentageDetails,
+                previousNetPrice: previousNetPrice
+            );
         }
 
         public double Total => _items.Sum(i => i.NetPrice);

@@ -19,9 +19,14 @@ namespace NUCA.Projects.Data.Adjustments
             builder.HasOne<Statement>().WithOne().HasForeignKey<Adjustment>(a => a.Id).OnDelete(DeleteBehavior.Restrict);
 
 
-            builder.HasMany(i => i.Withholdings)
-             .WithOne()
-             .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(a => a.Withholdings)
+                   .WithOne()
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(a => a.AdvancedPaymentDeduction)
+                   .WithOne()
+                   .HasForeignKey<AdvancedPaymentDeduction>(a => a.AdjustmentId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

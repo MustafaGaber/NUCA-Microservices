@@ -73,6 +73,13 @@ namespace NUCA.Projects.Data.Statements
              .FirstOrDefaultAsync(s => s.ProjectId == projectId && s.Index == index);
         }
 
+        public Task<int> StatementsCount(long projectId)
+        {
+            return database.Statements
+                      .Where(s => s.ProjectId == projectId)
+                      .CountAsync();
+        }
+
         private IQueryable<Statement> StatementQuery => 
                database.Statements
                 .Include(s => s.Withholdings)
