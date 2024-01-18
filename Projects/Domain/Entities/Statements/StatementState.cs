@@ -8,7 +8,9 @@
         ReturnedToTechnicalOffice = 40,
         Revision = 50,
         RevisionApproved = 60,
-        Adjusted = 70,
-        Paid = 80,
+        Adjusting = 70,
+        Adjusted = 80,
+        PartiallyPaid = 90,
+        Paid = 100,
     }
 }

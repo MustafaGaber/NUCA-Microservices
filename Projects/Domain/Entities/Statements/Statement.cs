@@ -144,19 +144,15 @@ namespace NUCA.Projects.Domain.Entities.Statements
             }
             model.Items.ForEach(item =>
             {
-                if (!isFirst && (item.PreviousQuantity != null || item.PreviousNetPrice != null))
-                {
-                    throw new InvalidOperationException();
-                }
                 StatementTable table = _tables.First(table => table.Id == item.TableId);
                 table.UpdateItem(
                    sectionId: item.SectionId,
                    itemId: item.ItemId,
-                   previousQuantity: item.PreviousQuantity,
+                   previousQuantity: isFirst && Index > 1 ? item.PreviousQuantity : null,
                    totalQuantity: item.TotalQuantity,
                    percentage: item.Percentage,
                    percentageDetails: item.PercentageDetails.Select(p => new PercentageDetail(p.Quantity, p.Percentage, p.Notes)).ToList(),
-                   previousNetPrice: item.PreviousNetPrice
+                   previousNetPrice: isFirst && Index > 1 ? item.PreviousNetPrice : null
                 );
             });
 
@@ -258,10 +254,15 @@ namespace NUCA.Projects.Domain.Entities.Statements
             State = StatementState.RevisionApproved;
             Message = null;
         }
-
-        public void SetAdjusted()
+        public void SetStateAdjusting()
         {
-            // if (State != StatementState.RevisionApproved) return;
+            // TODO: RevistionApproved
+            if (State != StatementState.Revision) return;
+            State = StatementState.Adjusting;
+        }
+        public void SetStateAdjusted()
+        {
+            if (State != StatementState.Adjusting) return;
             State = StatementState.Adjusted;
         }
 

@@ -26,7 +26,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.Submit
                 throw new InvalidOperationException();
             }
             adjustment.Submit();
-            statement.SetAdjusted();
+            statement.SetStateAdjusted();
             await _dbContext.SaveChangesAsync();
             AdjustmentModel? adjustmentModel = await _adjustmentRepository.GetAdjustmentModel(adjustmentId);
             return adjustmentModel;

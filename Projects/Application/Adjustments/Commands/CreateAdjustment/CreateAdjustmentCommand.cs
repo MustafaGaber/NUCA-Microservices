@@ -71,6 +71,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                 contractPaperPrice: 2.9, // TODO :Get from settings
                 withholdings: statement.Withholdings.Select(w => new AdjustmentWithholding(w.Name, w.Value, w.Type, true)).ToList()
             );
+            statement.SetStateAdjusting();
             _dbContext.Adjustments.Add(adjustment);
             await _dbContext.SaveChangesAsync();
         }
