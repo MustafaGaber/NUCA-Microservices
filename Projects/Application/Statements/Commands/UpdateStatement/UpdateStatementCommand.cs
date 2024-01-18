@@ -37,7 +37,7 @@ namespace NUCA.Projects.Application.Statements.Commands.UpdateStatement
             {
                 throw new UnauthorizedAccessException();
             }
-            var statementsCount = await _statementRepository.StatementsCount(statement.ProjectId);
+            int statementsCount = await _statementRepository.StatementsCount(statement.ProjectId);
             statement.Update(model, statementsCount == 1);
             if (model.Submit)
             {

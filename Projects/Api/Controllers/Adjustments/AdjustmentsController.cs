@@ -66,11 +66,11 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
             AdjustmentModel? result = await _deleteWithholdingCommand.Execute(adjustmentId, withholdingId);
             return Ok(result);
         }
-        
+
         [HttpPost("{projectId}/{statementId}")]
-        public async Task<IActionResult> Create(long projectId, long statementId)
+        public async Task<IActionResult> Create(long projectId, long statementId, [FromBody] CreateAdjustmentModel model)
         {
-            await _createAdjustmentCommand.Execute(projectId, statementId);
+            await _createAdjustmentCommand.Execute(projectId, statementId, model);
             return Ok();
         }
     }

@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Data;
 using NUCA.Projects.Domain.Entities.Adjustments;
 using NUCA.Projects.Domain.Entities.Projects;
@@ -17,30 +16,35 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
             _dbContext = dbContext;
         }
 
-        public async Task Execute(long projectId, long statementId)
+        public async Task Execute(long projectId, long statementId, CreateAdjustmentModel model)
         {
             bool created = await _dbContext.Adjustments.Where(a => a.Id == statementId).AnyAsync();
-            if (created)
-            {
-                return;
-            }
+            if (created) return;
+
             Statement? statement = await _dbContext.Statements.Include(s => s.Withholdings).FirstOrDefaultAsync(s => s.Id == statementId) ?? throw new InvalidOperationException();
             int index = statement.Index;
+
             Statement? prevoiusStatement = null;
             if (index > 1)
             {
                 prevoiusStatement = await _dbContext.Statements.FirstOrDefaultAsync(s => s.ProjectId == projectId && s.Index == index - 1);
-                if (prevoiusStatement == null)
+                if (prevoiusStatement == null && model.Empty)
                 {
                     throw new InvalidOperationException();
                 }
             }
+            double previousTotalWorks = index == 1 ? 0 : prevoiusStatement != null ?
+                prevoiusStatement.TotalWorks : (double)model.PreviousTotalWorks!;
+
+            double previousTotalSupplies = index == 1 ? 0 : prevoiusStatement != null ?
+               prevoiusStatement.TotalSupplies : (double)model.PreviousTotalSupplies!;
+
             Project? project = await _dbContext.Projects
                 .Include(p => p.Company)
                 .Include(p => p.WorkType)
                 .Include(p => p.AwardType)
                 .FirstOrDefaultAsync(p => p.Id == projectId) ?? throw new InvalidOperationException();
-           
+
             List<double> advancedPaymentDeductions = await _dbContext
                  .AdvancedPaymentDeductions
                  .Where(a => a.ProjectId == projectId)
@@ -53,9 +57,9 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                 statementIndex: index,
                 worksDate: statement.WorksDate,
                 totalWorks: statement.TotalWorks,
-                previousTotalWorks: prevoiusStatement == null ? 0 : prevoiusStatement.TotalWorks,
+                previousTotalWorks: previousTotalWorks,
                 totalSupplies: statement.TotalSupplies,
-                previousTotalSupplies: prevoiusStatement == null ? 0 : prevoiusStatement.TotalSupplies,
+                previousTotalSupplies: previousTotalSupplies,
                 valueAddedTaxPercent: project.WorkType.ValueAddedTaxPercent,
                 valueAddedTaxIncluded: (bool)project.ValueAddedTaxIncluded!,
                 advancedPaymentPercent: (double)project.AdvancedPaymentPercentage!,
@@ -68,12 +72,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                 withholdings: statement.Withholdings.Select(w => new AdjustmentWithholding(w.Name, w.Value, w.Type, true)).ToList()
             );
             _dbContext.Adjustments.Add(adjustment);
-            /*if(adjustment.AdvancedPaymentDeduction != null)
-            {
-                _dbContext.AdvancedPaymentDeductions.Add(adjustment.AdvancedPaymentDeduction);
-            }*/
             await _dbContext.SaveChangesAsync();
         }
-
     }
 }
