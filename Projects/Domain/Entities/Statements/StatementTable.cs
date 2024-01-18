@@ -2,7 +2,6 @@
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Shared;
-using System.Linq;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {

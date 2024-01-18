@@ -52,7 +52,7 @@ namespace NUCA.Projects.Api.Controllers.Statements
                         Landscape = true,
                         MarginTop = "3cm",
                         MarginLeft = "1cm",
-                        MarginBottom = "2.5cm",
+                        MarginBottom = "3cm",
                         MarginRight = "1cm",
                     },
                     PdfOperations =
@@ -70,7 +70,7 @@ namespace NUCA.Projects.Api.Controllers.Statements
                                         Landscape = true,
                                         MarginTop = "2.5cm",
                                         MarginLeft = "1cm",
-                                        MarginBottom = "2.5cm",
+                                        MarginBottom = "3cm",
                                         MarginRight = "1cm",
                                   },
                                   Content = pdfOperations,

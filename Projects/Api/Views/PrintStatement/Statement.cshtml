@@ -42,89 +42,106 @@
         </style>
     </head>
     <body>
-        <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"الأعمال\"}}}")</div>
-        <div dir="rtl">
-            <div>
-                @foreach (var table in worksTables)
-                {
-                    <table cellspacing="0">
-                        <tr class="bg-grey">
-                            <td colspan="12" class="py">
-                                @table.Name.UseArabicDigits()
-                            </td>
-                        </tr>
-                        @await Html.PartialAsync("TableHeader")
-                        @await Html.PartialAsync("WorksTable", table)
-                        @if (table == worksTables.Last())
-                        {
+        @{
+            bool hasWorks = Model.WorksTables.Where(t => t.HasQuantities).Count() > 0;
+            bool hasSupplies = Model.SuppliesTables.Where(t => t.HasQuantities).Count() > 0;
+        }
+        @if (hasWorks)
+        {
+            <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"الأعمال\"}}}")</div>
+            <div dir="rtl">
+                <div>
+                    @foreach (var table in worksTables)
+                    {
+                        <table cellspacing="0">
                             <tr class="bg-grey">
-                                <td colspan="11" class="py">
-                                    إجمالي الأعمال
-                                </td>
-                                <td class="text-center">
-                                    @Model.TotalWorksBeforePriceChange.Round().UseArabicDigits()
+                                <td colspan="12" class="py">
+                                    @table.Name.UseArabicDigits()
                                 </td>
                             </tr>
-                            @if (Model.PriceChangePercent != 0)
+                            @await Html.PartialAsync("TableHeader")
+                            @await Html.PartialAsync("WorksTable", table)
+                            @if (table == worksTables.Last())
                             {
                                 <tr class="bg-grey">
                                     <td colspan="11" class="py">
-                                        إجمالي الأعمال بعد
-                                        <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
-                                        <span>@Math.Abs(Model.PriceChangePercent).Round().UseArabicDigits()</span>
-                                        ٪
+                                        إجمالي الأعمال
                                     </td>
                                     <td class="text-center">
-                                        @Model.TotalWorks.Round().UseArabicDigits()
+                                        @Model.TotalWorksBeforePriceChange.Round().UseArabicDigits()
+                                    </td>
+                                </tr>
+                                @if (Model.PriceChangePercent != 0)
+                                {
+                                    <tr class="bg-grey">
+                                        <td colspan="11" class="py">
+                                            إجمالي الأعمال بعد
+                                            <span>@(Model.PriceChangePercent > 0 ? "علاوة" : "خصم")</span>
+                                            <span>@Math.Abs(Model.PriceChangePercent).Round().UseArabicDigits()</span>
+                                            ٪
+                                        </td>
+                                        <td class="text-center">
+                                            @Model.TotalWorks.Round().UseArabicDigits()
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                        @if (table != worksTables.Last())
+                        {
+                            <div style='page-break-before:always;' />
+                        }
+                    }
+                </div>
+            </div>
+        }
+        @if (hasSupplies)
+        {
+            @if (hasWorks)
+            {
+                <div style='page-break-before:always;' />
+            }
+            <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"التشوينات\"}}}")</div>
+            <div dir="rtl">
+                <div>
+                    @foreach (var table in suppliesTables)
+                    {
+                        <table cellspacing="0">
+                            <tr class="bg-grey">
+                                <td colspan="12" class="py">
+                                    @table.Name.UseArabicDigits()
+                                </td>
+                            </tr>
+                            @await Html.PartialAsync("TableHeader")
+                            @await Html.PartialAsync("SuppliesTable", table)
+                            @if (table == suppliesTables.Last())
+                            {
+                                <tr class="bg-grey">
+                                    <td colspan="11" class="py">
+                                        إجمالي التشوينات
+                                    </td>
+                                    <td class="text-center">
+                                        @Model.TotalSupplies.Round().UseArabicDigits()
+                                    </td>
+                                </tr>
+                                <tr class="bg-grey">
+                                    <td colspan="11" class="py">
+                                        إجمالي المستخلص
+                                    </td>
+                                    <td class="text-center">
+                                        @Model.TotalWorksAndSupplies.Round().UseArabicDigits()
                                     </td>
                                 </tr>
                             }
-                        }
-                    </table>
-                    <div style='page-break-before:always;' />
-                }
-            </div>
-        </div>
-        <div dir="ltr">@Html.Raw("{{{pdfCreatePagesGroup \"التشوينات\"}}}")</div>
-        <div dir="rtl">
-            <div>
-                @foreach (var table in suppliesTables)
-                {
-                    <table cellspacing="0">
-                        <tr class="bg-grey">
-                            <td colspan="12" class="py">
-                                @table.Name.UseArabicDigits()
-                            </td>
-                        </tr>
-                        @await Html.PartialAsync("TableHeader")
-                        @await Html.PartialAsync("SuppliesTable", table)
-                        @if (table == suppliesTables.Last())
+                        </table>
+                        @if (table != suppliesTables.Last())
                         {
-                            <tr class="bg-grey">
-                                <td colspan="11" class="py">
-                                    إجمالي التشوينات
-                                </td>
-                                <td class="text-center">
-                                    @Model.TotalSupplies.Round().UseArabicDigits()
-                                </td>
-                            </tr>
-                            <tr class="bg-grey">
-                                <td colspan="11" class="py">
-                                    إجمالي المستخلص
-                                </td>
-                                <td class="text-center">
-                                    @Model.TotalWorksAndSupplies.Round().UseArabicDigits()
-                                </td>
-                            </tr>
+                            <div style='page-break-before:always;' />
                         }
-                    </table>
-                    @if (table != suppliesTables.Last())
-                    {
-                        <div style='page-break-before:always;' />
                     }
-                }
+                </div>
             </div>
-        </div>
+        }
     </body>
     </html>
 }
