@@ -1,7 +1,7 @@
-﻿using NUCA.Projects.Domain.Entities.Projects;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NUCA.Projects.Domain.Entities.Boqs;
+using NUCA.Projects.Domain.Entities.Projects;
 
 namespace NUCA.Projects.Data.Projects
 {
@@ -13,6 +13,11 @@ namespace NUCA.Projects.Data.Projects
             builder.HasOne(p => p.Company).WithMany().OnDelete(DeleteBehavior.Restrict);
             //builder.HasOne(p => p.Department).WithMany().OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(p => p.WorkType).WithMany().OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(p => p.ModifiedEndDates).WithOne()
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasMany(p => p.Privileges).WithOne()
                    .IsRequired()
                    .HasForeignKey(p => p.ProjectId)
@@ -28,14 +33,14 @@ namespace NUCA.Projects.Data.Projects
                  .HasForeignKey(d => d.ProjectId)
                  .OnDelete(DeleteBehavior.Restrict);
 
-            builder.OwnsMany(
-                p => p.ModifiedEndDates, a =>
-                {
-                    a.ToTable("EndDates");
-                    a.WithOwner().HasForeignKey("ProjectId");
-                    a.HasKey("Id");
-                    a.Property("Id");
-                });
+            /*  builder.OwnsMany(
+               p => p.ModifiedEndDates, a =>
+               {
+                   a.ToTable("EndDates");
+                   a.WithOwner().HasForeignKey("ProjectId");
+                   a.HasKey("Id");
+                   a.Property("Id");
+              });*/
             builder.OwnsOne(p => p.Duration);
         }
     }

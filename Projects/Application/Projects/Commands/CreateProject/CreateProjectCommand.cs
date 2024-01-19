@@ -92,7 +92,7 @@ namespace NUCA.Projects.Application.Projects.Commands.CreateProject
                 handoverDate: model.HandoverDate,
                 startDate: model.StartDate,
                 endDate: model.EndDate,
-                modifiedEndDates: model.ModifiedEndDates.Select(d => new Date(d)).ToList(),
+                modifiedEndDates: model.ModifiedEndDates.Select(d => new ModifiedEndDate(d)).ToList(),
                 initialDeliveryDate: model.InitialDeliveryDate,
                 initialDeliverySigningDate: model.InitialDeliverySigningDate,
                 finalDeliveryDate: model.FinalDeliveryDate,

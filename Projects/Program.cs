@@ -17,7 +17,7 @@ using System.Globalization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddAutoMapper(typeof(Program));
 var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser().Build();
 builder.Services.AddControllersWithViews(configure =>
@@ -35,7 +35,8 @@ builder.Services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBi
 .AsUtility().Create());
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.Scan(scan => {
+builder.Services.Scan(scan =>
+{
     scan
     .FromEntryAssembly()
     //.FromApplicationDependencies(d => d.FullName.StartsWith("NUCA.Projects"))
@@ -66,23 +67,23 @@ builder.Services.AddAuthorization(options =>
     });
     options.AddPolicy("ExecutionUser", policy =>
     {
-        policy.RequireClaim("permission",  Permissions.Execution );
+        policy.RequireClaim("permission", Permissions.Execution);
     });
     options.AddPolicy("TechnicalOfficeUser", policy =>
     {
-        policy.RequireClaim("permission",  Permissions.TechnicalOffice );
+        policy.RequireClaim("permission", Permissions.TechnicalOffice);
     });
     options.AddPolicy("RevisionUser", policy =>
     {
-        policy.RequireClaim("permission", Permissions.Revision );
+        policy.RequireClaim("permission", Permissions.Revision);
     });
     options.AddPolicy("AccountingUser", policy =>
     {
-        policy.RequireClaim("permission",  Permissions.Accounting );
+        policy.RequireClaim("permission", Permissions.Accounting);
     });
     options.AddPolicy("FinanceUser", policy =>
     {
-        policy.RequireClaim("permission", new string[] { Permissions.Revision,Permissions.Accounting });
+        policy.RequireClaim("permission", new string[] { Permissions.Revision, Permissions.Accounting });
     });
 });
 builder.Services.Configure<SecurityStampValidatorOptions>(options =>
@@ -95,15 +96,15 @@ var app = builder.Build();
 var defaultCulture = new CultureInfo("ar-EG");
 defaultCulture.NumberFormat = new NumberFormatInfo()
 {
-   NativeDigits = new string[] { "٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩" },
-   DigitSubstitution = DigitShapes.NativeNational,
+    NativeDigits = new string[] { "٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩" },
+    DigitSubstitution = DigitShapes.NativeNational,
 };
 Thread.CurrentThread.CurrentCulture = defaultCulture;
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture(defaultCulture),
     SupportedCultures = new List<CultureInfo> { defaultCulture },
-    SupportedUICultures = new List<CultureInfo> { defaultCulture },   
+    SupportedUICultures = new List<CultureInfo> { defaultCulture },
 });
 
 // Configure the HTTP request pipeline.

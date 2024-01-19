@@ -23,7 +23,6 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjects
             var query = _dbContext.Projects
                 .Include(p => p.Company)
                 .Include(p => p.Privileges)
-               // .Include(p => p.Boq)
                 .AsQueryable();
 
             var permissions = user.Permissions();
@@ -44,7 +43,6 @@ namespace NUCA.Projects.Application.Projects.Queries.GetProjects
                     Privileges = project.Privileges
                         .Select(p => new PrivilegeModel() { Type = p.Type, DepartmentId = p.DepartmentId })
                         .ToList(),
-                   // BoqId = project.Boq == null ? null : project.Boq.Id,
                     Approved = project.Approved,
                 }).ToListAsync();
         }

@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
+using NUCA.Projects.Application.Ledgers.Commands;
 using NUCA.Projects.Application.Ledgers.Commands.CreateLedger;
 using NUCA.Projects.Application.Ledgers.Commands.DeleteLedger;
 using NUCA.Projects.Application.Ledgers.Commands.UpdateLedger;
-using NUCA.Projects.Application.Ledgers.Commands;
 using NUCA.Projects.Application.Ledgers.Queries.CanDeleteLedger;
 using NUCA.Projects.Application.Ledgers.Queries.GetLedger;
 using NUCA.Projects.Application.Ledgers.Queries.GetLedgers;
-using Microsoft.AspNetCore.Authorization;
 
 namespace NUCA.Projects.Api.Controllers.Ledgers
 {
-    [Authorize("FinanceUser")]
+    // [Authorize("FinanceUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class LedgersController : BaseController

@@ -39,8 +39,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public DateOnly? StartDate { get; private set; }
         public DateOnly? EndDate { get; private set; }
 
-        private readonly List<Date> _modifiedEndDates = new List<Date>();
-        public virtual IReadOnlyList<Date> ModifiedEndDates => _modifiedEndDates.ToList();
+        private readonly List<ModifiedEndDate> _modifiedEndDates = new List<ModifiedEndDate>();
+        public virtual IReadOnlyList<ModifiedEndDate> ModifiedEndDates => _modifiedEndDates.ToList();
         public DateOnly? InitialDeliveryDate { get; private set; }
         public DateOnly? InitialDeliverySigningDate { get; private set; }
         public DateOnly? FinalDeliveryDate { get; private set; }
@@ -84,7 +84,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DateOnly? handoverDate,
             DateOnly? startDate,
             DateOnly? endDate,
-            List<Date> modifiedEndDates,
+            List<ModifiedEndDate> modifiedEndDates,
             DateOnly? initialDeliveryDate,
             DateOnly? initialDeliverySigningDate,
             DateOnly? finalDeliveryDate,
@@ -152,7 +152,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DateOnly? handoverDate,
             DateOnly? startDate,
             DateOnly? endDate,
-            List<Date> modifiedEndDates,
+            List<ModifiedEndDate> modifiedEndDates,
             DateOnly? initialDeliveryDate,
             DateOnly? initialDeliverySigningDate,
             DateOnly? finalDeliveryDate,
@@ -257,19 +257,19 @@ namespace NUCA.Projects.Domain.Entities.Projects
             Approved = true;
             ApprovedBy = userId;
         }
-       /* public void UpdatePrivileges(List<PrivilegeModel> privileges)
-        {
-            _privileges.RemoveAll(privilege => !privileges.Any(p => p.Id == privilege.Id));
-            privileges.ForEach(p =>
-            {
-                Privilege? privilege = _privileges.Find(_p => _p.Id == p.Id);
-                if (privilege != null)
-                {
-                    privilege.Update(p.UserId, p.WorkType, p.DepartmentId);
-                }
-            });
-            _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.UserId, p.WorkType, p.DepartmentId )));
-        }*/
+        /* public void UpdatePrivileges(List<PrivilegeModel> privileges)
+         {
+             _privileges.RemoveAll(privilege => !privileges.Any(p => p.Id == privilege.Id));
+             privileges.ForEach(p =>
+             {
+                 Privilege? privilege = _privileges.Find(_p => _p.Id == p.Id);
+                 if (privilege != null)
+                 {
+                     privilege.Update(p.UserId, p.WorkType, p.DepartmentId);
+                 }
+             });
+             _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.UserId, p.WorkType, p.DepartmentId )));
+         }*/
     }
 
 }

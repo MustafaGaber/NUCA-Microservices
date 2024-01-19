@@ -1606,7 +1606,7 @@ namespace NUCA.Projects.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsMany("NUCA.Projects.Domain.Entities.Shared.Date", "ModifiedEndDates", b1 =>
+                    b.OwnsMany("NUCA.Projects.Domain.Entities.Shared.ModifiedEndDate", "ModifiedEndDates", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()

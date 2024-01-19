@@ -1,12 +1,10 @@
 ﻿using NUCA.Projects.Application.Adjustments.Models;
 using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Data.Statements;
 using NUCA.Projects.Domain.Entities.Adjustments;
-using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Application.Adjustments.Commands.AddWithholding
 {
-    public class AddWithholdingCommand: IAddWithholdingCommand
+    public class AddWithholdingCommand : IAddWithholdingCommand
     {
         private readonly IAdjustmentRepository _adjustmentRepository;
 

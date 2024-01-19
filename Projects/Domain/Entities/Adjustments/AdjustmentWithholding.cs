@@ -9,7 +9,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         public string Name { get; private set; }
         public double Value { get; private set; }
         public WithholdingType Type { get; private set; }
-        public bool FromStatement {  get; private set; }
+        public bool FromStatement { get; private set; }
 
         protected AdjustmentWithholding() { }
         public AdjustmentWithholding(string name, double value, WithholdingType type, bool fromStatement)

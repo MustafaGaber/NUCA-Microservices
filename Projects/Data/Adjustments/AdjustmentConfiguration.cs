@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NUCA.Projects.Domain.Entities.Adjustments;
-using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Data.Adjustments
@@ -10,14 +9,13 @@ namespace NUCA.Projects.Data.Adjustments
     {
         public void Configure(EntityTypeBuilder<Adjustment> builder)
         {
-            builder.HasOne<Project>()
+            builder.HasOne(a => a.Project)
                 .WithMany()
-                .HasForeignKey(i => i.ProjectId)
+                .HasForeignKey(a => a.ProjectId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property("Id").ValueGeneratedNever();
             builder.HasOne<Statement>().WithOne().HasForeignKey<Adjustment>(a => a.Id).OnDelete(DeleteBehavior.Restrict);
-
 
             builder.HasMany(a => a.Withholdings)
                    .WithOne()
@@ -26,7 +24,7 @@ namespace NUCA.Projects.Data.Adjustments
             builder.HasOne(a => a.AdvancedPaymentDeduction)
                    .WithOne()
                    .HasForeignKey<AdvancedPaymentDeduction>(a => a.AdjustmentId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

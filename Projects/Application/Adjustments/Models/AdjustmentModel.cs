@@ -1,7 +1,4 @@
-﻿using NUCA.Projects.Domain.Entities.Adjustments;
-using NUCA.Projects.Domain.Entities.Projects;
-
-namespace NUCA.Projects.Application.Adjustments.Models
+﻿namespace NUCA.Projects.Application.Adjustments.Models
 {
     public class AdjustmentModel
     {
@@ -37,51 +34,8 @@ namespace NUCA.Projects.Application.Adjustments.Models
         public double TotalDue { get; init; }
         public double TotalWithholdings { get; init; }
         public double Total { get; init; }
+        public bool IsFirst { get; init; }
 
-        public static AdjustmentModel FromAdjustmentAndProject(Adjustment adjustment, Project project)
-        {
-            return new AdjustmentModel()
-            {
-                ProjectName = project.Name,
-                CompanyName = project.Company!.Name,
-                WorksDate = adjustment.WorksDate,
-                StatementIndex = adjustment.StatementIndex,
-                TotalWorks = adjustment.TotalWorks,
-                TotalSupplies = adjustment.TotalSupplies,
-                PreviousTotalWorks = adjustment.PreviousTotalWorks,
-                PreviousTotalSupplies = adjustment.PreviousTotalSupplies,
-                CurrentWorks = adjustment.CurrentWorks,
-                CurrentSupplies = adjustment.CurrentSupplies,
-                CurrentWorksAndSupplies = adjustment.CurrentWorksAndSupplies,
-                ServiceTax = adjustment.ServiceTax,
-                AdvancedPaymentPercent = adjustment.AdvancedPaymentPercent,
-                AdvancedPaymentValue = adjustment.AdvancedPaymentValue,
-                CompletionGuaranteeValue = adjustment.CompletionGuaranteeValue,
-                EngineersSyndicateValue = adjustment.EngineersSyndicateValue,
-                ApplicatorsSyndicateValue = adjustment.ApplicatorsSyndicateValue,
-                RegularStampDuty = adjustment.RegularStampDuty,
-                AdditionalStampDuty = adjustment.AdditionalStampDuty,
-                TotalStampDuty = adjustment.TotalStampDuty,
-                CommercialIndustrialTax = adjustment.CommercialIndustrialTax,
-                ValueAddedTaxPercent = adjustment.ValueAddedTaxPercent,
-                ValueAddedTax = adjustment.ValueAddedTax,
-                WasteRemovalInsurance = adjustment.WasteRemovalInsurance,
-                TahyaMisrFundValue = adjustment.TahyaMisrFundValue,
-                ConractStampDuty = adjustment.ConractStampDuty,
-                ContractorsFederationValue = adjustment.ContractorsFederationValue,
-                Withholdings = adjustment.Withholdings.Select(w => new WithholdingModel()
-                {
-                    Id = w.Id,
-                    Name = w.Name,
-                    Value = w.Value,
-                    Type = w.Type,
-                    FromStatement = w.FromStatement
-                }).ToList(),
-                TotalDue = adjustment.TotalDue,
-                TotalWithholdings = adjustment.TotalWithholdings,
-                Total = adjustment.Total,
-                Submitted = adjustment.Submitted,
-            };
-        }
+
     }
 }

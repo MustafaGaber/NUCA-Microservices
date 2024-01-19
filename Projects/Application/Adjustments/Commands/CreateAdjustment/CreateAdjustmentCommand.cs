@@ -50,24 +50,18 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                  .Where(a => a.ProjectId == projectId)
                  .Select(a => a.Amount)
                  .ToListAsync();
+
             double totalAdvancedPaymentDeductions = advancedPaymentDeductions.Sum();
             Adjustment adjustment = Adjustment.Create(
                 statementId: statementId,
-                projectId: projectId,
+                project: project,
                 statementIndex: index,
                 worksDate: statement.WorksDate,
                 totalWorks: statement.TotalWorks,
                 previousTotalWorks: previousTotalWorks,
                 totalSupplies: statement.TotalSupplies,
                 previousTotalSupplies: previousTotalSupplies,
-                valueAddedTaxPercent: project.WorkType.ValueAddedTaxPercent,
-                valueAddedTaxIncluded: (bool)project.ValueAddedTaxIncluded!,
-                advancedPaymentPercent: (double)project.AdvancedPaymentPercentage!,
                 totalAdvancedPaymentDeductions: totalAdvancedPaymentDeductions,
-                commercialIndustrialTaxFree: project.Company!.CommercialIndustrialTaxFree,
-                contractsCount: (int)project.ContractsCount!,
-                contractPapersCount: (int)project.ContractPapersCount!,
-                orderPrice: (double)project.Price!,
                 contractPaperPrice: 2.9, // TODO :Get from settings
                 withholdings: statement.Withholdings.Select(w => new AdjustmentWithholding(w.Name, w.Value, w.Type, true)).ToList()
             );

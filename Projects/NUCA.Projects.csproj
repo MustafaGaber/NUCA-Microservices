@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" Version="4.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="IdentityModel" Version="6.2.0" />
     <PackageReference Include="jsreport.AspNetCore" Version="3.8.0" />
     <PackageReference Include="jsreport.Binary" Version="3.13.0" />
@@ -38,6 +39,7 @@
   <ItemGroup>
     <Folder Include="Application\FinanceAdmin\CostCenters\" />
     <Folder Include="Application\FinanceAdmin\TaxAuthorities\" />
+    <Folder Include="Application\Projects\Queries\GetSettingsProjects\" />
     <Folder Include="Domain\Entities\CostCenters\" />
   </ItemGroup>
 
