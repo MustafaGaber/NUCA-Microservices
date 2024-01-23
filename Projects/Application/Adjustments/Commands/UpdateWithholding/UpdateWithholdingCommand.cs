@@ -13,13 +13,13 @@ namespace NUCA.Projects.Application.Adjustments.Commands.UpdateWithholding
             _adjustmentRepository = adjustmentRepository;
         }
 
-        public async Task<AdjustmentModel?> Execute(long adjustmentId, long withholdingId, EditWithholdingModel model)
+        public async Task<GetAdjustmentModel?> Execute(long adjustmentId, long withholdingId, EditWithholdingModel model)
         {
             Adjustment? adjustment = await _adjustmentRepository.Get(adjustmentId) ?? throw new InvalidOperationException();
             AdjustmentWithholding withholding = new AdjustmentWithholding(model.Name, model.Value, model.Type, false);
             adjustment.UpdateWithholding(withholdingId, withholding);
             await _adjustmentRepository.Update(adjustment);
-            AdjustmentModel? adjustmentModel = await _adjustmentRepository.GetAdjustmentModel(adjustmentId);
+            GetAdjustmentModel? adjustmentModel = await _adjustmentRepository.GetAdjustmentModel(adjustmentId);
             return adjustmentModel;
         }
     }

@@ -24,7 +24,7 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
         public required double? Price { get; init; }
         public required long? CompanyId { get; init; }
         public required string CompanyName { get; init; }
-        public required double? AdvancedPaymentPercentage { get; init; }
+        public required double? AdvancePaymentPercentage { get; init; }
         public required int? ContractPapersCount { get; init; }
         public required int? ContractsCount { get; init; }
         public required bool? ValueAddedTaxIncluded { get; init; }
@@ -65,7 +65,7 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
                 Duration = project.Duration,
                 CompanyId = project.Company?.Id,
                 CompanyName = project.Company?.Name,
-                AdvancedPaymentPercentage = project.AdvancedPaymentPercentage,
+                AdvancePaymentPercentage = project.AdvancePaymentPercentage,
                 ContractsCount = project.ContractsCount,
                 ContractPapersCount = project.ContractPapersCount,
                 ValueAddedTaxIncluded = project.ValueAddedTaxIncluded,

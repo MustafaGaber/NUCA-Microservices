@@ -42,28 +42,28 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
         [HttpPost("Withholding/{adjustmentId}")]
         public async Task<IActionResult> AddWithholding(long adjustmentId, [FromBody] EditWithholdingModel model)
         {
-            AdjustmentModel? result = await _addWithholdingCommand.Execute(adjustmentId, model);
+            GetAdjustmentModel? result = await _addWithholdingCommand.Execute(adjustmentId, model);
             return Ok(result);
         }
 
         [HttpPost("Submit/{adjustmentId}")]
         public async Task<IActionResult> Submit(long adjustmentId)
         {
-            AdjustmentModel? result = await _submitCommand.Execute(adjustmentId);
+            GetAdjustmentModel? result = await _submitCommand.Execute(adjustmentId);
             return Ok(result);
         }
 
         [HttpPut("Withholding/{adjustmentId}/{withholdingId}")]
         public async Task<IActionResult> UpdateWithholding(long adjustmentId, long withholdingId, [FromBody] EditWithholdingModel model)
         {
-            AdjustmentModel? result = await _updateWithholdingCommand.Execute(adjustmentId, withholdingId, model);
+            GetAdjustmentModel? result = await _updateWithholdingCommand.Execute(adjustmentId, withholdingId, model);
             return Ok(result);
         }
 
         [HttpDelete("Withholding/{adjustmentId}/{withholdingId}")]
         public async Task<IActionResult> DeleteWithholding(long adjustmentId, long withholdingId)
         {
-            AdjustmentModel? result = await _deleteWithholdingCommand.Execute(adjustmentId, withholdingId);
+            GetAdjustmentModel? result = await _deleteWithholdingCommand.Execute(adjustmentId, withholdingId);
             return Ok(result);
         }
 

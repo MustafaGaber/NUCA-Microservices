@@ -1,5 +1,4 @@
-﻿using NUCA.Projects.Domain.Entities.Adjustments;
-using NUCA.Projects.Domain.Entities.Shared;
+﻿using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Application.Adjustments.Commands
 {

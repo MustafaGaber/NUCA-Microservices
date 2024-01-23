@@ -11,8 +11,8 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    [Migration("20240119125409_ModifiedEndDate")]
-    partial class ModifiedEndDate
+    [Migration("20240122200127_AdvancePayment")]
+    partial class AdvancePayment
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,10 +70,10 @@ namespace NUCA.Projects.Migrations
                     b.Property<double>("AdditionalStampDuty")
                         .HasColumnType("REAL");
 
-                    b.Property<double>("AdvancedPaymentPercent")
+                    b.Property<double>("AdvancePaymentPercent")
                         .HasColumnType("REAL");
 
-                    b.Property<double>("AdvancedPaymentValue")
+                    b.Property<double>("AdvancePaymentValue")
                         .HasColumnType("REAL");
 
                     b.Property<double>("ApplicatorsSyndicateValue")
@@ -203,13 +203,13 @@ namespace NUCA.Projects.Migrations
                     b.ToTable("AdjustmentWithholding");
                 });
 
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.AdvancedPaymentDeduction", b =>
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.AdvancePaymentDeduction", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("AdjustmentId")
+                    b.Property<long?>("AdjustmentId")
                         .HasColumnType("INTEGER");
 
                     b.Property<double>("Amount")
@@ -239,7 +239,7 @@ namespace NUCA.Projects.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("AdvancedPaymentDeductions");
+                    b.ToTable("AdvancePaymentDeductions");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Boqs.Boq", b =>
@@ -907,7 +907,7 @@ namespace NUCA.Projects.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double?>("AdvancedPaymentPercentage")
+                    b.Property<double?>("AdvancePaymentPercentage")
                         .HasColumnType("REAL");
 
                     b.Property<bool>("Approved")
@@ -1515,16 +1515,15 @@ namespace NUCA.Projects.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.AdvancedPaymentDeduction", b =>
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.AdvancePaymentDeduction", b =>
                 {
                     b.HasOne("NUCA.Projects.Domain.Entities.Adjustments.Adjustment", null)
-                        .WithOne("AdvancedPaymentDeduction")
-                        .HasForeignKey("NUCA.Projects.Domain.Entities.Adjustments.AdvancedPaymentDeduction", "AdjustmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .WithOne("AdvancePaymentDeduction")
+                        .HasForeignKey("NUCA.Projects.Domain.Entities.Adjustments.AdvancePaymentDeduction", "AdjustmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("NUCA.Projects.Domain.Entities.Projects.Project", null)
-                        .WithMany("AdvancedPaymentDeductions")
+                        .WithMany("AdvancePaymentDeductions")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1812,7 +1811,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.Adjustment", b =>
                 {
-                    b.Navigation("AdvancedPaymentDeduction");
+                    b.Navigation("AdvancePaymentDeduction");
 
                     b.Navigation("Withholdings");
                 });
@@ -1846,7 +1845,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Project", b =>
                 {
-                    b.Navigation("AdvancedPaymentDeductions");
+                    b.Navigation("AdvancePaymentDeductions");
 
                     b.Navigation("Boq");
 

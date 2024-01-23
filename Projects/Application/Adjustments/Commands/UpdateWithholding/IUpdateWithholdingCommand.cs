@@ -4,6 +4,6 @@ namespace NUCA.Projects.Application.Adjustments.Commands.UpdateWithholding
 {
     public interface IUpdateWithholdingCommand
     {
-        public Task<AdjustmentModel?> Execute(long adjustmentId, long withholdingId, EditWithholdingModel model);
+        public Task<GetAdjustmentModel?> Execute(long adjustmentId, long withholdingId, EditWithholdingModel model);
     }
 }

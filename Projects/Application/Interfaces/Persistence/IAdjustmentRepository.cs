@@ -6,6 +6,6 @@ namespace NUCA.Projects.Application.Interfaces.Persistence
     public interface IAdjustmentRepository : IRepository<Adjustment>
     {
         public Task<bool> AdjustmentCreated(long id);
-        public Task<AdjustmentModel?> GetAdjustmentModel(long id);
+        public Task<GetAdjustmentModel?> GetAdjustmentModel(long id);
     }
 }

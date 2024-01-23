@@ -15,7 +15,7 @@ namespace NUCA.Projects.Domain.Services
             double previousTotalSupplies,
             double valueAddedTax,
             bool valueAddedTaxIncluded,
-            double advancedPaymentPercent,
+            double advancePaymentPercent,
             bool commercialIndustrialTaxFree,
             int totalContractPapers,
             double orderPrice,
@@ -26,7 +26,7 @@ namespace NUCA.Projects.Domain.Services
             Guard.Against.NegativeOrZero(projectId);
             Guard.Against.NegativeOrZero(statementIndex);
             Guard.Against.OutOfRange(valueAddedTax, nameof(valueAddedTax), 0, 100);
-            Guard.Against.OutOfRange(advancedPaymentPercent, nameof(advancedPaymentPercent), 0, 100);
+            Guard.Against.OutOfRange(advancePaymentPercent, nameof(advancePaymentPercent), 0, 100);
             Guard.Against.NegativeOrZero(totalContractPapers);
             Guard.Against.NegativeOrZero(orderPrice);
             double currentWorks = totalWorks - previousTotalWorks;
@@ -36,7 +36,7 @@ namespace NUCA.Projects.Domain.Services
             double originalCurrentWorks = valueAddedTaxIncluded ? currentWorks :
                                           currentWorks * 100 / (100 + valueAddedTax);
             double originalCurrentWorksAndSupplies = originalCurrentWorks + currentSupplies;
-            //double advancedPaymentValue = currentWorks * advancedPaymentPercent / 100;
+            //double advancePaymentValue = currentWorks * advancePaymentPercent / 100;
             double completionGuaranteeValue = currentWorks * 5 / 100;
             double engineersSyndicateValue = currentWorks * 0.0045;
             double applicatorsSyndicateValue = currentWorks * 0.0045;
@@ -59,7 +59,7 @@ namespace NUCA.Projects.Domain.Services
                 previousTotalSupplies: previousTotalSupplies,
                 valueAddedTax: valueAddedTax,
                 valueAddedTaxIncluded: valueAddedTaxIncluded,
-                advancedPaymentPercent: advancedPaymentPercent,
+                advancePaymentPercent: advancePaymentPercent,
                 completionGuaranteeValue: completionGuaranteeValue,
                 engineersSyndicateValue: engineersSyndicateValue,
                 applicatorsSyndicateValue: applicatorsSyndicateValue,

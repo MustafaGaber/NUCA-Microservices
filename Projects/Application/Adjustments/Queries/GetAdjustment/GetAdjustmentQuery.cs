@@ -12,7 +12,7 @@ namespace NUCA.Projects.Application.Adjustments.Queries.GetAdjustment
             _adjustmentRepository = adjustmentRepository;
         }
 
-        public async Task<AdjustmentModel?> Execute(long id)
+        public async Task<GetAdjustmentModel?> Execute(long id)
         {
             var adjustment = await _adjustmentRepository.GetAdjustmentModel(id);
             return adjustment;

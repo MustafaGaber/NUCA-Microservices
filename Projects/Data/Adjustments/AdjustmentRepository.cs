@@ -24,13 +24,13 @@ namespace NUCA.Projects.Data.Adjustments
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task<AdjustmentModel?> GetAdjustmentModel(long id)
+        public async Task<GetAdjustmentModel?> GetAdjustmentModel(long id)
         {
             var adjustment = await database.Adjustments
                 .Where(a => a.Id == id)
                 .Include(a => a.Withholdings)
                 .Include(a => a.Project).ThenInclude(p => p.Company)
-                .Select(a => new AdjustmentModel
+                .Select(a => new GetAdjustmentModel
                 {
                     ProjectName = a.Project.Name,
                     CompanyName = a.Project.Company!.Name,
@@ -44,8 +44,8 @@ namespace NUCA.Projects.Data.Adjustments
                     CurrentSupplies = a.CurrentSupplies,
                     CurrentWorksAndSupplies = a.CurrentWorksAndSupplies,
                     ServiceTax = a.ServiceTax,
-                    AdvancedPaymentPercent = a.AdvancedPaymentPercent,
-                    AdvancedPaymentValue = a.AdvancedPaymentValue,
+                    AdvancePaymentPercent = a.AdvancePaymentPercent,
+                    AdvancePaymentValue = a.AdvancePaymentValue,
                     CompletionGuaranteeValue = a.CompletionGuaranteeValue,
                     EngineersSyndicateValue = a.EngineersSyndicateValue,
                     ApplicatorsSyndicateValue = a.ApplicatorsSyndicateValue,
@@ -59,7 +59,7 @@ namespace NUCA.Projects.Data.Adjustments
                     TahyaMisrFundValue = a.TahyaMisrFundValue,
                     ConractStampDuty = a.ConractStampDuty,
                     ContractorsFederationValue = a.ContractorsFederationValue,
-                    Withholdings = a.Withholdings.Select(w => new WithholdingModel
+                    Withholdings = a.Withholdings.Select(w => new GetWithholdingModel
                     {
                         Id = w.Id,
                         Name = w.Name,
@@ -74,17 +74,17 @@ namespace NUCA.Projects.Data.Adjustments
                     IsFirst = false,
                 }
                ).FirstOrDefaultAsync();
-            return adjustment; //_mapper.Map<AdjustmentModel>(adjustment);
+            return adjustment; //_mapper.Map<GetAdjustmentModel>(adjustment);
         }
 
-        /* public Task<AdjustmentModel?> AddWithholding(long id, EditWithholdingModel withholding)
+        /* public Task<GetAdjustmentModel?> AddWithholding(long id, EditWithholdingModel withholding)
          {
              return database.Adjustments.Include(adjustment => adjustment.Withholdings)
                  .Where(adjustment => adjustment.Id == id)
                  .Join(database.Projects.Include(project => project.Company),
                  adjustment => adjustment.ProjectId,
                  project => project.Id,
-                 (adjustment, project) => AdjustmentModel.FromAdjustmentAndProject(adjustment, project)
+                 (adjustment, project) => GetAdjustmentModel.FromAdjustmentAndProject(adjustment, project)
                 ).FirstOrDefaultAsync();
          }*/
     }

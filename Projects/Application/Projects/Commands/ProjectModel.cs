@@ -20,7 +20,7 @@ namespace NUCA.Projects.Application.Projects.Commands
         public DateOnly? OrderDate { get; init; }
         public double? Price { get; init; }
         public Duration Duration { get; init; }
-        public double? AdvancedPaymentPercentage { get; init; }
+        public double? AdvancePaymentPercentage { get; init; }
         public bool? ValueAddedTaxIncluded { get; init; }
         public DateOnly? HandoverDate { get; init; }
         public DateOnly? StartDate { get; init; }

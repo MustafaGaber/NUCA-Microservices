@@ -272,7 +272,7 @@ namespace NUCA.Projects.Migrations
                     Duration_Months = table.Column<int>(type: "INTEGER", nullable: false),
                     Duration_Days = table.Column<int>(type: "INTEGER", nullable: false),
                     ValueAddedTaxIncluded = table.Column<bool>(type: "INTEGER", nullable: true),
-                    AdvancedPaymentPercentage = table.Column<double>(type: "REAL", nullable: true),
+                    AdvancePaymentPercentage = table.Column<double>(type: "REAL", nullable: true),
                     HandoverDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     StartDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     EndDate = table.Column<DateOnly>(type: "TEXT", nullable: true),
@@ -389,19 +389,23 @@ namespace NUCA.Projects.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EndDates",
+                name: "ModifiedEndDate",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Value = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    ProjectId = table.Column<long>(type: "INTEGER", nullable: false)
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ProjectId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EndDates", x => x.Id);
+                    table.PrimaryKey("PK_ModifiedEndDate", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EndDates_Projects_ProjectId",
+                        name: "FK_ModifiedEndDate_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -543,8 +547,8 @@ namespace NUCA.Projects.Migrations
                     PreviousTotalWorks = table.Column<double>(type: "REAL", nullable: false),
                     PreviousTotalSupplies = table.Column<double>(type: "REAL", nullable: false),
                     ServiceTax = table.Column<double>(type: "REAL", nullable: false),
-                    AdvancedPaymentPercent = table.Column<double>(type: "REAL", nullable: false),
-                    AdvancedPaymentValue = table.Column<double>(type: "REAL", nullable: false),
+                    AdvancePaymentPercent = table.Column<double>(type: "REAL", nullable: false),
+                    AdvancePaymentValue = table.Column<double>(type: "REAL", nullable: false),
                     CompletionGuaranteeValue = table.Column<double>(type: "REAL", nullable: false),
                     EngineersSyndicateValue = table.Column<double>(type: "REAL", nullable: false),
                     ApplicatorsSyndicateValue = table.Column<double>(type: "REAL", nullable: false),
@@ -763,6 +767,37 @@ namespace NUCA.Projects.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AdvancePaymentDeductions",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ProjectId = table.Column<long>(type: "INTEGER", nullable: false),
+                    AdjustmentId = table.Column<long>(type: "INTEGER", nullable: false),
+                    Amount = table.Column<double>(type: "REAL", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdvancePaymentDeductions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdvancePaymentDeductions_Adjustments_AdjustmentId",
+                        column: x => x.AdjustmentId,
+                        principalTable: "Adjustments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AdvancePaymentDeductions_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StatementSection",
                 columns: table => new
                 {
@@ -906,6 +941,17 @@ namespace NUCA.Projects.Migrations
                 column: "AdjustmentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AdvancePaymentDeductions_AdjustmentId",
+                table: "AdvancePaymentDeductions",
+                column: "AdjustmentId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdvancePaymentDeductions_ProjectId",
+                table: "AdvancePaymentDeductions",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BankBranches_MainBankId",
                 table: "BankBranches",
                 column: "MainBankId");
@@ -918,14 +964,12 @@ namespace NUCA.Projects.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BoqItem_CostCenterId",
                 table: "BoqItem",
-                column: "CostCenterId",
-                unique: true);
+                column: "CostCenterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqItem_WorkTypeId",
                 table: "BoqItem",
-                column: "WorkTypeId",
-                unique: true);
+                column: "WorkTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boqs_ProjectId",
@@ -941,14 +985,12 @@ namespace NUCA.Projects.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BoqSection_CostCenterId",
                 table: "BoqSection",
-                column: "CostCenterId",
-                unique: true);
+                column: "CostCenterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqSection_WorkTypeId",
                 table: "BoqSection",
-                column: "WorkTypeId",
-                unique: true);
+                column: "WorkTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqTable_BoqId",
@@ -958,14 +1000,12 @@ namespace NUCA.Projects.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BoqTable_CostCenterId",
                 table: "BoqTable",
-                column: "CostCenterId",
-                unique: true);
+                column: "CostCenterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoqTable_WorkTypeId",
                 table: "BoqTable",
-                column: "WorkTypeId",
-                unique: true);
+                column: "WorkTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassificationProject_ProjectsId",
@@ -983,14 +1023,14 @@ namespace NUCA.Projects.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EndDates_ProjectId",
-                table: "EndDates",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ExternalSuppliesItem_StatementId",
                 table: "ExternalSuppliesItem",
                 column: "StatementId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModifiedEndDate_ProjectId",
+                table: "ModifiedEndDate",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PercentageDetail_StatementItemId",
@@ -1075,6 +1115,9 @@ namespace NUCA.Projects.Migrations
                 name: "AdjustmentWithholding");
 
             migrationBuilder.DropTable(
+                name: "AdvancePaymentDeductions");
+
+            migrationBuilder.DropTable(
                 name: "BoqDepartment");
 
             migrationBuilder.DropTable(
@@ -1087,13 +1130,13 @@ namespace NUCA.Projects.Migrations
                 name: "DepartmentUser");
 
             migrationBuilder.DropTable(
-                name: "EndDates");
-
-            migrationBuilder.DropTable(
                 name: "ExternalSuppliesItem");
 
             migrationBuilder.DropTable(
                 name: "Ledgers");
+
+            migrationBuilder.DropTable(
+                name: "ModifiedEndDate");
 
             migrationBuilder.DropTable(
                 name: "PercentageDetail");

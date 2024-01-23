@@ -34,7 +34,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public double? Price { get; private set; }
         public Duration Duration { get; private set; }
         public bool? ValueAddedTaxIncluded { get; private set; }
-        public double? AdvancedPaymentPercentage { get; private set; }
+        public double? AdvancePaymentPercentage { get; private set; }
         public DateOnly? HandoverDate { get; private set; }
         public DateOnly? StartDate { get; private set; }
         public DateOnly? EndDate { get; private set; }
@@ -57,7 +57,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public bool Approved { get; private set; }
         public string? ApprovedBy { get; private set; }
         public virtual IReadOnlyList<Statement> Statements { get; private set; }
-        public virtual IReadOnlyList<AdvancedPaymentDeduction> AdvancedPaymentDeductions { get; private set; }
+        public virtual IReadOnlyList<AdvancePaymentDeduction> AdvancePaymentDeductions { get; private set; }
         public Boq? Boq { get; private set; }
 
         private readonly List<Privilege> _privileges = new List<Privilege>();
@@ -79,7 +79,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DateOnly? orderDate,
             double? price,
             Duration duration,
-            double? advancedPaymentPercentage,
+            double? advancePaymentPercentage,
             bool? valueAddedTaxIncluded,
             DateOnly? handoverDate,
             DateOnly? startDate,
@@ -112,7 +112,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 orderDate: orderDate,
                 price: price,
                 duration: duration,
-                advancedPaymentPercentage: advancedPaymentPercentage,
+                advancePaymentPercentage: advancePaymentPercentage,
                 valueAddedTaxIncluded: valueAddedTaxIncluded,
                 handoverDate: handoverDate,
                 startDate: startDate,
@@ -147,7 +147,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             DateOnly? orderDate,
             double? price,
             Duration duration,
-            double? advancedPaymentPercentage,
+            double? advancePaymentPercentage,
             bool? valueAddedTaxIncluded,
             DateOnly? handoverDate,
             DateOnly? startDate,
@@ -196,7 +196,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 Guard.Against.Null(orderDate);
                 Guard.Against.Null(price);
                 Guard.Against.NegativeOrZero((double)price, nameof(price));
-                Guard.Against.Null(advancedPaymentPercentage);
+                Guard.Against.Null(advancePaymentPercentage);
                 Guard.Against.Null(valueAddedTaxIncluded);
                 Guard.Against.Null(contractsCount);
                 Guard.Against.NegativeOrZero((int)contractsCount!);
@@ -230,7 +230,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             OrderDate = orderDate;
             Price = price;
             Duration = duration;
-            AdvancedPaymentPercentage = advancedPaymentPercentage == null ? null : Guard.Against.Negative((double)advancedPaymentPercentage, nameof(advancedPaymentPercentage));
+            AdvancePaymentPercentage = advancePaymentPercentage == null ? null : Guard.Against.Negative((double)advancePaymentPercentage, nameof(advancePaymentPercentage));
             ValueAddedTaxIncluded = valueAddedTaxIncluded;
             HandoverDate = handoverDate;
             StartDate = startDate;

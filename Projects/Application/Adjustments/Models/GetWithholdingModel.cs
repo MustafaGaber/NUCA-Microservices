@@ -2,7 +2,7 @@
 
 namespace NUCA.Projects.Application.Adjustments.Models
 {
-    public class WithholdingModel
+    public class GetWithholdingModel
     {
         public long Id { get; init; }
         public string Name { get; init; }

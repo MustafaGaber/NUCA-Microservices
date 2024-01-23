@@ -4,6 +4,7 @@
     {
         public double? PreviousTotalWorks { get; init; }
         public double? PreviousTotalSupplies { get; init; }
+        public double? TotalAdvancePaymentDeductions { get; init; }
         public bool Empty => !(PreviousTotalWorks.HasValue && PreviousTotalSupplies.HasValue);
     }
 }

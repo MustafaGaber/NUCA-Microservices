@@ -17,7 +17,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.Submit
             _adjustmentRepository = adjustmentRepository;
         }
 
-        public async Task<AdjustmentModel?> Execute(long adjustmentId)
+        public async Task<GetAdjustmentModel?> Execute(long adjustmentId)
         {
             Adjustment? adjustment = await _dbContext.Adjustments.FirstOrDefaultAsync(s => s.Id == adjustmentId);
             Statement? statement = await _dbContext.Statements.Include(s => s.Withholdings).FirstOrDefaultAsync(s => s.Id == adjustmentId);
@@ -28,7 +28,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.Submit
             adjustment.Submit();
             statement.SetStateAdjusted();
             await _dbContext.SaveChangesAsync();
-            AdjustmentModel? adjustmentModel = await _adjustmentRepository.GetAdjustmentModel(adjustmentId);
+            GetAdjustmentModel? adjustmentModel = await _adjustmentRepository.GetAdjustmentModel(adjustmentId);
             return adjustmentModel;
         }
     }

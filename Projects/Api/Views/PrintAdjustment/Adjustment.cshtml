@@ -1,7 +1,7 @@
 ﻿@using NUCA.Projects.Application.Adjustments.Models;
 @using NUCA.Projects.Shared.Util;
 
-@model AdjustmentModel
+@model GetAdjustmentModel
 @{
     <html>
     <head>
@@ -182,9 +182,9 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td class="text-center">@Model.AdvancedPaymentValue.Round().UseArabicDigits()</td>
+                    <td class="text-center">@Model.AdvancePaymentValue.Round().UseArabicDigits()</td>
                     <td></td>
-                    <td>حساب الدفعة المقدمة (@Model.AdvancedPaymentPercent.Round().UseArabicDigits())٪</td>
+                    <td>حساب الدفعة المقدمة (@Model.AdvancePaymentPercent.Round().UseArabicDigits())٪</td>
                 </tr>
                 <tr>
                     <td></td>

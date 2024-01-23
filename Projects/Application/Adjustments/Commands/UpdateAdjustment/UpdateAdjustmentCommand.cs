@@ -1,28 +1,33 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NUCA.Projects.Data;
 using NUCA.Projects.Domain.Entities.Adjustments;
 using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Statements;
 
-namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
+namespace NUCA.Projects.Application.Adjustments.Commands.UpdateAdjustment
 {
-    public class CreateAdjustmentCommand : ICreateAdjustmentCommand
+    public class UpdateAdjustmentCommand
     {
         private readonly ProjectsDatabaseContext _dbContext;
 
-        public CreateAdjustmentCommand(ProjectsDatabaseContext dbContext)
+        public UpdateAdjustmentCommand(ProjectsDatabaseContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task Execute(long projectId, long statementId, CreateAdjustmentModel model)
+        public async Task Execute(long projectId, long adjustmentId, UpdateAdjustmentModel model)
         {
-            bool created = await _dbContext.Adjustments
-                .Where(a => a.Id == statementId)
-                .AnyAsync();
-            if (created) return;
-            Statement? statement = await _dbContext.Statements.Include(s => s.Withholdings).FirstOrDefaultAsync(s => s.Id == statementId) ?? throw new InvalidOperationException();
+            Adjustment adjustment = await _dbContext.Adjustments
+                .Include(a => a.Project)
+                .ThenInclude(p => p.Company)
+                .Include(a => a.Project)
+                .ThenInclude(p => p.WorkType)
+                .FirstAsync();
+
+            Statement? statement = await _dbContext.Statements
+                .Include(s => s.Withholdings)
+                .FirstOrDefaultAsync(s => s.Id == adjustmentId) ?? throw new InvalidOperationException();
+
             bool firstInProject = statement.Index == 1;
 
             Statement? prevoiusStatement = null;
@@ -47,6 +52,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
             Project project = await _dbContext.Projects
                 .Include(p => p.Company)
                 .Include(p => p.WorkType)
+                .Include(p => p.AwardType)
                 .FirstOrDefaultAsync(p => p.Id == projectId) ?? throw new InvalidOperationException();
             bool hasAdvancePayment = project.AdvancePaymentPercentage > 0;
             double totalAdvancePaymentDeductions = (firstInProject || !hasAdvancePayment) ? 0 :
@@ -58,7 +64,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment
                      .ToListAsync()).Sum();
 
             Adjustment adjustment = Adjustment.Create(
-                statementId: statementId,
+                statementId: adjustmentId,
                 project: project,
                 statementIndex: statement.Index,
                 worksDate: statement.WorksDate,

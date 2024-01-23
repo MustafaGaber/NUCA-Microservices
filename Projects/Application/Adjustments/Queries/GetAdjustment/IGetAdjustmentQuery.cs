@@ -5,6 +5,6 @@ namespace NUCA.Projects.Application.Adjustments.Queries.GetAdjustment
 {
     public interface IGetAdjustmentQuery
     {
-        Task<AdjustmentModel?> Execute(long id);
+        Task<GetAdjustmentModel?> Execute(long id);
     }
 }

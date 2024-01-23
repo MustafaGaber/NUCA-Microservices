@@ -4,7 +4,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.DeleteWithholding
 {
     public interface IDeleteWithholdingCommand
     {
-        public Task<AdjustmentModel?> Execute(long adjustmentId, long withholdingId);
+        public Task<GetAdjustmentModel?> Execute(long adjustmentId, long withholdingId);
 
     }
 }

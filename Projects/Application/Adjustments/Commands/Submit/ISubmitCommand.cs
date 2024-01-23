@@ -4,7 +4,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.Submit
 {
     public interface ISubmitCommand
     {
-        public Task<AdjustmentModel?> Execute(long adjustmentId);
+        public Task<GetAdjustmentModel?> Execute(long adjustmentId);
 
     }
 }

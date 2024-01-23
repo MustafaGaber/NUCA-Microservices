@@ -87,7 +87,7 @@ namespace NUCA.Projects.Application.Projects.Commands.CreateProject
                 orderDate: model.OrderDate,
                 price: model.Price,
                 duration: model.Duration,
-                advancedPaymentPercentage: model.AdvancedPaymentPercentage,
+                advancePaymentPercentage: model.AdvancePaymentPercentage,
                 valueAddedTaxIncluded: model.ValueAddedTaxIncluded,
                 handoverDate: model.HandoverDate,
                 startDate: model.StartDate,

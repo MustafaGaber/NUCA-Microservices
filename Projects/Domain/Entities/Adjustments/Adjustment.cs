@@ -15,8 +15,8 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         public double PreviousTotalWorks { get; private set; }
         public double PreviousTotalSupplies { get; private set; }
         public double ServiceTax { get; private set; }
-        public double AdvancedPaymentPercent { get; private set; }
-        public double AdvancedPaymentValue { get; private set; }
+        public double AdvancePaymentPercent { get; private set; }
+        public double AdvancePaymentValue { get; private set; }
         public double CompletionGuaranteeValue { get; private set; }
         public double EngineersSyndicateValue { get; private set; }
         public double ApplicatorsSyndicateValue { get; private set; }
@@ -32,7 +32,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
 
         private readonly List<AdjustmentWithholding> _withholdings = new();
         public virtual IReadOnlyList<AdjustmentWithholding> Withholdings => _withholdings.ToList();
-        public AdvancedPaymentDeduction? AdvancedPaymentDeduction { get; private set; }
+        public AdvancePaymentDeduction? AdvancePaymentDeduction { get; private set; }
         public double Total { get; private set; }
         public bool Submitted { get; private set; }
         public double CurrentWorks => TotalWorks - PreviousTotalWorks;
@@ -40,7 +40,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         public double CurrentWorksAndSupplies => CurrentWorks + CurrentSupplies;
         public double TotalDue => CurrentWorksAndSupplies + ServiceTax;
         public double TotalStampDuty => RegularStampDuty + AdditionalStampDuty;
-        public double TotalWithholdings => AdvancedPaymentValue
+        public double TotalWithholdings => AdvancePaymentValue
                         + CompletionGuaranteeValue
                         + EngineersSyndicateValue
                         + ApplicatorsSyndicateValue
@@ -61,7 +61,37 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             }
         }
 
-        public Adjustment(long statementId, Project project, int statementIndex, DateOnly worksDate, double totalWorks, double totalSupplies, double previousTotalWorks, double previousTotalSupplies, double serviceTax, double advancedPaymentPercent, double advancedPaymentValue, double completionGuaranteeValue, double engineersSyndicateValue, double applicatorsSyndicateValue, double regularStampDuty, double additionalStampDuty, double commercialIndustrialTax, double valueAddedTaxPercent, double valueAddedTax, double wasteRemovalInsurance, double tahyaMisrFundValue, double conractStampDuty, double contractorsFederationValue, List<AdjustmentWithholding> withholdings)
+        public Adjustment(long statementId, Project project, int statementIndex, DateOnly worksDate, double totalWorks, double totalSupplies, double previousTotalWorks, double previousTotalSupplies, double serviceTax, double advancePaymentPercent, double advancePaymentValue, double completionGuaranteeValue, double engineersSyndicateValue, double applicatorsSyndicateValue, double regularStampDuty, double additionalStampDuty, double commercialIndustrialTax, double valueAddedTaxPercent, double valueAddedTax, double wasteRemovalInsurance, double tahyaMisrFundValue, double conractStampDuty, double contractorsFederationValue, List<AdjustmentWithholding> withholdings)
+        {
+            Id = Guard.Against.NegativeOrZero(statementId);
+            _withholdings = withholdings;
+            Update(
+                statementId: statementId,
+                project: project,
+                statementIndex: statementIndex,
+                worksDate: worksDate,
+                totalWorks: totalWorks,
+                totalSupplies: totalSupplies,
+                previousTotalWorks: previousTotalWorks,
+                previousTotalSupplies: previousTotalSupplies,
+                serviceTax: serviceTax,
+                advancePaymentPercent: advancePaymentPercent,
+                advancePaymentValue: advancePaymentValue,
+                completionGuaranteeValue: completionGuaranteeValue,
+                engineersSyndicateValue: engineersSyndicateValue,
+                applicatorsSyndicateValue: applicatorsSyndicateValue,
+                regularStampDuty: regularStampDuty,
+                additionalStampDuty: additionalStampDuty,
+                commercialIndustrialTax: commercialIndustrialTax,
+                valueAddedTaxPercent: valueAddedTaxPercent,
+                valueAddedTax: valueAddedTax,
+                wasteRemovalInsurance: wasteRemovalInsurance,
+                tahyaMisrFundValue: tahyaMisrFundValue,
+                conractStampDuty: conractStampDuty,
+                contractorsFederationValue: contractorsFederationValue,
+               );
+        }
+        public void Update(long statementId, Project project, int statementIndex, DateOnly worksDate, double totalWorks, double totalSupplies, double previousTotalWorks, double previousTotalSupplies, double serviceTax, double advancePaymentPercent, double advancePaymentValue, double completionGuaranteeValue, double engineersSyndicateValue, double applicatorsSyndicateValue, double regularStampDuty, double additionalStampDuty, double commercialIndustrialTax, double valueAddedTaxPercent, double valueAddedTax, double wasteRemovalInsurance, double tahyaMisrFundValue, double conractStampDuty, double contractorsFederationValue)
         {
             Id = Guard.Against.NegativeOrZero(statementId);
             Project = Guard.Against.Null(project);
@@ -73,8 +103,8 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             PreviousTotalWorks = previousTotalWorks;
             PreviousTotalSupplies = previousTotalSupplies;
             ServiceTax = Guard.Against.Negative(serviceTax);
-            AdvancedPaymentPercent = Guard.Against.OutOfRange(advancedPaymentPercent, nameof(advancedPaymentPercent), 0, 100);
-            AdvancedPaymentValue = Guard.Against.Negative(advancedPaymentValue);
+            AdvancePaymentPercent = Guard.Against.OutOfRange(advancePaymentPercent, nameof(advancePaymentPercent), 0, 100);
+            AdvancePaymentValue = Guard.Against.Negative(advancePaymentValue);
             CompletionGuaranteeValue = Guard.Against.Negative(completionGuaranteeValue);
             EngineersSyndicateValue = Guard.Against.Negative(engineersSyndicateValue);
             ApplicatorsSyndicateValue = Guard.Against.Negative(applicatorsSyndicateValue);
@@ -88,13 +118,12 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             ConractStampDuty = Guard.Against.Negative(conractStampDuty);
             ContractorsFederationValue = Guard.Against.Negative(contractorsFederationValue);
             Submitted = false;
-            _withholdings = withholdings;
-            if (advancedPaymentValue > 0)
+            if (advancePaymentValue > 0)
             {
-                AdvancedPaymentDeduction = new AdvancedPaymentDeduction
+                AdvancePaymentDeduction = new AdvancePaymentDeduction
                 {
                     ProjectId = project.Id,
-                    Amount = advancedPaymentValue
+                    Amount = advancePaymentValue
                 };
             }
             UpdateTotal();
@@ -159,7 +188,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
            double totalSupplies,
            double previousTotalWorks,
            double previousTotalSupplies,
-           double totalAdvancedPaymentDeductions,
+           double totalAdvancePaymentDeductions,
            double contractPaperPrice,
            List<AdjustmentWithholding> withholdings)
         {
@@ -172,14 +201,14 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             bool valueAddedTaxIncluded = (bool)project.ValueAddedTaxIncluded!;
             double valueAddedTaxPercent = project.WorkType.ValueAddedTaxPercent;
             double orderPrice = (double)project.Price!;
-            double advancedPaymentPercent = (double)project.AdvancedPaymentPercentage!;
+            double advancePaymentPercent = (double)project.AdvancePaymentPercentage!;
             double currentWorks = totalWorks - previousTotalWorks;
             double currentSupplies = totalSupplies - previousTotalSupplies;
             double currentWorksAndSupplies = currentWorks + currentSupplies;
             int contractsCount = (int)project.ContractsCount!;
             int contractPapersCount = (int)project.ContractPapersCount!;
             Guard.Against.OutOfRange(valueAddedTaxPercent, nameof(valueAddedTaxPercent), 0, 100);
-            Guard.Against.OutOfRange(advancedPaymentPercent, nameof(advancedPaymentPercent), 0, 100);
+            Guard.Against.OutOfRange(advancePaymentPercent, nameof(advancePaymentPercent), 0, 100);
             Guard.Against.NegativeOrZero(contractsCount);
             Guard.Against.NegativeOrZero(contractPapersCount);
             Guard.Against.NegativeOrZero(orderPrice);
@@ -187,10 +216,10 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             double originalCurrentWorks = valueAddedTaxIncluded ? currentWorks :
                                           currentWorks * 100 / (100 + valueAddedTaxPercent);
             double originalCurrentWorksAndSupplies = originalCurrentWorks + currentSupplies;
-            //double remainingAdvancedPaymentValue = Math.Max(0, (orderPrice - previousTotalWorks) * advancedPaymentPercent / 100);
-            double remainingAdvancedPaymentValue = Math.Max(0, orderPrice - totalAdvancedPaymentDeductions);
-            double advancedPaymentValue = Math.Min(Math.Max(0, currentWorks * advancedPaymentPercent / 100),
-                                                   remainingAdvancedPaymentValue);
+            //double remainingAdvancePaymentValue = Math.Max(0, (orderPrice - previousTotalWorks) * advancePaymentPercent / 100);
+            double remainingAdvancePaymentValue = Math.Max(0, orderPrice - totalAdvancePaymentDeductions);
+            double advancePaymentValue = Math.Min(Math.Max(0, currentWorks * advancePaymentPercent / 100),
+                                                   remainingAdvancePaymentValue);
             double completionGuaranteeValue = Math.Max(0, currentWorks * 5 / 100);
             double engineersSyndicateValue = Math.Max(0, currentWorks * 0.0045);
             double applicatorsSyndicateValue = Math.Max(0, currentWorks * 0.0045);
@@ -215,8 +244,8 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
                 previousTotalWorks: previousTotalWorks,
                 previousTotalSupplies: previousTotalSupplies,
                 serviceTax: serviceTax,
-                advancedPaymentPercent: advancedPaymentPercent,
-                advancedPaymentValue: advancedPaymentValue,
+                advancePaymentPercent: advancePaymentPercent,
+                advancePaymentValue: advancePaymentValue,
                 completionGuaranteeValue: completionGuaranteeValue,
                 engineersSyndicateValue: engineersSyndicateValue,
                 applicatorsSyndicateValue: applicatorsSyndicateValue,
