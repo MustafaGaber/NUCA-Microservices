@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NUCA.Projects.Data;
-using NUCA.Projects.Domain.Entities.Adjustments;
-using NUCA.Projects.Domain.Entities.Projects;
-using NUCA.Projects.Domain.Entities.Statements;
+﻿using NUCA.Projects.Data;
 
 namespace NUCA.Projects.Application.Adjustments.Commands.UpdateAdjustment
 {
@@ -17,7 +13,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.UpdateAdjustment
 
         public async Task Execute(long projectId, long adjustmentId, UpdateAdjustmentModel model)
         {
-            Adjustment adjustment = await _dbContext.Adjustments
+            /*Adjustment adjustment = await _dbContext.Adjustments
                 .Include(a => a.Project)
                 .ThenInclude(p => p.Company)
                 .Include(a => a.Project)
@@ -36,47 +32,47 @@ namespace NUCA.Projects.Application.Adjustments.Commands.UpdateAdjustment
             {
                 prevoiusStatement = await _dbContext.Statements.FirstOrDefaultAsync(s => s.ProjectId == projectId && s.Index == statement.Index - 1);
                 firstInDatabase = prevoiusStatement == null;
-                if (firstInDatabase && model.Empty)
+               /* if (firstInDatabase && model.Empty)
                 {
                     throw new InvalidOperationException();
                 }
-            }
-            double previousTotalWorks = firstInProject ? 0 : firstInDatabase ?
-                      (double)model.PreviousTotalWorks! :
-                      prevoiusStatement!.TotalWorks;
+        }
+        double previousTotalWorks = firstInProject ? 0 : firstInDatabase ?
+                  (double)model.PreviousTotalWorks! :
+                  prevoiusStatement!.TotalWorks;
 
-            double previousTotalSupplies = firstInProject ? 0 : firstInDatabase ?
-                     (double)model.PreviousTotalSupplies! :
-                     prevoiusStatement!.TotalSupplies;
+        double previousTotalSupplies = firstInProject ? 0 : firstInDatabase ?
+                 (double)model.PreviousTotalSupplies! :
+                 prevoiusStatement!.TotalSupplies;
 
-            Project project = await _dbContext.Projects
-                .Include(p => p.Company)
-                .Include(p => p.WorkType)
-                .Include(p => p.AwardType)
-                .FirstOrDefaultAsync(p => p.Id == projectId) ?? throw new InvalidOperationException();
-            bool hasAdvancePayment = project.AdvancePaymentPercentage > 0;
-            double totalAdvancePaymentDeductions = (firstInProject || !hasAdvancePayment) ? 0 :
-                firstInDatabase ? (double)model.TotalAdvancePaymentDeductions! :
-                (await _dbContext
-                     .AdvancePaymentDeductions
-                     .Where(a => a.ProjectId == projectId)
-                     .Select(a => a.Amount)
-                     .ToListAsync()).Sum();
+        Project project = await _dbContext.Projects
+            .Include(p => p.Company)
+            .Include(p => p.WorkType)
+            .Include(p => p.AwardType)
+            .FirstOrDefaultAsync(p => p.Id == projectId) ?? throw new InvalidOperationException();
+        bool hasAdvancePayment = project.AdvancePaymentPercentage > 0;
+        double totalAdvancePaymentDeductions = (firstInProject || !hasAdvancePayment) ? 0 :
+            firstInDatabase ? (double)model.TotalAdvancePaymentDeductions! :
+            (await _dbContext
+                 .AdvancePaymentDeductions
+                 .Where(a => a.ProjectId == projectId)
+                 .Select(a => a.Amount)
+                 .ToListAsync()).Sum();
 
-            Adjustment adjustment = Adjustment.Create(
-                statementId: adjustmentId,
-                project: project,
-                statementIndex: statement.Index,
-                worksDate: statement.WorksDate,
-                totalWorks: statement.TotalWorks,
-                previousTotalWorks: previousTotalWorks,
-                totalSupplies: statement.TotalSupplies,
-                previousTotalSupplies: previousTotalSupplies,
-                totalAdvancePaymentDeductions: totalAdvancePaymentDeductions,
-                contractPaperPrice: 2.9, // TODO :Get from settings
-                withholdings: statement.Withholdings.Select(w => new AdjustmentWithholding(w.Name, w.Value, w.Type, true)).ToList()
-            );
-            statement.SetStateAdjusting();
+        Adjustment adjustment = Adjustment.Create(
+            statementId: adjustmentId,
+            project: project,
+            statementIndex: statement.Index,
+            worksDate: statement.WorksDate,
+            totalWorks: statement.TotalWorks,
+            previousTotalWorks: previousTotalWorks,
+            totalSupplies: statement.TotalSupplies,
+            previousTotalSupplies: previousTotalSupplies,
+            totalAdvancePaymentDeductions: totalAdvancePaymentDeductions,
+            contractPaperPrice: 2.9, // TODO :Get from settings
+            withholdings: statement.Withholdings.Select(w => new AdjustmentWithholding(w.Name, w.Value, w.Type, true)).ToList()
+        );
+        statement.SetStateAdjusting();
             if (hasAdvancePayment && firstInDatabase && !firstInProject && totalAdvancePaymentDeductions > 0)
             {
                 _dbContext.AdvancePaymentDeductions.Add(
@@ -88,7 +84,7 @@ namespace NUCA.Projects.Application.Adjustments.Commands.UpdateAdjustment
                     });
             }
             _dbContext.Adjustments.Add(adjustment);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(); */
         }
     }
 }

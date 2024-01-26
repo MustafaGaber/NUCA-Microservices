@@ -64,34 +64,43 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         public Adjustment(long statementId, Project project, int statementIndex, DateOnly worksDate, double totalWorks, double totalSupplies, double previousTotalWorks, double previousTotalSupplies, double serviceTax, double advancePaymentPercent, double advancePaymentValue, double completionGuaranteeValue, double engineersSyndicateValue, double applicatorsSyndicateValue, double regularStampDuty, double additionalStampDuty, double commercialIndustrialTax, double valueAddedTaxPercent, double valueAddedTax, double wasteRemovalInsurance, double tahyaMisrFundValue, double conractStampDuty, double contractorsFederationValue, List<AdjustmentWithholding> withholdings)
         {
             Id = Guard.Against.NegativeOrZero(statementId);
+            Id = Guard.Against.NegativeOrZero(statementId);
+            Project = Guard.Against.Null(project);
+            ProjectId = Guard.Against.NegativeOrZero(project.Id);
+            StatementIndex = Guard.Against.NegativeOrZero(statementIndex);
+            WorksDate = Guard.Against.Null(worksDate);
+            TotalWorks = totalWorks;
+            TotalSupplies = totalSupplies;
+            PreviousTotalWorks = previousTotalWorks;
+            PreviousTotalSupplies = previousTotalSupplies;
+            ServiceTax = Guard.Against.Negative(serviceTax);
+            AdvancePaymentPercent = Guard.Against.OutOfRange(advancePaymentPercent, nameof(advancePaymentPercent), 0, 100);
+            AdvancePaymentValue = Guard.Against.Negative(advancePaymentValue);
+            CompletionGuaranteeValue = Guard.Against.Negative(completionGuaranteeValue);
+            EngineersSyndicateValue = Guard.Against.Negative(engineersSyndicateValue);
+            ApplicatorsSyndicateValue = Guard.Against.Negative(applicatorsSyndicateValue);
+            RegularStampDuty = Guard.Against.Negative(regularStampDuty);
+            AdditionalStampDuty = Guard.Against.Negative(additionalStampDuty);
+            CommercialIndustrialTax = Guard.Against.Negative(commercialIndustrialTax);
+            ValueAddedTaxPercent = Guard.Against.OutOfRange(valueAddedTaxPercent, nameof(valueAddedTaxPercent), 0, 100); ;
+            ValueAddedTax = Guard.Against.Negative(valueAddedTax);
+            WasteRemovalInsurance = Guard.Against.Negative(wasteRemovalInsurance);
+            TahyaMisrFundValue = Guard.Against.Negative(tahyaMisrFundValue);
+            ConractStampDuty = Guard.Against.Negative(conractStampDuty);
+            ContractorsFederationValue = Guard.Against.Negative(contractorsFederationValue);
+            Submitted = false;
+            if (advancePaymentValue > 0)
+            {
+                AdvancePaymentDeduction = new AdvancePaymentDeduction
+                {
+                    ProjectId = project.Id,
+                    Amount = advancePaymentValue
+                };
+            }
             _withholdings = withholdings;
-            Update(
-                statementId: statementId,
-                project: project,
-                statementIndex: statementIndex,
-                worksDate: worksDate,
-                totalWorks: totalWorks,
-                totalSupplies: totalSupplies,
-                previousTotalWorks: previousTotalWorks,
-                previousTotalSupplies: previousTotalSupplies,
-                serviceTax: serviceTax,
-                advancePaymentPercent: advancePaymentPercent,
-                advancePaymentValue: advancePaymentValue,
-                completionGuaranteeValue: completionGuaranteeValue,
-                engineersSyndicateValue: engineersSyndicateValue,
-                applicatorsSyndicateValue: applicatorsSyndicateValue,
-                regularStampDuty: regularStampDuty,
-                additionalStampDuty: additionalStampDuty,
-                commercialIndustrialTax: commercialIndustrialTax,
-                valueAddedTaxPercent: valueAddedTaxPercent,
-                valueAddedTax: valueAddedTax,
-                wasteRemovalInsurance: wasteRemovalInsurance,
-                tahyaMisrFundValue: tahyaMisrFundValue,
-                conractStampDuty: conractStampDuty,
-                contractorsFederationValue: contractorsFederationValue,
-               );
+            UpdateTotal();
         }
-        public void Update(long statementId, Project project, int statementIndex, DateOnly worksDate, double totalWorks, double totalSupplies, double previousTotalWorks, double previousTotalSupplies, double serviceTax, double advancePaymentPercent, double advancePaymentValue, double completionGuaranteeValue, double engineersSyndicateValue, double applicatorsSyndicateValue, double regularStampDuty, double additionalStampDuty, double commercialIndustrialTax, double valueAddedTaxPercent, double valueAddedTax, double wasteRemovalInsurance, double tahyaMisrFundValue, double conractStampDuty, double contractorsFederationValue)
+        /*public void Update(long statementId, Project project, int statementIndex, DateOnly worksDate, double totalWorks, double totalSupplies, double previousTotalWorks, double previousTotalSupplies, double serviceTax, double advancePaymentPercent, double advancePaymentValue, double completionGuaranteeValue, double engineersSyndicateValue, double applicatorsSyndicateValue, double regularStampDuty, double additionalStampDuty, double commercialIndustrialTax, double valueAddedTaxPercent, double valueAddedTax, double wasteRemovalInsurance, double tahyaMisrFundValue, double conractStampDuty, double contractorsFederationValue)
         {
             Id = Guard.Against.NegativeOrZero(statementId);
             Project = Guard.Against.Null(project);
@@ -127,7 +136,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
                 };
             }
             UpdateTotal();
-        }
+        }*/
 
         public void AddWithholding(AdjustmentWithholding withholding)
         {

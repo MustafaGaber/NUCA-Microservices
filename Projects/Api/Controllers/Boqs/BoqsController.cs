@@ -14,7 +14,6 @@ using NUCA.Projects.Application.Boqs.Commands.UpdateSection;
 using NUCA.Projects.Application.Boqs.Commands.UpdateTable;
 using NUCA.Projects.Application.Boqs.Models;
 using NUCA.Projects.Application.Boqs.Queries.GetBoq;
-using NUCA.Projects.Application.Projects.Queries.Models;
 
 namespace NUCA.Projects.Api.Controllers.Boqs
 {
@@ -31,7 +30,7 @@ namespace NUCA.Projects.Api.Controllers.Boqs
         private readonly ICreateSectionCommand _createSectionCommand;
         private readonly IUpdateSectionCommand _updateSectionCommand;
         private readonly IDeleteSectionCommand _deleteSectionCommand;
-        private readonly ICreateItemCommand _createItemCommand;
+        private readonly ICreateItemsCommand _createItemCommand;
         private readonly IUpdateItemCommand _updateItemCommand;
         private readonly IDeleteItemCommand _deleteItemCommand;
         private readonly IApproveBoqCommand _approveBoqCommand;
@@ -39,7 +38,7 @@ namespace NUCA.Projects.Api.Controllers.Boqs
         public BoqsController(IGetProjectBoqQuery getBoqQuery, ICreateBoqCommand createBoqCommand, IUpdateBoqCommand updateBoqCommand,
             ICreateTableCommand createTableCommand, IUpdateTableCommand updateTableCommand, IDeleteTableCommand deleteTableCommand,
             ICreateSectionCommand createSectionCommand, IUpdateSectionCommand updateSectionCommand, IDeleteSectionCommand deleteSectionCommand,
-            ICreateItemCommand createItemCommand, IUpdateItemCommand updateItemCommand, IDeleteItemCommand deleteItemCommand, IApproveBoqCommand approveBoqCommand)
+            ICreateItemsCommand createItemCommand, IUpdateItemCommand updateItemCommand, IDeleteItemCommand deleteItemCommand, IApproveBoqCommand approveBoqCommand)
         {
             _getProjectBoqQuery = getBoqQuery;
             _createBoqCommand = createBoqCommand;
@@ -127,9 +126,9 @@ namespace NUCA.Projects.Api.Controllers.Boqs
         }
 
         [HttpPost("{id}/Item/{tableId}/{sectionId}")]
-        public async Task<IActionResult> CreateItem(long id, long tableId, long sectionId, [FromBody] CreateItemModel item)
+        public async Task<IActionResult> CreateItem(long id, long tableId, long sectionId, [FromBody] List<CreateItemModel> items)
         {
-            BoqModel boq = await _createItemCommand.Execute(id, tableId, sectionId, item);
+            BoqModel boq = await _createItemCommand.Execute(id, tableId, sectionId, items);
             return Ok(boq);
         }
 
