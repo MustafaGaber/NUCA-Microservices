@@ -5,6 +5,7 @@ using NUCA.Projects.Application.Adjustments.Commands.AddWithholding;
 using NUCA.Projects.Application.Adjustments.Commands.CreateAdjustment;
 using NUCA.Projects.Application.Adjustments.Commands.DeleteWithholding;
 using NUCA.Projects.Application.Adjustments.Commands.Submit;
+using NUCA.Projects.Application.Adjustments.Commands.UpdateAdjustment;
 using NUCA.Projects.Application.Adjustments.Commands.UpdateWithholding;
 using NUCA.Projects.Application.Adjustments.Models;
 using NUCA.Projects.Application.Adjustments.Queries.GetAdjustment;
@@ -17,12 +18,13 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
     {
         private readonly IGetAdjustmentQuery _getAdjustmentQuery;
         private readonly ICreateAdjustmentCommand _createAdjustmentCommand;
+        private readonly IUpdateAdjustmentCommand _updateAdjustmentCommand;
         private readonly IAddWithholdingCommand _addWithholdingCommand;
         private readonly IUpdateWithholdingCommand _updateWithholdingCommand;
         private readonly IDeleteWithholdingCommand _deleteWithholdingCommand;
         private readonly ISubmitCommand _submitCommand;
 
-        public AdjustmentsController(IGetAdjustmentQuery getAdjustmentQuery, ICreateAdjustmentCommand createAdjustmentCommand, IAddWithholdingCommand addWithholdingCommand, IUpdateWithholdingCommand updateWithholdingCommand, IDeleteWithholdingCommand deleteWithholdingCommand, ISubmitCommand submitCommand)
+        public AdjustmentsController(IGetAdjustmentQuery getAdjustmentQuery, ICreateAdjustmentCommand createAdjustmentCommand, IAddWithholdingCommand addWithholdingCommand, IUpdateWithholdingCommand updateWithholdingCommand, IDeleteWithholdingCommand deleteWithholdingCommand, ISubmitCommand submitCommand, IUpdateAdjustmentCommand updateAdjustmentCommand)
         {
             _getAdjustmentQuery = getAdjustmentQuery;
             _createAdjustmentCommand = createAdjustmentCommand;
@@ -30,6 +32,14 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
             _updateWithholdingCommand = updateWithholdingCommand;
             _deleteWithholdingCommand = deleteWithholdingCommand;
             _submitCommand = submitCommand;
+            _updateAdjustmentCommand = updateAdjustmentCommand;
+        }
+
+        [HttpPost("{projectId}/{statementId}")]
+        public async Task<IActionResult> Create(long projectId, long statementId, [FromBody] CreateAdjustmentModel? model)
+        {
+            await _createAdjustmentCommand.Execute(projectId, statementId, model);
+            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -37,6 +47,13 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
         {
             var adjustment = await _getAdjustmentQuery.Execute(id);
             return Ok(adjustment);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAdjustment(long id, [FromBody] UpdateAdjustmentModel model)
+        {
+            GetAdjustmentModel? result = await _updateAdjustmentCommand.Execute(id, model);
+            return Ok(result);
         }
 
         [HttpPost("Withholding/{adjustmentId}")]
@@ -67,11 +84,5 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
             return Ok(result);
         }
 
-        [HttpPost("{projectId}/{statementId}")]
-        public async Task<IActionResult> Create(long projectId, long statementId, [FromBody] CreateAdjustmentModel model)
-        {
-            await _createAdjustmentCommand.Execute(projectId, statementId, model);
-            return Ok();
-        }
     }
 }

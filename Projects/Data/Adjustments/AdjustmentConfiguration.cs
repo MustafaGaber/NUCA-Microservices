@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NUCA.Projects.Domain.Entities.Adjustments;
-using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Data.Adjustments
 {
@@ -15,7 +14,7 @@ namespace NUCA.Projects.Data.Adjustments
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property("Id").ValueGeneratedNever();
-            builder.HasOne<Statement>().WithOne().HasForeignKey<Adjustment>(a => a.Id).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(a => a.Statement).WithOne().HasForeignKey<Adjustment>(a => a.Id).OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(a => a.Withholdings)
                    .WithOne()

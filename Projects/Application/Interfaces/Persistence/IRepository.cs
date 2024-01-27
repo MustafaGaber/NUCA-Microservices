@@ -50,7 +50,7 @@ namespace NUCA.Projects.Application.Interfaces.Persistence
 
         //  public Task UpdateAsync<T, TId>(T entity) where T : BaseEntity, IAggregateRoot
         //  {
-        //    _dbContext.Set<T>().Update(entity);
+        //    _dbContext.Set<T>().UpdateStatementData(entity);
         //    return _dbContext.SaveChangesAsync();
         //  }
 

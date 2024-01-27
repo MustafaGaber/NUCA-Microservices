@@ -1,90 +1,72 @@
-﻿using NUCA.Projects.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using NUCA.Projects.Application.Adjustments.Models;
+using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Data;
+using NUCA.Projects.Domain.Entities.Adjustments;
 
 namespace NUCA.Projects.Application.Adjustments.Commands.UpdateAdjustment
 {
-    public class UpdateAdjustmentCommand
+    public class UpdateAdjustmentCommand : IUpdateAdjustmentCommand
     {
         private readonly ProjectsDatabaseContext _dbContext;
+        private readonly IAdjustmentRepository _adjustmentRepository;
 
-        public UpdateAdjustmentCommand(ProjectsDatabaseContext dbContext)
+        public UpdateAdjustmentCommand(ProjectsDatabaseContext dbContext, IAdjustmentRepository adjustmentRepository)
         {
             _dbContext = dbContext;
+            _adjustmentRepository = adjustmentRepository;
         }
 
-        public async Task Execute(long projectId, long adjustmentId, UpdateAdjustmentModel model)
+        public async Task<GetAdjustmentModel> Execute(long adjustmentId, UpdateAdjustmentModel model)
         {
-            /*Adjustment adjustment = await _dbContext.Adjustments
-                .Include(a => a.Project)
-                .ThenInclude(p => p.Company)
-                .Include(a => a.Project)
-                .ThenInclude(p => p.WorkType)
-                .FirstAsync();
-
-            Statement? statement = await _dbContext.Statements
-                .Include(s => s.Withholdings)
+            Adjustment adjustment = await _dbContext
+                .Adjustments
+                .Include(a => a.Withholdings)
+                .Include(a => a.Statement)
+                .Include(a => a.Project).ThenInclude(p => p.Company)
+                .Include(a => a.Project).ThenInclude(p => p.WorkType)
+                .Include(a => a.Project).ThenInclude(p => p.AdvancePaymentDeductions)
                 .FirstOrDefaultAsync(s => s.Id == adjustmentId) ?? throw new InvalidOperationException();
 
-            bool firstInProject = statement.Index == 1;
-
-            Statement? prevoiusStatement = null;
-            bool firstInDatabase = true;
-            if (!firstInProject)
+            if (adjustment.Statement.Index == 1)
             {
-                prevoiusStatement = await _dbContext.Statements.FirstOrDefaultAsync(s => s.ProjectId == projectId && s.Index == statement.Index - 1);
-                firstInDatabase = prevoiusStatement == null;
-               /* if (firstInDatabase && model.Empty)
-                {
-                    throw new InvalidOperationException();
-                }
-        }
-        double previousTotalWorks = firstInProject ? 0 : firstInDatabase ?
-                  (double)model.PreviousTotalWorks! :
-                  prevoiusStatement!.TotalWorks;
+                throw new InvalidOperationException();
+            }
 
-        double previousTotalSupplies = firstInProject ? 0 : firstInDatabase ?
-                 (double)model.PreviousTotalSupplies! :
-                 prevoiusStatement!.TotalSupplies;
+            if (adjustment.Project.AdvancePaymentPercentage == 0 && model.TotalAdvancePaymentDeductions > 0)
+            {
+                throw new InvalidOperationException();
+            }
 
-        Project project = await _dbContext.Projects
-            .Include(p => p.Company)
-            .Include(p => p.WorkType)
-            .Include(p => p.AwardType)
-            .FirstOrDefaultAsync(p => p.Id == projectId) ?? throw new InvalidOperationException();
-        bool hasAdvancePayment = project.AdvancePaymentPercentage > 0;
-        double totalAdvancePaymentDeductions = (firstInProject || !hasAdvancePayment) ? 0 :
-            firstInDatabase ? (double)model.TotalAdvancePaymentDeductions! :
-            (await _dbContext
-                 .AdvancePaymentDeductions
-                 .Where(a => a.ProjectId == projectId)
-                 .Select(a => a.Amount)
-                 .ToListAsync()).Sum();
+            bool hasPrevoiusStatement = await _dbContext.Statements.AnyAsync(s => s.ProjectId == adjustment.ProjectId && s.Index == adjustment.Statement.Index - 1);
 
-        Adjustment adjustment = Adjustment.Create(
-            statementId: adjustmentId,
-            project: project,
-            statementIndex: statement.Index,
-            worksDate: statement.WorksDate,
-            totalWorks: statement.TotalWorks,
-            previousTotalWorks: previousTotalWorks,
-            totalSupplies: statement.TotalSupplies,
-            previousTotalSupplies: previousTotalSupplies,
-            totalAdvancePaymentDeductions: totalAdvancePaymentDeductions,
-            contractPaperPrice: 2.9, // TODO :Get from settings
-            withholdings: statement.Withholdings.Select(w => new AdjustmentWithholding(w.Name, w.Value, w.Type, true)).ToList()
-        );
-        statement.SetStateAdjusting();
-            if (hasAdvancePayment && firstInDatabase && !firstInProject && totalAdvancePaymentDeductions > 0)
+            if (hasPrevoiusStatement)
+            {
+                throw new InvalidOperationException();
+            }
+
+
+            adjustment.Update(
+                previousTotalWorks: model.PreviousTotalWorks,
+                previousTotalSupplies: model.PreviousTotalSupplies,
+                totalAdvancePaymentDeductions: model.TotalAdvancePaymentDeductions,
+                contractPaperPrice: 2.9
+            );
+
+            _dbContext.RemoveRange(adjustment.Project.AdvancePaymentDeductions);
+
+            if (model.TotalAdvancePaymentDeductions > 0)
             {
                 _dbContext.AdvancePaymentDeductions.Add(
                     new AdvancePaymentDeduction
                     {
-                        ProjectId = projectId,
-                        Amount = totalAdvancePaymentDeductions,
+                        ProjectId = adjustment.ProjectId,
+                        Amount = model.TotalAdvancePaymentDeductions,
                         AdjustmentId = null,
                     });
             }
-            _dbContext.Adjustments.Add(adjustment);
-            await _dbContext.SaveChangesAsync(); */
+            await _dbContext.SaveChangesAsync();
+            return GetAdjustmentModel.Create(adjustment, true);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace NUCA.Projects.Application.Adjustments.Models
+﻿using NUCA.Projects.Domain.Entities.Adjustments;
+
+namespace NUCA.Projects.Application.Adjustments.Models
 {
     public class GetAdjustmentModel
     {
@@ -36,6 +38,51 @@
         public double Total { get; init; }
         public bool IsFirst { get; init; }
 
-
+        public static GetAdjustmentModel Create(Adjustment adjustment, bool isFirst)
+        {
+            return new GetAdjustmentModel
+            {
+                ProjectName = adjustment.Project.Name,
+                CompanyName = adjustment.Project.Company!.Name,
+                WorksDate = adjustment.WorksDate,
+                StatementIndex = adjustment.StatementIndex,
+                TotalWorks = adjustment.TotalWorks,
+                TotalSupplies = adjustment.TotalSupplies,
+                PreviousTotalWorks = adjustment.PreviousTotalWorks,
+                PreviousTotalSupplies = adjustment.PreviousTotalSupplies,
+                CurrentWorks = adjustment.CurrentWorks,
+                CurrentSupplies = adjustment.CurrentSupplies,
+                CurrentWorksAndSupplies = adjustment.CurrentWorksAndSupplies,
+                ServiceTax = adjustment.ServiceTax,
+                AdvancePaymentPercent = adjustment.AdvancePaymentPercent,
+                AdvancePaymentValue = adjustment.AdvancePaymentValue,
+                CompletionGuaranteeValue = adjustment.CompletionGuaranteeValue,
+                EngineersSyndicateValue = adjustment.EngineersSyndicateValue,
+                ApplicatorsSyndicateValue = adjustment.ApplicatorsSyndicateValue,
+                RegularStampDuty = adjustment.RegularStampDuty,
+                AdditionalStampDuty = adjustment.AdditionalStampDuty,
+                TotalStampDuty = adjustment.TotalStampDuty,
+                CommercialIndustrialTax = adjustment.CommercialIndustrialTax,
+                ValueAddedTaxPercent = adjustment.ValueAddedTaxPercent,
+                ValueAddedTax = adjustment.ValueAddedTax,
+                WasteRemovalInsurance = adjustment.WasteRemovalInsurance,
+                TahyaMisrFundValue = adjustment.TahyaMisrFundValue,
+                ConractStampDuty = adjustment.ConractStampDuty,
+                ContractorsFederationValue = adjustment.ContractorsFederationValue,
+                Withholdings = adjustment.Withholdings.Select(w => new GetWithholdingModel
+                {
+                    Id = w.Id,
+                    Name = w.Name,
+                    Value = w.Value,
+                    Type = w.Type,
+                    FromStatement = w.FromStatement
+                }).ToList(),
+                TotalDue = adjustment.TotalDue,
+                TotalWithholdings = adjustment.TotalWithholdings,
+                Total = adjustment.Total,
+                Submitted = adjustment.Submitted,
+                IsFirst = isFirst,
+            };
+        }
     }
 }

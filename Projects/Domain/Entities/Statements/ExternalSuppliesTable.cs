@@ -28,15 +28,15 @@ namespace NUCA.Projects.Domain.Entities.Statements
                 ExternalSuppliesItem? item = _items.Find(_w => _w.Id == i.Id);
                 if (item != null)
                 {
-                    item.Update(i.TotalQuantity, i.Percentage, userId);
+                    item.UpdateStatementData(i.TotalQuantity, i.Percentage, userId);
                 }
             });
             _items.AddRange(items.Where(i => i.Id == 0));
         }
-        public void Update(UpdateStatementItemModel model, long userId)
+        public void UpdateStatementData(UpdateStatementItemModel model, long userId)
         {
             ExternalSuppliesItem item = _externalItems.First(i => i.Id == model.ItemId);
-            item.Update(model, userId);
+            item.UpdateStatementData(model, userId);
         }
 
 

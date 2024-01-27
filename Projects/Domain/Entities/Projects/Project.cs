@@ -265,7 +265,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
                  Privilege? privilege = _privileges.Find(_p => _p.Id == p.Id);
                  if (privilege != null)
                  {
-                     privilege.Update(p.UserId, p.WorkType, p.DepartmentId);
+                     privilege.UpdateStatementData(p.UserId, p.WorkType, p.DepartmentId);
                  }
              });
              _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.UserId, p.WorkType, p.DepartmentId )));
