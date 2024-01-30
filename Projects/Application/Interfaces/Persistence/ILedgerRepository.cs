@@ -1,4 +1,4 @@
-﻿using NUCA.Projects.Domain.Entities.Ledgers;
+﻿using NUCA.Projects.Domain.Entities.Settings;
 
 namespace NUCA.Projects.Application.Interfaces.Persistence
 {

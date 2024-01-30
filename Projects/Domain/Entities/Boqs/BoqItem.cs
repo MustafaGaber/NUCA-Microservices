@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
-using NUCA.Projects.Domain.Entities.FinanceAdmin;
+using NUCA.Projects.Domain.Entities.Settings;
 
 namespace NUCA.Projects.Domain.Entities.Boqs
 {

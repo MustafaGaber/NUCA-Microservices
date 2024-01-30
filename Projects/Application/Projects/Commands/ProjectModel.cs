@@ -5,6 +5,7 @@ namespace NUCA.Projects.Application.Projects.Commands
 {
     public class ProjectModel
     {
+        public int CityId { get; init; }
         public string Name { get; init; }
         public string DepartmentId { get; init; }
         public string DepartmentName { get; init; }
@@ -13,7 +14,7 @@ namespace NUCA.Projects.Application.Projects.Commands
         public bool Sovereign { get; init; }
         public List<long> ClassificationsIds { get; init; }
         public ProjectStatus Status { get; init; }
-        public  FundingType FundingType {  get; init; }
+        public FundingType FundingType { get; init; }
         public long? AwardTypeId { get; init; }
         public long? CompanyId { get; init; }
         public int? OrderNumber { get; init; }

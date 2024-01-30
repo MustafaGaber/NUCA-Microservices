@@ -39,7 +39,6 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
         public required long? BankBranchId { get; init; }
         public required string? BankAccountNumber { get; init; }
         public required long? TaxAuthorityId { get; init; }
-        public required string Notes { get; init; }
         public required bool Approved { get; init; }
         public required bool HasBoq { get; init; }
         public static GetProjectModel FromProject(Project project, bool hasBoq)
@@ -80,7 +79,6 @@ namespace NUCA.Projects.Application.Projects.Queries.Models
                 BankBranchId = project.BankBranch?.Id,
                 BankAccountNumber = project.BankAccountNumber,
                 TaxAuthorityId = project.TaxAuthority?.Id,
-                Notes = project.Notes,
                 HasBoq = hasBoq,
                 Approved = project.Approved,
             };

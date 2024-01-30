@@ -1,9 +1,9 @@
 ﻿using NUCA.Projects.Application.Boqs.Models;
 using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Data.FinanceAdmin;
+using NUCA.Projects.Data.Settings;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Departments;
-using NUCA.Projects.Domain.Entities.FinanceAdmin;
+using NUCA.Projects.Domain.Entities.Settings;
 
 namespace NUCA.Projects.Application.Boqs.Commands.CreateSection
 {

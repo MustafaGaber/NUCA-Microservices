@@ -4,5 +4,7 @@
     {
         Outstanding = 1,
         Discount = 2,
+        InvestmentReturn = 3,
+        Fine = 4
     }
 }

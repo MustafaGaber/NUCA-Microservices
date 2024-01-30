@@ -1,6 +1,6 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Data.Shared;
-using NUCA.Projects.Domain.Entities.Projects;
+using NUCA.Projects.Domain.Entities.Settings;
 
 namespace NUCA.Projects.Data.Projects
 {

@@ -21,6 +21,10 @@ namespace NUCA.Projects.Data.Adjustments
         {
             return database.Adjustments
                 .Include(a => a.Withholdings)
+                .Include(a => a.Statement)
+                .Include(a => a.Project).ThenInclude(p => p.Company)
+                .Include(a => a.Project).ThenInclude(p => p.WorkType)
+                .Include(a => a.Project).ThenInclude(p => p.AdvancePaymentDeductions)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
@@ -49,15 +53,15 @@ namespace NUCA.Projects.Data.Adjustments
                     CompletionGuaranteeValue = a.CompletionGuaranteeValue,
                     EngineersSyndicateValue = a.EngineersSyndicateValue,
                     ApplicatorsSyndicateValue = a.ApplicatorsSyndicateValue,
-                    RegularStampDuty = a.RegularStampDuty,
-                    AdditionalStampDuty = a.AdditionalStampDuty,
-                    TotalStampDuty = a.TotalStampDuty,
+                    RegularStampTax = a.RegularStampTax,
+                    AdditionalStampTax = a.AdditionalStampTax,
                     CommercialIndustrialTax = a.CommercialIndustrialTax,
+                    SelfEmploymentTax = a.SelfEmploymentTax,
                     ValueAddedTaxPercent = a.ValueAddedTaxPercent,
                     ValueAddedTax = a.ValueAddedTax,
                     WasteRemovalInsurance = a.WasteRemovalInsurance,
                     TahyaMisrFundValue = a.TahyaMisrFundValue,
-                    ConractStampDuty = a.ConractStampDuty,
+                    ConractStampTax = a.ConractStampTax,
                     ContractorsFederationValue = a.ContractorsFederationValue,
                     Withholdings = a.Withholdings.Select(w => new GetWithholdingModel
                     {

@@ -8,6 +8,7 @@ namespace NUCA.Identity.Domain
         public string Id { get; private set; }
         public string Name { get; private set; }
 
+        protected DepartmentPermission() { }
         public DepartmentPermission(string id, string name)
         {
             Id = id;
@@ -23,7 +24,7 @@ namespace NUCA.Identity.Domain
         public static readonly DepartmentPermission Execution = new DepartmentPermission("execution", "التنفيذ");
         public static readonly DepartmentPermission TechnicalOffice = new DepartmentPermission("technicalOffice", "المكتب الفني");
         public static readonly DepartmentPermission Revision = new DepartmentPermission("revision", "المراجعة");
-        public static readonly DepartmentPermission Accounting = new DepartmentPermission("accounting", "المالية");
+        public static readonly DepartmentPermission Accounting = new DepartmentPermission("accounting", "الحسابات");
         public static readonly DepartmentPermission SeniorManagement = new DepartmentPermission("seniorManagement", "الإدارة العليا");
 
 

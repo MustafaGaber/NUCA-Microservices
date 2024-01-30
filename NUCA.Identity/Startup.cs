@@ -1,22 +1,18 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NUCA.Identity.Core;
 using NUCA.Identity.Data;
 using NUCA.Identity.Domain;
-using Microsoft.AspNetCore.Http;
 using System;
-using NUCA.Identity.Core;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using static IdentityServer4.IdentityServerConstants;
-using IdentityServer4;
 
 namespace NUCA.Identity
 {
@@ -39,8 +35,8 @@ namespace NUCA.Identity
 
             services.AddControllersWithViews(configure =>
             {
-               // configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
-            });
+                // configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
+            }).AddRazorRuntimeCompilation(); ;
 
             services.AddDbContext<DbContext, ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
@@ -61,7 +57,7 @@ namespace NUCA.Identity
                 {
                      PathString.FromUriComponent(new Uri(Config.FrontendUri))
                 };
-                
+
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
@@ -92,18 +88,18 @@ namespace NUCA.Identity
                     });
             });
             services.AddLocalApiAuthentication();
-           /* services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            {
-                //options.Authority = "https://localhost:5010";
-                options.Audience = "identity";
-               / options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = true,
-                    ValidateIssuer = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                };
-            });*/
+            /* services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+             {
+                 //options.Authority = "https://localhost:5010";
+                 options.Audience = "identity";
+                / options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateAudience = true,
+                     ValidateIssuer = true,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                 };
+             });*/
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(LocalApi.PolicyName, policy =>

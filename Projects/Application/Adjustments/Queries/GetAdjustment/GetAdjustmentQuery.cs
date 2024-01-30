@@ -1,5 +1,5 @@
-﻿using NUCA.Projects.Application.Adjustments.Models;
-using NUCA.Projects.Application.Interfaces.Persistence;
+﻿using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Domain.Entities.Adjustments;
 
 namespace NUCA.Projects.Application.Adjustments.Queries.GetAdjustment
 {
@@ -12,9 +12,9 @@ namespace NUCA.Projects.Application.Adjustments.Queries.GetAdjustment
             _adjustmentRepository = adjustmentRepository;
         }
 
-        public async Task<GetAdjustmentModel?> Execute(long id)
+        public async Task<Adjustment?> Execute(long id)
         {
-            var adjustment = await _adjustmentRepository.GetAdjustmentModel(id);
+            var adjustment = await _adjustmentRepository.Get(id);
             return adjustment;
         }
     }

@@ -4,7 +4,7 @@ using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Adjustments;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Companies;
-using NUCA.Projects.Domain.Entities.FinanceAdmin;
+using NUCA.Projects.Domain.Entities.Settings;
 using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
 
@@ -12,6 +12,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
 {
     public class Project : AggregateRoot
     {
+        public int CityId { get; private set; }
         public string Name { get; private set; }
         public string DepartmentId { get; private set; }
         public string DepartmentName { get; private set; }
@@ -47,13 +48,20 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public int? ContractPapersCount { get; private set; }
         public int? ContractsCount { get; private set; }
         public MainBank? MainBank { get; private set; }
-        public long? MainBankId { get; private set; }
+        //public long? MainBankId { get; private set; }
         public BankBranch? BankBranch { get; private set; }
-        public long? BankBranchId { get; private set; }
+        // public long? BankBranchId { get; private set; }
         public string? BankAccountNumber { get; private set; }
         public TaxAuthority? TaxAuthority { get; private set; }
         public long? TaxAuthorityId { get; private set; }
-        public string Notes { get; private set; }
+        public DateOnly? FinalGuaranteeLetterExpiryDate { get; private set; }
+        public DateOnly? AdvancePaymentGuaranteeLetterExpiryDate { get; private set; }
+        public DateOnly? InsurancePolicyExpiryDate { get; private set; }
+        public bool WaivedToBank { get; private set; }
+        public MainBank? AssigneeMainBank { get; private set; }
+        public BankBranch? AssigneeBankBranch { get; private set; }
+        public Ledger? FromLedger { get; private set; }
+        public Ledger? ToLedger { get; private set; }
         public bool Approved { get; private set; }
         public string? ApprovedBy { get; private set; }
         public virtual IReadOnlyList<Statement> Statements { get; private set; }
@@ -64,6 +72,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public virtual IReadOnlyList<Privilege> Privileges => _privileges.ToList();
         protected Project() { }
         public Project(
+            int cityId,
             string name,
             string departmentId,
             string departmentName,
@@ -93,10 +102,10 @@ namespace NUCA.Projects.Domain.Entities.Projects
             MainBank? mainBank,
             BankBranch? bankBranch,
             string? bankAccountNumber,
-            TaxAuthority? taxAuthority,
-            string notes)
+            TaxAuthority? taxAuthority)
         {
             Update(
+                cityId: cityId,
                 name: name,
                 departmentId: departmentId,
                 departmentName: departmentName,
@@ -126,12 +135,12 @@ namespace NUCA.Projects.Domain.Entities.Projects
                 mainBank: mainBank,
                 bankBranch: bankBranch,
                 bankAccountNumber: bankAccountNumber,
-                taxAuthority: taxAuthority,
-                notes: notes
+                taxAuthority: taxAuthority
               );
         }
 
         public void Update(
+             int cityId,
             string name,
             string departmentId,
             string departmentName,
@@ -161,13 +170,9 @@ namespace NUCA.Projects.Domain.Entities.Projects
             MainBank? mainBank,
             BankBranch? bankBranch,
             string? bankAccountNumber,
-            TaxAuthority? taxAuthority,
-            string notes)
+            TaxAuthority? taxAuthority
+            )
         {
-            /*if (Approved)
-            {
-                throw new InvalidOperationException();
-            }*/
             if (!Enum.IsDefined(typeof(ProjectStatus), status))
             {
                 throw new ArgumentException();
@@ -176,6 +181,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
             {
                 throw new ArgumentException();
             }
+            CityId = Guard.Against.NegativeOrZero(cityId);
             Name = Guard.Against.NullOrWhiteSpace(name);
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
             DepartmentName = Guard.Against.NullOrEmpty(departmentName);
@@ -243,13 +249,12 @@ namespace NUCA.Projects.Domain.Entities.Projects
             ContractsCount = contractsCount;
             ContractPapersCount = contractPapersCount;
             MainBank = mainBank;
-            MainBankId = mainBank?.Id;
+            //MainBankId = mainBank?.Id;
             BankBranch = bankBranch;
-            BankBranchId = bankBranch?.Id;
+            //BankBranchId = bankBranch?.Id;
             BankAccountNumber = bankAccountNumber;
             TaxAuthority = taxAuthority;
             TaxAuthorityId = taxAuthority?.Id;
-            Notes = notes;
         }
 
         public void Approve(string userId)
@@ -257,19 +262,6 @@ namespace NUCA.Projects.Domain.Entities.Projects
             Approved = true;
             ApprovedBy = userId;
         }
-        /* public void UpdatePrivileges(List<PrivilegeModel> privileges)
-         {
-             _privileges.RemoveAll(privilege => !privileges.Any(p => p.Id == privilege.Id));
-             privileges.ForEach(p =>
-             {
-                 Privilege? privilege = _privileges.Find(_p => _p.Id == p.Id);
-                 if (privilege != null)
-                 {
-                     privilege.UpdateStatementData(p.UserId, p.WorkType, p.DepartmentId);
-                 }
-             });
-             _privileges.AddRange(privileges.Where(p => p.Id == 0).Select(p => new Privilege(p.UserId, p.WorkType, p.DepartmentId )));
-         }*/
     }
 
 }

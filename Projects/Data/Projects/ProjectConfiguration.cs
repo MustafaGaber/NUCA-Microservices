@@ -10,15 +10,22 @@ namespace NUCA.Projects.Data.Projects
         public void Configure(EntityTypeBuilder<Project> builder)
         {
             builder.HasOne(p => p.Boq).WithOne(b => b.Project).HasForeignKey<Boq>(b => b.ProjectId).IsRequired().OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(p => p.Company).WithMany().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(p => p.Company).WithMany(c => c.Projects).OnDelete(DeleteBehavior.Restrict);
             //builder.HasOne(p => p.Department).WithMany().OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(p => p.WorkType).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(p => p.ModifiedEndDates).WithOne()
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                   .IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(p => p.Privileges).WithOne()
+            builder.HasOne(p => p.AssigneeMainBank).WithMany();
+            builder.HasOne(p => p.AssigneeBankBranch).WithMany();
+
+            builder.HasOne(p => p.FromLedger).WithMany();
+            builder.HasOne(p => p.ToLedger).WithMany();
+
+            builder.HasMany(p => p.Privileges)
+                   .WithOne()
                    .IsRequired()
                    .HasForeignKey(p => p.ProjectId)
                    .OnDelete(DeleteBehavior.Cascade);
@@ -30,17 +37,9 @@ namespace NUCA.Projects.Data.Projects
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(p => p.AdvancePaymentDeductions).WithOne()
-                 .HasForeignKey(d => d.ProjectId)
-                 .OnDelete(DeleteBehavior.Restrict);
+                   .HasForeignKey(d => d.ProjectId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
-            /*  builder.OwnsMany(
-               p => p.ModifiedEndDates, a =>
-               {
-                   a.ToTable("EndDates");
-                   a.WithOwner().HasForeignKey("ProjectId");
-                   a.HasKey("Id");
-                   a.Property("Id");
-              });*/
             builder.OwnsOne(p => p.Duration);
         }
     }

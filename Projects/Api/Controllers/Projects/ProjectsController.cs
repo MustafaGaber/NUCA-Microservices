@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.Projects.Commands;
 using NUCA.Projects.Application.Projects.Commands.ApproveProject;
@@ -96,7 +95,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {
-            GetProjectModel project = await _detailQuery.Execute(id);
+            GetProjectModel project = await _detailQuery.Execute(id, User);
             return Ok(project);
         }
 

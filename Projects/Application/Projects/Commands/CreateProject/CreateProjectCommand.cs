@@ -1,10 +1,7 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Data.Projects;
 using NUCA.Projects.Domain.Entities.Companies;
-using NUCA.Projects.Domain.Entities.Departments;
-using NUCA.Projects.Domain.Entities.FinanceAdmin;
+using NUCA.Projects.Domain.Entities.Settings;
 using NUCA.Projects.Domain.Entities.Projects;
-using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Application.Projects.Commands.CreateProject
 {
@@ -72,6 +69,7 @@ namespace NUCA.Projects.Application.Projects.Commands.CreateProject
             List<Classification> classifications = await _classificationRepository.GetSome(model.ClassificationsIds);
             var project = await _projectRepository.Add(new Project
             (
+                cityId: model.CityId,
                 name: model.Name,
                 departmentId: model.DepartmentId,
                 departmentName: model.DepartmentName,
@@ -101,8 +99,7 @@ namespace NUCA.Projects.Application.Projects.Commands.CreateProject
                 mainBank: mainBank,
                 bankBranch: bankBranch,
                 bankAccountNumber: model.BankAccountNumber,
-                taxAuthority: taxAuthority,
-                notes: model.Notes
+                taxAuthority: taxAuthority
             ));
             return project;
         }

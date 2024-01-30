@@ -13,13 +13,15 @@ namespace NUCA.Projects.Domain.Entities.Statements
         protected StatementWithholding() { }
         public StatementWithholding(string name, double value, WithholdingType type)
         {
-            Name = Guard.Against.NullOrEmpty(name.Trim());
-            Value = value;
-            Type = type;
+            Update(name, value, type);
         }
 
         public void Update(string name, double value, WithholdingType type)
         {
+            if (type != WithholdingType.Discount && type != WithholdingType.Outstanding)
+            {
+                throw new ArgumentException("Invalid statement withholding type");
+            }
             Name = Guard.Against.NullOrEmpty(name.Trim());
             Value = value;
             Type = type;

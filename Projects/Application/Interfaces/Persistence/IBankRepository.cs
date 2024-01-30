@@ -1,5 +1,5 @@
-﻿using NUCA.Projects.Application.FinanceAdmin.Banks.Queries;
-using NUCA.Projects.Domain.Entities.FinanceAdmin;
+﻿using NUCA.Projects.Application.Settings.Banks.Queries;
+using NUCA.Projects.Domain.Entities.Settings;
 
 namespace NUCA.Projects.Application.Interfaces.Persistence
 {

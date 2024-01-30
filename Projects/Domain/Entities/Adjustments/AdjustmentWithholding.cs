@@ -14,6 +14,10 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         protected AdjustmentWithholding() { }
         public AdjustmentWithholding(string name, double value, WithholdingType type, bool fromStatement)
         {
+            if (!Enum.IsDefined(typeof(WithholdingType), type))
+            {
+                throw new ArgumentException("Invalid adjustment withholding type");
+            }
             Name = Guard.Against.NullOrEmpty(name.Trim());
             Value = value;
             Type = type;
@@ -25,6 +29,10 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             if (FromStatement)
             {
                 throw new InvalidOperationException();
+            }
+            if (!Enum.IsDefined(typeof(WithholdingType), type))
+            {
+                throw new ArgumentException("Invalid adjustment withholding type");
             }
             Name = Guard.Against.NullOrEmpty(name.Trim());
             Value = value;

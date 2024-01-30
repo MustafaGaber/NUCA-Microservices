@@ -1,10 +1,10 @@
 ﻿
-using NUCA.Projects.Application.Adjustments.Models;
+using NUCA.Projects.Domain.Entities.Adjustments;
 
 namespace NUCA.Projects.Application.Adjustments.Queries.GetAdjustment
 {
     public interface IGetAdjustmentQuery
     {
-        Task<GetAdjustmentModel?> Execute(long id);
+        Task<Adjustment?> Execute(long id);
     }
 }

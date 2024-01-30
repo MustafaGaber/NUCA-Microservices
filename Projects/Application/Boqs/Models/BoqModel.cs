@@ -1,5 +1,5 @@
 ﻿using NUCA.Projects.Domain.Entities.Boqs;
-using NUCA.Projects.Domain.Entities.FinanceAdmin;
+using NUCA.Projects.Domain.Entities.Settings;
 using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Application.Boqs.Models

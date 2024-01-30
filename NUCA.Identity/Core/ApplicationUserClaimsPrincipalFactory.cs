@@ -17,7 +17,7 @@ namespace NUCA.Identity.Core
             var identity = await base.GenerateClaimsAsync(user);
             identity.AddClaim(new Claim("FullName", user.FullName));
             foreach (var department in user.Enrollments){
-                identity.AddClaim(new Claim("Department", department.DepartmentId.ToString()));
+                identity.AddClaim(new Claim("Department", department.Id.ToString()));
             }
             
             return identity;

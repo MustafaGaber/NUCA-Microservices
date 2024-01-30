@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Projects;
+using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Domain.Entities.Adjustments
@@ -17,19 +18,22 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         public double PreviousTotalWorks { get; private set; }
         public double PreviousTotalSupplies { get; private set; }
         public double ServiceTax { get; private set; }
+        public double SupervisionCommission { get; private set; }
         public double AdvancePaymentPercent { get; private set; }
         public double AdvancePaymentValue { get; private set; }
         public double CompletionGuaranteeValue { get; private set; }
         public double EngineersSyndicateValue { get; private set; }
         public double ApplicatorsSyndicateValue { get; private set; }
-        public double RegularStampDuty { get; private set; }
-        public double AdditionalStampDuty { get; private set; }
+        public double RegularStampTax { get; private set; }
+        public double AdditionalStampTax { get; private set; }
+        public double ResourceDevelopmentTax { get; private set; }
         public double CommercialIndustrialTax { get; private set; }
+        public double SelfEmploymentTax { get; private set; }
         public double ValueAddedTaxPercent { get; private set; }
         public double ValueAddedTax { get; private set; }
         public double WasteRemovalInsurance { get; private set; }
         public double TahyaMisrFundValue { get; private set; }
-        public double ConractStampDuty { get; private set; }
+        public double ConractStampTax { get; private set; }
         public double ContractorsFederationValue { get; private set; }
 
         private readonly List<AdjustmentWithholding> _withholdings = new();
@@ -41,21 +45,24 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
         public double CurrentSupplies => TotalSupplies - PreviousTotalSupplies;
         public double CurrentWorksAndSupplies => CurrentWorks + CurrentSupplies;
         public double TotalDue => CurrentWorksAndSupplies + ServiceTax;
-        public double TotalStampDuty => RegularStampDuty + AdditionalStampDuty;
         public double TotalWithholdings
         {
             get
             {
-                return AdvancePaymentValue
+                return SupervisionCommission
+                        + AdvancePaymentValue
                         + CompletionGuaranteeValue
                         + EngineersSyndicateValue
                         + ApplicatorsSyndicateValue
-                        + TotalStampDuty
+                        + RegularStampTax
+                        + AdditionalStampTax
+                        + ResourceDevelopmentTax
                         + CommercialIndustrialTax
+                        + SelfEmploymentTax
                         + ValueAddedTax
                         + WasteRemovalInsurance
                         + TahyaMisrFundValue
-                        + ConractStampDuty
+                        + ConractStampTax
                         + ContractorsFederationValue
                         + Withholdings.Sum(withholding => withholding.Value);
             }
@@ -104,28 +111,31 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             double currentSupplies = TotalSupplies - previousTotalSupplies;
             double currentWorksAndSupplies = currentWorks + currentSupplies;
             ValueAddedTaxPercent = Guard.Against.OutOfRange(Project.WorkType.ValueAddedTaxPercent, nameof(Project.WorkType.ValueAddedTaxPercent), 0, 100);
+            bool valueAddedTaxIncluded = (bool)Project.ValueAddedTaxIncluded!;
+            ServiceTax = valueAddedTaxIncluded ? 0 : currentWorks * ValueAddedTaxPercent / 100;
             AdvancePaymentPercent = Guard.Against.OutOfRange((double)Project.AdvancePaymentPercentage!, nameof(Project.AdvancePaymentPercentage), 0, 100);
             double orderPrice = (double)Project.Price!;
             double remainingAdvancePaymentValue = Math.Max(0, orderPrice * AdvancePaymentPercent / 100 - totalAdvancePaymentDeductions);
             AdvancePaymentValue = Guard.Against.Negative(Math.Min(Math.Max(0, currentWorks * AdvancePaymentPercent / 100), remainingAdvancePaymentValue));
-            bool valueAddedTaxIncluded = (bool)Project.ValueAddedTaxIncluded!;
-            ServiceTax = valueAddedTaxIncluded ? 0 : currentWorks * ValueAddedTaxPercent / 100;
-            CompletionGuaranteeValue = Math.Max(0, currentWorks * 5 / 100);
-            EngineersSyndicateValue = Math.Max(0, currentWorks * 0.0045);
-            ApplicatorsSyndicateValue = Math.Max(0, currentWorks * 0.0045);
+            CompletionGuaranteeValue = currentWorks * 5 / 100;
+            EngineersSyndicateValue = currentWorks * 0.0045;
+            ApplicatorsSyndicateValue = currentWorks * 0.0045;
             double originalCurrentWorks = valueAddedTaxIncluded ? currentWorks :
                                          currentWorks * 100 / (100 + ValueAddedTaxPercent);
             double originalCurrentWorksAndSupplies = originalCurrentWorks + currentSupplies;
-            RegularStampDuty = CalculateRegularStamp(Math.Max(0, originalCurrentWorksAndSupplies));
-            AdditionalStampDuty = 3 * RegularStampDuty;
-            CommercialIndustrialTax = Project.Company!.CommercialIndustrialTaxFree == true ? 0 :
-                Math.Max(0, originalCurrentWorksAndSupplies * .01);
-            ValueAddedTax = Math.Max(0, originalCurrentWorks * ValueAddedTaxPercent / 100);
-            WasteRemovalInsurance = Math.Max(0, currentWorksAndSupplies * .0025);
-            TahyaMisrFundValue = Math.Max(0, currentWorksAndSupplies * 0.01);
+            bool isCooperative = Project.Company!.Type == CompanyType.Cooperative;
+            SupervisionCommission = Project.FundingType == FundingType.HousingFund ? originalCurrentWorks * 1.15 / 100 : 0;
+            RegularStampTax = isCooperative ? 0 : CalculateRegularStamp(originalCurrentWorksAndSupplies);
+            AdditionalStampTax = 3 * RegularStampTax;
+            ResourceDevelopmentTax = isCooperative ? 0 : 2;
+            CommercialIndustrialTax = isCooperative || Project.Company!.CommercialIndustrialTaxFree == true ? 0 : originalCurrentWorksAndSupplies * Project.WorkType.CommercialIndustrialTaxPercent / 100;
+            SelfEmploymentTax = originalCurrentWorks * Project.WorkType.SelfEmploymentTaxPercent / 100;
+            ValueAddedTax = originalCurrentWorks * ValueAddedTaxPercent / 100;
+            WasteRemovalInsurance = currentWorksAndSupplies * .0025;
+            TahyaMisrFundValue = currentWorksAndSupplies * 0.01;
             int contractsCount = (int)Project.ContractsCount!;
             int contractPapersCount = (int)Project.ContractPapersCount!;
-            ConractStampDuty = Statement.Index == 1 ? contractsCount * contractPapersCount * contractPaperPrice : 0;
+            ConractStampTax = Statement.Index > 1 || isCooperative ? 0 : contractsCount * contractPapersCount * contractPaperPrice;
             ContractorsFederationValue = Statement.Index == 1 ? Math.Min(5000, orderPrice * .0005) : 0;
             if (AdvancePaymentValue > 0)
             {

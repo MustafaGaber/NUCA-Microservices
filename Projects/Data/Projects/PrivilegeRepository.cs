@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Application.Statements.Queries.GetCurrentStatements;
 using NUCA.Projects.Data.Shared;
 using NUCA.Projects.Domain.Entities.Projects;
-using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Data.Projects
 {
@@ -24,10 +22,9 @@ namespace NUCA.Projects.Data.Projects
         {
             var projectId = await database.Statements
                 .Where(s => s.Id == statementId).Select(s => s.ProjectId).FirstOrDefaultAsync();
-            var privileges = await database.Set<Privilege>()
-                  .Where(p => p.ProjectId == projectId && p.UserId == userId)
-                  .ToListAsync();
+            var privileges = await GetProjectPrivilegesForUser(projectId, userId);
             return privileges;
         }
+
     }
 }

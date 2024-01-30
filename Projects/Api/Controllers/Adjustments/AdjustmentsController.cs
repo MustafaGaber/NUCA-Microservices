@@ -16,7 +16,7 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
     [ApiController]
     public class AdjustmentsController : BaseController
     {
-        private readonly IGetAdjustmentQuery _getAdjustmentQuery;
+        private readonly IGetAdjustmentModelQuery _getAdjustmentQuery;
         private readonly ICreateAdjustmentCommand _createAdjustmentCommand;
         private readonly IUpdateAdjustmentCommand _updateAdjustmentCommand;
         private readonly IAddWithholdingCommand _addWithholdingCommand;
@@ -24,7 +24,7 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
         private readonly IDeleteWithholdingCommand _deleteWithholdingCommand;
         private readonly ISubmitCommand _submitCommand;
 
-        public AdjustmentsController(IGetAdjustmentQuery getAdjustmentQuery, ICreateAdjustmentCommand createAdjustmentCommand, IAddWithholdingCommand addWithholdingCommand, IUpdateWithholdingCommand updateWithholdingCommand, IDeleteWithholdingCommand deleteWithholdingCommand, ISubmitCommand submitCommand, IUpdateAdjustmentCommand updateAdjustmentCommand)
+        public AdjustmentsController(IGetAdjustmentModelQuery getAdjustmentQuery, ICreateAdjustmentCommand createAdjustmentCommand, IAddWithholdingCommand addWithholdingCommand, IUpdateWithholdingCommand updateWithholdingCommand, IDeleteWithholdingCommand deleteWithholdingCommand, ISubmitCommand submitCommand, IUpdateAdjustmentCommand updateAdjustmentCommand)
         {
             _getAdjustmentQuery = getAdjustmentQuery;
             _createAdjustmentCommand = createAdjustmentCommand;

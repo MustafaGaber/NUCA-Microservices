@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
 using NUCA.Projects.Domain.Entities.Departments;
-using NUCA.Projects.Domain.Entities.FinanceAdmin;
+using NUCA.Projects.Domain.Entities.Settings;
 using NUCA.Projects.Domain.Entities.Shared;
 using System.Xml.Linq;
 

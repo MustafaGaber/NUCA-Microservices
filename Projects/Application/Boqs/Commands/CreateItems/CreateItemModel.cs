@@ -1,4 +1,4 @@
-﻿using NUCA.Projects.Domain.Entities.FinanceAdmin;
+﻿using NUCA.Projects.Domain.Entities.Settings;
 using NUCA.Projects.Domain.Entities.Shared;
 using System;
 using System.Collections.Generic;

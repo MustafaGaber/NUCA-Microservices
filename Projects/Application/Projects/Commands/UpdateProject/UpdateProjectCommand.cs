@@ -1,9 +1,7 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Data.FinanceAdmin;
 using NUCA.Projects.Domain.Entities.Companies;
-using NUCA.Projects.Domain.Entities.FinanceAdmin;
+using NUCA.Projects.Domain.Entities.Settings;
 using NUCA.Projects.Domain.Entities.Projects;
-using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
 {
@@ -69,6 +67,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
             }
             List<Classification> classifications = await _classificationRepository.GetSome(model.ClassificationsIds);
             project.Update(
+                 cityId: model.CityId,
                 name: model.Name,
                 departmentId: model.DepartmentId,
                 departmentName: model.DepartmentName,
@@ -98,8 +97,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
                 mainBank: mainBank,
                 bankBranch: bankBranch,
                 bankAccountNumber: model.BankAccountNumber,
-                taxAuthority: taxAuthority,
-                notes: model.Notes
+                taxAuthority: taxAuthority
             );
             await _projectRepository.Update(project);
             return project;

@@ -1,5 +1,4 @@
-﻿using IdentityModel;
-using IdentityServer4.Models;
+﻿using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
 using NUCA.Identity.Domain;
@@ -23,7 +22,7 @@ namespace NUCA.Identity.Core
 
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            var serielizeOptions =  new JsonSerializerOptions()
+            var serielizeOptions = new JsonSerializerOptions()
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
@@ -32,12 +31,13 @@ namespace NUCA.Identity.Core
             context.IssuedClaims.Add(new Claim("enrollments", JsonSerializer.Serialize(user.Enrollments.Select(e => new { departmentId = e.DepartmentId, departmentName = e.Department.Name, role = e.Job }), serielizeOptions)));
             foreach (var enrollment in user.Enrollments)
             {
-                foreach (var permission in enrollment.Department.Permissions)
-                {
-                    context.IssuedClaims.Add(new Claim("permission", permission.Id));
-                }
+                context.IssuedClaims.AddRange(enrollment.Department.Permissions.Select(p => new Claim("permission", p.Id)));
             }
-            context.IssuedClaims.AddRange( user.Roles.Select(r => new Claim("role", r.Role.Name)));
+            foreach (var group in user.Groups)
+            {
+                context.IssuedClaims.AddRange(group.Roles.Select(r => new Claim("role", r.Name)));
+            }
+            context.IssuedClaims.AddRange(user.Roles.Select(r => new Claim("role", r.Role.Name)));
         }
 
         public async Task IsActiveAsync(IsActiveContext context)

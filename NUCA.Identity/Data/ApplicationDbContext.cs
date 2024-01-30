@@ -17,7 +17,8 @@ namespace NUCA.Identity.Data
         public DbSet<Department> Departments { get; private set; }
         public DbSet<Enrollment> Enrollments { get; private set; }
         public DbSet<DepartmentPermission> DepartmentPermissions { get; private set; }
-        
+        public DbSet<UserGroup> UserGroups { get; private set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,6 +29,11 @@ namespace NUCA.Identity.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<UserGroup>().HasKey(g => g.Id);
+
+            builder.Entity<Department>().HasKey(d => d.DepartmentId);
+
             builder.Entity<Department>()
                    .HasMany(d => d.Permissions)
                    .WithMany();
@@ -44,33 +50,35 @@ namespace NUCA.Identity.Data
                    .IsRequired()
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<UserRole>(ur =>
-            {
-                ur.HasKey(ur => new { ur.UserId, ur.RoleId });
+            // builder.Entity<User>().HasIndex(u => u.NationalId).IsUnique();
 
-                ur.HasOne(ur => ur.Role)
+            builder.Entity<UserRole>(userRole =>
+            {
+                userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+                userRole.HasOne(ur => ur.Role)
                     .WithMany(r => r.Users)
                     .HasForeignKey(ur => ur.RoleId)
                     .IsRequired();
 
-                ur.HasOne(ur => ur.User)
-                    .WithMany(r => r.Roles)
+                userRole.HasOne(ur => ur.User)
+                    .WithMany(u => u.Roles)
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
 
 
             builder.Entity<Enrollment>()
-                   .HasKey(e => new { e.DepartmentId, e.UserId , e.Job});
+                   .HasKey(e => new { e.DepartmentId, e.UserId, e.Job });
 
             DepartmentPermission.AllPermissions.ForEach(permission =>
             {
                 builder.Entity<DepartmentPermission>().HasData(permission);
             });
-            builder.Entity<DepartmentPermission>().HasData(new Role("superAdmin", "مدير النظام"));
+            builder.Entity<Role>().HasData(new Role("superAdmin", "مدير النظام"));
             Role.AllRoles.ForEach(role =>
             {
-                builder.Entity<DepartmentPermission>().HasData(role);
+                builder.Entity<Role>().HasData(role);
             });
         }
     }

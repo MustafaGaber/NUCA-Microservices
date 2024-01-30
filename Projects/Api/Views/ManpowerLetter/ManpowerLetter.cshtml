@@ -1,0 +1,144 @@
+﻿@using NUCA.Projects.Domain.Entities.Adjustments;
+@using NUCA.Projects.Shared.Util;
+
+@model Adjustment
+@{
+    double originalCurrentWorks = (bool)Model.Project!.ValueAddedTaxIncluded! ? Model.CurrentWorks :
+                                 Model.CurrentWorks * 100 / (100 + Model.Project.WorkType.ValueAddedTaxPercent);
+    double originalCurrentWorksAndSupplies = originalCurrentWorks + Model.CurrentSupplies;
+    string contentPart1 = "وتطبيقا لأحكام المادة 16 من القرار 168 لسنة 2007 وبناء على موافقة الشئون القانونية بهيئة المجتمعات العمرانية الجديدة بكتابها رقم 4888 بتاريخ 2011/7/28.";
+    string contentPart2  = "يرجى التكرم بتحصيل قيمة نسبة الـ 5% من إجمالي الأجور الخاصة بالعمال لحساب رعاية وتشغيل عمال المقاولات والمفتوح تحت حساب رقم 450/9/7/80560 وموافاتنا بما يفيد حتى يمكن صرف مستحقات الشركة طرفنا.";
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        body {
+            line-height: 2;
+        }
+        .fw-bold {
+            font-weight: bold;
+        }
+
+        .flex-column {
+            flex-direction: column;
+        }
+
+        .h-100 {
+            height: 100%;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .flex-1 {
+            flex: 1;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .align-content-center {
+            height: 100%;
+            display: flex;
+            align-content: center;
+            align-items: center;
+        }
+
+        .align-content-stretch {
+            display: flex;
+            align-content: stretch;
+            align-items: stretch;
+        }
+
+        .py {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+    </style>
+</head>
+<body dir="rtl">
+    <div class="fw-bold">
+        السادة/ مديرية القوى العاملة والهجرة بمحافظة قنا
+    </div>
+    <div class="fw-bold text-center py">
+        تحية طيبة وبعد ،،،
+    </div>
+    <div>
+        برجاء التفضل بالإحاطة بأنه مسند إلى شركة/
+        <span>@Model.Project.Company.Name</span>
+    </div>
+    <div>
+        عملية/
+        <span>@Model.Project.Name.UseArabicDigits()</span>
+    </div>
+    <div>
+        بقيمة إجمالية قدرها
+        <span>@(((double)Model.Project!.Price!).UseArabicDigits())</span>
+        جنيه.
+    </div>
+    <div>
+        وحيث أن الشركة تقدمت لصرف المستخلص رقم
+        <span>@Model.StatementIndex.UseArabicDigits()</span>
+        @if(Model.Statement.Final) {
+            <span>ختامي</span>
+        } else {
+            <span>جاري</span>
+        }
+        وتبلغ قيمة الأعمال والتشوينات
+    </div>
+    <div>
+        &emsp;
+        مبلغ
+        <span>@originalCurrentWorksAndSupplies.Round().UseArabicDigits()</span>
+        جنيه.
+    </div>
+    <div>
+        وبيانها كالآتي:-
+    </div>
+    <div>
+        &emsp;
+        الأعمال بالمستخلص
+        <span>
+            @originalCurrentWorks.Round().UseArabicDigits()
+        </span>
+        جنيه.
+    </div>
+    <div>
+        &emsp;
+        التشوينات
+        <span>@Model.TotalSupplies.Round().UseArabicDigits()</span>
+        جنيه.
+    </div>
+    <div>
+        @contentPart1.UseArabicDigits()
+    </div>
+    <div>
+        @contentPart2.UseArabicDigits()
+    </div>
+    <div class="text-center fw-bold py">
+        وتفضلوا بقبول فائق الاحترام ،،،
+    </div>
+    <div class="d-flex">
+        <div class="flex-1"></div>
+        <div class="text-center fw-bold">
+            <div>
+                مدير عام
+            </div>
+            <div>
+                المالية والإدارية والعقارية
+            </div>
+            <div>
+                محاسب/
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            </div>
+            <div>
+                "راضي محمد بدوي"
+            </div>
+        </div>
+    </div>
+</body>
+</html>

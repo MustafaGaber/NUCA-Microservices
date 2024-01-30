@@ -64,7 +64,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("Id")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("AdditionalStampDuty")
+                    b.Property<double>("AdditionalStampTax")
                         .HasColumnType("REAL");
 
                     b.Property<double>("AdvancePaymentPercent")
@@ -82,7 +82,7 @@ namespace NUCA.Projects.Migrations
                     b.Property<double>("CompletionGuaranteeValue")
                         .HasColumnType("REAL");
 
-                    b.Property<double>("ConractStampDuty")
+                    b.Property<double>("ConractStampTax")
                         .HasColumnType("REAL");
 
                     b.Property<double>("ContractorsFederationValue")
@@ -110,7 +110,13 @@ namespace NUCA.Projects.Migrations
                     b.Property<long>("ProjectId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("RegularStampDuty")
+                    b.Property<double>("RegularStampTax")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("ResourceDevelopmentTax")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("SelfEmploymentTax")
                         .HasColumnType("REAL");
 
                     b.Property<double>("ServiceTax")
@@ -121,6 +127,9 @@ namespace NUCA.Projects.Migrations
 
                     b.Property<bool>("Submitted")
                         .HasColumnType("INTEGER");
+
+                    b.Property<double>("SupervisionCommission")
+                        .HasColumnType("REAL");
 
                     b.Property<double>("TahyaMisrFundValue")
                         .HasColumnType("REAL");
@@ -526,15 +535,27 @@ namespace NUCA.Projects.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<long?>("TaxAuthorityId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("TaxCard")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("TaxFile")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TaxAuthorityId");
 
                     b.ToTable("Companies");
                 });
@@ -566,263 +587,6 @@ namespace NUCA.Projects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.AwardType", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("EstimatedPrice")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AwardTypes");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.BankBranch", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("MainBankId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MainBankId");
-
-                    b.ToTable("BankBranches");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ParentFullPath")
-                        .HasColumnType("TEXT");
-
-                    b.Property<long?>("ParentId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("CostCenters");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.MainBank", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MainBanks");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.TaxAuthority", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TaxAuthorities");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("ValueAddedTaxPercent")
-                        .HasColumnType("REAL");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkTypes");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Ledgers.Ledger", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Index")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ledgers");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Classification", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("LastModified")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Classification");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.ModifiedEndDate", b =>
@@ -904,6 +668,9 @@ namespace NUCA.Projects.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateOnly?>("AdvancePaymentGuaranteeLetterExpiryDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<double?>("AdvancePaymentPercentage")
                         .HasColumnType("REAL");
 
@@ -913,6 +680,12 @@ namespace NUCA.Projects.Migrations
                     b.Property<string>("ApprovedBy")
                         .HasColumnType("TEXT");
 
+                    b.Property<long?>("AssigneeBankBranchId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long?>("AssigneeMainBankId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<long?>("AwardTypeId")
                         .HasColumnType("INTEGER");
 
@@ -920,6 +693,9 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<long?>("BankBranchId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CityId")
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("CompanyId")
@@ -955,6 +731,12 @@ namespace NUCA.Projects.Migrations
                     b.Property<DateOnly?>("FinalDeliveryDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateOnly?>("FinalGuaranteeLetterExpiryDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("FromLedgerId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("FundingType")
                         .HasColumnType("INTEGER");
 
@@ -967,6 +749,9 @@ namespace NUCA.Projects.Migrations
                     b.Property<DateOnly?>("InitialDeliverySigningDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateOnly?>("InsurancePolicyExpiryDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("TEXT");
 
@@ -974,10 +759,6 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -1002,6 +783,9 @@ namespace NUCA.Projects.Migrations
                     b.Property<long?>("TaxAuthorityId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<long?>("ToLedgerId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -1009,10 +793,17 @@ namespace NUCA.Projects.Migrations
                     b.Property<bool?>("ValueAddedTaxIncluded")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("WaivedToBank")
+                        .HasColumnType("INTEGER");
+
                     b.Property<long>("WorkTypeId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssigneeBankBranchId");
+
+                    b.HasIndex("AssigneeMainBankId");
 
                     b.HasIndex("AwardTypeId");
 
@@ -1022,13 +813,288 @@ namespace NUCA.Projects.Migrations
 
                     b.HasIndex("CostCenterId");
 
+                    b.HasIndex("FromLedgerId");
+
                     b.HasIndex("MainBankId");
 
                     b.HasIndex("TaxAuthorityId");
 
+                    b.HasIndex("ToLedgerId");
+
                     b.HasIndex("WorkTypeId");
 
                     b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.AwardType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("EstimatedPrice")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AwardTypes");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.BankBranch", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("MainBankId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MainBankId");
+
+                    b.ToTable("BankBranches");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.Classification", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Classification");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.CostCenter", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ParentFullPath")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("CostCenters");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.Ledger", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ParentFullPath")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Ledgers");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.MainBank", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MainBanks");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.TaxAuthority", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TaxAuthorities");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.WorkType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("CommercialIndustrialTaxPercent")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("SelfEmploymentTaxPercent")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("ValueAddedTaxPercent")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkTypes");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.ExternalSuppliesItem", b =>
@@ -1459,7 +1525,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("ClassificationProject", b =>
                 {
-                    b.HasOne("NUCA.Projects.Domain.Entities.Projects.Classification", null)
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.Classification", null)
                         .WithMany()
                         .HasForeignKey("ClassificationsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1489,7 +1555,7 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.Adjustment", b =>
                 {
-                    b.HasOne("NUCA.Projects.Domain.Entities.Statements.Statement", null)
+                    b.HasOne("NUCA.Projects.Domain.Entities.Statements.Statement", "Statement")
                         .WithOne()
                         .HasForeignKey("NUCA.Projects.Domain.Entities.Adjustments.Adjustment", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1502,6 +1568,8 @@ namespace NUCA.Projects.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
+
+                    b.Navigation("Statement");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Adjustments.AdjustmentWithholding", b =>
@@ -1554,13 +1622,13 @@ namespace NUCA.Projects.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", "CostCenter")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.CostCenter", "CostCenter")
                         .WithMany()
                         .HasForeignKey("CostCenterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.WorkType", "WorkType")
                         .WithMany()
                         .HasForeignKey("WorkTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1579,13 +1647,13 @@ namespace NUCA.Projects.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", "CostCenter")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.CostCenter", "CostCenter")
                         .WithMany()
                         .HasForeignKey("CostCenterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.WorkType", "WorkType")
                         .WithMany()
                         .HasForeignKey("WorkTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1604,13 +1672,13 @@ namespace NUCA.Projects.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", "CostCenter")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.CostCenter", "CostCenter")
                         .WithMany()
                         .HasForeignKey("CostCenterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.WorkType", "WorkType")
                         .WithMany()
                         .HasForeignKey("WorkTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1621,24 +1689,13 @@ namespace NUCA.Projects.Migrations
                     b.Navigation("WorkType");
                 });
 
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.BankBranch", b =>
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Companies.Company", b =>
                 {
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.MainBank", "MainBank")
-                        .WithMany("Branches")
-                        .HasForeignKey("MainBankId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.TaxAuthority", "TaxAuthority")
+                        .WithMany("Companies")
+                        .HasForeignKey("TaxAuthorityId");
 
-                    b.Navigation("MainBank");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", b =>
-                {
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId");
-
-                    b.Navigation("Parent");
+                    b.Navigation("TaxAuthority");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.ModifiedEndDate", b =>
@@ -1661,34 +1718,50 @@ namespace NUCA.Projects.Migrations
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Project", b =>
                 {
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.AwardType", "AwardType")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.BankBranch", "AssigneeBankBranch")
+                        .WithMany()
+                        .HasForeignKey("AssigneeBankBranchId");
+
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.MainBank", "AssigneeMainBank")
+                        .WithMany()
+                        .HasForeignKey("AssigneeMainBankId");
+
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.AwardType", "AwardType")
                         .WithMany()
                         .HasForeignKey("AwardTypeId");
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.BankBranch", "BankBranch")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.BankBranch", "BankBranch")
                         .WithMany()
                         .HasForeignKey("BankBranchId");
 
                     b.HasOne("NUCA.Projects.Domain.Entities.Companies.Company", "Company")
-                        .WithMany()
+                        .WithMany("Projects")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", "CostCenter")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.CostCenter", "CostCenter")
                         .WithMany()
                         .HasForeignKey("CostCenterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.MainBank", "MainBank")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.Ledger", "FromLedger")
+                        .WithMany()
+                        .HasForeignKey("FromLedgerId");
+
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.MainBank", "MainBank")
                         .WithMany()
                         .HasForeignKey("MainBankId");
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.TaxAuthority", "TaxAuthority")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.TaxAuthority", "TaxAuthority")
                         .WithMany()
                         .HasForeignKey("TaxAuthorityId");
 
-                    b.HasOne("NUCA.Projects.Domain.Entities.FinanceAdmin.WorkType", "WorkType")
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.Ledger", "ToLedger")
+                        .WithMany()
+                        .HasForeignKey("ToLedgerId");
+
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.WorkType", "WorkType")
                         .WithMany()
                         .HasForeignKey("WorkTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1716,6 +1789,10 @@ namespace NUCA.Projects.Migrations
                                 .HasForeignKey("ProjectId");
                         });
 
+                    b.Navigation("AssigneeBankBranch");
+
+                    b.Navigation("AssigneeMainBank");
+
                     b.Navigation("AwardType");
 
                     b.Navigation("BankBranch");
@@ -1727,11 +1804,44 @@ namespace NUCA.Projects.Migrations
                     b.Navigation("Duration")
                         .IsRequired();
 
+                    b.Navigation("FromLedger");
+
                     b.Navigation("MainBank");
 
                     b.Navigation("TaxAuthority");
 
+                    b.Navigation("ToLedger");
+
                     b.Navigation("WorkType");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.BankBranch", b =>
+                {
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.MainBank", "MainBank")
+                        .WithMany("Branches")
+                        .HasForeignKey("MainBankId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("MainBank");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.CostCenter", b =>
+                {
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.CostCenter", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.Ledger", b =>
+                {
+                    b.HasOne("NUCA.Projects.Domain.Entities.Settings.Ledger", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.ExternalSuppliesItem", b =>
@@ -1830,14 +1940,9 @@ namespace NUCA.Projects.Migrations
                     b.Navigation("Sections");
                 });
 
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.CostCenter", b =>
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Companies.Company", b =>
                 {
-                    b.Navigation("Children");
-                });
-
-            modelBuilder.Entity("NUCA.Projects.Domain.Entities.FinanceAdmin.MainBank", b =>
-                {
-                    b.Navigation("Branches");
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Projects.Project", b =>
@@ -1851,6 +1956,26 @@ namespace NUCA.Projects.Migrations
                     b.Navigation("Privileges");
 
                     b.Navigation("Statements");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.CostCenter", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.Ledger", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.MainBank", b =>
+                {
+                    b.Navigation("Branches");
+                });
+
+            modelBuilder.Entity("NUCA.Projects.Domain.Entities.Settings.TaxAuthority", b =>
+                {
+                    b.Navigation("Companies");
                 });
 
             modelBuilder.Entity("NUCA.Projects.Domain.Entities.Statements.Statement", b =>

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUCA.Identity.Controllers.Core;
 using NUCA.Identity.Data;
@@ -9,11 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static IdentityServer4.IdentityServerConstants;
 
 namespace NUCA.Identity.Controllers.Departments
 {
-   // [Authorize(LocalApi.PolicyName)]
+    // [Authorize(LocalApi.PolicyName)]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentsController : BaseController
@@ -30,7 +27,7 @@ namespace NUCA.Identity.Controllers.Departments
         {
             List<GetDepartmentModel> departments = await _context.Set<Department>()
                 .Include(d => d.Permissions)
-                .Select(d =>  GetDepartmentModel.FromDepartment(d))
+                .Select(d => GetDepartmentModel.FromDepartment(d))
                 .ToListAsync();
             return Ok(departments);
         }
@@ -40,7 +37,7 @@ namespace NUCA.Identity.Controllers.Departments
         {
             List<GetDepartmentModel> departments = await _context.Set<Department>()
                 .Include(d => d.Permissions)
-                .Where(d => d.Permissions.Any( p => p.Id == DepartmentPermission.Execution.Id))
+                .Where(d => d.Permissions.Any(p => p.Id == DepartmentPermission.Execution.Id))
                 .Select(d => GetDepartmentModel.FromDepartment(d))
                 .ToListAsync();
             return Ok(departments);
@@ -67,13 +64,13 @@ namespace NUCA.Identity.Controllers.Departments
             Department department = new Department(model.Name, permissions);
             Department item = _context.Set<Department>().Add(department).Entity;
             await _context.SaveChangesAsync();
-            return Ok(item.Id);
+            return Ok(item.DepartmentId);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, [FromBody] CreateDepartmentModel model)
+        public async Task<IActionResult> Update(int id, [FromBody] CreateDepartmentModel model)
         {
-            var department = await _context.Set<Department>().Include(d => d.Permissions).FirstOrDefaultAsync(d => d.Id == id) ?? throw new InvalidOperationException();
+            var department = await _context.Set<Department>().Include(d => d.Permissions).FirstOrDefaultAsync(d => d.DepartmentId == id) ?? throw new InvalidOperationException();
             var permissions = model.Permissions.Select(DepartmentPermission.GetById).ToList();
             foreach (var permission in permissions.Where(permission => !department.Permissions.Any(p => p.Id == permission.Id)))
             {
@@ -88,7 +85,7 @@ namespace NUCA.Identity.Controllers.Departments
         /* [HttpDelete("{id}")]
          public async Task<IActionResult> Delete(int id)
          {
-             var department = await _context.Set<Department>().FirstOrDefaultAsync(d => d.DepartmentId == id);
+             var department = await _context.Set<Department>().FirstOrDefaultAsync(d => d.Id == id);
              if (department != null)
              {
                  _context.Set<Department>().Remove(department);

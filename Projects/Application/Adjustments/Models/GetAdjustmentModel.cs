@@ -4,39 +4,39 @@ namespace NUCA.Projects.Application.Adjustments.Models
 {
     public class GetAdjustmentModel
     {
-        public string ProjectName { get; init; }
-        public string CompanyName { get; init; }
-        public DateOnly WorksDate { get; init; }
-        public int StatementIndex { get; init; }
-        public double TotalWorks { get; init; }
-        public double TotalSupplies { get; init; }
-        public double PreviousTotalWorks { get; init; }
-        public double PreviousTotalSupplies { get; init; }
-        public double ServiceTax { get; init; }
-        public double AdvancePaymentPercent { get; init; }
-        public double AdvancePaymentValue { get; init; }
-        public double CompletionGuaranteeValue { get; init; }
-        public double EngineersSyndicateValue { get; init; }
-        public double ApplicatorsSyndicateValue { get; init; }
-        public double RegularStampDuty { get; init; }
-        public double AdditionalStampDuty { get; init; }
-        public double CommercialIndustrialTax { get; init; }
-        public double ValueAddedTaxPercent { get; init; }
-        public double ValueAddedTax { get; init; }
-        public double WasteRemovalInsurance { get; init; }
-        public double TahyaMisrFundValue { get; init; }
-        public double ConractStampDuty { get; init; }
-        public double ContractorsFederationValue { get; init; }
-        public List<GetWithholdingModel> Withholdings { get; init; }
-        public bool Submitted { get; init; }
-        public double CurrentWorks { get; init; }
-        public double CurrentSupplies { get; init; }
-        public double CurrentWorksAndSupplies { get; init; }
-        public double TotalStampDuty { get; init; }
-        public double TotalDue { get; init; }
-        public double TotalWithholdings { get; init; }
-        public double Total { get; init; }
-        public bool IsFirst { get; init; }
+        public required string ProjectName { get; init; }
+        public required string CompanyName { get; init; }
+        public required DateOnly WorksDate { get; init; }
+        public required int StatementIndex { get; init; }
+        public required double TotalWorks { get; init; }
+        public required double TotalSupplies { get; init; }
+        public required double PreviousTotalWorks { get; init; }
+        public required double PreviousTotalSupplies { get; init; }
+        public required double ServiceTax { get; init; }
+        public required double AdvancePaymentPercent { get; init; }
+        public required double AdvancePaymentValue { get; init; }
+        public required double CompletionGuaranteeValue { get; init; }
+        public required double EngineersSyndicateValue { get; init; }
+        public required double ApplicatorsSyndicateValue { get; init; }
+        public required double RegularStampTax { get; init; }
+        public required double AdditionalStampTax { get; init; }
+        public required double CommercialIndustrialTax { get; init; }
+        public required double SelfEmploymentTax { get; init; }
+        public required double ValueAddedTaxPercent { get; init; }
+        public required double ValueAddedTax { get; init; }
+        public required double WasteRemovalInsurance { get; init; }
+        public required double TahyaMisrFundValue { get; init; }
+        public required double ConractStampTax { get; init; }
+        public required double ContractorsFederationValue { get; init; }
+        public required List<GetWithholdingModel> Withholdings { get; init; }
+        public required bool Submitted { get; init; }
+        public required double CurrentWorks { get; init; }
+        public required double CurrentSupplies { get; init; }
+        public required double CurrentWorksAndSupplies { get; init; }
+        public required double TotalDue { get; init; }
+        public required double TotalWithholdings { get; init; }
+        public required double Total { get; init; }
+        public required bool IsFirst { get; init; }
 
         public static GetAdjustmentModel Create(Adjustment adjustment, bool isFirst)
         {
@@ -59,15 +59,15 @@ namespace NUCA.Projects.Application.Adjustments.Models
                 CompletionGuaranteeValue = adjustment.CompletionGuaranteeValue,
                 EngineersSyndicateValue = adjustment.EngineersSyndicateValue,
                 ApplicatorsSyndicateValue = adjustment.ApplicatorsSyndicateValue,
-                RegularStampDuty = adjustment.RegularStampDuty,
-                AdditionalStampDuty = adjustment.AdditionalStampDuty,
-                TotalStampDuty = adjustment.TotalStampDuty,
+                RegularStampTax = adjustment.RegularStampTax,
+                AdditionalStampTax = adjustment.AdditionalStampTax,
                 CommercialIndustrialTax = adjustment.CommercialIndustrialTax,
+                SelfEmploymentTax = adjustment.SelfEmploymentTax,
                 ValueAddedTaxPercent = adjustment.ValueAddedTaxPercent,
                 ValueAddedTax = adjustment.ValueAddedTax,
                 WasteRemovalInsurance = adjustment.WasteRemovalInsurance,
                 TahyaMisrFundValue = adjustment.TahyaMisrFundValue,
-                ConractStampDuty = adjustment.ConractStampDuty,
+                ConractStampTax = adjustment.ConractStampTax,
                 ContractorsFederationValue = adjustment.ContractorsFederationValue,
                 Withholdings = adjustment.Withholdings.Select(w => new GetWithholdingModel
                 {
