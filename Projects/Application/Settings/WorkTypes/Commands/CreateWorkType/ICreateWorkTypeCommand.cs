@@ -1,9 +1,9 @@
-﻿using NUCA.Projects.Domain.Entities.Settings;
+﻿using NUCA.Projects.Application.Settings.WorkTypes.Queries;
 
 namespace NUCA.Projects.Application.Settings.WorkTypes.Commands.CreateWorkType
 {
     public interface ICreateWorkTypeCommand
     {
-        Task<WorkType> Execute(WorkTypeModel model);
+        Task<GetWorkTypeModel> Execute(WorkTypeModel model);
     }
 }

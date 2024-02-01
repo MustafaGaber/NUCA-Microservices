@@ -35,15 +35,15 @@ namespace NUCA.Projects.Api.Controllers.Settings
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var workTypes = await _listQuery.Execute();
-            return Ok(workTypes);
+            var ledgers = await _listQuery.Execute();
+            return Ok(ledgers);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var workType = await _detailQuery.Execute(id);
-            return Ok(workType);
+            var ledger = await _detailQuery.Execute(id);
+            return Ok(ledger);
         }
 
         [HttpGet("{id}/CanDelete")]
@@ -57,14 +57,14 @@ namespace NUCA.Projects.Api.Controllers.Settings
         public async Task<IActionResult> Create([FromBody] LedgerModel Ledger)
         {
             var result = await _createCommand.Execute(Ledger);
-            return Ok(result.Id);
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] LedgerModel Ledger)
         {
-            await _updateCommand.Execute(id, Ledger);
-            return Ok();
+            var ledger = await _updateCommand.Execute(id, Ledger);
+            return Ok(ledger);
         }
 
         [HttpDelete("{id}")]

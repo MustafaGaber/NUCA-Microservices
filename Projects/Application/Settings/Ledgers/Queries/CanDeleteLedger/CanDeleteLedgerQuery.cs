@@ -11,8 +11,8 @@ namespace NUCA.Projects.Application.Settings.Ledgers.Queries.CanDeleteLedger
         }
         public async Task<bool> Execute(long id)
         {
-            var hasAdjustments = true; // await _database.LedgerHasAdjustments(id);
-            return !hasAdjustments;
+            var hasProjects = false; // await _database.LedgerHasAdjustments(id);
+            return !hasProjects;
         }
     }
 }

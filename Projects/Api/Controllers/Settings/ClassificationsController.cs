@@ -34,15 +34,15 @@ namespace NUCA.Projects.Api.Controllers.Settings
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var workTypes = await _listQuery.Execute();
-            return Ok(workTypes);
+            var classifications = await _listQuery.Execute();
+            return Ok(classifications);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var workType = await _detailQuery.Execute(id);
-            return Ok(workType);
+            var classification = await _detailQuery.Execute(id);
+            return Ok(classification);
         }
 
         [HttpGet("{id}/CanDelete")]

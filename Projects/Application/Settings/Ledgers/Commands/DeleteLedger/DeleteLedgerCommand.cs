@@ -11,8 +11,8 @@ namespace NUCA.Projects.Application.Settings.Ledgers.Commands.DeleteLedger
         }
         public async Task Execute(long id)
         {
-            bool hasAdjustments = true; //await _ledgerRepository.LedgerHasAdjustments(id);
-            if (!hasAdjustments)
+            bool hasProjects = false; //await _ledgerRepository.LedgerHasAdjustments(id);
+            if (!hasProjects)
             {
                 await _ledgerRepository.Delete(id);
             }

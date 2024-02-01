@@ -20,6 +20,8 @@ namespace NUCA.Projects.Application.Settings.WorkTypes.Queries.GetWorkTypes
                 Id = workType.Id,
                 Name = workType.Name,
                 ValueAddedTaxPercent = workType.ValueAddedTaxPercent,
+                CommercialIndustrialTaxPercent = workType.CommercialIndustrialTaxPercent,
+                SelfEmploymentTaxPercent = workType.SelfEmploymentTaxPercent
             });
         }
     }

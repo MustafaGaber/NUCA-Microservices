@@ -1,9 +1,9 @@
-﻿using NUCA.Projects.Domain.Entities.Settings;
+﻿using NUCA.Projects.Application.Settings.WorkTypes.Queries;
 
 namespace NUCA.Projects.Application.Settings.WorkTypes.Commands.UpdateWorkType
 {
     public interface IUpdateWorkTypeCommand
     {
-        Task<WorkType> Execute(int id, WorkTypeModel model);
+        Task<GetWorkTypeModel> Execute(int id, WorkTypeModel model);
     }
 }

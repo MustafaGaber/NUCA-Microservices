@@ -1,4 +1,5 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Application.Settings.WorkTypes.Queries;
 using NUCA.Projects.Domain.Entities.Settings;
 
 namespace NUCA.Projects.Application.Settings.WorkTypes.Commands.CreateWorkType
@@ -10,14 +11,22 @@ namespace NUCA.Projects.Application.Settings.WorkTypes.Commands.CreateWorkType
         {
             _workTypeRepository = workTypeRepository;
         }
-        public Task<WorkType> Execute(WorkTypeModel model)
+        public async Task<GetWorkTypeModel> Execute(WorkTypeModel model)
         {
-            return _workTypeRepository.Add(new WorkType(
+            var workType = await _workTypeRepository.Add(new WorkType(
                 name: model.Name,
                 valueAddedTaxPercent: model.ValueAddedTaxPercent,
                 commercialIndustrialTaxPercent: model.CommercialIndustrialTaxPercent,
                 selfEmploymentTaxPercent: model.SelfEmploymentTaxPercent
             ));
+            return new GetWorkTypeModel
+            {
+                Id = workType.Id,
+                Name = workType.Name,
+                ValueAddedTaxPercent = workType.ValueAddedTaxPercent,
+                CommercialIndustrialTaxPercent = workType.CommercialIndustrialTaxPercent,
+                SelfEmploymentTaxPercent = workType.SelfEmploymentTaxPercent
+            };
         }
 
     }

@@ -2,8 +2,10 @@
 {
     public class GetWorkTypeModel
     {
-        public long Id { get; init; }
-        public string Name { get; init; }
-        public double ValueAddedTaxPercent { get; init; }
+        public required long Id { get; init; }
+        public required string Name { get; init; }
+        public required double ValueAddedTaxPercent { get; init; }
+        public required double CommercialIndustrialTaxPercent { get; init; }
+        public required double SelfEmploymentTaxPercent { get; init; }
     }
 }

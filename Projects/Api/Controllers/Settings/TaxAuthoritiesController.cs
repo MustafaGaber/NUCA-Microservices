@@ -6,8 +6,8 @@ using NUCA.Projects.Application.Settings.TaxAuthorities.Commands.CreateTaxAuthor
 using NUCA.Projects.Application.Settings.TaxAuthorities.Commands.DeleteTaxAuthority;
 using NUCA.Projects.Application.Settings.TaxAuthorities.Commands.UpdateTaxAuthority;
 using NUCA.Projects.Application.Settings.TaxAuthorities.Queries.CanDeleteTaxAuthority;
-using NUCA.Projects.Application.Settings.TaxAuthorities.Queries.GetTaxAuthority;
 using NUCA.Projects.Application.Settings.TaxAuthorities.Queries.GetTaxAuthorities;
+using NUCA.Projects.Application.Settings.TaxAuthorities.Queries.GetTaxAuthority;
 
 namespace NUCA.Projects.Api.Controllers.Settings
 {
@@ -35,15 +35,15 @@ namespace NUCA.Projects.Api.Controllers.Settings
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var workTypes = await _listQuery.Execute();
-            return Ok(workTypes);
+            var taxAuthorities = await _listQuery.Execute();
+            return Ok(taxAuthorities);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var workType = await _detailQuery.Execute(id);
-            return Ok(workType);
+            var taxAuthority = await _detailQuery.Execute(id);
+            return Ok(taxAuthority);
         }
 
         [HttpGet("{id}/CanDelete")]
