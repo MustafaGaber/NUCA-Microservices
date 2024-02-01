@@ -1,0 +1,65 @@
+﻿@* @using NUCA.Projects.Application.Statements.Models;
+@using System.Globalization;
+@using NUCA.Projects.Domain.Entities.Statements;
+@using NUCA.Projects.Shared.Util;
+
+@model ExternalSuppliesTable
+@{
+    <tr>
+        <td colspan="12" class="py">
+            التشوينات الخارجية
+        </td>
+    </tr>
+    @await Html.PartialAsync("TableHeader")
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td class=" text-center">
+                <div class="text-center">@item.Index.UseArabicDigits()</div>
+            </td>
+            <td>@item.Content.UseArabicDigits()</td>
+            <td>
+                <div class="text-center">@item.Unit</div>
+            </td>
+            <td></td>
+            <td>
+                <div class="text-center">
+                    @item.UnitPrice.Round().UseArabicDigits()
+                </div>
+            </td>
+            <td></td>
+            <td>
+                <div class="text-center">
+                    @item.PreviousQuantity.Round().UseArabicDigits()
+                </div>
+            </td>
+            <td class="fst-italic  py-0">
+                <div class="text-center">
+                    @item.CurrentQuantity.Round().UseArabicDigits()
+                </div>
+            </td>
+            <td class="fst-italic  py-0">
+                <div class="text-center">
+                    @item.TotalQuantity.Round().UseArabicDigits()
+                </div>
+            </td>
+            <td>
+                <div class="text-center">
+                    @item.GrossPrice.Round().UseArabicDigits()
+                </div>
+            </td>
+            <td class="fst-italic  py-0">
+                <div class="text-center">
+                    @item.Percentage.Round().UseArabicDigits() ٪
+                </div>
+            </td>
+            <td>
+                <div class="text-center">
+                    @item.NetPrice.Round().UseArabicDigits()
+                </div>
+            </td>
+        </tr>
+    }
+
+}
+ *@

@@ -1,0 +1,22 @@
+﻿@using NUCA.Projects.Application.Statements.Models;
+@using NUCA.Projects.Domain.Entities.Shared;
+@using NUCA.Projects.Domain.Entities.Statements;
+@using NUCA.Projects.Shared.Util;
+
+@model List<StatementWithholding>
+@{
+    @Html.Raw("{{#each $pdf.pages}}")
+    <div style="display:flex; height:100%; flex-direction:column">
+        <div style="page-break-before: always;"></div>
+        <header dir="rtl" style="flex:1">
+            @Html.Raw("{{group}}")
+        </header>
+        <footer style="padding:0px 0px 40px 0px">
+            @Html.Raw("{{#unless @index}}")
+            @await Html.PartialAsync("Withholdings", Model)
+            @Html.Raw("{{/unless}}")
+        </footer>
+    </div>
+    @Html.Raw("{{/each}}")
+}
+

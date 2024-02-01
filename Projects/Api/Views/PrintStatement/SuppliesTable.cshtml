@@ -1,0 +1,89 @@
+﻿@using NUCA.Projects.Application.Statements.Models;
+@using System.Globalization;
+@using NUCA.Projects.Domain.Entities.Statements;
+@using NUCA.Projects.Shared.Util;
+
+@model SuppliesTable
+@{
+    @foreach (var statementSection in Model.Sections.Where(s => s.HasQuantities))
+    {
+        @if (!statementSection.Name.Equals(Model.Name) || Model.Sections.First() != statementSection)
+        {
+            <tr>
+                <td colspan="12" class="py">
+                    @statementSection.Name.UseArabicDigits()
+                </td>
+            </tr>
+        }
+        @await Html.PartialAsync("StatementSection", statementSection)
+    }
+
+    @if (Model.ExternalSuppliesItems.Count > 0)
+    {
+        @foreach (var item in Model.ExternalSuppliesItems.Where(i => i.HasQuantities))
+        {
+            <tr>
+                <td class=" text-center">
+                    <div class="text-center">@item.Index.UseArabicDigits()</div>
+                </td>
+                <td>@item.Content.UseArabicDigits()</td>
+                <td>
+                    <div class="text-center">@item.Unit.UseArabicDigits()</div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @("0".UseArabicDigits())
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @item.UnitPrice.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @("0".UseArabicDigits())
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @item.PreviousQuantity.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td class="fst-italic  py-0">
+                    <div class="text-center">
+                        @item.CurrentQuantity.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td class="fst-italic  py-0">
+                    <div class="text-center">
+                        @item.TotalQuantity.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @item.GrossPrice.Round().UseArabicDigits()
+                    </div>
+                </td>
+                <td class="fst-italic  py-0">
+                    <div class="text-center">
+                        @item.Percentage.Round().UseArabicDigits() ٪
+                    </div>
+                </td>
+                <td>
+                    <div class="text-center">
+                        @item.NetPrice.Round().UseArabicDigits()
+                    </div>
+                </td>
+            </tr>
+        }
+    }
+    <tr class="bg-grey">
+        <td colspan="11" class="py">
+            إجمالي تشوينات @Model.Name.UseArabicDigits()
+        </td>
+        <td class="text-center">
+            @Model.TotalBeforePriceChange.Round().UseArabicDigits()
+        </td>
+    </tr>
+}

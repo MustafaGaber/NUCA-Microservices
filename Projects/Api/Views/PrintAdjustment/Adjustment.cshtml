@@ -1,0 +1,319 @@
+﻿@using NUCA.Projects.Application.Adjustments.Models;
+@using NUCA.Projects.Shared.Util;
+
+@model GetAdjustmentModel
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        .no-border-top {
+            border-top: 0px !important;
+        }
+
+        .no-border-left {
+            border-left: 0px !important;
+        }
+
+        .no-border-bottom {
+            border-bottom: 0px !important;
+        }
+
+        .no-border-right {
+            border-right: 0px !important;
+        }
+
+        .flex-column {
+            flex-direction: column;
+        }
+
+        .h-100 {
+            height: 100%;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .flex-1 {
+            flex: 1;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .align-content-center {
+            height: 100%;
+            display: flex;
+            align-content: center;
+            align-items: center;
+        }
+
+        .align-content-stretch {
+            display: flex;
+            align-content: stretch;
+            align-items: stretch;
+        }
+
+        .py {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 0.2px solid #555;
+        }
+
+        th, td {
+            padding: 0px 5px;
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
+</head>
+<body dir="rtl">
+    <div class="py-2">
+        <div class="d-flex">
+            <div class="flex-1 p-0 fw-bold">
+                اسم المشروع/ @Model.ProjectName
+            </div>
+            <div>
+                رقم المستخلص (@Model.StatementIndex.UseArabicDigits())
+            </div>
+        </div>
+        <div class="d-flex m-0 pt-3 pb-1">
+            <div class="flex-1 p-0 fw-bold">
+                مقاولة/ @Model.CompanyName.UseArabicDigits()
+            </div>
+            <div>
+                أعمال حتى @Model.WorksDate.ToString("d/M/yyyy").UseArabicDigits()
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>إجمالي</th>
+                <th class="text-center">
+                    جزئي
+                </th>
+                <th class="text-center">
+                    جزئي
+                </th>
+                <th class="text-center">
+                    بيان
+                </th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="text-center">@Model.TotalWorks.Round().UseArabicDigits()</td>
+                <td>إجمالي أعمال مستخلص رقم @Model.StatementIndex.UseArabicDigits()</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="text-center">@Model.PreviousTotalWorks.Round().UseArabicDigits()</td>
+                <td>إجمالي أعمال مستخلص رقم @((Model.StatementIndex - 1).UseArabicDigits())</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.CurrentWorks.Round().UseArabicDigits()</td>
+                <td></td>
+                <td class="fw-bold px-1">إجمالي الأعمال خلال الفترة</td>
+            </tr>
+            <tr>
+                <td class="py-2"> </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="text-center">@Model.TotalSupplies.Round().UseArabicDigits()</td>
+                <td>إجمالي تشوينات مستخلص رقم @Model.StatementIndex.UseArabicDigits()</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="text-center">@Model.PreviousTotalSupplies.Round().UseArabicDigits()</td>
+                <td>إجمالي تشوينات مستخلص رقم @((Model.StatementIndex - 1).UseArabicDigits())</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.CurrentSupplies.Round().UseArabicDigits()</td>
+                <td></td>
+                <td class="fw-bold px-1">إجمالي التشوينات خلال الفترة</td>
+            </tr>
+            <tr>
+                <td class="py-2"> </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-center">@Model.CurrentWorksAndSupplies.Round().UseArabicDigits()</td>
+                <td></td>
+                <td></td>
+                <td class="fw-bold px-1">إجمالي الأعمال والتشوينات خلال الفترة</td>
+            </tr>
+            <tr>
+                <td class="text-center">@Model.ServiceTax.Round().UseArabicDigits()</td>
+                <td></td>
+                <td></td>
+                <td>ضريبة الخدمة المؤداة (القيمة المضافة)</td>
+            </tr>
+            <tr>
+                <td class="text-center">@Model.TotalDue.Round().UseArabicDigits()</td>
+                <td></td>
+                <td></td>
+                <td class="fw-bold px-1">الإجمالي الكلي</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>يخصم منه:</td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.AdvancePaymentValue.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>حساب الدفعة المقدمة (@Model.AdvancePaymentPercent.Round().UseArabicDigits())٪</td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.CompletionGuaranteeValue.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>حساب ضمان تنفيذ الأعمال</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.EngineersSyndicateValue.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>حساب نقابة المهن الهندسية</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.ApplicatorsSyndicateValue.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>حساب نقابة المهن التطبيقية</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.TotalStampDuty.Round().UseArabicDigits()</td>
+                <td class="text-center">@Model.TotalStampDuty.Round().UseArabicDigits()</td>
+                <td style="padding:0px !important">
+                    <div class="d-flex">
+                        <div style="padding:10px 5px 0px 5px">
+                            <div>حساب الدمغات الحكومية</div>
+                        </div>
+
+                        <div class="flex-1">
+                            <table class="w-100 no-border-top no-border-bottom no-border-left">
+                                <tr class="no-border-top no-border-left">
+                                    <td class="no-border-top">
+                                        عادية
+                                    </td>
+                                    <td class="no-border-top no-border-left">
+                                        @Model.RegularStampDuty.Round().UseArabicDigits()
+                                    </td>
+                                </tr>
+                                <tr class="no-border-left">
+                                    <td class="no-border-bottom">
+                                        إضافية
+                                    </td>
+                                    <td class="no-border-bottom no-border-left">
+                                        @Model.AdditionalStampDuty.Round().UseArabicDigits()
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.CommercialIndustrialTax.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>حساب أرباح تجارية وصناعية</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.ValueAddedTax.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>حساب ض.م</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.WasteRemovalInsurance.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>حساب الدائنين باسم الشركة (تأمين رفع مخلفات)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.TahyaMisrFundValue.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>تعلية صندوق تحيا مصر</td>
+            </tr>
+            @foreach (var withholding in Model.Withholdings)
+            {
+                <tr>
+                    <td></td>
+                    <td class="text-center">@withholding.Value.Round().UseArabicDigits()</td>
+                    <td></td>
+                    <td>@withholding.Name</td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>تعليات</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>تعليات</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>عائد استثماري تعويضات وغرامات</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.ConractStampDuty.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>دمغة عقد</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="text-center">@Model.ContractorsFederationValue.Round().UseArabicDigits()</td>
+                <td></td>
+                <td>الاتحاد المصري لمقاولي التشييد والبناء</td>
+            </tr>
+            <tr>
+                <td class="text-center">@Model.TotalWithholdings.Round().UseArabicDigits()</td>
+                <td colspan="3">إجمالي المبالغ المستقطعة</td>
+            </tr>
+            <tr>
+                <td class="text-center">@Model.Total.Round().UseArabicDigits()</td>
+                <td colspan="3">صافي المستحق</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+
