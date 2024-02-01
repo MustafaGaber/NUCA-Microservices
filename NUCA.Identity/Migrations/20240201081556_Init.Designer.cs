@@ -11,7 +11,7 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240129121859_Init")]
+    [Migration("20240201081556_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -19,6 +19,21 @@ namespace NUCA.Identity.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
+
+            modelBuilder.Entity("CityAuthorityUser", b =>
+                {
+                    b.Property<int>("AuthoritiesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AuthoritiesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("CityAuthorityUser");
+                });
 
             modelBuilder.Entity("DepartmentDepartmentPermission", b =>
                 {
@@ -120,6 +135,20 @@ namespace NUCA.Identity.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("NUCA.Identity.Domain.CityAuthority", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CityAuthority");
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.Department", b =>
@@ -230,14 +259,14 @@ namespace NUCA.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b3b321d2-5d14-4c27-80d3-86276b1a3ea2",
+                            Id = "32ea5e42-9a0b-4636-8c2c-3917695c398b",
                             Name = "superAdmin",
                             NormalizedName = "SUPERADMIN",
                             PublicName = "مدير النظام"
                         },
                         new
                         {
-                            Id = "c18b3c81-20ed-45cd-b086-2c176afa876f",
+                            Id = "ed8d2b7a-1214-4dcb-87da-a7897ea5d300",
                             Name = "admin",
                             NormalizedName = "ADMIN",
                             PublicName = "مسؤل النظام"
@@ -371,6 +400,21 @@ namespace NUCA.Identity.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("UserUserGroup");
+                });
+
+            modelBuilder.Entity("CityAuthorityUser", b =>
+                {
+                    b.HasOne("NUCA.Identity.Domain.CityAuthority", null)
+                        .WithMany()
+                        .HasForeignKey("AuthoritiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NUCA.Identity.Domain.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DepartmentDepartmentPermission", b =>

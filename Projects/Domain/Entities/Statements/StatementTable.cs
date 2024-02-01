@@ -15,10 +15,11 @@ namespace NUCA.Projects.Domain.Entities.Statements
         public double PriceChangePercent { get; private set; }
         public StatementTableType Type { get; private set; }
         public BoqTableType BoqTableType { get; private set; }
+        public long CostCenterId { get; private set; }
         public bool HasQuantities => _sections.Any(i => i.HasQuantities);
 
         protected StatementTable() { }
-        public StatementTable(BoqTable boqTable, StatementTableType type, BoqTableType boqTableType)
+        public StatementTable(BoqTable boqTable, StatementTableType type, BoqTableType boqTableType, long costCenterId)
         {
             BoqTableId = Guard.Against.NegativeOrZero(boqTable.Id);
             Name = boqTable.Name;
@@ -26,8 +27,10 @@ namespace NUCA.Projects.Domain.Entities.Statements
             _sections = boqTable.Sections.Select(section => new StatementSection(section, boqTable.Count, type == StatementTableType.Supplies)).ToList();
             Type = Guard.Against.Null(type);
             BoqTableType = Guard.Against.Null(boqTableType);
+            CostCenterId = costCenterId;
+
         }
-        public StatementTable(BoqTable boqTable, StatementTable previousTable, StatementTableType type, BoqTableType boqTableType)
+        public StatementTable(BoqTable boqTable, StatementTable previousTable, StatementTableType type, BoqTableType boqTableType, long costCenterId)
         {
             BoqTableId = Guard.Against.NegativeOrZero(boqTable.Id);
             Name = boqTable.Name;
@@ -39,6 +42,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
             }).ToList();
             Type = Guard.Against.Null(type);
             BoqTableType = Guard.Against.Null(boqTableType);
+            CostCenterId = costCenterId;
         }
         public void UpdateItem(long sectionId, long itemId, double? previousQuantity, double totalQuantity, double percentage, List<PercentageDetail> percentageDetails, double? previousNetPrice)
         {

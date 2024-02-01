@@ -11,7 +11,7 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    [Migration("20240130112152_Init")]
+    [Migration("20240201084254_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -1110,6 +1110,9 @@ namespace NUCA.Projects.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("CostCenterId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("TEXT");
 
@@ -1383,6 +1386,9 @@ namespace NUCA.Projects.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("BoqTableType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("CostCenterId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")

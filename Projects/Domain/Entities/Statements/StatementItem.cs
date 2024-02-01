@@ -1,7 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
-using NUCA.Projects.Domain.Entities.Settings;
-using NUCA.Projects.Domain.Entities.Shared;
 
 namespace NUCA.Projects.Domain.Entities.Statements
 {

@@ -56,6 +56,19 @@ namespace NUCA.Identity.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CityAuthority",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CityAuthority", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DepartmentPermissions",
                 columns: table => new
                 {
@@ -200,6 +213,30 @@ namespace NUCA.Identity.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CityAuthorityUser",
+                columns: table => new
+                {
+                    AuthoritiesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UsersId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CityAuthorityUser", x => new { x.AuthoritiesId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_CityAuthorityUser_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CityAuthorityUser_CityAuthority_AuthoritiesId",
+                        column: x => x.AuthoritiesId,
+                        principalTable: "CityAuthority",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DepartmentDepartmentPermission",
                 columns: table => new
                 {
@@ -301,8 +338,8 @@ namespace NUCA.Identity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName", "PublicName" },
                 values: new object[,]
                 {
-                    { "b3b321d2-5d14-4c27-80d3-86276b1a3ea2", null, "superAdmin", "SUPERADMIN", "مدير النظام" },
-                    { "c18b3c81-20ed-45cd-b086-2c176afa876f", null, "admin", "ADMIN", "مسؤل النظام" }
+                    { "32ea5e42-9a0b-4636-8c2c-3917695c398b", null, "superAdmin", "SUPERADMIN", "مدير النظام" },
+                    { "ed8d2b7a-1214-4dcb-87da-a7897ea5d300", null, "admin", "ADMIN", "مسؤل النظام" }
                 });
 
             migrationBuilder.InsertData(
@@ -356,6 +393,11 @@ namespace NUCA.Identity.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_CityAuthorityUser_UsersId",
+                table: "CityAuthorityUser",
+                column: "UsersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DepartmentDepartmentPermission_PermissionsId",
                 table: "DepartmentDepartmentPermission",
                 column: "PermissionsId");
@@ -395,6 +437,9 @@ namespace NUCA.Identity.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CityAuthorityUser");
+
+            migrationBuilder.DropTable(
                 name: "DepartmentDepartmentPermission");
 
             migrationBuilder.DropTable(
@@ -405,6 +450,9 @@ namespace NUCA.Identity.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserUserGroup");
+
+            migrationBuilder.DropTable(
+                name: "CityAuthority");
 
             migrationBuilder.DropTable(
                 name: "DepartmentPermissions");

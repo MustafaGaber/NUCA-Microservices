@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -648,6 +648,7 @@ namespace NUCA.Projects.Migrations
                     PreviousQuantity = table.Column<double>(type: "REAL", nullable: false),
                     TotalQuantity = table.Column<double>(type: "REAL", nullable: false),
                     Percentage = table.Column<double>(type: "REAL", nullable: false),
+                    CostCenterId = table.Column<long>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
                     StatementId = table.Column<long>(type: "INTEGER", nullable: false),
@@ -677,6 +678,7 @@ namespace NUCA.Projects.Migrations
                     PriceChangePercent = table.Column<double>(type: "REAL", nullable: false),
                     Type = table.Column<int>(type: "INTEGER", nullable: false),
                     BoqTableType = table.Column<int>(type: "INTEGER", nullable: false),
+                    CostCenterId = table.Column<long>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     LastModified = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),

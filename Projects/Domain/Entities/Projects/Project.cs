@@ -62,6 +62,7 @@ namespace NUCA.Projects.Domain.Entities.Projects
         public BankBranch? AssigneeBankBranch { get; private set; }
         public Ledger? FromLedger { get; private set; }
         public Ledger? ToLedger { get; private set; }
+        public Ledger? AdvancePaymentLedger { get; private set; }
         public bool Approved { get; private set; }
         public string? ApprovedBy { get; private set; }
         public virtual IReadOnlyList<Statement> Statements { get; private set; }

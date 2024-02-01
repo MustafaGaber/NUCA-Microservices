@@ -90,8 +90,8 @@ namespace NUCA.Projects.Domain.Entities.Statements
             Final = final;
             PriceChangePercent = boq.PriceChangePercent;
             Guard.Against.Null(boq, nameof(boq));
-            _tables = boq.Tables.Select(table => new StatementTable(table, StatementTableType.Works, table.Type)).ToList();
-            _tables.AddRange(boq.Tables.Select(table => new StatementTable(table, StatementTableType.Supplies, table.Type)));
+            _tables = boq.Tables.Select(table => new StatementTable(table, StatementTableType.Works, table.Type, table.CostCenterId)).ToList();
+            _tables.AddRange(boq.Tables.Select(table => new StatementTable(table, StatementTableType.Supplies, table.Type, table.CostCenterId)));
             UpdateTotals();
         }
         public Statement(long projectId, Boq boq, DateOnly worksDate, bool final, Statement previousStatement)
@@ -113,14 +113,14 @@ namespace NUCA.Projects.Domain.Entities.Statements
                 var previousTable = previousStatement.Tables
                     .Where(t => t.Type == StatementTableType.Works)
                     .FirstOrDefault(t => t.BoqTableId == table.Id);
-                return previousTable == null ? new StatementTable(table, StatementTableType.Works, table.Type) : new StatementTable(table, previousTable, StatementTableType.Works, table.Type);
+                return previousTable == null ? new StatementTable(table, StatementTableType.Works, table.Type, table.CostCenterId) : new StatementTable(table, previousTable, StatementTableType.Works, table.Type, table.CostCenterId);
             }).ToList();
             _tables.AddRange(boq.Tables.Select(table =>
             {
                 var previousTable = previousStatement.Tables
                 .Where(t => t.Type == StatementTableType.Supplies)
                 .FirstOrDefault(t => t.BoqTableId == table.Id);
-                return previousTable == null ? new StatementTable(table, StatementTableType.Supplies, table.Type) : new StatementTable(table, previousTable, StatementTableType.Supplies, table.Type);
+                return previousTable == null ? new StatementTable(table, StatementTableType.Supplies, table.Type, table.CostCenterId) : new StatementTable(table, previousTable, StatementTableType.Supplies, table.Type, table.CostCenterId);
             }));
             _externalSuppliesItems = previousStatement.ExternalSuppliesItems.Select(item =>
             new ExternalSuppliesItem(
@@ -132,7 +132,8 @@ namespace NUCA.Projects.Domain.Entities.Statements
                 unitPrice: item.UnitPrice,
                 previousQuantity: item.TotalQuantity,
                 totalQuantity: item.TotalQuantity,
-                percentage: item.Percentage
+                percentage: item.Percentage,
+                costCenterId: item.CostCenterId
             )).ToList();
             UpdateTotals();
         }
@@ -187,18 +188,22 @@ namespace NUCA.Projects.Domain.Entities.Statements
             });
             _externalSuppliesItems.AddRange(items
                 .Where(item => item.Id == 0)
-                .Select(item => new ExternalSuppliesItem(
-                    suppliesTableId: item.SuppliesTableId,
-                    departmentId: item.DepartmentId,
-                    index: item.Index,
-                    content: item.Content,
-                    unit: item.Unit,
-                    unitPrice: item.UnitPrice,
-                    previousQuantity: item.PreviousQuantity,
-                    totalQuantity: item.TotalQuantity,
-                    percentage: item.Percentage
-                 )
-            ));
+                .Select(item =>
+                {
+                    long costCenterId = _tables.Find(t => t.Id == item.SuppliesTableId)!.CostCenterId;
+                    return new ExternalSuppliesItem(
+                            suppliesTableId: item.SuppliesTableId,
+                            departmentId: item.DepartmentId,
+                            index: item.Index,
+                            content: item.Content,
+                            unit: item.Unit,
+                            unitPrice: item.UnitPrice,
+                            previousQuantity: item.PreviousQuantity,
+                            totalQuantity: item.TotalQuantity,
+                            percentage: item.Percentage,
+                            costCenterId: costCenterId
+                            );
+                }));
         }
 
         public void ExecutionSubmit(string departmentId, string userId)
