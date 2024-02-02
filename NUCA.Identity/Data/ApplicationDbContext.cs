@@ -19,6 +19,7 @@ namespace NUCA.Identity.Data
         public DbSet<DepartmentPermission> DepartmentPermissions { get; private set; }
         public DbSet<UserGroup> UserGroups { get; private set; }
 
+        public DbSet<CityAuthority> CityAuthorities { get; private set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Ardalis.GuardClauses;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NUCA.Identity.Domain
@@ -11,5 +12,13 @@ namespace NUCA.Identity.Domain
         private List<User> _users = new();
         public virtual IReadOnlyList<User> Users => _users.ToList();
 
+        public CityAuthority(string name)
+        {
+            Name = Guard.Against.NullOrEmpty(name);
+        }
+        internal void Update(string name)
+        {
+            Name = Guard.Against.NullOrEmpty(name);
+        }
     }
 }

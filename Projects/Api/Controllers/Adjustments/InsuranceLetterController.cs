@@ -30,7 +30,7 @@ namespace NUCA.Projects.Api.Controllers.Adjustments
             {
                 throw new InvalidOperationException();
             }
-            var content = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "InsuranceLetter", adjustment);
+            var content = await _jsReportMVCService.RenderViewToStringAsync(HttpContext, RouteData, "InsuranceLetter.cshtml", adjustment);
             var rs = new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create();
             var report = await rs.RenderAsync(new RenderRequest()
             {

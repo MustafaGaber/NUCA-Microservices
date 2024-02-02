@@ -36,7 +36,6 @@ namespace NUCA.Projects.Application.Projects.Commands
         public long? BankBranchId { get; init; }
         public string? BankAccountNumber { get; init; }
         public long? TaxAuthorityId { get; init; }
-        public string Notes { get; init; }
     }
 
 }

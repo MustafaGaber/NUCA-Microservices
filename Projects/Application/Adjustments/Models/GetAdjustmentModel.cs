@@ -13,6 +13,7 @@ namespace NUCA.Projects.Application.Adjustments.Models
         public required double PreviousTotalWorks { get; init; }
         public required double PreviousTotalSupplies { get; init; }
         public required double ServiceTax { get; init; }
+        public required double SupervisionCommission { get; init; }
         public required double AdvancePaymentPercent { get; init; }
         public required double AdvancePaymentValue { get; init; }
         public required double CompletionGuaranteeValue { get; init; }
@@ -20,6 +21,7 @@ namespace NUCA.Projects.Application.Adjustments.Models
         public required double ApplicatorsSyndicateValue { get; init; }
         public required double RegularStampTax { get; init; }
         public required double AdditionalStampTax { get; init; }
+        public required double ResourceDevelopmentTax { get; init; }
         public required double CommercialIndustrialTax { get; init; }
         public required double SelfEmploymentTax { get; init; }
         public required double ValueAddedTaxPercent { get; init; }
@@ -54,6 +56,7 @@ namespace NUCA.Projects.Application.Adjustments.Models
                 CurrentSupplies = adjustment.CurrentSupplies,
                 CurrentWorksAndSupplies = adjustment.CurrentWorksAndSupplies,
                 ServiceTax = adjustment.ServiceTax,
+                SupervisionCommission = adjustment.SupervisionCommission,
                 AdvancePaymentPercent = adjustment.AdvancePaymentPercent,
                 AdvancePaymentValue = adjustment.AdvancePaymentValue,
                 CompletionGuaranteeValue = adjustment.CompletionGuaranteeValue,
@@ -61,6 +64,7 @@ namespace NUCA.Projects.Application.Adjustments.Models
                 ApplicatorsSyndicateValue = adjustment.ApplicatorsSyndicateValue,
                 RegularStampTax = adjustment.RegularStampTax,
                 AdditionalStampTax = adjustment.AdditionalStampTax,
+                ResourceDevelopmentTax = adjustment.ResourceDevelopmentTax,
                 CommercialIndustrialTax = adjustment.CommercialIndustrialTax,
                 SelfEmploymentTax = adjustment.SelfEmploymentTax,
                 ValueAddedTaxPercent = adjustment.ValueAddedTaxPercent,
