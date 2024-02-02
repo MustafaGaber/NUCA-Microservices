@@ -1,5 +1,4 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Domain.Entities.Companies;
 
 namespace NUCA.Projects.Application.Companies.Queries.GetCompany
 {
@@ -19,6 +18,7 @@ namespace NUCA.Projects.Application.Companies.Queries.GetCompany
             {
                 Id = company.Id,
                 Name = company.Name,
+                Type = company.Type,
                 Address = company.Address,
                 Phone = company.Phone,
                 Fax = company.Fax,
@@ -26,7 +26,7 @@ namespace NUCA.Projects.Application.Companies.Queries.GetCompany
                 TaxCard = company.TaxCard,
                 ElectronicInvoice = company.ElectronicInvoice,
                 CommercialIndustrialTaxFree = company.CommercialIndustrialTaxFree
-            }: null;
+            } : null;
         }
 
     }

@@ -2,7 +2,7 @@
 {
     public enum CompanyType
     {
-        Company,
-        Cooperative
+        Company = 1,
+        Cooperative = 2,
     }
 }
