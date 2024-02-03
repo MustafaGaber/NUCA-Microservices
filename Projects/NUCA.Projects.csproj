@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Application\Projects\Queries\GetSettingsProjects\**" />
+    <Content Remove="Application\Projects\Queries\GetSettingsProjects\**" />
+    <EmbeddedResource Remove="Application\Projects\Queries\GetSettingsProjects\**" />
+    <None Remove="Application\Projects\Queries\GetSettingsProjects\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="appsettings.Development.json" />
     <_ContentIncludedByDefault Remove="appsettings.json" />
   </ItemGroup>
@@ -35,10 +42,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Scrutor" Version="4.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Application\Projects\Queries\GetSettingsProjects\" />
   </ItemGroup>
 
   <ItemGroup>

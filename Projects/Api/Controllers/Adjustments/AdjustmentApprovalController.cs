@@ -3,19 +3,18 @@ using jsreport.Binary;
 using jsreport.Local;
 using jsreport.Types;
 using Microsoft.AspNetCore.Mvc;
-using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.Adjustments.Queries.GetAdjustment;
 
 namespace NUCA.Projects.Api.Controllers.Adjustments
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PrintAdjustmentController : BaseController
+    public class AdjustmentApprovalController : Controller
     {
         private readonly IGetAdjustmentModelQuery _getAdjustmentQuery;
         private readonly IJsReportMVCService _jsReportMVCService;
 
-        public PrintAdjustmentController(IGetAdjustmentModelQuery getAdjustmentQuery, IJsReportMVCService jsReportMVCService)
+        public AdjustmentApprovalController(IGetAdjustmentModelQuery getAdjustmentQuery, IJsReportMVCService jsReportMVCService)
         {
             _getAdjustmentQuery = getAdjustmentQuery;
             _jsReportMVCService = jsReportMVCService;

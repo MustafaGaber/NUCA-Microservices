@@ -1,4 +1,5 @@
-﻿using NUCA.Projects.Domain.Entities.Projects;
+﻿using NUCA.Projects.Application.Projects.Models;
+using NUCA.Projects.Domain.Entities.Projects;
 
 namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
 {

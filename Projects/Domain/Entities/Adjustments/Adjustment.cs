@@ -127,7 +127,7 @@ namespace NUCA.Projects.Domain.Entities.Adjustments
             SupervisionCommission = Project.FundingType == FundingType.HousingFund ? originalCurrentWorks * 1.15 / 100 : 0;
             RegularStampTax = isCooperative ? 0 : CalculateRegularStamp(originalCurrentWorksAndSupplies);
             AdditionalStampTax = 3 * RegularStampTax;
-            ResourceDevelopmentTax = isCooperative ? 0 : 2;
+            ResourceDevelopmentTax = isCooperative ? 0 : 2; //  2 * papers count ???
             CommercialIndustrialTax = isCooperative || Project.Company!.CommercialIndustrialTaxFree == true ? 0 : originalCurrentWorksAndSupplies * Project.WorkType.CommercialIndustrialTaxPercent / 100;
             SelfEmploymentTax = originalCurrentWorks * Project.WorkType.SelfEmploymentTaxPercent / 100;
             ValueAddedTax = originalCurrentWorks * ValueAddedTaxPercent / 100;

@@ -1,5 +1,5 @@
 ﻿using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Application.Projects.Queries.Models;
+using NUCA.Projects.Application.Projects.Models;
 using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Shared.Constants;
 using NUCA.Projects.Shared.Extensions;

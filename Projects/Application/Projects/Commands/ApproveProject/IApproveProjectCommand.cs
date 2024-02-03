@@ -1,5 +1,5 @@
 ﻿
-using NUCA.Projects.Application.Projects.Queries.Models;
+using NUCA.Projects.Application.Projects.Models;
 using NUCA.Projects.Domain.Entities.Projects;
 using System.Security.Claims;
 

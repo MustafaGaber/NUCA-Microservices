@@ -1,9 +1,6 @@
 ﻿using NUCA.Projects.Application.Boqs.Models;
 using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Application.Projects.Queries.Models;
-using NUCA.Projects.Data.Projects;
 using NUCA.Projects.Domain.Entities.Boqs;
-using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Shared.Constants;
 using NUCA.Projects.Shared.Extensions;
 using System.Security.Claims;

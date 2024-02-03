@@ -1,7 +1,7 @@
 ﻿using NUCA.Projects.Domain.Entities.Projects;
 using NUCA.Projects.Domain.Entities.Shared;
 
-namespace NUCA.Projects.Application.Projects.Commands
+namespace NUCA.Projects.Application.Projects.Models
 {
     public class ProjectModel
     {

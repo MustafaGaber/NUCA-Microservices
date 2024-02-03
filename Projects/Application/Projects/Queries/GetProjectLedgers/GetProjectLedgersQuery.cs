@@ -3,27 +3,24 @@ using NUCA.Projects.Application.Projects.Models;
 using NUCA.Projects.Shared.Extensions;
 using System.Security.Claims;
 
-namespace NUCA.Projects.Application.Projects.Queries.GetProject
+namespace NUCA.Projects.Application.Projects.Queries.GetProjectLedgers
 {
-    public class GetProjectQuery : IGetProjectQuery
+    public class GetProjectLedgersQuery : IGetProjectLedgersQuery
     {
         private readonly IProjectRepository _repository;
         private readonly IPrivilegeRepository _privilegeRepository;
 
-        public GetProjectQuery(IProjectRepository repository, IPrivilegeRepository privilegeRepository)
+        public GetProjectLedgersQuery(IProjectRepository repository, IPrivilegeRepository privilegeRepository)
         {
             _repository = repository;
             _privilegeRepository = privilegeRepository;
         }
-
-        public async Task<GetProjectModel> Execute(long id, ClaimsPrincipal user)
+        public async Task<GetProjectLedgersModel> Execute(long id, ClaimsPrincipal user)
         {
             if (user.Id() == null) throw new UnauthorizedAccessException();
-            var project = await _repository.Get(id);
-            return GetProjectModel.FromProject(project, false);
+            GetProjectLedgersModel project = await _repository.GetProjectLedgers(id);
+            return project;
         }
 
     }
 }
-
-

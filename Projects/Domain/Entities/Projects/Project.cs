@@ -258,6 +258,12 @@ namespace NUCA.Projects.Domain.Entities.Projects
             TaxAuthorityId = taxAuthority?.Id;
         }
 
+        public void UpdateLedgers(Ledger fromLedger, Ledger toLedger, Ledger advancePaymentLedger)
+        {
+            ToLedger = Guard.Against.Null(toLedger);
+            FromLedger = Guard.Against.Null(fromLedger);
+            AdvancePaymentLedger = Guard.Against.Null(advancePaymentLedger);
+        }
         public void Approve(string userId)
         {
             Approved = true;

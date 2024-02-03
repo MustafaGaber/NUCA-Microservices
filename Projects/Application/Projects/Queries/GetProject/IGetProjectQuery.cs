@@ -1,4 +1,4 @@
-﻿using NUCA.Projects.Application.Projects.Queries.Models;
+﻿using NUCA.Projects.Application.Projects.Models;
 using System.Security.Claims;
 
 namespace NUCA.Projects.Application.Projects.Queries.GetProject

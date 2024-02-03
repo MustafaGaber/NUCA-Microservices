@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
-using NUCA.Projects.Application.Projects.Commands;
 using NUCA.Projects.Application.Projects.Commands.ApproveProject;
 using NUCA.Projects.Application.Projects.Commands.CreateProject;
 using NUCA.Projects.Application.Projects.Commands.DeleteProject;
+using NUCA.Projects.Application.Projects.Commands.UpdateLedgers;
 using NUCA.Projects.Application.Projects.Commands.UpdatePrivileges;
 using NUCA.Projects.Application.Projects.Commands.UpdateProject;
+using NUCA.Projects.Application.Projects.Models;
 using NUCA.Projects.Application.Projects.Queries.GetProject;
+using NUCA.Projects.Application.Projects.Queries.GetProjectLedgers;
 using NUCA.Projects.Application.Projects.Queries.GetProjectName;
 using NUCA.Projects.Application.Projects.Queries.GetProjects;
 using NUCA.Projects.Application.Projects.Queries.GetProjectsWithStatements;
 using NUCA.Projects.Application.Projects.Queries.GetProjectWithBoqData;
 using NUCA.Projects.Application.Projects.Queries.GetProjectWithPrivileges;
 using NUCA.Projects.Application.Projects.Queries.GetUserProjects;
-using NUCA.Projects.Application.Projects.Queries.Models;
 using NUCA.Projects.Domain.Entities.Projects;
 using System.Security.Claims;
 
@@ -29,12 +30,14 @@ namespace NUCA.Projects.Api.Controllers.Projects
         private readonly IGetProjectNameQuery _getNameQuery;
         private readonly IGetProjectWithPrivilegesQuery _getProjectWithPrivilegesQuery;
         private readonly IGetProjectWithBoqDataQuery _getProjectWithBoqDataQuery;
+        private readonly IGetProjectLedgersQuery _getProjectLedgersQuery;
         private readonly ICreateProjectCommand _createCommand;
         private readonly IUpdateProjectCommand _updateCommand;
         private readonly IDeleteProjectCommand _deleteCommand;
         private readonly IUpdatePrivilegesCommand _updatePrivilegesCommand;
         private readonly IApproveProjectCommand _approveProjectCommand;
-        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery, IGetProjectWithPrivilegesQuery getProjectWithPrivilegesQuery, IUpdatePrivilegesCommand updatePrivilegesCommand, IApproveProjectCommand approveProjectCommand, IGetProjectWithBoqDataQuery getProjectWithBoqDataQuery)
+        private readonly IUpdateLedgersCommand _updateLedgersCommand;
+        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery, IGetProjectWithPrivilegesQuery getProjectWithPrivilegesQuery, IUpdatePrivilegesCommand updatePrivilegesCommand, IApproveProjectCommand approveProjectCommand, IGetProjectWithBoqDataQuery getProjectWithBoqDataQuery, IUpdateLedgersCommand updateLedgersCommand, IGetProjectLedgersQuery getProjectLedgersQuery)
         {
             _listQuery = listQuery;
             _detailQuery = detailQuery;
@@ -47,6 +50,8 @@ namespace NUCA.Projects.Api.Controllers.Projects
             _updatePrivilegesCommand = updatePrivilegesCommand;
             _approveProjectCommand = approveProjectCommand;
             _getProjectWithBoqDataQuery = getProjectWithBoqDataQuery;
+            _updateLedgersCommand = updateLedgersCommand;
+            _getProjectLedgersQuery = getProjectLedgersQuery;
         }
 
         // [Authorize(Policy = "ExecutionUser")]
@@ -92,6 +97,13 @@ namespace NUCA.Projects.Api.Controllers.Projects
             return Ok(project);
         }
 
+        [HttpGet("{id}/Ledgers")]
+        public async Task<IActionResult> GetLedgers(long id)
+        {
+            GetProjectLedgersModel project = await _getProjectLedgersQuery.Execute(id, User);
+            return Ok(project);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {
@@ -125,6 +137,13 @@ namespace NUCA.Projects.Api.Controllers.Projects
         {
             await _updatePrivilegesCommand.Execute(id, model);
             return Ok();
+        }
+
+        [HttpPut("{id}/Ledgers")]
+        public async Task<IActionResult> UpdateLedgers(long id, [FromBody] UpdateLedgersModel model)
+        {
+            GetProjectLedgersModel project = await _updateLedgersCommand.Execute(id, model, User);
+            return Ok(project);
         }
 
         [HttpDelete("{id}")]

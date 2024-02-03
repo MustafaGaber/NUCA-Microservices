@@ -2,6 +2,7 @@
 using NUCA.Projects.Domain.Entities.Companies;
 using NUCA.Projects.Domain.Entities.Settings;
 using NUCA.Projects.Domain.Entities.Projects;
+using NUCA.Projects.Application.Projects.Models;
 
 namespace NUCA.Projects.Application.Projects.Commands.UpdateProject
 {

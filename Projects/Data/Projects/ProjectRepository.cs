@@ -1,8 +1,8 @@
-﻿using NUCA.Projects.Application.Interfaces.Persistence;
-using NUCA.Projects.Domain.Entities.Projects;
+﻿using Microsoft.EntityFrameworkCore;
+using NUCA.Projects.Application.Interfaces.Persistence;
+using NUCA.Projects.Application.Projects.Models;
 using NUCA.Projects.Data.Shared;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+using NUCA.Projects.Domain.Entities.Projects;
 
 namespace NUCA.Projects.Data.Projects
 {
@@ -11,29 +11,49 @@ namespace NUCA.Projects.Data.Projects
         public ProjectRepository(ProjectsDatabaseContext database)
          : base(database) { }
 
-        public override Task<List<Project>> All()
+        public async Task<GetProjectLedgersModel?> GetProjectLedgers(long id)
         {
-            return ProjectsQuery.ToListAsync();
+            GetProjectLedgersModel? project = await database.Projects
+                .Include(p => p.FromLedger)
+                .Include(p => p.ToLedger)
+                .Include(p => p.AdvancePaymentLedger)
+                .Select(project =>
+                new GetProjectLedgersModel
+                {
+                    Id = project.Id,
+                    Name = project.Name,
+                    FromLedger = new LedgerModel
+                    {
+                        Id = project.FromLedger!.Id,
+                        Name = project.FromLedger!.Name,
+                        Code = project.FromLedger!.Code,
+                        ParentId = project.FromLedger!.ParentId,
+                        ParentFullPath = project.FromLedger!.ParentFullPath
+                    },
+                    ToLedger = new LedgerModel
+                    {
+                        Id = project.ToLedger!.Id,
+                        Name = project.ToLedger!.Name,
+                        Code = project.ToLedger!.Code,
+                        ParentId = project.ToLedger!.ParentId,
+                        ParentFullPath = project.ToLedger!.ParentFullPath
+                    },
+                    AdvancePaymentLedger = new LedgerModel
+                    {
+                        Id = project.AdvancePaymentLedger!.Id,
+                        Name = project.AdvancePaymentLedger!.Name,
+                        Code = project.AdvancePaymentLedger!.Code,
+                        ParentId = project.AdvancePaymentLedger!.ParentId,
+                        ParentFullPath = project.AdvancePaymentLedger!.ParentFullPath
+                    }
+                }).FirstOrDefaultAsync(p => p.Id == id);
+            return project;
         }
 
-        public override Task<List<Project>> Find(Expression<Func<Project, bool>> predicate)
-        {
-            return ProjectsQuery.Where(predicate).ToListAsync();
-        }
-        public override Task<Project?> Get(long id)
-        {
-            return ProjectsQuery.FirstOrDefaultAsync(d => d.Id == id);
-        }
-
-        public override Task<List<T>> Select<T>(Expression<Func<Project, T>> selector)
-        {
-            return ProjectsQuery.Select(selector).ToListAsync();
-        }
-
-        private IQueryable<Project> ProjectsQuery =>
+        override
+        public IQueryable<Project> Query =>
             database.Projects
                 .Include(p => p.Company)
-                // .Include(p => p.Department)
                 .Include(p => p.WorkType)
                 .Include(p => p.AwardType)
                 .Include(p => p.CostCenter)
