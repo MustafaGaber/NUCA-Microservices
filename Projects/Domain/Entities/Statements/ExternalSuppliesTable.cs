@@ -10,7 +10,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
         
         private readonly List<ExternalSuppliesItem> _items = new List<ExternalSuppliesItem>();
         public virtual IReadOnlyList<ExternalSuppliesItem> Items => _items.ToList();
-        public double Total => Items.Sum(i => i.NetPrice);
+        public double NetAmount => Items.Sum(i => i.NetPrice);
         public ExternalSuppliesTable(int departmentId)
         {
             DepartmentId = Guard.Against.NegativeOrZero(departmentId);

@@ -1,11 +1,11 @@
 ﻿/*using Ardalis.GuardClauses;
-using NUCA.Projects.Domain.Entities.Adjustments;
+using NUCA.Projects.Domain.Entities.Settlements;
 
 namespace NUCA.Projects.Domain.Services
 {
-    public class AdjustmentsService
+    public class SettlementsService
     {
-        public static Adjustment CreateAdjustment(
+        public static Settlement CreateSettlement(
             long projectId,
             long statementId,
             int statementIndex,
@@ -19,9 +19,9 @@ namespace NUCA.Projects.Domain.Services
             bool commercialIndustrialTaxFree,
             int totalContractPapers,
             double orderPrice,
-            List<AdjustmentDiscount> discounts,
-            List<AdjustmentOutstandingAmount> outStandingAmounts,
-            List<AdjustmentDueAmount> dueAmounts)
+            List<SettlementDiscount> discounts,
+            List<SettlementOutstandingAmount> outStandingAmounts,
+            List<SettlementDueAmount> dueAmounts)
         {
             Guard.Against.NegativeOrZero(projectId);
             Guard.Against.NegativeOrZero(statementIndex);
@@ -49,7 +49,7 @@ namespace NUCA.Projects.Domain.Services
             double conractStampDuty = statementIndex == 1 ? totalContractPapers : 0;
             double contractorsFederationValue = statementIndex == 1 ?
                                         Math.Min(5000, orderPrice * .0005) : 0;
-            return new Adjustment(
+            return new Settlement(
                 projectId: projectId,
                 statementId: statementId,
                 statementIndex: statementIndex,

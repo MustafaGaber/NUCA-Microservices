@@ -30,14 +30,14 @@ namespace NUCA.Projects.Api.Controllers.Projects
         private readonly IGetProjectNameQuery _getNameQuery;
         private readonly IGetProjectWithPrivilegesQuery _getProjectWithPrivilegesQuery;
         private readonly IGetProjectWithBoqDataQuery _getProjectWithBoqDataQuery;
-        private readonly IGetProjectLedgersQuery _getProjectLedgersQuery;
+        private readonly IGetProjectWithLedgersQuery _getProjectWithLedgersQuery;
         private readonly ICreateProjectCommand _createCommand;
         private readonly IUpdateProjectCommand _updateCommand;
         private readonly IDeleteProjectCommand _deleteCommand;
         private readonly IUpdatePrivilegesCommand _updatePrivilegesCommand;
         private readonly IApproveProjectCommand _approveProjectCommand;
         private readonly IUpdateLedgersCommand _updateLedgersCommand;
-        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery, IGetProjectWithPrivilegesQuery getProjectWithPrivilegesQuery, IUpdatePrivilegesCommand updatePrivilegesCommand, IApproveProjectCommand approveProjectCommand, IGetProjectWithBoqDataQuery getProjectWithBoqDataQuery, IUpdateLedgersCommand updateLedgersCommand, IGetProjectLedgersQuery getProjectLedgersQuery)
+        public ProjectsController(IGetUserProjectsQuery listQuery, IGetProjectQuery detailQuery, IGetProjectWithStatementsQuery getProjectWithStatementsQuery, ICreateProjectCommand createCommand, IUpdateProjectCommand updateCommand, IDeleteProjectCommand deleteCommand, IGetProjectNameQuery getNameQuery, IGetProjectWithPrivilegesQuery getProjectWithPrivilegesQuery, IUpdatePrivilegesCommand updatePrivilegesCommand, IApproveProjectCommand approveProjectCommand, IGetProjectWithBoqDataQuery getProjectWithBoqDataQuery, IUpdateLedgersCommand updateLedgersCommand, IGetProjectWithLedgersQuery getProjectLedgersQuery)
         {
             _listQuery = listQuery;
             _detailQuery = detailQuery;
@@ -51,7 +51,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
             _approveProjectCommand = approveProjectCommand;
             _getProjectWithBoqDataQuery = getProjectWithBoqDataQuery;
             _updateLedgersCommand = updateLedgersCommand;
-            _getProjectLedgersQuery = getProjectLedgersQuery;
+            _getProjectWithLedgersQuery = getProjectLedgersQuery;
         }
 
         // [Authorize(Policy = "ExecutionUser")]
@@ -97,10 +97,10 @@ namespace NUCA.Projects.Api.Controllers.Projects
             return Ok(project);
         }
 
-        [HttpGet("{id}/Ledgers")]
-        public async Task<IActionResult> GetLedgers(long id)
+        [HttpGet("{id}/WithLedgers")]
+        public async Task<IActionResult> GetProjectWithLedgers(long id)
         {
-            GetProjectLedgersModel project = await _getProjectLedgersQuery.Execute(id, User);
+            GetProjectWithLedgersModel project = await _getProjectWithLedgersQuery.Execute(id, User);
             return Ok(project);
         }
 
@@ -142,7 +142,7 @@ namespace NUCA.Projects.Api.Controllers.Projects
         [HttpPut("{id}/Ledgers")]
         public async Task<IActionResult> UpdateLedgers(long id, [FromBody] UpdateLedgersModel model)
         {
-            GetProjectLedgersModel project = await _updateLedgersCommand.Execute(id, model, User);
+            GetProjectWithLedgersModel project = await _updateLedgersCommand.Execute(id, model, User);
             return Ok(project);
         }
 

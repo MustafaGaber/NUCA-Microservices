@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.Statements.Queries.PrintStatement;
-using NUCA.Projects.Domain.Entities.Adjustments;
+using NUCA.Projects.Domain.Entities.Settlements;
 using NUCA.Projects.Domain.Entities.Statements;
 
 namespace NUCA.Projects.Api.Controllers.Statements

@@ -17,7 +17,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateLedgers
             _ledgerRepository = ledgerRepository;
         }
 
-        public async Task<GetProjectLedgersModel> Execute(long projectId, UpdateLedgersModel model, ClaimsPrincipal user)
+        public async Task<GetProjectWithLedgersModel> Execute(long projectId, UpdateLedgersModel model, ClaimsPrincipal user)
         {
             Project project = await _projectRepository.Get(projectId) ?? throw new ArgumentNullException("Project not found");
             Ledger fromLedger = await _ledgerRepository.Get(model.FromLedgerId) ?? throw new ArgumentNullException("Ledger not found");
@@ -30,7 +30,7 @@ namespace NUCA.Projects.Application.Projects.Commands.UpdateLedgers
                 advancePaymentLedger: advancePaymentLedger);
 
             await _projectRepository.SaveChangesAsync();
-            return new GetProjectLedgersModel
+            return new GetProjectWithLedgersModel
             {
                 Id = projectId,
                 Name = project.Name,

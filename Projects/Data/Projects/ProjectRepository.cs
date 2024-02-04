@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NUCA.Projects.Application.Settlements.Models;
 using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Application.Projects.Models;
 using NUCA.Projects.Data.Shared;
@@ -11,14 +12,14 @@ namespace NUCA.Projects.Data.Projects
         public ProjectRepository(ProjectsDatabaseContext database)
          : base(database) { }
 
-        public async Task<GetProjectLedgersModel?> GetProjectLedgers(long id)
+        public async Task<GetProjectWithLedgersModel?> GetProjectWithLedgers(long id)
         {
-            GetProjectLedgersModel? project = await database.Projects
+            GetProjectWithLedgersModel? project = await database.Projects
                 .Include(p => p.FromLedger)
                 .Include(p => p.ToLedger)
                 .Include(p => p.AdvancePaymentLedger)
                 .Select(project =>
-                new GetProjectLedgersModel
+                new GetProjectWithLedgersModel
                 {
                     Id = project.Id,
                     Name = project.Name,
@@ -50,6 +51,24 @@ namespace NUCA.Projects.Data.Projects
             return project;
         }
 
+        public async Task<ProjectWithLedgers> GetProjectLedgers(long id)
+        {
+            var project = await database.Projects
+               .Include(p => p.FromLedger).ThenInclude(l => l.Parent)
+               .Include(p => p.ToLedger).ThenInclude(l => l.Parent)
+               .Include(p => p.AdvancePaymentLedger).ThenInclude(l => l.Parent)
+               .Select(p =>
+               new ProjectWithLedgers
+               {
+                   Id = p.Id,
+                   ToLedger = p.ToLedger,
+                   FromLedger = p.FromLedger,
+                   AdvancePaymentLedger = p.AdvancePaymentLedger,
+               })
+               .FirstOrDefaultAsync(p => p.Id == id);
+            return project;
+        }
+
         override
         public IQueryable<Project> Query =>
             database.Projects
@@ -62,5 +81,8 @@ namespace NUCA.Projects.Data.Projects
                 .Include(p => p.BankBranch)
                 .Include(p => p.TaxAuthority)
                 .Include(p => p.ModifiedEndDates);
+        //.Include(p => p.FromLedger)
+        //.Include(p => p.ToLedger)
+        //.Include(p => p.AdvancePaymentLedger);
     }
 }

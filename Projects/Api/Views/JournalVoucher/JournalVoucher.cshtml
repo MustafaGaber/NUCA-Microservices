@@ -1,0 +1,152 @@
+﻿@using NUCA.Projects.Domain.Entities.Settlements;
+@using NUCA.Projects.Shared.Util;
+
+@model Settlement
+@{
+    double totalDue = Model.CurrentWorksAndSupplies + Model.SupervisionCommission;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        .no-border-top {
+            border-top: 0px !important;
+        }
+
+        .no-border-left {
+            border-left: 0px !important;
+        }
+
+        .no-border-bottom {
+            border-bottom: 0px !important;
+        }
+
+        .no-border-right {
+            border-right: 0px !important;
+        }
+
+        .flex-column {
+            flex-direction: column;
+        }
+
+        .h-100 {
+            height: 100%;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .flex-1 {
+            flex: 1;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .align-content-center {
+            height: 100%;
+            display: flex;
+            align-content: center;
+            align-items: center;
+        }
+
+        .align-content-stretch {
+            display: flex;
+            align-content: stretch;
+            align-items: stretch;
+        }
+
+        .py {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 0.2px solid #555;
+        }
+
+        th, td {
+            padding: 0px 5px;
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
+</head>
+<body dir="rtl">
+    <div class="py-2">
+        <div class="text-center">
+            إذن تسوية
+        </div>
+        <div class="d-flex">
+            <div class="flex-1 p-0 fw-bold">
+                اسم المشروع/ @Model.Project.Name
+            </div>
+            <div>
+                رقم المستخلص (@Model.StatementIndex.UseArabicDigits())
+            </div>
+        </div>
+        <div class="d-flex m-0 pt-3 pb-1">
+            <div class="flex-1 p-0 fw-bold">
+                مقاولة/ @Model.Project.Company!.Name.UseArabicDigits()
+            </div>
+            <div>
+                أعمال حتى @Model.WorksDate.ToString("d/M/yyyy").UseArabicDigits()
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>منه</th>
+                <th class="text-center">
+                    له
+                </th>
+                <th class="text-center">
+                    مفردات
+                </th>
+                <th class="text-center">
+                    التوجيه المحاسبي
+                </th>
+                <th class="text-center">
+                    الدليل المحاسبي
+                </th>
+            </tr>
+            @if(Model.Project.FromLedger!.Parent != null)
+            {
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>@Model.Project.FromLedger!.Parent.Name</th>
+                    <th>@Model.Project.FromLedger!.Parent.Code?.UseArabicDigits()</th>
+                </tr>
+            }
+            <tr>
+                <th></th>
+                <th></th>
+                <th>@totalDue.Round().UseArabicDigits()</th>
+                <th>@Model.Project.FromLedger!.Name</th>
+                <th>@Model.Project.FromLedger!.Code?.UseArabicDigits()</th>
+            </tr>
+            @if(Model.SupervisionCommission != 0)
+            {
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>@Model.SupervisionCommission.Round().UseArabicDigits()</th>
+                    <th>@Model.Project.FromLedger!.Name</th>
+                    <th>@Model.Project.FromLedger!.Code?.UseArabicDigits()</th>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+

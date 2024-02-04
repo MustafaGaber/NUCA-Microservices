@@ -1,24 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using NUCA.Banks.Data.Banks;
-using NUCA.Projects.Data.Adjustments;
 using NUCA.Projects.Data.Boqs;
 using NUCA.Projects.Data.Companies;
 using NUCA.Projects.Data.Departments;
 using NUCA.Projects.Data.Projects;
+using NUCA.Projects.Data.Settlements;
 using NUCA.Projects.Data.Statements;
 using NUCA.Projects.Data.Users;
 using NUCA.Projects.Domain.Common;
-using NUCA.Projects.Domain.Entities.Adjustments;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Companies;
 using NUCA.Projects.Domain.Entities.Departments;
-using NUCA.Projects.Domain.Entities.Settings;
 using NUCA.Projects.Domain.Entities.Projects;
-using NUCA.Projects.Domain.Entities.Shared;
+using NUCA.Projects.Domain.Entities.Settings;
+using NUCA.Projects.Domain.Entities.Settlements;
 using NUCA.Projects.Domain.Entities.Statements;
 using NUCA.Projects.Domain.Entities.Users;
-using System.Security.AccessControl;
 using System.Security.Claims;
 
 namespace NUCA.Projects.Data
@@ -31,7 +29,7 @@ namespace NUCA.Projects.Data
         public DbSet<Company> Companies { get; init; }
         public DbSet<User> Users { get; init; }
         public DbSet<Statement> Statements { get; init; }
-        public DbSet<Adjustment> Adjustments { get; init; }
+        public DbSet<Settlement> Settlements { get; init; }
         public DbSet<AdvancePaymentDeduction> AdvancePaymentDeductions { get; init; }
         public DbSet<WorkType> WorkTypes { get; init; }
         public DbSet<AwardType> AwardTypes { get; init; }
@@ -71,7 +69,7 @@ namespace NUCA.Projects.Data
             modelBuilder.ApplyConfiguration(new StatementSectionConfiguration());
             modelBuilder.ApplyConfiguration(new StatementItemConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new AdjustmentConfiguration());
+            modelBuilder.ApplyConfiguration(new SettlementConfiguration());
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
@@ -79,8 +77,8 @@ namespace NUCA.Projects.Data
                 {
                     modelBuilder.Entity(entityType.Name).Property<DateTime>("Created");
                     modelBuilder.Entity(entityType.Name).Property<DateTime>("LastModified");
-                   // modelBuilder.Entity(entityType.Name).Property<string>("CreatedBy");
-                   // modelBuilder.Entity(entityType.Name).Property<string>("UpdatedBy");
+                    // modelBuilder.Entity(entityType.Name).Property<string>("CreatedBy");
+                    // modelBuilder.Entity(entityType.Name).Property<string>("UpdatedBy");
                 }
             }
         }
@@ -91,7 +89,7 @@ namespace NUCA.Projects.Data
             return base.SaveChanges();
         }
 
-    
+
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -150,19 +148,19 @@ namespace NUCA.Projects.Data
                 aggregateRoot.ClearEvents();
             }
 
-           /*/ List<AggregateRoot> aggregateRoots2 = ChangeTracker
-                  .Entries()
-                  .Where(x => x.Entity is AggregateRoot)
-                  .Select(x => (AggregateRoot)x.Entity)
-                  .ToList();
-            foreach (AggregateRoot aggregateRoot in aggregateRoots2)
-            {
-                foreach (IDomainEvent domainEvent in aggregateRoot.DomainEvents)
-                {
-                    DomainEvents.Dispatch(domainEvent);
-                }
-                aggregateRoot.ClearEvents();
-            }*/
+            /*/ List<AggregateRoot> aggregateRoots2 = ChangeTracker
+                   .Entries()
+                   .Where(x => x.Entity is AggregateRoot)
+                   .Select(x => (AggregateRoot)x.Entity)
+                   .ToList();
+             foreach (AggregateRoot aggregateRoot in aggregateRoots2)
+             {
+                 foreach (IDomainEvent domainEvent in aggregateRoot.DomainEvents)
+                 {
+                     DomainEvents.Dispatch(domainEvent);
+                 }
+                 aggregateRoot.ClearEvents();
+             }*/
         }
 
 

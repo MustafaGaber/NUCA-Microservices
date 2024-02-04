@@ -1,4 +1,4 @@
-﻿using NUCA.Projects.Application.Adjustments.Models;
+﻿using NUCA.Projects.Application.Settlements.Models;
 using NUCA.Projects.Domain.Entities.Projects;
 
 namespace NUCA.Projects.Application.Interfaces.Persistence

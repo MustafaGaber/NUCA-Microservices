@@ -7,7 +7,7 @@ namespace NUCA.Projects.Domain.Entities.Statements
     {
         public required IReadOnlyList<ExternalSuppliesItem> ExternalSuppliesItems { get; init; }
         public override bool HasQuantities => base.HasQuantities || ExternalSuppliesItems.Any(i => i.HasQuantities);
-        /*public override double TotalBeforePriceChange => Sections.Sum(s => s.Total) + ExternalSuppliesItems.Sum(t => t.NetPrice);
-        public override double Total => TotalBeforePriceChange;*/
+        /*public override double TotalBeforePriceChange => Sections.Sum(s => s.NetAmount) + ExternalSuppliesItems.Sum(t => t.NetPrice);
+        public override double NetAmount => TotalBeforePriceChange;*/
     }
 }

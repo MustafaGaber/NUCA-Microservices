@@ -1,7 +1,7 @@
 ﻿
 using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
-using NUCA.Projects.Domain.Entities.Adjustments;
+using NUCA.Projects.Domain.Entities.Settlements;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Companies;
 using NUCA.Projects.Domain.Entities.Settings;
