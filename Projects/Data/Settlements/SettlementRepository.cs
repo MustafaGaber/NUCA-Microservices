@@ -75,7 +75,7 @@ namespace NUCA.Projects.Data.Settlements
                     }).ToList(),
                     TotalDue = a.TotalDue,
                     TotalWithholdings = a.TotalWithholdings,
-                    Total = a.NetAmount,
+                    NetAmount = a.NetAmount,
                     Submitted = a.Submitted,
                     IsFirst = false,
                 }

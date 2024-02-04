@@ -13,16 +13,18 @@ namespace NUCA.Projects.Application.Settlements.Queries.GetJournalVoucherModel
             _database = database;
         }
 
-        public Task<Settlement?> Execute(long id)
+        public async Task<Settlement?> Execute(long id)
         {
-            return _database.Settlements
+            var settlement = await _database.Settlements
                  .Include(a => a.Withholdings)
                  .Include(a => a.Statement)
                  .Include(a => a.Project).ThenInclude(p => p.Company)
                  .Include(a => a.Project).ThenInclude(p => p.FromLedger).ThenInclude(l => l.Parent)
                  .Include(a => a.Project).ThenInclude(p => p.ToLedger).ThenInclude(l => l.Parent)
                  .Include(a => a.Project).ThenInclude(p => p.AdvancePaymentLedger).ThenInclude(l => l.Parent)
-                 .FirstOrDefaultAsync(a => a.Id == id);
+                 .FirstOrDefaultAsync(a => a.Id == id) ?? throw new ArgumentNullException("Settlement not found");
+
+            return settlement;
         }
     }
 }

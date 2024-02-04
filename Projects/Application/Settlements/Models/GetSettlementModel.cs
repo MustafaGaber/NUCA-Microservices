@@ -37,7 +37,7 @@ namespace NUCA.Projects.Application.Settlements.Models
         public required double CurrentWorksAndSupplies { get; init; }
         public required double TotalDue { get; init; }
         public required double TotalWithholdings { get; init; }
-        public required double Total { get; init; }
+        public required double NetAmount { get; init; }
         public required bool IsFirst { get; init; }
 
         public static GetSettlementModel Create(Settlement settlement, bool isFirst)
@@ -83,7 +83,7 @@ namespace NUCA.Projects.Application.Settlements.Models
                 }).ToList(),
                 TotalDue = settlement.TotalDue,
                 TotalWithholdings = settlement.TotalWithholdings,
-                Total = settlement.NetAmount,
+                NetAmount = settlement.NetAmount,
                 Submitted = settlement.Submitted,
                 IsFirst = isFirst,
             };

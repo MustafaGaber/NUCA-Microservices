@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NUCA.Projects.Application.Settlements.Models;
 using NUCA.Projects.Application.Interfaces.Persistence;
 using NUCA.Projects.Application.Projects.Models;
+using NUCA.Projects.Application.Settlements.Models;
 using NUCA.Projects.Data.Shared;
 using NUCA.Projects.Domain.Entities.Projects;
 
@@ -23,7 +23,7 @@ namespace NUCA.Projects.Data.Projects
                 {
                     Id = project.Id,
                     Name = project.Name,
-                    FromLedger = new LedgerModel
+                    FromLedger = project.FromLedger == null ? null : new LedgerModel
                     {
                         Id = project.FromLedger!.Id,
                         Name = project.FromLedger!.Name,
@@ -31,7 +31,7 @@ namespace NUCA.Projects.Data.Projects
                         ParentId = project.FromLedger!.ParentId,
                         ParentFullPath = project.FromLedger!.ParentFullPath
                     },
-                    ToLedger = new LedgerModel
+                    ToLedger = project.ToLedger == null ? null : new LedgerModel
                     {
                         Id = project.ToLedger!.Id,
                         Name = project.ToLedger!.Name,
@@ -39,7 +39,7 @@ namespace NUCA.Projects.Data.Projects
                         ParentId = project.ToLedger!.ParentId,
                         ParentFullPath = project.ToLedger!.ParentFullPath
                     },
-                    AdvancePaymentLedger = new LedgerModel
+                    AdvancePaymentLedger = project.AdvancePaymentLedger == null ? null : new LedgerModel
                     {
                         Id = project.AdvancePaymentLedger!.Id,
                         Name = project.AdvancePaymentLedger!.Name,
