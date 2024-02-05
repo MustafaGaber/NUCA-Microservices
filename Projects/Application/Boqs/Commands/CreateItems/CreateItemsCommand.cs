@@ -19,10 +19,12 @@ namespace NUCA.Projects.Application.Boqs.Commands.CreateItem
         public async Task<BoqModel> Execute(long boqId, long tableId, long sectionId, List<CreateItemModel> items)
         {
             Boq? boq = await _boqRepository.Get(boqId) ?? throw new InvalidOperationException();
+            List<WorkType> workTypes = await _workTypeRepository.GetSome(items.Select(i => i.WorkTypeId).Distinct().ToList());
+            List<CostCenter> costCenters = await _costCenterRepository.GetSome(items.Select(i => i.CostCenterId).Distinct().ToList());
             items.ForEach(async item =>
             {
-                WorkType workType = await _workTypeRepository.Get(item.WorkTypeId) ?? throw new InvalidOperationException();
-                CostCenter costCenter = await _costCenterRepository.Get(item.CostCenterId) ?? throw new InvalidOperationException();
+                WorkType workType = workTypes.First(w => w.Id == item.WorkTypeId) ?? throw new InvalidOperationException();
+                CostCenter costCenter = costCenters.First(c => c.Id == item.CostCenterId) ?? throw new InvalidOperationException();
                 boq.AddItem(
                      tableId: tableId,
                     sectionId: sectionId,
