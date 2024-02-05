@@ -36,10 +36,10 @@ namespace NUCA.Identity
             services.AddControllersWithViews(configure =>
             {
                 // configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy));
-            }).AddRazorRuntimeCompilation(); ;
+            });
 
             services.AddDbContext<DbContext, ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("IdentityDatabase")));
 
             services.AddIdentity<User, Role>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -55,7 +55,8 @@ namespace NUCA.Identity
             {
                 options.Cors.CorsPaths = new[]
                 {
-                     PathString.FromUriComponent(new Uri(Config.FrontendUri))
+                     PathString.FromUriComponent(new Uri(Config.FrontendUri)),
+                      PathString.FromUriComponent(new Uri(Config.ProductionFrontendUri))
                 };
 
                 options.Events.RaiseErrorEvents = true;
@@ -81,7 +82,7 @@ namespace NUCA.Identity
                 options.AddPolicy("CorsPolicy",
                     builder =>
                     {
-                        builder.WithOrigins(Config.FrontendUri)
+                        builder.WithOrigins(new string[] { Config.FrontendUri, Config.ProductionFrontendUri })
                             .AllowCredentials()
                             .AllowAnyMethod()
                             .AllowAnyHeader();
@@ -119,9 +120,8 @@ namespace NUCA.Identity
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseCors("CorsPolicy");
             }
-
+            app.UseCors("CorsPolicy");
             app.UseStaticFiles();
 
             app.UseRouting();

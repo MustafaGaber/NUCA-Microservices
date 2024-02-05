@@ -17,11 +17,11 @@ namespace NUCA.Identity.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    PublicName = table.Column<string>(type: "TEXT", nullable: true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PublicName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,23 +32,23 @@ namespace NUCA.Identity.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    FullName = table.Column<string>(type: "TEXT", nullable: true),
-                    NationalId = table.Column<string>(type: "TEXT", nullable: true),
-                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NationalId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,24 +56,24 @@ namespace NUCA.Identity.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CityAuthority",
+                name: "CityAuthorities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CityAuthority", x => x.Id);
+                    table.PrimaryKey("PK_CityAuthorities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "DepartmentPermissions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,9 +84,9 @@ namespace NUCA.Identity.Migrations
                 name: "Departments",
                 columns: table => new
                 {
-                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    DepartmentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,9 +97,9 @@ namespace NUCA.Identity.Migrations
                 name: "UserGroups",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -110,11 +110,11 @@ namespace NUCA.Identity.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    RoleId = table.Column<string>(type: "TEXT", nullable: false),
-                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
-                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -131,11 +131,11 @@ namespace NUCA.Identity.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
-                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -152,10 +152,10 @@ namespace NUCA.Identity.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
-                    ProviderKey = table.Column<string>(type: "TEXT", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false)
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -172,8 +172,8 @@ namespace NUCA.Identity.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    RoleId = table.Column<string>(type: "TEXT", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,10 +196,10 @@ namespace NUCA.Identity.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -216,8 +216,8 @@ namespace NUCA.Identity.Migrations
                 name: "CityAuthorityUser",
                 columns: table => new
                 {
-                    AuthoritiesId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UsersId = table.Column<string>(type: "TEXT", nullable: false)
+                    AuthoritiesId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -229,9 +229,9 @@ namespace NUCA.Identity.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CityAuthorityUser_CityAuthority_AuthoritiesId",
+                        name: "FK_CityAuthorityUser_CityAuthorities_AuthoritiesId",
                         column: x => x.AuthoritiesId,
-                        principalTable: "CityAuthority",
+                        principalTable: "CityAuthorities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -240,8 +240,8 @@ namespace NUCA.Identity.Migrations
                 name: "DepartmentDepartmentPermission",
                 columns: table => new
                 {
-                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PermissionsId = table.Column<string>(type: "TEXT", nullable: false)
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    PermissionsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -264,9 +264,9 @@ namespace NUCA.Identity.Migrations
                 name: "Enrollments",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    DepartmentId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Job = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    Job = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,8 +289,8 @@ namespace NUCA.Identity.Migrations
                 name: "RoleUserGroup",
                 columns: table => new
                 {
-                    GroupsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RolesId = table.Column<string>(type: "TEXT", nullable: false)
+                    GroupsId = table.Column<int>(type: "int", nullable: false),
+                    RolesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -313,8 +313,8 @@ namespace NUCA.Identity.Migrations
                 name: "UserUserGroup",
                 columns: table => new
                 {
-                    GroupsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UsersId = table.Column<string>(type: "TEXT", nullable: false)
+                    GroupsId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -338,8 +338,8 @@ namespace NUCA.Identity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName", "PublicName" },
                 values: new object[,]
                 {
-                    { "32ea5e42-9a0b-4636-8c2c-3917695c398b", null, "superAdmin", "SUPERADMIN", "مدير النظام" },
-                    { "ed8d2b7a-1214-4dcb-87da-a7897ea5d300", null, "admin", "ADMIN", "مسؤل النظام" }
+                    { "6c808fe3-0a07-4fc3-94c3-d5f5b89e6890", null, "admin", "ADMIN", "مسؤل النظام" },
+                    { "be2e4ecd-c9b9-4e09-bdef-0c3f4d6185e7", null, "superAdmin", "SUPERADMIN", "مدير النظام" }
                 });
 
             migrationBuilder.InsertData(
@@ -364,7 +364,8 @@ namespace NUCA.Identity.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -390,7 +391,8 @@ namespace NUCA.Identity.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CityAuthorityUser_UsersId",
@@ -452,7 +454,7 @@ namespace NUCA.Identity.Migrations
                 name: "UserUserGroup");
 
             migrationBuilder.DropTable(
-                name: "CityAuthority");
+                name: "CityAuthorities");
 
             migrationBuilder.DropTable(
                 name: "DepartmentPermissions");

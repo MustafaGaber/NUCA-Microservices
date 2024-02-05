@@ -45,7 +45,8 @@ builder.Services.Scan(scan =>
         filter.Where(implementation => implementation.Name.Equals($"I{service.Name}", StringComparison.OrdinalIgnoreCase)))
     .WithTransientLifetime();
 });
-builder.Services.AddDbContext<ProjectsDatabaseContext>(options => options.UseSqlite("Data Source=projects.db"));
+//builder.Services.AddDbContext<ProjectsDatabaseContext>(options => options.UseSqlite("Data Source=projects.db"));
+builder.Services.AddDbContext<ProjectsDatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectsDatabase")));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {

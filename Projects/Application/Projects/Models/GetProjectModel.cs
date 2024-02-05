@@ -6,6 +6,7 @@ namespace NUCA.Projects.Application.Projects.Models
     public class GetProjectModel
     {
         public required long Id { get; init; }
+        public required int CityId { get; init; }
         public required string Name { get; init; }
         public required string DepartmentId { get; init; }
         public required string DepartmentName { get; init; }
@@ -46,6 +47,7 @@ namespace NUCA.Projects.Application.Projects.Models
             return new GetProjectModel
             {
                 Id = project.Id,
+                CityId = project.CityId,
                 Name = project.Name,
                 DepartmentId = project.DepartmentId,
                 DepartmentName = project.DepartmentName,

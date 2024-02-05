@@ -19,9 +19,10 @@ namespace NUCA.Projects.Application.Settlements.Queries.GetJournalVoucherModel
                  .Include(a => a.Withholdings)
                  .Include(a => a.Statement)
                  .Include(a => a.Project).ThenInclude(p => p.Company)
-                 .Include(a => a.Project).ThenInclude(p => p.FromLedger).ThenInclude(l => l.Parent)
-                 .Include(a => a.Project).ThenInclude(p => p.ToLedger).ThenInclude(l => l.Parent)
-                 .Include(a => a.Project).ThenInclude(p => p.AdvancePaymentLedger).ThenInclude(l => l.Parent)
+                 .Include(a => a.Project).ThenInclude(p => p.FromLedger).ThenInclude(l => l.Parent).ThenInclude(l => l.Parent)
+                 .Include(a => a.Project).ThenInclude(p => p.ToLedger).ThenInclude(l => l.Parent).ThenInclude(l => l.Parent)
+                 .Include(a => a.Project).ThenInclude(p => p.AdvancePaymentLedger).ThenInclude(l => l.Parent).ThenInclude(l => l.Parent)
+                 .AsSplitQuery()
                  .FirstOrDefaultAsync(a => a.Id == id) ?? throw new ArgumentNullException("Settlement not found");
 
             return settlement;

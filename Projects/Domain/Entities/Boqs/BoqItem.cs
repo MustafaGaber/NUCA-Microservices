@@ -8,6 +8,7 @@ namespace NUCA.Projects.Domain.Entities.Boqs
     {
         public string Index { get; private set; }
         public string Content { get; private set; }
+        public string? ShortContent { get; private set; }
         public string Unit { get; private set; }
         public double Quantity { get; private set; }
         public double UnitPrice { get; private set; }

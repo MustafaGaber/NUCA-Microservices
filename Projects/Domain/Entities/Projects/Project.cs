@@ -1,10 +1,10 @@
 ﻿
 using Ardalis.GuardClauses;
 using NUCA.Projects.Domain.Common;
-using NUCA.Projects.Domain.Entities.Settlements;
 using NUCA.Projects.Domain.Entities.Boqs;
 using NUCA.Projects.Domain.Entities.Companies;
 using NUCA.Projects.Domain.Entities.Settings;
+using NUCA.Projects.Domain.Entities.Settlements;
 using NUCA.Projects.Domain.Entities.Shared;
 using NUCA.Projects.Domain.Entities.Statements;
 
@@ -174,14 +174,6 @@ namespace NUCA.Projects.Domain.Entities.Projects
             TaxAuthority? taxAuthority
             )
         {
-            if (!Enum.IsDefined(typeof(ProjectStatus), status))
-            {
-                throw new ArgumentException();
-            }
-            if (!Enum.IsDefined(typeof(FundingType), fundingType))
-            {
-                throw new ArgumentException();
-            }
             CityId = Guard.Against.NegativeOrZero(cityId);
             Name = Guard.Against.NullOrWhiteSpace(name);
             DepartmentId = Guard.Against.NullOrEmpty(departmentId);
@@ -193,8 +185,8 @@ namespace NUCA.Projects.Domain.Entities.Projects
             Sovereign = sovereign;
             _classifications.Clear();
             _classifications.AddRange(classifications);
-            Status = Guard.Against.Null(status);
-            FundingType = fundingType;
+            Status = Guard.Against.EnumOutOfRange(status);
+            FundingType = Guard.Against.EnumOutOfRange(fundingType);
             if (status >= ProjectStatus.Awarded)
             {
                 Guard.Against.Null(awardType);

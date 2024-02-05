@@ -11,6 +11,7 @@ namespace NUCA.Identity
     public static class Config
     {
         public static string FrontendUri => "http://localhost:4200";
+        public static string ProductionFrontendUri => "http://192.168.8.100";
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
@@ -55,7 +56,7 @@ namespace NUCA.Identity
                     ClientName = "Angular Client",
                     ClientId = "angular-client",
                     AllowedGrantTypes = GrantTypes.Code,
-                    RedirectUris = new List<string>{ $"{FrontendUri}/auth/signin-callback", $"{FrontendUri}/auth/signout-callback"},
+                    RedirectUris = new List<string>{ $"{FrontendUri}/auth/signin-callback", $"{FrontendUri}/auth/signout-callback", $"{ProductionFrontendUri}/auth/signin-callback", $"{ProductionFrontendUri}/auth/signout-callback"},
                     RequirePkce = true,
                     AllowAccessTokensViaBrowser = true,
                     AllowedScopes =
@@ -65,9 +66,9 @@ namespace NUCA.Identity
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                     },
-                    AllowedCorsOrigins = { FrontendUri},
+                    AllowedCorsOrigins = { FrontendUri, ProductionFrontendUri},
                     RequireClientSecret = false,
-                    PostLogoutRedirectUris = new List<string> { $"{FrontendUri}/auth/signout-callback" },
+                    PostLogoutRedirectUris = new List<string> { $"{FrontendUri}/auth/signout-callback" , $"{ProductionFrontendUri}/auth/signout-callback"},
                     RequireConsent = false,
                     AccessTokenLifetime = 6000
                 },

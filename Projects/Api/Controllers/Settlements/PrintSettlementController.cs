@@ -10,12 +10,12 @@ namespace NUCA.Projects.Api.Controllers.Settlements
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PrinSettlementController : BaseController
+    public class PrintSettlementController : BaseController
     {
         private readonly IGetSettlementModelQuery _getSettlementQuery;
         private readonly IJsReportMVCService _jsReportMVCService;
 
-        public PrinSettlementController(IGetSettlementModelQuery getSettlementQuery, IJsReportMVCService jsReportMVCService)
+        public PrintSettlementController(IGetSettlementModelQuery getSettlementQuery, IJsReportMVCService jsReportMVCService)
         {
             _getSettlementQuery = getSettlementQuery;
             _jsReportMVCService = jsReportMVCService;

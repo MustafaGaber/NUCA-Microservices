@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Projects.Data;
 
@@ -11,9 +12,11 @@ using NUCA.Projects.Data;
 namespace NUCA.Projects.Migrations
 {
     [DbContext(typeof(ProjectsDatabaseContext))]
-    partial class ProjectsDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240204165814_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,9 +169,6 @@ namespace NUCA.Projects.Migrations
 
                     b.Property<double>("Quantity")
                         .HasColumnType("float");
-
-                    b.Property<string>("ShortContent")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Sovereign")
                         .HasColumnType("bit");
