@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NUCA.Projects.Api.Controllers.Core;
 using NUCA.Projects.Application.Statements.Commands.CreateStatement;
+using NUCA.Projects.Application.Statements.Commands.DeleteStatement;
 using NUCA.Projects.Application.Statements.Commands.TechnicalOfficeSubmit;
 using NUCA.Projects.Application.Statements.Commands.UpdateStatement;
 using NUCA.Projects.Application.Statements.Models;
@@ -22,8 +23,8 @@ namespace NUCA.Projects.Api.Controllers.Statements
         private readonly ICreateStatementCommand _createCommand;
         private readonly IUpdateStatementCommand _updateStatementCommand;
         private readonly ITechnicalOfficeSubmitCommand _technicalOfficeSubmitCommand;
-
-        public StatementsController(IGetStatementQuery getStatementQuery, IGetCurrentStatementsQuery getCurrentStatementsQuery, IGetProjectStatementsQuery getProjectStatementsQuery, ICreateStatementCommand createCommand, IUpdateStatementCommand updateStatementCommand, ITechnicalOfficeSubmitCommand technicalOfficeSubmitCommand)
+        private readonly IDeleteStatementCommand _deleteStatementCommand;
+        public StatementsController(IGetStatementQuery getStatementQuery, IGetCurrentStatementsQuery getCurrentStatementsQuery, IGetProjectStatementsQuery getProjectStatementsQuery, ICreateStatementCommand createCommand, IUpdateStatementCommand updateStatementCommand, ITechnicalOfficeSubmitCommand technicalOfficeSubmitCommand, IDeleteStatementCommand deleteStatementCommand)
         {
             _getStatementQuery = getStatementQuery;
             _getCurrentStatementsQuery = getCurrentStatementsQuery;
@@ -31,6 +32,7 @@ namespace NUCA.Projects.Api.Controllers.Statements
             _createCommand = createCommand;
             _updateStatementCommand = updateStatementCommand;
             _technicalOfficeSubmitCommand = technicalOfficeSubmitCommand;
+            _deleteStatementCommand = deleteStatementCommand;
         }
 
         [HttpGet("ProjectStatements/{projectId}")]
@@ -47,6 +49,13 @@ namespace NUCA.Projects.Api.Controllers.Statements
             if (userId == null) return Unauthorized();
             StatementModel statement = await _getStatementQuery.Execute(id, userId);
             return Ok(statement);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(long id)
+        {
+            await _deleteStatementCommand.Execute(id);
+            return Ok();
         }
 
         [HttpPost("{id}")]
@@ -68,7 +77,7 @@ namespace NUCA.Projects.Api.Controllers.Statements
         [HttpPut("{id}/TechnicalOfficeSubmit")]
         public async Task<IActionResult> TechnicalOfficeSubmit(long id, [FromBody] TechnicalOfficeSubmitModel model)
         {
-            StatementModel statement = await _technicalOfficeSubmitCommand.Execute(id, model,User);
+            StatementModel statement = await _technicalOfficeSubmitCommand.Execute(id, model, User);
             return Ok(statement);
         }
         /*[HttpPut("Submit/{id}")]

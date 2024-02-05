@@ -1,6 +1,13 @@
 ﻿
-body {
+html, body , div{
     direction: rtl;
+    font-family: Arial !important;
+}
+.primary-bg {
+    background: #3f51b5 !important;
+}
+.bg-accent {
+    background: #ff4081 !important;
 }
 .text-white{
     color: white;
