@@ -8,6 +8,10 @@ namespace NUCA.Identity.Domain
         public string Id { get; private set; }
         public string Name { get; private set; }
 
+        private List<Department> _departments = new();
+        public virtual IReadOnlyList<Department> Departments => _departments.ToList();
+
+
         protected DepartmentPermission() { }
         public DepartmentPermission(string id, string name)
         {

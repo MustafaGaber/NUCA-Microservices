@@ -16,7 +16,7 @@ namespace NUCA.Identity.Controllers.Departments
         {
             return new GetDepartmentModel()
             {
-                Id = department.DepartmentId.ToString(),
+                Id = department.Id.ToString(),
                 Name = department.Name,
                 Permissions = department.Permissions
                         .Select(p => new PermissionModel() { Id = p.Id, Name = p.Name })

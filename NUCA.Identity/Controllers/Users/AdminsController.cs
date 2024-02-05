@@ -14,11 +14,11 @@ namespace NUCA.Identity.Controllers.Users
     // [Authorize(LocalApi.PolicyName)]
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : BaseController
+    public class AdminsController : BaseController
     {
         private ApplicationDbContext _context;
         private UserManager<User> _userManager;
-        public UsersController(ApplicationDbContext context, UserManager<User> userManager)
+        public AdminsController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -28,7 +28,7 @@ namespace NUCA.Identity.Controllers.Users
         public async Task<IActionResult> Index()
         {
             var user = User;
-            List<User> users = await _userManager.Users.ToListAsync();
+            List<User> users = await _userManager.Users.Where(u => true).ToListAsync();
             return Ok(users.Select(GetUserModel.FromUser));
         }
 
@@ -110,3 +110,4 @@ namespace NUCA.Identity.Controllers.Users
         }
     }
 }
+

@@ -84,26 +84,14 @@ namespace NUCA.Identity.Migrations
                 name: "Departments",
                 columns: table => new
                 {
-                    DepartmentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departments", x => x.DepartmentId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserGroups",
-                columns: table => new
-                {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserGroups", x => x.Id);
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,12 +204,12 @@ namespace NUCA.Identity.Migrations
                 name: "CityAuthorityUser",
                 columns: table => new
                 {
-                    AuthoritiesId = table.Column<int>(type: "int", nullable: false),
+                    CityAuthoritiesId = table.Column<int>(type: "int", nullable: false),
                     UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CityAuthorityUser", x => new { x.AuthoritiesId, x.UsersId });
+                    table.PrimaryKey("PK_CityAuthorityUser", x => new { x.CityAuthoritiesId, x.UsersId });
                     table.ForeignKey(
                         name: "FK_CityAuthorityUser_AspNetUsers_UsersId",
                         column: x => x.UsersId,
@@ -229,23 +217,42 @@ namespace NUCA.Identity.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CityAuthorityUser_CityAuthorities_AuthoritiesId",
-                        column: x => x.AuthoritiesId,
+                        name: "FK_CityAuthorityUser_CityAuthorities_CityAuthoritiesId",
+                        column: x => x.CityAuthoritiesId,
                         principalTable: "CityAuthorities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserGroups",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CityAuthorityId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserGroups", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserGroups_CityAuthorities_CityAuthorityId",
+                        column: x => x.CityAuthorityId,
+                        principalTable: "CityAuthorities",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DepartmentDepartmentPermission",
                 columns: table => new
                 {
-                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentsId = table.Column<int>(type: "int", nullable: false),
                     PermissionsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentDepartmentPermission", x => new { x.DepartmentId, x.PermissionsId });
+                    table.PrimaryKey("PK_DepartmentDepartmentPermission", x => new { x.DepartmentsId, x.PermissionsId });
                     table.ForeignKey(
                         name: "FK_DepartmentDepartmentPermission_DepartmentPermissions_PermissionsId",
                         column: x => x.PermissionsId,
@@ -253,10 +260,10 @@ namespace NUCA.Identity.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DepartmentDepartmentPermission_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
+                        name: "FK_DepartmentDepartmentPermission_Departments_DepartmentsId",
+                        column: x => x.DepartmentsId,
                         principalTable: "Departments",
-                        principalColumn: "DepartmentId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -281,7 +288,7 @@ namespace NUCA.Identity.Migrations
                         name: "FK_Enrollments_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
-                        principalColumn: "DepartmentId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -338,8 +345,8 @@ namespace NUCA.Identity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName", "PublicName" },
                 values: new object[,]
                 {
-                    { "6c808fe3-0a07-4fc3-94c3-d5f5b89e6890", null, "admin", "ADMIN", "مسؤل النظام" },
-                    { "be2e4ecd-c9b9-4e09-bdef-0c3f4d6185e7", null, "superAdmin", "SUPERADMIN", "مدير النظام" }
+                    { "d902281c-4ae2-428b-8dfe-b4560e921be4", null, "admin", "ADMIN", "مسؤل النظام" },
+                    { "e40c846c-e7ae-4f36-8456-9ed6e0c32660", null, "superAdmin", "SUPERADMIN", "مدير النظام" }
                 });
 
             migrationBuilder.InsertData(
@@ -353,6 +360,25 @@ namespace NUCA.Identity.Migrations
                     { "revision", "المراجعة" },
                     { "seniorManagement", "الإدارة العليا" },
                     { "technicalOffice", "المكتب الفني" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "Id", "Name", "Type" },
+                values: new object[,]
+                {
+                    { 1, "المشروعات", 10 },
+                    { 2, "المكتب الفني", 20 },
+                    { 3, "المراجعة", 40 },
+                    { 4, "الحسابات", 50 },
+                    { 5, "الكهرباء", 30 },
+                    { 6, "الاتصالات", 30 },
+                    { 7, "الإسكان", 30 },
+                    { 8, "الخدمات", 30 },
+                    { 9, "المرافق", 30 },
+                    { 10, "الزراعة", 30 },
+                    { 11, "الأمن", 30 },
+                    { 12, "التنمية", 30 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -415,6 +441,11 @@ namespace NUCA.Identity.Migrations
                 column: "RolesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserGroups_CityAuthorityId",
+                table: "UserGroups",
+                column: "CityAuthorityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserUserGroup_UsersId",
                 table: "UserUserGroup",
                 column: "UsersId");
@@ -454,9 +485,6 @@ namespace NUCA.Identity.Migrations
                 name: "UserUserGroup");
 
             migrationBuilder.DropTable(
-                name: "CityAuthorities");
-
-            migrationBuilder.DropTable(
                 name: "DepartmentPermissions");
 
             migrationBuilder.DropTable(
@@ -470,6 +498,9 @@ namespace NUCA.Identity.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserGroups");
+
+            migrationBuilder.DropTable(
+                name: "CityAuthorities");
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Identity.Data;
 
@@ -11,9 +12,11 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240205214447_ShouldChangePassword")]
+    partial class ShouldChangePassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -347,14 +350,14 @@ namespace NUCA.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "superAdmin",
+                            Id = "c207d945-15a3-4d0b-89d7-23de97a8eac8",
                             Name = "superAdmin",
                             NormalizedName = "SUPERADMIN",
                             PublicName = "مدير النظام"
                         },
                         new
                         {
-                            Id = "admin",
+                            Id = "8089d2fa-b5d0-4539-a86a-1911513d3647",
                             Name = "admin",
                             NormalizedName = "ADMIN",
                             PublicName = "مسؤل النظام"
@@ -469,13 +472,6 @@ namespace NUCA.Identity.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "super-admin",
-                            RoleId = "superAdmin"
-                        });
                 });
 
             modelBuilder.Entity("RoleUserGroup", b =>

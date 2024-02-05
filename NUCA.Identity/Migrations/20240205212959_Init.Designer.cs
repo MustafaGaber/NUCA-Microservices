@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Identity.Data;
 
@@ -11,9 +12,11 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240205212959_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -347,14 +350,14 @@ namespace NUCA.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "superAdmin",
+                            Id = "e40c846c-e7ae-4f36-8456-9ed6e0c32660",
                             Name = "superAdmin",
                             NormalizedName = "SUPERADMIN",
                             PublicName = "مدير النظام"
                         },
                         new
                         {
-                            Id = "admin",
+                            Id = "d902281c-4ae2-428b-8dfe-b4560e921be4",
                             Name = "admin",
                             NormalizedName = "ADMIN",
                             PublicName = "مسؤل النظام"
@@ -412,9 +415,6 @@ namespace NUCA.Identity.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("ShouldChangePassword")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -469,13 +469,6 @@ namespace NUCA.Identity.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "super-admin",
-                            RoleId = "superAdmin"
-                        });
                 });
 
             modelBuilder.Entity("RoleUserGroup", b =>

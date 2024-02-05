@@ -2,7 +2,9 @@
 {
     public enum CompanyType
     {
-        Company = 1,
-        Cooperative = 2,
+        PrivateSector = 10,
+        PublicSector = 20,
+        BusinessSector = 30,
+        Cooperative = 40,
     }
 }

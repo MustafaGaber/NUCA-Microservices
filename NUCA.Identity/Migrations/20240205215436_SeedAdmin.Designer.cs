@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Identity.Data;
 
@@ -11,9 +12,11 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240205215436_SeedAdmin")]
+    partial class SeedAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -347,14 +350,14 @@ namespace NUCA.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "superAdmin",
+                            Id = "3b2d6476-b8f9-4386-b66d-a7f06d0e1f46",
                             Name = "superAdmin",
                             NormalizedName = "SUPERADMIN",
                             PublicName = "مدير النظام"
                         },
                         new
                         {
-                            Id = "admin",
+                            Id = "50d36eeb-dee9-4bfb-b69c-a016fdd9c729",
                             Name = "admin",
                             NormalizedName = "ADMIN",
                             PublicName = "مسؤل النظام"
@@ -433,6 +436,21 @@ namespace NUCA.Identity.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "00000000-0000-0000-0000-000000000000",
+                            AccessFailedCount = 0,
+                            EmailConfirmed = false,
+                            FullName = "Super Admin",
+                            LockoutEnabled = false,
+                            NationalId = "",
+                            PhoneNumber = "",
+                            PhoneNumberConfirmed = false,
+                            ShouldChangePassword = true,
+                            TwoFactorEnabled = false
+                        });
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.UserGroup", b =>
@@ -469,13 +487,6 @@ namespace NUCA.Identity.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "super-admin",
-                            RoleId = "superAdmin"
-                        });
                 });
 
             modelBuilder.Entity("RoleUserGroup", b =>

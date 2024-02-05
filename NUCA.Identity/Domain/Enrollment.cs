@@ -13,7 +13,7 @@ namespace NUCA.Identity.Domain
         {
             UserId = Guard.Against.NullOrEmpty(userId);
             Department = Guard.Against.Null(department);
-            DepartmentId = Guard.Against.NegativeOrZero(Department.DepartmentId);
+            DepartmentId = Guard.Against.NegativeOrZero(Department.Id);
             Job = job;
         }
     }

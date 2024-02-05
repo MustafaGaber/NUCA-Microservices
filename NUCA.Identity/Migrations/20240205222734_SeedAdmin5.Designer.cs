@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NUCA.Identity.Data;
 
@@ -11,9 +12,11 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240205222734_SeedAdmin5")]
+    partial class SeedAdmin5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -433,6 +436,25 @@ namespace NUCA.Identity.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "super-admin",
+                            AccessFailedCount = 0,
+                            EmailConfirmed = false,
+                            FullName = "Super Admin",
+                            LockoutEnabled = false,
+                            NationalId = "",
+                            NormalizedUserName = "SUPERADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAENTLqBPuzIbxBDxsndWj20zI/l+swANvJqBSu04oAdrlH0o+5+nkQwAkaIUlh1PhDQ==",
+                            PhoneNumber = "",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "710db1c2-48a8-4356-ba30-ef7af812718b",
+                            ShouldChangePassword = true,
+                            TwoFactorEnabled = false,
+                            UserName = "SuperAdmin"
+                        });
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.UserGroup", b =>

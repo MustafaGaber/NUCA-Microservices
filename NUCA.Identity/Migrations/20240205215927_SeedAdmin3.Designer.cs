@@ -12,8 +12,8 @@ using NUCA.Identity.Data;
 namespace NUCA.Identity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240204183909_Init")]
-    partial class Init
+    [Migration("20240205215927_SeedAdmin3")]
+    partial class SeedAdmin3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,13 +27,13 @@ namespace NUCA.Identity.Migrations
 
             modelBuilder.Entity("CityAuthorityUser", b =>
                 {
-                    b.Property<int>("AuthoritiesId")
+                    b.Property<int>("CityAuthoritiesId")
                         .HasColumnType("int");
 
                     b.Property<string>("UsersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("AuthoritiesId", "UsersId");
+                    b.HasKey("CityAuthoritiesId", "UsersId");
 
                     b.HasIndex("UsersId");
 
@@ -42,13 +42,13 @@ namespace NUCA.Identity.Migrations
 
             modelBuilder.Entity("DepartmentDepartmentPermission", b =>
                 {
-                    b.Property<int>("DepartmentId")
+                    b.Property<int>("DepartmentsId")
                         .HasColumnType("int");
 
                     b.Property<string>("PermissionsId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("DepartmentId", "PermissionsId");
+                    b.HasKey("DepartmentsId", "PermissionsId");
 
                     b.HasIndex("PermissionsId");
 
@@ -164,18 +164,95 @@ namespace NUCA.Identity.Migrations
 
             modelBuilder.Entity("NUCA.Identity.Domain.Department", b =>
                 {
-                    b.Property<int>("DepartmentId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DepartmentId");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "المشروعات",
+                            Type = 10
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "المكتب الفني",
+                            Type = 20
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "المراجعة",
+                            Type = 40
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "الحسابات",
+                            Type = 50
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "الكهرباء",
+                            Type = 30
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "الاتصالات",
+                            Type = 30
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "الإسكان",
+                            Type = 30
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "الخدمات",
+                            Type = 30
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "المرافق",
+                            Type = 30
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "الزراعة",
+                            Type = 30
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "الأمن",
+                            Type = 30
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "التنمية",
+                            Type = 30
+                        });
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.DepartmentPermission", b =>
@@ -273,14 +350,14 @@ namespace NUCA.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "be2e4ecd-c9b9-4e09-bdef-0c3f4d6185e7",
+                            Id = "cdd39396-27da-48d2-b2d5-9f8103441464",
                             Name = "superAdmin",
                             NormalizedName = "SUPERADMIN",
                             PublicName = "مدير النظام"
                         },
                         new
                         {
-                            Id = "6c808fe3-0a07-4fc3-94c3-d5f5b89e6890",
+                            Id = "48b14da1-70dc-46fc-8cbe-1e287e9268f5",
                             Name = "admin",
                             NormalizedName = "ADMIN",
                             PublicName = "مسؤل النظام"
@@ -338,6 +415,9 @@ namespace NUCA.Identity.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("ShouldChangePassword")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -356,6 +436,23 @@ namespace NUCA.Identity.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3079b198-824a-499d-a32c-0e9185296b7d",
+                            AccessFailedCount = 0,
+                            EmailConfirmed = false,
+                            FullName = "Super Admin",
+                            LockoutEnabled = false,
+                            NationalId = "",
+                            NormalizedUserName = "SUPERADMIN",
+                            PhoneNumber = "",
+                            PhoneNumberConfirmed = false,
+                            ShouldChangePassword = true,
+                            TwoFactorEnabled = false,
+                            UserName = "SuperAdmin"
+                        });
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.UserGroup", b =>
@@ -366,10 +463,15 @@ namespace NUCA.Identity.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CityAuthorityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityAuthorityId");
 
                     b.ToTable("UserGroups");
                 });
@@ -423,7 +525,7 @@ namespace NUCA.Identity.Migrations
                 {
                     b.HasOne("NUCA.Identity.Domain.CityAuthority", null)
                         .WithMany()
-                        .HasForeignKey("AuthoritiesId")
+                        .HasForeignKey("CityAuthoritiesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -438,7 +540,7 @@ namespace NUCA.Identity.Migrations
                 {
                     b.HasOne("NUCA.Identity.Domain.Department", null)
                         .WithMany()
-                        .HasForeignKey("DepartmentId")
+                        .HasForeignKey("DepartmentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -500,6 +602,15 @@ namespace NUCA.Identity.Migrations
                         .IsRequired();
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("NUCA.Identity.Domain.UserGroup", b =>
+                {
+                    b.HasOne("NUCA.Identity.Domain.CityAuthority", "CityAuthority")
+                        .WithMany()
+                        .HasForeignKey("CityAuthorityId");
+
+                    b.Navigation("CityAuthority");
                 });
 
             modelBuilder.Entity("NUCA.Identity.Domain.UserRole", b =>

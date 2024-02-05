@@ -8,6 +8,7 @@ namespace NUCA.Identity.Domain
     {
         public int Id { get; private set; }
         public string Name { get; private set; }
+        public CityAuthority CityAuthority { get; private set; }
 
         private List<User> _users = new();
         public virtual IReadOnlyList<User> Users => _users.ToList();

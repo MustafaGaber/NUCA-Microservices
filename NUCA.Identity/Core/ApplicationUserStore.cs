@@ -27,7 +27,7 @@ namespace NUCA.Identity.Core
                       .ThenInclude(d => d.Permissions)
                       .Include(u => u.Roles).ThenInclude(r => r.Role)
                       .Include(u => u.Groups).ThenInclude(g => g.Roles)
-                      .Include(u => u.Authorities)
+                      .Include(u => u.CityAuthorities)
                       .AsSplitQuery();
     }
 

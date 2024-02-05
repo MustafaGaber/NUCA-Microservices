@@ -22,7 +22,7 @@ namespace NUCA.Identity.Controllers.Users
                 NationalId = user.NationalId,
                 PhoneNumber = user.PhoneNumber,
                 FullName = user.FullName,
-                Enrollments = user.Enrollments.Select(e => new GetEnrollmentModel { DepartmentId = e.Department.DepartmentId.ToString(), DepartmentName = e.Department.Name, Job = e.Job }).ToList(),
+                Enrollments = user.Enrollments.Select(e => new GetEnrollmentModel { DepartmentId = e.Department.Id.ToString(), DepartmentName = e.Department.Name, Job = e.Job }).ToList(),
                 Roles = user.Roles.Select(r => new RoleModel { Name = r.Role.Name, PublicName = r.Role.PublicName }).ToList(),
                 Groups = user.Groups.Select(r => new GroupModel { Id = 1/*r.Id*/, Name = r.Name }).ToList()
             };

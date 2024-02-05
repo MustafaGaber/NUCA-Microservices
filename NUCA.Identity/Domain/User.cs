@@ -17,10 +17,10 @@ namespace NUCA.Identity.Domain
         public virtual IReadOnlyList<UserRole> Roles => _roles.ToList();
 
         private List<CityAuthority> _authorities = new();
-        public virtual IReadOnlyList<CityAuthority> Authorities => _authorities.ToList();
+        public virtual IReadOnlyList<CityAuthority> CityAuthorities => _authorities.ToList();
         public string FullName { get; private set; }
         public string NationalId { get; private set; }
-
+        public bool ShouldChangePassword { get; private set; }
         public User() { }
         public User(string userName, string fullName, string nationalId, string phone, List<Enrollment> enrollments, List<UserGroup> groups)
         {
@@ -30,6 +30,7 @@ namespace NUCA.Identity.Domain
             PhoneNumber = phone.Trim();
             _enrollments = enrollments;
             _groups = groups;
+            ShouldChangePassword = true;
         }
 
         public void Update(string fullName, string nationalId, string phone, List<Enrollment> enrollments, List<UserGroup> groups)
@@ -39,6 +40,11 @@ namespace NUCA.Identity.Domain
             PhoneNumber = phone.Trim();
             _enrollments = enrollments;
             _groups = groups;
+        }
+
+        public void SetShouldChangePassword(bool value)
+        {
+            ShouldChangePassword = value;
         }
     }
 }

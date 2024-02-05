@@ -14,6 +14,6 @@ namespace NUCA.Identity.Controllers
         public static bool ShowLogoutPrompt = false;
         public static bool AutomaticRedirectAfterSignOut = true;
 
-        public static string InvalidCredentialsErrorMessage = "Invalid username or password";
+        public static string InvalidCredentialsErrorMessage = "بيانات الدخول غير صحيحة";
     }
 }
